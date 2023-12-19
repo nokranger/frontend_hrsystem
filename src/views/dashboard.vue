@@ -1,39 +1,51 @@
 <template>
   <div>
-    HR Systems for test import data from excel
-    <br>
-    <br>
-    <div>
-      <input type="file" ref="fileInput" @change="handleFileChange" />
-      <button @click="uploadData">Upload Data</button>
-    </div>
+    <input type="file" ref="fileInput" @change="handleFileChange" />
+    <!-- <pre v-if="jsonData">{{ jsonData }}</pre> -->
   </div>
 </template>
-<script>
-export default {
-  methods: {
-    handleFileChange(event) {
-      this.file = event.target.files[0];
-    },
-    uploadData() {
-      const formData = new FormData();
-      formData.append('file', this.file);
 
-      // Use axios or another HTTP library to send the file to the server
-      // Example using axios:
-      // axios.post('http://your-server/upload', formData)
-      //   .then(response => {
-      //     console.log(response.data);
-      //   })
-      //   .catch(error => {
-      //     console.error(error);
-      //   });
-    },
-  },
+<script>
+import * as XLSX from 'xlsx';
+
+export default {
   data() {
     return {
-      file: null,
+      jsonData: null,
     };
+  },
+  methods: {
+    handleFileChange(event) {
+      const file = event.target.files[0];
+
+      if (file) {
+        this.readExcel(file);
+      }
+    },
+    readExcel(file) {
+      const reader = new FileReader();
+
+      reader.onload = (e) => {
+        const data = e.target.result;
+        const workbook = XLSX.read(data, { type: 'binary' });
+
+        // Assume the first sheet is the one you want to read
+        const sheetName = workbook.SheetNames[0];
+        const sheet = workbook.Sheets[sheetName];
+
+        // Convert the sheet data to JSON
+        const jsonData = XLSX.utils.sheet_to_json(sheet, { header: 1 });
+
+        // Set the JSON data to be displayed in the component
+        this.jsonData = JSON.stringify(jsonData, null, 2);
+        // console.log('JSONLC: ', (jsonconvert))
+        console.log('JSONL: ', JSON.parse(this.jsonData).shift())
+        // console.log('JSONL: ', JSON.stringify(JSON.parse(this.jsonData)))
+        // console.log('JSONtype: ', typeof(JSON.parse(this.jsonData)))
+      };
+
+      reader.readAsBinaryString(file);
+    },
   },
 };
 </script>
