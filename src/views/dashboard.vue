@@ -1,6 +1,7 @@
 <template>
   <div>
     <input type="file" ref="fileInput" @change="handleFileChange" />
+    <button @click="exportToExcel">Export to Excel</button>
     <!-- <pre v-if="jsonData">{{ jsonData }}</pre> -->
   </div>
 </template>
@@ -12,6 +13,8 @@ export default {
   data() {
     return {
       jsonData: null,
+      jsondata2: null,
+      jsonArray: []
     };
   },
   methods: {
@@ -60,9 +63,33 @@ export default {
         console.log('Aftermap', jsonobject)
         console.log('Aftermap2', jsonMap)
         console.log('JSONTYPEOF2Aftermap: ',  typeof(jsonobject))
+        this.jsondata2 = jsonMap
       };
 
       reader.readAsBinaryString(file);
+    },
+    exportToExcel() {
+      console.log('JSONTYPEOF2Aftermap2', this.jsondata2[1])
+      this.jsonArray = Object.values(this.jsondata2);
+      console.log('JSONTYPEOF2Aftermap23', this.jsonArray)
+      // const valuearray = Object.values(this.jsondata2)
+      // jsonarray = Array.from({ length: valuearray.length });
+      // console.log('jsonarray', jsonarray);
+      // Create a new workbook
+      // if (!Array.isArray(this.jsonData2) || this.jsonData2.length === 0) {
+      //   console.error('Invalid JSON data.');
+      //   return;
+      // }
+      const workbook = XLSX.utils.book_new();
+      
+      // Convert the JSON data to a worksheet
+      const worksheet = XLSX.utils.json_to_sheet(this.jsonArray);
+
+      // Add the worksheet to the workbook
+      XLSX.utils.book_append_sheet(workbook, worksheet, 'Sheet1');
+
+      // Save the workbook to a file
+      XLSX.writeFile(workbook, 'exported_data.xlsx');
     },
   },
 };
