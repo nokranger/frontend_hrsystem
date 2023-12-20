@@ -2,22 +2,48 @@
   <div>
     <input type="file" ref="fileInput" @change="handleFileChange" />
     <button @click="exportToExcel">Export to Excel</button>
+    <br><br>
+    <button @click="testSendData">testSendData</button>
     <!-- <pre v-if="jsonData">{{ jsonData }}</pre> -->
   </div>
 </template>
 
 <script>
 import * as XLSX from 'xlsx';
+import axios from 'axios';
 
 export default {
   data() {
     return {
       jsonData: null,
       jsondata2: null,
-      jsonArray: []
+      jsonArray: [],
+      testdata: ''
     };
   },
   methods: {
+    testSendData () {
+      this.testdata = {
+        emp_code: '12345',
+        name: 'NAMAMAMAM',
+        bank_account_number: '12344566'
+      }
+      // axios.get('http://localhost:4000/product')
+      // .then(response => {
+      //   console.log(response.data);
+      // })
+      // .catch(error => {
+      //   console.error('Error fetching data:', error.message);
+      // });
+      console.log(this.testdata)
+      axios.post('http://localhost:4000/personal', this.testdata)
+      .then(response => {
+        console.log(response.data);
+      })
+      .catch(error => {
+        console.error('Error fetching data:', error.message);
+      });
+    },
     handleFileChange(event) {
       const file = event.target.files[0];
 
@@ -67,6 +93,13 @@ export default {
         console.log('Aftermap2', jsonMap)
         console.log('JSONTYPEOF2Aftermap: ',  typeof(jsonobject))
         this.jsondata2 = jsonMap
+        axios.post('http://localhost:4000/personal', this.jsondata2)
+        .then(response => {
+          console.log(response.data);
+        })
+        .catch(error => {
+          console.error('Error fetching data:', error.message);
+        });
       };
 
       reader.readAsBinaryString(file);
