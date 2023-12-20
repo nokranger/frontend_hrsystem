@@ -41,12 +41,15 @@ export default {
 
         // Set the JSON data to be displayed in the component
         this.jsonData = JSON.stringify(jsonData, null, 2);
+        this.jsonData = JSON.parse(this.jsonData)
+        this.jsonData.shift()
         // console.log('mapdata1: ', this.jsonData)
-        console.log('JSONLenght: ',  JSON.parse(this.jsonData))
+        console.log('JSONLenght: ',  this.jsonData)
+        // console.log('JSONLenghtSHIFT: ',  JSON.parse(this.jsonData).shift())
         console.log('JSONTYPEOF: ',  typeof(this.jsonData))
-        console.log('JSONTYPEOF2: ',  typeof(JSON.parse(this.jsonData)))
+        // console.log('JSONTYPEOF2: ',  typeof(JSON.parse(this.jsonData)))
         let jsonobject = {}
-        let jsonobject2 = JSON.parse(this.jsonData)
+        let jsonobject2 = this.jsonData
         jsonobject = jsonobject2.map(innerarray => {
           return innerarray.reduce((acc, item, index) => {
             acc[`item${index + 1}`] = item;
