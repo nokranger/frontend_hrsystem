@@ -1,9 +1,47 @@
 <template>
   <div>
-    <input type="file" ref="fileInput" @change="handleFileChange" />
-    <button @click="exportToExcel">Export to Excel</button>
-    <br><br>
-    <button @click="testSendData">testSendData</button>
+    <div>
+      <div>
+        Personal Data
+      </div>
+      <input type="file" ref="fileInput" @change="handleFileChange" />
+      <button @click="exportToExcel">Export to Excel</button>
+      <br><br>
+      <button @click="PersonalSendData">PersonalSendData</button>
+    </div>
+    <br>
+    <br>
+    <div>
+      <div>
+        Instructor Data
+      </div>
+      <input type="file" ref="fileInput" @change="handleFileChange" />
+      <button @click="exportToExcel">Export to Excel</button>
+      <br><br>
+      <button @click="PersonalSendData">Instructor Data</button>
+    </div>
+    <br>
+    <br>
+    <div>
+      <div>
+        T-nos Data
+      </div>
+      <input type="file" ref="fileInput" @change="handleFileChange" />
+      <button @click="exportToExcel">Export to Excel</button>
+      <br><br>
+      <button @click="PersonalSendData">T-nos Data</button>
+    </div>
+    <br>
+    <br>
+    <div>
+      <div>
+        Welfare Data
+      </div>
+      <input type="file" ref="fileInput" @change="handleFileChange" />
+      <button @click="exportToExcel">Export to Excel</button>
+      <br><br>
+      <button @click="PersonalSendData">Welfare Data</button>
+    </div>
     <!-- <pre v-if="jsonData">{{ jsonData }}</pre> -->
   </div>
 </template>
@@ -23,7 +61,7 @@ export default {
     };
   },
   methods: {
-    testSendData () {
+    PersonalSendData () {
       this.testdata = {
         emp_code: '12345',
         name: 'NAMAMAMAM',
@@ -43,14 +81,8 @@ export default {
             console.log('resdataExcel', jsonMaps);
             this.excelarray = Object.values(jsonMaps);
             console.log('JSONTYPEOF2Aftermap23', this.excelarray)
-            // const valuearray = Object.values(this.jsondata2)
-            // jsonarray = Array.from({ length: valuearray.length });
-            // console.log('jsonarray', jsonarray);
-            // Create a new workbook
-            // if (!Array.isArray(this.jsonData2) || this.jsonData2.length === 0) {
-            //   console.error('Invalid JSON data.');
-            //   return;
-            // }
+
+            //export to excell
             const workbook = XLSX.utils.book_new();
             
             // Convert the JSON data to a worksheet
@@ -138,14 +170,8 @@ export default {
       console.log('JSONTYPEOF2Aftermap2', this.jsondata2[1])
       this.jsonArray = Object.values(this.jsondata2);
       console.log('JSONTYPEOF2Aftermap23', this.jsonArray)
-      // const valuearray = Object.values(this.jsondata2)
-      // jsonarray = Array.from({ length: valuearray.length });
-      // console.log('jsonarray', jsonarray);
-      // Create a new workbook
-      // if (!Array.isArray(this.jsonData2) || this.jsonData2.length === 0) {
-      //   console.error('Invalid JSON data.');
-      //   return;
-      // }
+
+      //export to excell
       const workbook = XLSX.utils.book_new();
       
       // Convert the JSON data to a worksheet
