@@ -18,6 +18,7 @@ export default {
       jsonData: null,
       jsondata2: null,
       jsonArray: [],
+      excelarray: [],
       testdata: ''
     };
   },
@@ -28,21 +29,50 @@ export default {
         name: 'NAMAMAMAM',
         bank_account_number: '12344566'
       }
-      // axios.get('http://localhost:4000/product')
+      axios.get('http://localhost:4000/personals')
+      .then(response => {
+        console.log('resdata', response.data.result);
+        let dataexcel = response.data.result
+        let jsonMaps = dataexcel.map((data, i) => {
+              return {
+                "Emp. Code": data.emp_code,
+                "Name - Surname": data.name,
+                "Bank account number": data.bank_account_number
+              }
+            })
+            console.log('resdataExcel', jsonMaps);
+            this.excelarray = Object.values(jsonMaps);
+            console.log('JSONTYPEOF2Aftermap23', this.excelarray)
+            // const valuearray = Object.values(this.jsondata2)
+            // jsonarray = Array.from({ length: valuearray.length });
+            // console.log('jsonarray', jsonarray);
+            // Create a new workbook
+            // if (!Array.isArray(this.jsonData2) || this.jsonData2.length === 0) {
+            //   console.error('Invalid JSON data.');
+            //   return;
+            // }
+            const workbook = XLSX.utils.book_new();
+            
+            // Convert the JSON data to a worksheet
+            const worksheet = XLSX.utils.json_to_sheet(this.excelarray);
+
+            // Add the worksheet to the workbook
+            XLSX.utils.book_append_sheet(workbook, worksheet, 'MasterData');
+
+            // Save the workbook to a file
+            XLSX.writeFile(workbook, 'exported_data.xlsx');
+            })
+      .catch(error => {
+        console.error('Error fetching data:', error.message);
+      });
+      // console.log(this.testdata)
+      // axios.post('http://localhost:4000/personal', this.testdata)
       // .then(response => {
       //   console.log(response.data);
       // })
       // .catch(error => {
       //   console.error('Error fetching data:', error.message);
       // });
-      console.log(this.testdata)
-      axios.post('http://localhost:4000/personal', this.testdata)
-      .then(response => {
-        console.log(response.data);
-      })
-      .catch(error => {
-        console.error('Error fetching data:', error.message);
-      });
     },
     handleFileChange(event) {
       const file = event.target.files[0];
