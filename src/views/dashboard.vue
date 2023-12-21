@@ -563,23 +563,23 @@ export default {
               }
             })
         console.log('Aftermap', jsonobjectTnos)
-        console.log('Aftermap2', jsonMapTnos)
-        console.log('Aftermap22', jsonMapTnos2)
-        console.log('Aftermap23', jsonMapTnos3)
-        console.log('Aftermap24', jsonMapTnos4)
-        console.log('JSONTYPEOF2Aftermap: ',  typeof(jsonobjectTnos))
-        this.jsondata2Tnos = jsonMapTnos
-        this.jsondata2Tnos2 = jsonMapTnos2
-        this.jsondata2Tnos3 = jsonMapTnos3
-        this.jsondata2Tnos4 = jsonMapTnos4
+        console.log('Aftermap25', jsonMapTnos5)
+        // console.log('Aftermap22', jsonMapTnos2)
+        // console.log('Aftermap23', jsonMapTnos3)
+        // console.log('Aftermap24', jsonMapTnos4)
+        // console.log('JSONTYPEOF2Aftermap: ',  typeof(jsonobjectTnos))
+        // this.jsondata2Tnos = jsonMapTnos
+        // this.jsondata2Tnos2 = jsonMapTnos2
+        // this.jsondata2Tnos3 = jsonMapTnos3
+        // this.jsondata2Tnos4 = jsonMapTnos4
         this.jsondata2Tnos5 = jsonMapTnos5
-        axios.post('http://localhost:4000/tnos5', this.jsondata2Tnos5)
-        .then(response => {
-          console.log(response.data);
-        })
-        .catch(error => {
-          console.error('Error fetching data:', error.message);
-        });
+        // axios.post('http://localhost:4000/tnos5', this.jsondata2Tnos5)
+        // .then(response => {
+        //   console.log(response.data);
+        // })
+        // .catch(error => {
+        //   console.error('Error fetching data:', error.message);
+        // });
         // axios.post('http://localhost:4000/tnos2', this.jsondata2Tnos2)
         // .then(response => {
         //   console.log(response.data);
