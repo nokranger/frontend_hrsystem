@@ -26,10 +26,10 @@
       <div>
         T-nos Data
       </div>
-      <input type="file" ref="fileInput" @change="handleFileChange" />
-      <button @click="exportToExcel">Export to Excel</button>
+      <input type="file" ref="fileInput" @change="handleFileChangeTnos" />
+      <!-- <button @click="exportToExcelTnos">Export to Excel</button>
       <br><br>
-      <button @click="PersonalSendData">T-nos Data</button>
+      <button @click="TnosSendData">T-nos Data</button> -->
     </div>
     <br>
     <br>
@@ -62,6 +62,12 @@ export default {
       jsonArrayWelfare: [],
       jsonArrayWelfare2: [],
       excelarrayWelfare: [],
+      jsondataTnos: null,
+      jsondataTnos2: null,
+      jsondataTnos3: null,
+      jsondataTnos4: null,
+      jsonArrayTnos: [],
+      excelarrayTnos: [],
       testdata: ''
     };
   },
@@ -345,6 +351,135 @@ export default {
 
       // Save the workbook to a file
       XLSX.writeFile(workbook, 'exported_data.xlsx');
+    },
+    handleFileChangeTnos(event) {
+      console.log('Welfare')
+      const file = event.target.files[0];
+
+      if (file) {
+        this.readExcelTnos(file);
+      }
+    },
+    readExcelTnos(file) {
+      const reader = new FileReader();
+
+      reader.onload = (e) => {
+        const data = e.target.result;
+        const workbook = XLSX.read(data, { type: 'binary' });
+
+        // Assume the first sheet is the one you want to read
+        const sheetName = workbook.SheetNames[0];
+        const sheet = workbook.Sheets[sheetName];
+
+        // Convert the sheet data to JSON
+        const jsonData = XLSX.utils.sheet_to_json(sheet, { header: 1 });
+
+        // Set the JSON data to be displayed in the component
+        this.jsonDataTnos = JSON.stringify(jsonData, null, 2);
+        this.jsonDataTnos = JSON.parse(this.jsonDataTnos)
+        this.jsonDataTnos.shift()
+        // console.log('mapdata1: ', this.jsonData)
+        // console.log('JSONLenght: ',  this.jsonDataTnos)
+        // console.log('JSONLenghtSHIFT: ',  JSON.parse(this.jsonData).shift())
+        console.log('JSONTYPEOF: ',  typeof(this.jsonDataTnos))
+        // console.log('JSONTYPEOF2: ',  typeof(JSON.parse(this.jsonData)))
+        let jsonobjectTnos = {}
+        let jsonobject2Tnos = this.jsonDataTnos
+        jsonobjectTnos = jsonobject2Tnos.map(innerarray => {
+          return innerarray.reduce((acc, item, index) => {
+            acc[`item${index + 1}`] = item;
+            return acc
+          }, {})
+        })
+        let jsonMapTnos = jsonobjectTnos.map((data, i) => {
+              return {
+                Working_date: data.item1,
+                job_code: data.item2,
+                shift: data.item3,
+                trip_no: data.item4,
+                ttt_employee_code: data.item5,
+                tlep_driver_code: data.item6,
+                tlep_driver_name: data.item7,
+                company_code: data.item8,
+                company_name: data.item9,
+                trailer_code: data.item10,
+                trailer_type_code: data.item11,
+                calling_sheet_no: data.item14,
+
+              }
+            })
+            let jsonMapTnos2 = jsonobjectTnos.map((data, i) => {
+              return {
+                trailer_type: data.item12,
+                ttt_payment_status: data.item13,
+                calling_sheet_no: data.item14,
+                trip_type: data.item15,
+                recieve_job_dateandtime: data.item16,
+                from_code: data.item17,
+                from_name: data.item18,
+                yard_out_dateandtime: data.item19,
+                to_code: data.item20,
+                to_name: data.item21,
+                to_in_dateandtime: data.item22,
+                reture_code: data.item23,
+              }
+            })
+            let jsonMapTnos3 = jsonobjectTnos.map((data, i) => {
+              return {
+                calling_sheet_no: data.item14,
+                return_name: data.item24,
+                return_in_dateandtime: data.item25,
+                loading_units: data.item26,
+                loading_count: data.item27,
+                unloading_count: data.item28,
+                number_of_driver: data.item29,
+                nd2_employee_code: data.item30,
+                nd2_tlep_driver_code: data.item31,
+                nd2_tlep_driver_name: data.item32,
+                mileage: data.item33
+              }
+            })
+            let jsonMapTnos4 = jsonobjectTnos.map((data, i) => {
+              return {
+                calling_sheet_no: data.item14,
+                allowance: data.item34,
+                allowance2: data.item35,
+                allowance3: data.item36,
+                allowance4: data.item37,
+                total_allowance: data.item38,
+                standard_ot: data.item39,
+                over_ot: data.item40,
+                total_ot: data.item41,
+                payment_status: data.item42,
+                ot_payment_date: data.item43,
+                allowance_payment_date: data.item44,
+              }
+            })
+        console.log('Aftermap', jsonobjectTnos)
+        console.log('Aftermap2', jsonMapTnos)
+        console.log('Aftermap22', jsonMapTnos2)
+        console.log('Aftermap23', jsonMapTnos3)
+        console.log('Aftermap24', jsonMapTnos4)
+        // console.log('JSONTYPEOF2Aftermap: ',  typeof(jsonobjectTnos))
+        // this.jsondata2Tnos = jsonMapTnos
+        // this.jsondata2Tnos2 = jsonMapTnos2
+        // axios.post('http://localhost:4000/Tnos', this.jsondata2Tnos)
+        // .then(response => {
+        //   console.log(response.data);
+        // })
+        // .catch(error => {
+        //   console.error('Error fetching data:', error.message);
+        // });
+        // axios.post('http://localhost:4000/Tnos2', this.jsondata2Tnos2)
+        // .then(response => {
+        //   console.log(response.data);
+        // })
+        // .catch(error => {
+        //   console.error('Error fetching data:', error.message);
+        // });
+      };
+
+      reader.readAsBinaryString(file);
     },
   },
 };
