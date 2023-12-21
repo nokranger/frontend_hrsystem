@@ -60,6 +60,7 @@ export default {
       jsonDataWelfare: null,
       jsondata2Welfare: null,
       jsonArrayWelfare: [],
+      jsonArrayWelfare2: [],
       excelarrayWelfare: [],
       testdata: ''
     };
@@ -285,6 +286,12 @@ export default {
                 NAME: data.item9,
                 DRIVER2: data.item10,
                 NULLS: data.item11,
+
+              }
+            })
+            let jsonMapWelfare2 = jsonobjectWelfare.map((data, i) => {
+              return {
+                TRIP_NO: data.item1,
                 DEALER1: data.item12,
                 DEALER2: data.item13,
                 DEALER3: data.item14,
@@ -300,9 +307,18 @@ export default {
             })
         console.log('Aftermap', jsonobjectWelfare)
         console.log('Aftermap2', jsonMapWelfare)
+        console.log('Aftermap22', jsonMapWelfare2)
         console.log('JSONTYPEOF2Aftermap: ',  typeof(jsonobjectWelfare))
         this.jsondata2Welfare = jsonMapWelfare
+        this.jsondata2Welfare2 = jsonMapWelfare2
         axios.post('http://localhost:4000/welfare', this.jsondata2Welfare)
+        .then(response => {
+          console.log(response.data);
+        })
+        .catch(error => {
+          console.error('Error fetching data:', error.message);
+        });
+        axios.post('http://localhost:4000/welfare2', this.jsondata2Welfare2)
         .then(response => {
           console.log(response.data);
         })
