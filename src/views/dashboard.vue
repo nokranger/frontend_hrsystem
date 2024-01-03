@@ -105,30 +105,79 @@ export default {
         { title: 'Product 2', name: 'Document2', price: '$29.99' },
         { title: 'Product 3', name: 'Document3', price: '$39.99' },
         { title: 'Product 4', name: 'Document4', price: '$49.99' },
+        { title: 'Product 4', name: 'Document4', price: '$49.99' },
+        { title: 'Product 4', name: 'Document4', price: '$49.99' },
+        { title: 'Product 4', name: 'Document4', price: '$49.99' },
+        { title: 'Product 4', name: 'Document4', price: '$49.99' },
+        { title: 'Product 4', name: 'Document4', price: '$49.99' },
+        { title: 'Product 4', name: 'Document4', price: '$49.99' },
+        { title: 'Product 4', name: 'Document4', price: '$49.99' },
+        { title: 'Product 4', name: 'Document4', price: '$49.99' },
+        { title: 'Product 4', name: 'Document4', price: '$49.99' },
+        { title: 'Product 4', name: 'Document4', price: '$49.99' },
+        { title: 'Product 4', name: 'Document4', price: '$49.99' },
+        { title: 'Product 4', name: 'Document4', price: '$49.99' },
+        { title: 'Product 4', name: 'Document4', price: '$49.99' },
+        { title: 'Product 4', name: 'Document4', price: '$49.99' },
+        { title: 'Product 4', name: 'Document4', price: '$49.99' },
+        { title: 'Product 4', name: 'Document4', price: '$49.99' },
+        { title: 'Product 4', name: 'Document4', price: '$49.99' },
+        { title: 'Product 4', name: 'Document4', price: '$49.99' },
+        { title: 'Product 4', name: 'Document4', price: '$49.99' },
+        { title: 'Product 4', name: 'Document4', price: '$49.99' },
+        { title: 'Product 4', name: 'Document4', price: '$49.99' },
+        { title: 'Product 4', name: 'Document4', price: '$49.99' },
+        { title: 'Product 4', name: 'Document4', price: '$49.99' },
+        { title: 'Product 4', name: 'Document4', price: '$49.99' },
+        { title: 'Product 4', name: 'Document4', price: '$49.99' },
+        { title: 'Product 4', name: 'Document4', price: '$49.99' },
+        { title: 'Product 4', name: 'Document4', price: '$49.99' },
+        { title: 'Product 4', name: 'Document4', price: '$49.99' },
+        { title: 'Product 4', name: 'Document4', price: '$49.99' },
+        { title: 'Product 4', name: 'Document4', price: '$49.99' },
+        { title: 'Product 4', name: 'Document4', price: '$49.99' },
+        { title: 'Product 4', name: 'Document4', price: '$49.99' },
+        { title: 'Product 4', name: 'Document4', price: '$49.99' },
+        { title: 'Product 4', name: 'Document4', price: '$49.99' },
+        { title: 'Product 4', name: 'Document4', price: '$49.99' },
+        { title: 'Product 4', name: 'Document4', price: '$49.99' },
+        { title: 'Product 4', name: 'Document4', price: '$49.99' },
         // Add more data as needed
       ];
       const pdfDoc = await PDFDocument.create();
-      const page = pdfDoc.addPage();
+      let page = pdfDoc.addPage();
 
       // Customize the PDF content based on your requirements
       let xPosition = 50; // Initial x-position for text
-      const yPosition = 700; // Fixed y-position for horizontal alignment
+      // const yPosition = 700; // Fixed y-position for horizontal alignment
       let yStart = 700; // Fixed y-position for horizontal titles
+      const { width, height } = page.getSize();
+      const margin = 50;
+      let yPosition = height - margin;
       // Embed the custom font
-      const fontBytes = await this.loadFont(NotoSerifThai);
-      const customFont = await pdfDoc.embedFont(fontBytes);
+      // const fontBytes = await this.loadFont(NotoSerifThai);
+      // const customFont = await pdfDoc.embedFont(fontBytes);
       const fontSize = 12; //
 
-      page.drawText(`Tหฟดฟหดฟหดฟห`, { x: 50, y: 720 , customFont, size: fontSize});
+      page.drawText(`Title`, { x: 50, y: 720 , size: fontSize});
       page.drawText(`Name`, { x: 200, y: 720 , size: fontSize});
       page.drawText(`Price`, { x: 350, y: 720 , size: fontSize});
       for (const data of jsonData) {
-        page.drawText(`${data.title}`, { x: 50, y: yStart , size: fontSize});
+        // const titleHeight = 20; // Adjust as needed
+        const descriptionHeight = 30; // Adjust as needed
+
+        // Check if there is enough space on the current page
+        if (yPosition - descriptionHeight < margin) {
+          // Create a new page if the content doesn't fit
+          page = pdfDoc.addPage();
+          yPosition = height - margin;
+        }
+        page.drawText(`${data.title}`, { x: margin, y: yPosition, fontSize});
         // const yNameStart = yStart + 20;
-        page.drawText(`${data.name}`, { x: 200, y: yStart , size: fontSize});
+        page.drawText(`${data.name}`, { x: margin, y: yPosition, fontSize});
         // const yPriceStart = yNameStart + 20;
-        page.drawText(`${data.price}`, { x: 350, y: yStart, size: fontSize});
-        yStart -= 20; // Adjust x-position for the next entry
+        page.drawText(`${data.price}`, { x: margin, y: yPosition, fontSize});
+        yPosition -= descriptionHeight; // Adjust x-position for the next entry
       }
 
       // page.drawText(`${jsonData.title}`, { x: 50, y: 700 });
