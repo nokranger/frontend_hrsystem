@@ -151,8 +151,9 @@ export default {
       let xPosition = 50; // Initial x-position for text
       // const yPosition = 700; // Fixed y-position for horizontal alignment
       let yStart = 700; // Fixed y-position for horizontal titles
-      const { width, height } = page.getSize();
+      let { width, height } = page.getSize();
       const margin = 50;
+      height = 700
       let yPosition = height - margin;
       // Embed the custom font
       // const fontBytes = await this.loadFont(NotoSerifThai);
@@ -162,22 +163,36 @@ export default {
       page.drawText(`Title`, { x: 50, y: 720 , size: fontSize});
       page.drawText(`Name`, { x: 200, y: 720 , size: fontSize});
       page.drawText(`Price`, { x: 350, y: 720 , size: fontSize});
+      let count = 0
+      let countPage = 1
+      page.drawText(`Page${countPage}`, { x: 450, y: 720 , size: fontSize});
       for (const data of jsonData) {
+        console.log('count', jsonData.length)
         // const titleHeight = 20; // Adjust as needed
         const descriptionHeight = 30; // Adjust as needed
 
         // Check if there is enough space on the current page
         if (yPosition - descriptionHeight < margin) {
+          countPage++;
           // Create a new page if the content doesn't fit
           page = pdfDoc.addPage();
+          page.drawText(`Title`, { x: 50, y: 720 , size: fontSize});
+          page.drawText(`Name`, { x: 200, y: 720 , size: fontSize});
+          page.drawText(`Price`, { x: 350, y: 720 , size: fontSize});
+          page.drawText(`Page${countPage}`, { x: 450, y: 720 , size: fontSize});
           yPosition = height - margin;
         }
-        page.drawText(`${data.title}`, { x: margin, y: yPosition, fontSize});
+        page.drawText(`${data.title}`, { x: 50, y: yPosition, fontSize});
         // const yNameStart = yStart + 20;
-        page.drawText(`${data.name}`, { x: margin, y: yPosition, fontSize});
+        page.drawText(`${data.name}`, { x: 200, y: yPosition, fontSize});
         // const yPriceStart = yNameStart + 20;
-        page.drawText(`${data.price}`, { x: margin, y: yPosition, fontSize});
+        page.drawText(`${data.price}`, { x: 350, y: yPosition, fontSize});
         yPosition -= descriptionHeight; // Adjust x-position for the next entry
+        count++
+        if (count > jsonData.length - 1) {
+          console.log('countPDF ', count);
+          page.drawText(`Total`, { x: 350, y: yPosition - 20 , size: fontSize});
+        }
       }
 
       // page.drawText(`${jsonData.title}`, { x: 50, y: 700 });
