@@ -1,0 +1,8 @@
+pdfMake.fonts = {
+  NotoSerifThai: {
+    normal: '/absolute/path/to/NotoSerifThai.ttf',
+    bold: '/absolute/path/to/NotoSerifThai-Bold.ttf',
+    italics: '/absolute/path/to/NotoSerifThai-Italic.ttf',
+    bolditalics: '/absolute/path/to/NotoSerifThai-BoldItalic.ttf',
+  },
+};

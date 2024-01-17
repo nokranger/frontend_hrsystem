@@ -50,8 +50,21 @@
       </div>
       <!-- <input type="file" ref="fileInput" @change="handleFileChangeWelfare" />
       <button @click="exportToExcelWelfare">Export to Excel</button> -->
-      <br><br>
+      <br><br>{{ excelarray.length }}
       <button @click="MasterSendData">MasterSendData</button>
+      <br>
+      <br>
+      <br>{{ excelarrayinstructor.length }}
+      <button @click="instructorGetData()">instructorgetdata</button>
+      <br>
+      <br>
+      <br>{{ excelarraywelfare.length }}
+      <button @click="welfareGetdata">welfaregetdata</button>
+      <br>
+      <br>
+      <div>
+        <div>SUM LENGTH = {{ excelarray.length + excelarrayinstructor.length + excelarraywelfare.length}}</div>
+      </div>
     </div>
     <br>
     <br>
@@ -71,9 +84,13 @@
 <script>
 import * as XLSX from 'xlsx';
 import axios from 'axios';
-import { PDFDocument } from 'pdf-lib'
-import NotoSerifThai from '../font/NotoSerifThai-VariableFont_wdth,wght.ttf'
+const { getJsDateFromExcel } = require("excel-date-to-js");
+// import fs from 'fs'
 
+// import { PDFDocument } from 'pdf-lib'
+// import NotoSerifThai from '../views/NotoSerifThai.ttf'
+// import fontkit from 'fontkit';
+// import aa from '../'
 export default {
   data() {
     return {
@@ -85,7 +102,8 @@ export default {
       jsondata2Welfare: null,
       jsonArrayWelfare: [],
       jsonArrayWelfare2: [],
-      excelarrayWelfare: [],
+      excelarraywelfare: [],
+      excelarrayinstructor: [],
       jsondataTnos: null,
       jsondataTnos2: null,
       jsondataTnos3: null,
@@ -95,124 +113,232 @@ export default {
       excelarrayTnos: [],
       jsonDataInstructor: null,
       jsonDataInstructor2: null,
-      testdata: ''
+      testdata: '',
+      notoSansThaiFont: null,
+      exportexcelarraywelfare: []
     };
   },
+  mounted () {
+    // let th = this
+    //     // Load the Noto Sans Thai font (replace the URL with the actual font file URL)
+    //     const fontUrl = 'https://cdn.jsdelivr.net/gh/lazywasabi/thai-web-fonts@7/fonts/NotoSansThai/NotoSansThai-Regular.woff2';
+    // fetch(fontUrl)
+    //   .then((response) => response.arrayBuffer())
+    //   .then((fontData) => {
+    //     th.notoSansThaiFont = fontkit.create(new Uint8Array(fontData));
+    //   })
+    //   .catch((error) => {
+    //     console.error('Error loading font:', error);
+    //   });
+  },
   methods: {
-    async generatePDF(data) {
-      const jsonData = [
-        { title: 'Product 1', name: 'Document1', price: '$19.99' },
-        { title: 'Product 2', name: 'Document2', price: '$29.99' },
-        { title: 'Product 3', name: 'Document3', price: '$39.99' },
-        { title: 'Product 4', name: 'Document4', price: '$49.99' },
-        { title: 'Product 4', name: 'Document4', price: '$49.99' },
-        { title: 'Product 4', name: 'Document4', price: '$49.99' },
-        { title: 'Product 4', name: 'Document4', price: '$49.99' },
-        { title: 'Product 4', name: 'Document4', price: '$49.99' },
-        { title: 'Product 4', name: 'Document4', price: '$49.99' },
-        { title: 'Product 4', name: 'Document4', price: '$49.99' },
-        { title: 'Product 4', name: 'Document4', price: '$49.99' },
-        { title: 'Product 4', name: 'Document4', price: '$49.99' },
-        { title: 'Product 4', name: 'Document4', price: '$49.99' },
-        { title: 'Product 4', name: 'Document4', price: '$49.99' },
-        { title: 'Product 4', name: 'Document4', price: '$49.99' },
-        { title: 'Product 4', name: 'Document4', price: '$49.99' },
-        { title: 'Product 4', name: 'Document4', price: '$49.99' },
-        { title: 'Product 4', name: 'Document4', price: '$49.99' },
-        { title: 'Product 4', name: 'Document4', price: '$49.99' },
-        { title: 'Product 4', name: 'Document4', price: '$49.99' },
-        { title: 'Product 4', name: 'Document4', price: '$49.99' },
-        { title: 'Product 4', name: 'Document4', price: '$49.99' },
-        { title: 'Product 4', name: 'Document4', price: '$49.99' },
-        { title: 'Product 4', name: 'Document4', price: '$49.99' },
-        { title: 'Product 4', name: 'Document4', price: '$49.99' },
-        { title: 'Product 4', name: 'Document4', price: '$49.99' },
-        { title: 'Product 4', name: 'Document4', price: '$49.99' },
-        { title: 'Product 4', name: 'Document4', price: '$49.99' },
-        { title: 'Product 4', name: 'Document4', price: '$49.99' },
-        { title: 'Product 4', name: 'Document4', price: '$49.99' },
-        { title: 'Product 4', name: 'Document4', price: '$49.99' },
-        { title: 'Product 4', name: 'Document4', price: '$49.99' },
-        { title: 'Product 4', name: 'Document4', price: '$49.99' },
-        { title: 'Product 4', name: 'Document4', price: '$49.99' },
-        { title: 'Product 4', name: 'Document4', price: '$49.99' },
-        { title: 'Product 4', name: 'Document4', price: '$49.99' },
-        { title: 'Product 4', name: 'Document4', price: '$49.99' },
-        { title: 'Product 4', name: 'Document4', price: '$49.99' },
-        { title: 'Product 4', name: 'Document4', price: '$49.99' },
-        { title: 'Product 4', name: 'Document4', price: '$49.99' },
-        { title: 'Product 4', name: 'Document4', price: '$49.99' },
-        // Add more data as needed
-      ];
-      const pdfDoc = await PDFDocument.create();
-      let page = pdfDoc.addPage();
+    generatePDF() {
+      let data = [
+      { name: 'ดฟหดฟหดฟหดฟหดฟหด', age: 30 },
+      { name: 'ดฟหดฟหดฟหดหฟดหฟ', age: 25 },
+      { name: 'ดฟหดฟหดฟหดหฟดหฟ', age: 25 },
+      { name: 'ดฟหดฟหดฟหดหฟดหฟ', age: 25 },
+      { name: 'ดฟหดฟหดฟหดหฟดหฟ', age: 25 },
+      { name: 'ดฟหดฟหดฟหดหฟดหฟ', age: 25 },
+      { name: 'ดฟหดฟหดฟหดหฟดหฟ', age: 25 },
+      { name: 'ดฟหดฟหดฟหดหฟดหฟ', age: 25 },
+      { name: 'ดฟหดฟหดฟหดหฟดหฟ', age: 25 },
+      { name: 'ดฟหดฟหดฟหดหฟดหฟ', age: 25 },
+      { name: 'ดฟหดฟหดฟหดหฟดหฟ', age: 25 },
+      { name: 'ดฟหดฟหดฟหดหฟดหฟ', age: 25 },
+      { name: 'ดฟหดฟหดฟหดหฟดหฟ', age: 25 },
+      { name: 'ดฟหดฟหดฟหดหฟดหฟ', age: 25 },
+      { name: 'ดฟหดฟหดฟหดหฟดหฟ', age: 25 },
+      { name: 'ดฟหดฟหดฟหดหฟดหฟ', age: 25 },
+      { name: 'ดฟหดฟหดฟหดหฟดหฟ', age: 25 },
+      { name: 'ดฟหดฟหดฟหดหฟดหฟ', age: 25 },
+      { name: 'ดฟหดฟหดฟหดหฟดหฟ', age: 25 },
+      { name: 'ดฟหดฟหดฟหดหฟดหฟ', age: 25 },
+      { name: 'ดฟหดฟหดฟหดหฟดหฟ', age: 25 },
+      { name: 'ดฟหดฟหดฟหดหฟดหฟ', age: 25 },
+      { name: 'ดฟหดฟหดฟหดฟหดฟหด', age: 30 },
+      { name: 'ดฟหดฟหดฟหดหฟดหฟ', age: 25 },
+      { name: 'ดฟหดฟหดฟหดหฟดหฟ', age: 25 },
+      { name: 'ดฟหดฟหดฟหดหฟดหฟ', age: 25 },
+      { name: 'ดฟหดฟหดฟหดหฟดหฟ', age: 25 },
+      { name: 'ดฟหดฟหดฟหดหฟดหฟ', age: 25 },
+      { name: 'ดฟหดฟหดฟหดหฟดหฟ', age: 25 },
+      { name: 'ดฟหดฟหดฟหดหฟดหฟ', age: 25 },
+      { name: 'ดฟหดฟหดฟหดหฟดหฟ', age: 25 },
+      { name: 'ดฟหดฟหดฟหดหฟดหฟ', age: 25 },
+      { name: 'ดฟหดฟหดฟหดหฟดหฟ', age: 25 },
+      { name: 'ดฟหดฟหดฟหดหฟดหฟ', age: 25 },
+      { name: 'ดฟหดฟหดฟหดหฟดหฟ', age: 25 },
+      { name: 'ดฟหดฟหดฟหดหฟดหฟ', age: 25 },
+      { name: 'ดฟหดฟหดฟหดหฟดหฟ', age: 25 },
+      { name: 'ดฟหดฟหดฟหดหฟดหฟ', age: 25 },
+      { name: 'ดฟหดฟหดฟหดหฟดหฟ', age: 25 },
+      { name: 'ดฟหดฟหดฟหดหฟดหฟ', age: 25 },
+      { name: 'ดฟหดฟหดฟหดหฟดหฟ', age: 25 },
+      { name: 'ดฟหดฟหดฟหดหฟดหฟ', age: 25 },
+      { name: 'ดฟหดฟหดฟหดหฟดหฟ', age: 25 },
+      { name: 'ดฟหดฟหดฟหดหฟดหฟ', age: 25 },
+      { name: 'ดฟหดฟหดฟหดฟหดฟหด', age: 30 },
+      { name: 'ดฟหดฟหดฟหดหฟดหฟ', age: 25 },
+      { name: 'ดฟหดฟหดฟหดหฟดหฟ', age: 25 },
+      { name: 'ดฟหดฟหดฟหดหฟดหฟ', age: 25 },
+      { name: 'ดฟหดฟหดฟหดหฟดหฟ', age: 25 },
+      { name: 'ดฟหดฟหดฟหดหฟดหฟ', age: 25 },
+      { name: 'ดฟหดฟหดฟหดหฟดหฟ', age: 25 },
+      { name: 'ดฟหดฟหดฟหดหฟดหฟ', age: 25 },
+      { name: 'ดฟหดฟหดฟหดหฟดหฟ', age: 25 },
+      { name: 'ดฟหดฟหดฟหดหฟดหฟ', age: 25 },
+      { name: 'ดฟหดฟหดฟหดหฟดหฟ', age: 25 },
+      { name: 'ดฟหดฟหดฟหดหฟดหฟ', age: 25 },
+      { name: 'ดฟหดฟหดฟหดหฟดหฟ', age: 25 },
+      { name: 'ดฟหดฟหดฟหดหฟดหฟ', age: 25 },
+      { name: 'ดฟหดฟหดฟหดหฟดหฟ', age: 25 },
+      { name: 'ดฟหดฟหดฟหดหฟดหฟ', age: 25 },
+      { name: 'ดฟหดฟหดฟหดหฟดหฟ', age: 25 },
+      { name: 'ดฟหดฟหดฟหดหฟดหฟ', age: 25 },
+      { name: 'ดฟหดฟหดฟหดหฟดหฟ', age: 25 },
+      { name: 'ดฟหดฟหดฟหดหฟดหฟ', age: 25 },
+      { name: 'ดฟหดฟหดฟหดหฟดหฟ', age: 25 },
+      { name: 'ดฟหดฟหดฟหดหฟดหฟ', age: 25 },
+      
+      // Add more data as needed
+    ]
+    const header = { text: 'List of People', style: 'header' };
+    const content = []
+    data.forEach((item) => {
+      content.push(
+        header,
+        { text: `Name: ${item.name}, Age: ${item.age}`, font: 'AngsanaNew', margin: [0, 0, 0, 10]},
+      )
+    })
+    content.pop();
+    const documentDefinition = {
+      content: content,
+      pageBreak: 'auto'
+      // styles: {
+      //   header: {
+      //     fontSize: 18,
+      //     margin: [0, 0, 0, 10]
+      //   }
+      // }
+    };
 
-      // Customize the PDF content based on your requirements
-      let xPosition = 50; // Initial x-position for text
-      // const yPosition = 700; // Fixed y-position for horizontal alignment
-      let yStart = 700; // Fixed y-position for horizontal titles
-      let { width, height } = page.getSize();
-      const margin = 50;
-      height = 700
-      let yPosition = height - margin;
-      // Embed the custom font
-      // const fontBytes = await this.loadFont(NotoSerifThai);
-      // const customFont = await pdfDoc.embedFont(fontBytes);
-      const fontSize = 12; //
+    pdfMake.createPdf(documentDefinition).open();
+  },
+    // async generatePDF(data) {
+    //   const jsonData = [
+    //     { title: 'Product 1', name: 'Document1', price: '$19.99' },
+    //     { title: 'Product 2', name: 'Document2', price: '$29.99' },
+    //     { title: 'Product 3', name: 'Document3', price: '$39.99' },
+    //     { title: 'Product 4', name: 'Document4', price: '$49.99' },
+    //     { title: 'Product 4', name: 'Document4', price: '$49.99' },
+    //     { title: 'Product 4', name: 'Document4', price: '$49.99' },
+    //     { title: 'Product 4', name: 'Document4', price: '$49.99' },
+    //     { title: 'Product 4', name: 'Document4', price: '$49.99' },
+    //     { title: 'Product 4', name: 'Document4', price: '$49.99' },
+    //     { title: 'Product 4', name: 'Document4', price: '$49.99' },
+    //     { title: 'Product 4', name: 'Document4', price: '$49.99' },
+    //     { title: 'Product 4', name: 'Document4', price: '$49.99' },
+    //     { title: 'Product 4', name: 'Document4', price: '$49.99' },
+    //     { title: 'Product 4', name: 'Document4', price: '$49.99' },
+    //     { title: 'Product 4', name: 'Document4', price: '$49.99' },
+    //     { title: 'Product 4', name: 'Document4', price: '$49.99' },
+    //     { title: 'Product 4', name: 'Document4', price: '$49.99' },
+    //     { title: 'Product 4', name: 'Document4', price: '$49.99' },
+    //     { title: 'Product 4', name: 'Document4', price: '$49.99' },
+    //     { title: 'Product 4', name: 'Document4', price: '$49.99' },
+    //     { title: 'Product 4', name: 'Document4', price: '$49.99' },
+    //     { title: 'Product 4', name: 'Document4', price: '$49.99' },
+    //     { title: 'Product 4', name: 'Document4', price: '$49.99' },
+    //     { title: 'Product 4', name: 'Document4', price: '$49.99' },
+    //     { title: 'Product 4', name: 'Document4', price: '$49.99' },
+    //     { title: 'Product 4', name: 'Document4', price: '$49.99' },
+    //     { title: 'Product 4', name: 'Document4', price: '$49.99' },
+    //     { title: 'Product 4', name: 'Document4', price: '$49.99' },
+    //     { title: 'Product 4', name: 'Document4', price: '$49.99' },
+    //     { title: 'Product 4', name: 'Document4', price: '$49.99' },
+    //     { title: 'Product 4', name: 'Document4', price: '$49.99' },
+    //     { title: 'Product 4', name: 'Document4', price: '$49.99' },
+    //     { title: 'Product 4', name: 'Document4', price: '$49.99' },
+    //     { title: 'Product 4', name: 'Document4', price: '$49.99' },
+    //     { title: 'Product 4', name: 'Document4', price: '$49.99' },
+    //     { title: 'Product 4', name: 'Document4', price: '$49.99' },
+    //     { title: 'Product 4', name: 'Document4', price: '$49.99' },
+    //     { title: 'Product 4', name: 'Document4', price: '$49.99' },
+    //     { title: 'Product 4', name: 'Document4', price: '$49.99' },
+    //     { title: 'Product 4', name: 'Document4', price: '$49.99' },
+    //     { title: 'Product 4', name: 'Document4', price: '$49.99' },
+    //     // Add more data as needed
+    //   ];
+    //   // const fontkit = require('@pdf-lib/fontkit')
+    //   // const fontUrl = 'https://cdn.jsdelivr.net/gh/lazywasabi/thai-web-fonts@7/fonts/NotoSansThai/NotoSansThai-Regular.woff2';
+    //   // const response = await fetch(fontUrl);
+    //   // const fontData = await response.arrayBuffer();
+    //   // const notoSansThaiFont = fontkit.create(new Uint8Array(fontData));
+    //   const pdfDoc = await PDFDocument.create();
+    //   let page = pdfDoc.addPage();
+    //   // Customize the PDF content based on your requirements
+    //   let xPosition = 50; // Initial x-position for text
+    //   // const yPosition = 700; // Fixed y-position for horizontal alignment
+    //   let yStart = 700; // Fixed y-position for horizontal titles
+    //   let { width, height } = page.getSize();
+    //   const margin = 50;
+    //   height = 700
+    //   let yPosition = height - margin;
+    //   // Embed the custom font
 
-      page.drawText(`Title`, { x: 50, y: 720 , size: fontSize});
-      page.drawText(`Name`, { x: 200, y: 720 , size: fontSize});
-      page.drawText(`Price`, { x: 350, y: 720 , size: fontSize});
-      let count = 0
-      let countPage = 1
-      page.drawText(`Page${countPage}`, { x: 450, y: 720 , size: fontSize});
-      for (const data of jsonData) {
-        console.log('count', jsonData.length)
-        // const titleHeight = 20; // Adjust as needed
-        const descriptionHeight = 30; // Adjust as needed
+    //   // const fontBytes = await this.loadFont(NotoSerifThai);
+    //   // const customFont = await pdfDoc.embedFont(fontBytes);
+    //   const fontSize = 12; //
 
-        // Check if there is enough space on the current page
-        if (yPosition - descriptionHeight < margin) {
-          countPage++;
-          // Create a new page if the content doesn't fit
-          page = pdfDoc.addPage();
-          page.drawText(`Title`, { x: 50, y: 720 , size: fontSize});
-          page.drawText(`Name`, { x: 200, y: 720 , size: fontSize});
-          page.drawText(`Price`, { x: 350, y: 720 , size: fontSize});
-          page.drawText(`Page${countPage}`, { x: 450, y: 720 , size: fontSize});
-          yPosition = height - margin;
-        }
-        page.drawText(`${data.title}`, { x: 50, y: yPosition, fontSize});
-        // const yNameStart = yStart + 20;
-        page.drawText(`${data.name}`, { x: 200, y: yPosition, fontSize});
-        // const yPriceStart = yNameStart + 20;
-        page.drawText(`${data.price}`, { x: 350, y: yPosition, fontSize});
-        yPosition -= descriptionHeight; // Adjust x-position for the next entry
-        count++
-        if (count > jsonData.length - 1) {
-          console.log('countPDF ', count);
-          page.drawText(`Total`, { x: 350, y: yPosition - 20 , size: fontSize});
-        }
-      }
+    //   page.drawText(`Titleฟฟฟฟฟฟ`, { x: 50, y: 720 , size: fontSize, font: this.notoSansThaiFont});
+    //   page.drawText(`Name`, { x: 200, y: 720 , size: fontSize});
+    //   page.drawText(`Price`, { x: 350, y: 720 , size: fontSize});
+    //   let count = 0
+    //   let countPage = 1
+    //   page.drawText(`Page${countPage}`, { x: 450, y: 720 , size: fontSize});
+    //   for (const data of jsonData) {
+    //     console.log('count', jsonData.length)
+    //     // const titleHeight = 20; // Adjust as needed
+    //     const descriptionHeight = 30; // Adjust as needed
 
-      // page.drawText(`${jsonData.title}`, { x: 50, y: 700 });
-      // page.drawText(`${jsonData.name}`, { x: 200, y: 700 });
-      // page.drawText(`${jsonData.price}`, { x: 350, y: 700 });
-      // page.drawText(`${jsonData.title}`, { x: 50, y: 720 });
-      // page.drawText(`${jsonData.name}`, { x: 200, y: 720 });
-      // page.drawText(`${jsonData.price}`, { x: 350, y: 720 });
+    //     // Check if there is enough space on the current page
+    //     if (yPosition - descriptionHeight < margin) {
+    //       countPage++;
+    //       // Create a new page if the content doesn't fit
+    //       page = pdfDoc.addPage();
+    //       page.drawText(`Title`, { x: 50, y: 720 , size: fontSize});
+    //       page.drawText(`Name`, { x: 200, y: 720 , size: fontSize});
+    //       page.drawText(`Price`, { x: 350, y: 720 , size: fontSize});
+    //       page.drawText(`Page${countPage}`, { x: 450, y: 720 , size: fontSize});
+    //       yPosition = height - margin;
+    //     }
+    //     page.drawText(`${data.title}`, { x: 50, y: yPosition, fontSize});
+    //     // const yNameStart = yStart + 20;
+    //     page.drawText(`${data.name}`, { x: 200, y: yPosition, fontSize});
+    //     // const yPriceStart = yNameStart + 20;
+    //     page.drawText(`${data.price}`, { x: 350, y: yPosition, fontSize});
+    //     yPosition -= descriptionHeight; // Adjust x-position for the next entry
+    //     count++
+    //     if (count > jsonData.length - 1) {
+    //       console.log('countPDF ', count);
+    //       page.drawText(`Total`, { x: 350, y: yPosition - 20 , size: fontSize});
+    //     }
+    //   }
 
-      // Save the PDF to a file or display it in a new tab
-      const pdfBytes = await pdfDoc.save();
-      const blob = new Blob([pdfBytes], { type: 'application/pdf' });
-      const url = URL.createObjectURL(blob);
-      window.open(url, '_blank');
-    },
-    async loadFont(fontUrl) {
-      const response = await fetch(fontUrl);
-      const fontData = await response.arrayBuffer();
-      return fontData;
-    },
+    //   // page.drawText(`${jsonData.title}`, { x: 50, y: 700 });
+    //   // page.drawText(`${jsonData.name}`, { x: 200, y: 700 });
+    //   // page.drawText(`${jsonData.price}`, { x: 350, y: 700 });
+    //   // page.drawText(`${jsonData.title}`, { x: 50, y: 720 });
+    //   // page.drawText(`${jsonData.name}`, { x: 200, y: 720 });
+    //   // page.drawText(`${jsonData.price}`, { x: 350, y: 720 });
+
+    //   // Save the PDF to a file or display it in a new tab
+    //   const pdfBytes = await pdfDoc.save();
+    //   const blob = new Blob([pdfBytes], { type: 'application/pdf' });
+    //   const url = URL.createObjectURL(blob);
+    //   window.open(url, '_blank');
+    // },
     PersonalSendData () {
       this.testdata = {
         emp_code: '12345',
@@ -276,14 +402,194 @@ export default {
         //       }
         //     })
             // console.log('resdataExcel', jsonMaps);
-            this.excelarray = Object.values(dataexcel);
+            this.excelarray = Object.values(dataexcel)
             console.log('JSONTYPEOF2Aftermap23', this.excelarray)
 
+            // //export to excell
+            // const workbook = XLSX.utils.book_new();
+            
+            // // Convert the JSON data to a worksheet
+            // const worksheet = XLSX.utils.json_to_sheet(this.excelarray);
+
+            // // Add the worksheet to the workbook
+            // XLSX.utils.book_append_sheet(workbook, worksheet, 'MasterData');
+
+            // // Save the workbook to a file
+            // XLSX.writeFile(workbook, 'exported_data.xlsx');
+            })
+      .catch(error => {
+        console.error('Error fetching data:', error.message);
+      });
+      // console.log(this.testdata)
+      // axios.post('http://localhost:4000/personal', this.testdata)
+      // .then(response => {
+      //   console.log(response.data);
+      // })
+      // .catch(error => {
+      //   console.error('Error fetching data:', error.message);
+      // });
+    },
+    instructorGetData () {
+      this.testdata = {
+        emp_code: '12345',
+        name: 'NAMAMAMAM',
+        bank_account_number: '12344566'
+      }
+      axios.get('http://localhost:4000/instructorgetdata')
+      .then(response => {
+        console.log('resdata', response.data.result);
+        let dataexcel = response.data.result
+        // let jsonMaps = dataexcel.map((data, i) => {
+        //       return {
+        //         "Emp. Code": data.emp_code,
+        //         "Name - Surname": data.name,
+        //         "Bank account number": data.bank_account_number
+        //       }
+        //     })
+            // console.log('resdataExcel', jsonMaps);
+            this.excelarrayinstructor = Object.values(dataexcel)
+            console.log('JSONTYPEOF2Aftermap23', this.excelarrayinstructor)
+
+            // //export to excell
+            // const workbook = XLSX.utils.book_new();
+            
+            // // Convert the JSON data to a worksheet
+            // const worksheet = XLSX.utils.json_to_sheet(this.excelarray);
+
+            // // Add the worksheet to the workbook
+            // XLSX.utils.book_append_sheet(workbook, worksheet, 'MasterData');
+
+            // // Save the workbook to a file
+            // XLSX.writeFile(workbook, 'exported_data.xlsx');
+            })
+      .catch(error => {
+        console.error('Error fetching data:', error.message);
+      });
+      // console.log(this.testdata)
+      // axios.post('http://localhost:4000/personal', this.testdata)
+      // .then(response => {
+      //   console.log(response.data);
+      // })
+      // .catch(error => {
+      //   console.error('Error fetching data:', error.message);
+      // });
+    },
+    welfareGetdata () {
+      this.testdata = {
+        emp_code: '12345',
+        name: 'NAMAMAMAM',
+        bank_account_number: '12344566'
+      }
+      axios.get('http://localhost:4000/welfaregetdata')
+      .then(response => {
+        console.log('resdata', response.data.result);
+        let dataexcel = response.data.result
+        // let jsonMaps = dataexcel.map((data, i) => {
+        //       return {
+        //         "Emp. Code": data.emp_code,
+        //         "Name - Surname": data.name,
+        //         "Bank account number": data.bank_account_number
+        //       }
+        //     })
+            // console.log('resdataExcel', jsonMaps);
+            this.excelarraywelfare = Object.values(dataexcel);
+            // this.excelarraywelfare = dataexcel
+            console.log('JSONTYPEOFwelfare', this.excelarray.length)
+            // console.log('combinedata1', this.excelarray[0].tlep_driver_name)
+            // console.log('combineArrayExport', combineArray)
+            const combinedArray = []
+            for (let i = 0; i < this.excelarray.length; i++) {
+              const combinedObject = {
+                Working_date: this.excelarray[i].Working_date || '',
+                job_code: this.excelarray[i].job_code || '',
+                shift: this.excelarray[i].shift || '',
+                trip_no: this.excelarray[i].trip_no || '',
+                ttt_employee_code: this.excelarray[i].ttt_employee_code || '',
+                tlep_driver_code: this.excelarray[i].tlep_driver_code || '',
+                tlep_driver_name: this.excelarray[i].tlep_driver_name || '',
+                company_code: this.excelarray[i].ompany_code || '',
+                company_name: this.excelarray[i].company_name || '',
+                trailer_code: this.excelarray[i].trailer_code || '',
+                trailer_type_code: this.excelarray[i].trailer_type_code || '',
+                trailer_type: this.excelarray[i].trailer_type || '',
+                ttt_payment_status: this.excelarray[i].ttt_payment_status || '',
+                calling_sheet_no: this.excelarray[i].calling_sheet_no || '',
+                trip_type: this.excelarray[i].trip_type || '',
+                recieve_job_dateandtime: this.excelarray[i].recieve_job_dateandtime || '',
+                from_code: this.excelarray[i].from_code || '',
+                from_name: this.excelarray[i].from_name || '',
+                yard_out_dateandtime: this.excelarray[i].yard_out_dateandtime || '',
+                to_code: this.excelarray[i].to_code || '',
+                to_name: this.excelarray[i].to_name || '',
+                to_in_dateandtime: this.excelarray[i].to_in_dateandtime || '',
+                reture_code: this.excelarray[i].reture_code || '',
+                return_name: this.excelarray[i].return_name || '',
+                return_in_dateandtime: this.excelarray[i].return_in_dateandtime || '',
+                loading_units: this.excelarray[i].loading_units || '',
+                loading_count: this.excelarray[i].loading_count || '',
+                unloading_count: this.excelarray[i].unloading_count || '',
+                number_of_driver: this.excelarray[i].number_of_driver || '',
+                nd2_employee_code: this.excelarray[i].nd2_employee_code || '',
+                nd2_tlep_driver_code: this.excelarray[i].nd2_tlep_driver_code || '',
+                nd2_tlep_driver_name: this.excelarray[i].nd2_tlep_driver_name || '',
+                mileage: this.excelarray[i].mileage || '',
+                allowance: this.excelarray[i].allowance || '',
+                allowance2: this.excelarray[i].allowance2 || '',
+                allowance3: this.excelarray[i].allowance3 || '',
+                allowance4: this.excelarray[i].allowance4 || '',
+                total_allowance: this.excelarray[i].total_allowance || '',
+                standard_ot: this.excelarray[i].standard_ot || '',
+                over_ot: this.excelarray[i].over_ot || '',
+                total_ot: this.excelarray[i].total_ot || '',
+                payment_status: this.excelarray[i].payment_status || '',
+                ot_payment_date: this.excelarray[i].ot_payment_date || '',
+                allowance_payment_date: this.excelarray[i].allowance_payment_date || '',
+                TAX_FLAG: this.excelarray[i].TAX_FLAG || ''
+              };
+
+              combinedArray.push(combinedObject);
+              
+            }
+            for (let j = 0; j < this.excelarrayinstructor.length; j++) {
+                const combinedObject = {
+                // AA: this.excelarraywelfare[j].DEALER1 || '',
+                to_name: this.excelarrayinstructor[j].DEALER1,
+                tlep_driver_name: this.excelarrayinstructor[j].NAME || '',
+                TAX_FLAG: this.excelarrayinstructor[j].TAX_FLAG || '',
+                yard_out_dateandtime: new Date((this.excelarrayinstructor[j].DEPARTURE_DATETIME - 1) * 24 * 60 * 60 * 1000 + new Date(1900, 0, 0).getTime()) || '',
+                total_allowance: this.excelarrayinstructor[j].TRIP_ALLOWANCE || '',
+                total_ot: this.excelarrayinstructor[j].OT_HOURS || '',
+                tlep_driver_code: this.excelarrayinstructor[j].DRIVER1 || '',
+                trip_no: this.excelarrayinstructor[j].TRIP_NO || ''
+
+                // BB: object1[i].BB || '',
+                // CC: object2[i].AC || object1[i].CC || ''
+              };
+              combinedArray.push(combinedObject);
+            }
+            for (let j = 0; j < this.excelarraywelfare.length; j++) {
+                const combinedObject = {
+                // AA: this.excelarraywelfare[j].DEALER1 || '',
+                to_name: this.excelarraywelfare[j].DEALER1,
+                tlep_driver_name: this.excelarraywelfare[j].NAME || '',
+                TAX_FLAG: this.excelarraywelfare[j].TAX_FLAG || '',
+                yard_out_dateandtime: new Date((this.excelarraywelfare[j].YARDOUTDATE - 1) * 24 * 60 * 60 * 1000 + new Date(1900, 0, 0).getTime()) || '',
+                total_allowance: this.excelarraywelfare[j].TRIP_ALLOWANCE || '',
+                total_ot: this.excelarraywelfare[j].OT_HOURS || '',
+                tlep_driver_code: this.excelarraywelfare[j].DRIVER1 || '',
+                trip_no: this.excelarraywelfare[j].TRIP_NO || ''
+
+                // BB: object1[i].BB || '',
+                // CC: object2[i].AC || object1[i].CC || ''
+              };
+              combinedArray.push(combinedObject);
+            }
+            console.log('combinedObject', combinedArray)
             //export to excell
             const workbook = XLSX.utils.book_new();
             
             // Convert the JSON data to a worksheet
-            const worksheet = XLSX.utils.json_to_sheet(this.excelarray);
+            const worksheet = XLSX.utils.json_to_sheet(combinedArray);
 
             // Add the worksheet to the workbook
             XLSX.utils.book_append_sheet(workbook, worksheet, 'MasterData');
@@ -577,70 +883,6 @@ export default {
             return acc
           }, {})
         })
-        let jsonMapTnos = jsonobjectTnos.map((data, i) => {
-              return {
-                Working_date: data.item1,
-                job_code: data.item2,
-                shift: data.item3,
-                trip_no: data.item4,
-                ttt_employee_code: data.item5,
-                tlep_driver_code: data.item6,
-                tlep_driver_name: data.item7,
-                company_code: data.item8,
-                company_name: data.item9,
-                trailer_code: data.item10,
-                trailer_type_code: data.item11,
-                calling_sheet_no: data.item14,
-
-              }
-            })
-            let jsonMapTnos2 = jsonobjectTnos.map((data, i) => {
-              return {
-                trailer_type: data.item12,
-                ttt_payment_status: data.item13,
-                calling_sheet_no: data.item14,
-                trip_type: data.item15,
-                recieve_job_dateandtime: data.item16,
-                from_code: data.item17,
-                from_name: data.item18,
-                yard_out_dateandtime: data.item19,
-                to_code: data.item20,
-                to_name: data.item21,
-                to_in_dateandtime: data.item22,
-                reture_code: data.item23,
-              }
-            })
-            let jsonMapTnos3 = jsonobjectTnos.map((data, i) => {
-              return {
-                calling_sheet_no: data.item14,
-                return_name: data.item24,
-                return_in_dateandtime: data.item25,
-                loading_units: data.item26,
-                loading_count: data.item27,
-                unloading_count: data.item28,
-                number_of_driver: data.item29,
-                nd2_employee_code: data.item30,
-                nd2_tlep_driver_code: data.item31,
-                nd2_tlep_driver_name: data.item32,
-                mileage: data.item33
-              }
-            })
-            let jsonMapTnos4 = jsonobjectTnos.map((data, i) => {
-              return {
-                calling_sheet_no: data.item14,
-                allowance: data.item34,
-                allowance2: data.item35,
-                allowance3: data.item36,
-                allowance4: data.item37,
-                total_allowance: data.item38,
-                standard_ot: data.item39,
-                over_ot: data.item40,
-                total_ot: data.item41,
-                payment_status: data.item42,
-                ot_payment_date: data.item43,
-                allowance_payment_date: data.item44,
-              }
-            })
             let jsonMapTnos5 = jsonobjectTnos.map((data, i) => {
               return {
                 Working_date: data.item1,
@@ -691,43 +933,8 @@ export default {
             })
         console.log('Aftermap', jsonobjectTnos)
         console.log('Aftermap25', jsonMapTnos5)
-        // console.log('Aftermap22', jsonMapTnos2)
-        // console.log('Aftermap23', jsonMapTnos3)
-        // console.log('Aftermap24', jsonMapTnos4)
-        // console.log('JSONTYPEOF2Aftermap: ',  typeof(jsonobjectTnos))
-        // this.jsondata2Tnos = jsonMapTnos
-        // this.jsondata2Tnos2 = jsonMapTnos2
-        // this.jsondata2Tnos3 = jsonMapTnos3
-        // this.jsondata2Tnos4 = jsonMapTnos4
+
         this.jsondata2Tnos5 = jsonMapTnos5
-        // axios.post('http://localhost:4000/tnos5', this.jsondata2Tnos5)
-        // .then(response => {
-        //   console.log(response.data);
-        // })
-        // .catch(error => {
-        //   console.error('Error fetching data:', error.message);
-        // });
-        // axios.post('http://localhost:4000/tnos2', this.jsondata2Tnos2)
-        // .then(response => {
-        //   console.log(response.data);
-        // })
-        // .catch(error => {
-        //   console.error('Error fetching data:', error.message);
-        // });
-        // axios.post('http://localhost:4000/tnos3', this.jsondata2Tnos3)
-        // .then(response => {
-        //   console.log(response.data);
-        // })
-        // .catch(error => {
-        //   console.error('Error fetching data:', error.message);
-        // });
-        // axios.post('http://localhost:4000/tnos4', this.jsondata2Tnos4)
-        // .then(response => {
-        //   console.log(response.data);
-        // })
-        // .catch(error => {
-        //   console.error('Error fetching data:', error.message);
-        // });
       };
 
       reader.readAsBinaryString(file);
