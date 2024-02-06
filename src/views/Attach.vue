@@ -16,14 +16,6 @@
       <div>EMPCODE: 043331</div>
       <button @click="getAttach10">Attached 10</button>
     </div>
-    <div>
-      <div>Payroll OT</div>
-      <button @click="getot">Attached 10</button>
-    </div>
-    <div>
-      <div>Payroll ALLOWANCE</div>
-      <button @click="getallowance">Attached 10</button>
-    </div>
   </div>
 </template>
 

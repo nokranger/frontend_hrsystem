@@ -2,7 +2,8 @@
   <div id="app">
     <nav>
       <router-link to="/dashboard">Dashboard</router-link> || 
-      <router-link to="/Attached">Attached</router-link>
+      <router-link to="/Attached">Attached</router-link> ||
+      <router-link to="/payroll">Payroll</router-link>
     </nav>
     <router-view/>
   </div>
