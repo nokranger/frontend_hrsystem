@@ -4,10 +4,10 @@
         <div>
           <h1 style="text-shadow: 2px 2px 5px black;">Payroll</h1>
         </div>
-        <div style="border: 2px solid gray;border-radius: 10px;height: 120px;">
+        <div style="border: 2px solid gray;border-radius: 10px;height: 120px;box-shadow: 5px 5px 5px #888888;">
           <span style="display: inline;">
-          <b-button style="margin: 40px;" variant="outline-primary" @click="getot">Payroll OT</b-button>
-          <b-button style="margin: 40px;" variant="outline-success" @click="getallowance">Payroll Allowance</b-button>
+          <b-button style="margin: 40px;box-shadow: 5px 5px 5px #888888;" variant="outline-primary" @click="getot">Payroll OT</b-button>
+          <b-button style="margin: 40px;box-shadow: 5px 5px 5px #888888;" variant="outline-success" @click="getallowance">Payroll Allowance</b-button>
         </span>
         </div>
       </b-container>

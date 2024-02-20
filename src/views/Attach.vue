@@ -4,12 +4,12 @@
       <div>
         <h1 style="text-shadow: 2px 2px 5px black;">Attached</h1>
       </div>
-      <div style="border: 2px solid gray;border-radius: 10px;height: 120px;">
+      <div style="border: 2px solid gray;border-radius: 10px;height: 120px;box-shadow: 5px 5px 5px #888888;">
         <span  style="display: inline;">
-          <b-button variant="outline-primary" @click="getAttach7all" style="margin: 40px;">Attached 7</b-button>
-          <b-button variant="outline-success" @click="getAttach8" style="margin: 40px;">Attached 8</b-button>
-          <b-button variant="outline-danger" @click="getAttach9all" style="margin: 40px;">Attached 9</b-button>
-          <b-button variant="outline-warning" @click="getAttach10" style="margin: 40px;">Attached 10</b-button>
+          <b-button variant="outline-primary" @click="getAttach7all" style="margin: 40px;box-shadow: 5px 5px 5px #888888;">Attached 7</b-button>
+          <b-button variant="outline-success" @click="getAttach8" style="margin: 40px;box-shadow: 5px 5px 5px #888888;">Attached 8</b-button>
+          <b-button variant="outline-danger" @click="getAttach9all" style="margin: 40px;box-shadow: 5px 5px 5px #888888;">Attached 9</b-button>
+          <b-button variant="outline-warning" @click="getAttach10" style="margin: 40px;box-shadow: 5px 5px 5px #888888;">Attached 10</b-button>
         </span>
       </div>
     </b-container>

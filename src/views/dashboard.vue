@@ -4,7 +4,7 @@
       <div>
         <h1 style="text-shadow: 2px 2px 5px black;">Import</h1>
       </div>
-      <div style="border: 2px solid gray;border-radius: 10px;height: 600px;">
+      <div style="border: 2px solid gray;border-radius: 10px;height: 600px;box-shadow: 5px 5px 5px #888888;">
         <div>
         <div>
           Personal Data
