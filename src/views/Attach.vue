@@ -1,6 +1,19 @@
 <template>
   <div>
-    <span style="display: inline;">
+    <b-container>
+      <div>
+        <h1 style="text-shadow: 2px 2px 5px black;">Attached</h1>
+      </div>
+      <div style="border: 2px solid gray;border-radius: 10px;height: 120px;">
+        <span  style="display: inline;">
+          <b-button variant="outline-primary" @click="getAttach7all" style="margin: 40px;">Attached 7</b-button>
+          <b-button variant="outline-success" @click="getAttach8" style="margin: 40px;">Attached 8</b-button>
+          <b-button variant="outline-danger" @click="getAttach9all" style="margin: 40px;">Attached 9</b-button>
+          <b-button variant="outline-warning" @click="getAttach10" style="margin: 40px;">Attached 10</b-button>
+        </span>
+      </div>
+    </b-container>
+    <!-- <span style="display: inline;">
       <b-button @click="getAttach7" style="margin: 10px;">Attached 7</b-button>
       <b-button @click="getAttach7all" style="margin: 10px;">Attached 7 All</b-button>
       <br>
@@ -10,9 +23,9 @@
       <span  style="display: inline;">
         <b-button @click="getAttach8" style="margin: 10px;">Attached 8</b-button>
         <b-button @click="getAttach8" style="margin: 10px;">Attached 8</b-button>
-      </span>
+      </span> -->
       <!-- <div>EMPCODE: 641610</div> -->
-    </div>
+    <!-- </div>
     <br>
     <br>
     <div>
@@ -27,9 +40,9 @@
       <span style="display: inline;">
         <b-button @click="getAttach10" style="margin: 10px;">Attached 10</b-button>
         <b-button @click="getAttach10" style="margin: 10px;">Attached 10</b-button>
-      </span>
+      </span> -->
       <!-- <div>EMPCODE: 043331</div> -->
-    </div>
+    <!-- </div> -->
   </div>
 </template>
 

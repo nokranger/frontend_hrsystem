@@ -1,13 +1,16 @@
 <template>
     <div>
-      <div>
-        <div>Payroll OT</div>
-        <button @click="getot">Payroll OT</button>
-      </div>
-      <div>
-        <div>Payroll ALLOWANCE</div>
-        <button @click="getallowance">Payroll Allowance</button>
-      </div>
+      <b-container>
+        <div>
+          <h1 style="text-shadow: 2px 2px 5px black;">Payroll</h1>
+        </div>
+        <div style="border: 2px solid gray;border-radius: 10px;height: 120px;">
+          <span style="display: inline;">
+          <b-button style="margin: 40px;" variant="outline-primary" @click="getot">Payroll OT</b-button>
+          <b-button style="margin: 40px;" variant="outline-success" @click="getallowance">Payroll Allowance</b-button>
+        </span>
+        </div>
+      </b-container>
     </div>
   </template>
   

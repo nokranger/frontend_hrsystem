@@ -1,50 +1,60 @@
 <template>
   <div>
-    <div>
+    <b-container>
       <div>
-        Personal Data
+        <h1 style="text-shadow: 2px 2px 5px black;">Import</h1>
       </div>
-      <input type="file" ref="fileInput" @change="handleFileChange" />
-      <button @click="exportToExcel">Export to Excel</button>
-      <br><br>
-      <button @click="PersonalSendData">PersonalSendData</button>
-    </div>
-    <br>
-    <br>
-    <div>
-      <div>
-        Instructor Data
+      <div style="border: 2px solid gray;border-radius: 10px;height: 600px;">
+        <div>
+        <div>
+          Personal Data
+        </div>
+        <input type="file" ref="fileInput" @change="handleFileChange" />
+        <button @click="exportToExcel">Export to Excel</button>
+        <br><br>
+        <button @click="PersonalSendData">PersonalSendData</button>
       </div>
-      <input type="file" ref="fileInput" @change="handleFileChangeInstructor" />
-      <!-- <button @click="exportToExcel">Export to Excel</button>
-      <br><br>
-      <button @click="PersonalSendData">Instructor Data</button> -->
-    </div>
-    <br>
-    <br>
-    <div>
-      <div>
-        T-nos Data
-      </div>
-      <input type="file" ref="fileInput" @change="handleFileChangeTnos" />
-      <!-- <button @click="exportToExcelTnos">Export to Excel</button>
-      <br><br>
-      <button @click="TnosSendData">T-nos Data</button> -->
-    </div>
-    <br>
-    <br>
-    <div>
       <br>
       <br>
       <div>
-        Welfare Data
+        <div>
+          Instructor Data
+        </div>
+        <input type="file" ref="fileInput" @change="handleFileChangeInstructor" />
+        <!-- <button @click="exportToExcel">Export to Excel</button>
+        <br><br>
+        <button @click="PersonalSendData">Instructor Data</button> -->
       </div>
-      <input type="file" ref="fileInput" @change="handleFileChangeWelfare" />
-      <button @click="exportToExcelWelfare">Export to Excel</button>
-      <br><br>
-      <button @click="WelfareSendData">Welfare Data</button>
-    </div>
-    <div>
+      <br>
+      <br>
+      <div>
+        <div>
+          T-nos Data
+        </div>
+        <input type="file" ref="fileInput" @change="handleFileChangeTnos" />
+        <!-- <button @click="exportToExcelTnos">Export to Excel</button>
+        <br><br>
+        <button @click="TnosSendData">T-nos Data</button> -->
+      </div>
+      <br>
+      <br>
+        <div>
+          <br>
+          <br>
+          <div>
+            Welfare Data
+          </div>
+          <input type="file" ref="fileInput" @change="handleFileChangeWelfare" />
+          <button @click="exportToExcelWelfare">Export to Excel</button>
+          <br><br>
+          <button @click="WelfareSendData">Welfare Data</button>
+        </div>
+      </div>
+      <div>
+        <h1 style="text-shadow: 2px 2px 5px black;">Export</h1>
+      </div>
+      <div style="border: 2px solid gray;border-radius: 10px;height: 600px;margin-top: 20px;">
+        <div>
       <div>
         Master Data
       </div>
@@ -77,7 +87,8 @@
       <br><br>
       <button @click="generatePDF">Generate PDF</button>
     </div>
-    <!-- <pre v-if="jsonData">{{ jsonData }}</pre> -->
+      </div>
+    </b-container>
   </div>
 </template>
 

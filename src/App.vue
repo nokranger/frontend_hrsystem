@@ -1,7 +1,7 @@
 <template>
   <div id="app">
     <nav>
-      <router-link to="/dashboard">Dashboard</router-link> || 
+      <router-link to="/dashboard">Import & Export</router-link> || 
       <router-link to="/Attached">Attached</router-link> ||
       <router-link to="/payroll">Payroll</router-link>
     </nav>
@@ -10,12 +10,16 @@
 </template>
 
 <style>
+@import url('https://fonts.googleapis.com/css?family=Noto+Serif');
 #app {
   font-family: Avenir, Helvetica, Arial, sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   text-align: center;
   color: #2c3e50;
+  background-color: #dbdbdb;
+  height: 1450px;
+  font-family: 'Noto Serif', sans-serif;
 }
 
 nav {
