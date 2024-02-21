@@ -4,12 +4,51 @@
         <div>
           <h1 style="text-shadow: 2px 2px 5px black;">Payroll</h1>
         </div>
-        <div style="border: 2px solid gray;border-radius: 10px;height: 120px;box-shadow: 5px 5px 5px #888888;">
+        <div style="border: 2px solid gray;border-radius: 10px;height: 400px;box-shadow: 5px 5px 5px #888888;">
           <span style="display: inline;">
+            <b-row style="margin: 10px;">
+              <b-col>
+                <b-form-datepicker style="width: 100%;" id="example-datepicker1" v-model="dateotfrom" class="mb-2"></b-form-datepicker>
+              </b-col>
+              <b-col>
+                <b-form-datepicker style="width: 100%;" id="example-datepicker2" v-model="dateotto" class="mb-2"></b-form-datepicker>
+              </b-col>
+              <b-col>
+                <div style="text-align: left;">
+                  <b-button style="box-shadow: 5px 5px 5px #888888;" variant="outline-primary" @click="getot">Payroll OT</b-button>
+                </div>
+              </b-col>
+            </b-row>
+          <!-- <b-form-datepicker style="width: 40%;" id="example-datepicker1" v-model="dateotfrom" class="mb-2"></b-form-datepicker>
+          {{ dateotfrom }}
+          to
+          <b-form-datepicker style="width: 40%;" id="example-datepicker2" v-model="dateotto" class="mb-2"></b-form-datepicker>
+          {{ dateotto }}
+          <b-button style="margin: 40px;box-shadow: 5px 5px 5px #888888;" variant="outline-primary" @click="getot">Payroll OT</b-button> -->
+          <b-row style="margin: 10px;">
+            <b-col>
+              <b-form-datepicker style="width: 100%;" id="example-datepicker3" v-model="dateallowancefrom" class="mb-2"></b-form-datepicker>
+            </b-col>
+            <b-col>
+              <b-form-datepicker style="width: 100%;" id="example-datepicker4" v-model="dateallowanceto" class="mb-2"></b-form-datepicker>
+            </b-col>
+            <b-col>
+              <div style="text-align: left;">
+                <b-button style="box-shadow: 5px 5px 5px #888888;" variant="outline-success" @click="getallowance">Payroll Allowance</b-button>
+              </div>
+              <!-- {{ dateotfrom}}{{dateotto}}{{dateallowancefrom}}{{dateallowanceto }} -->
+            </b-col>
+          </b-row>
+          <!-- <b-button style="box-shadow: 5px 5px 5px #888888;" variant="outline-success" @click="getallowance">Payroll Allowance</b-button> -->
+        </span>
+        </div>
+        <!-- <div style="border: 2px solid gray;border-radius: 10px;height: 120px;box-shadow: 5px 5px 5px #888888;">
+          <span style="display: inline;">
+          <b-form-datepicker id="example-datepicker" v-model="value" class="mb-2"></b-form-datepicker>
           <b-button style="margin: 40px;box-shadow: 5px 5px 5px #888888;" variant="outline-primary" @click="getot">Payroll OT</b-button>
           <b-button style="margin: 40px;box-shadow: 5px 5px 5px #888888;" variant="outline-success" @click="getallowance">Payroll Allowance</b-button>
         </span>
-        </div>
+        </div> -->
       </b-container>
     </div>
   </template>
@@ -26,12 +65,20 @@
         excelarrayot3: [],
         excelarrayallowance: [],
         excelarrayallowance2: [],
-        excelarrayallowance3: []
+        excelarrayallowance3: [],
+        dateotfrom: '',
+        dateotto: '',
+        dateallowancefrom: '',
+        dateallowanceto: ''
       }
     },
     methods: {
       async getot () {
-        await axios.get('http://localhost:4000/getdatapayrollot')
+        let from_to = {
+          from: this.dateotfrom,
+          to: this.dateotto
+        }
+        await axios.post('http://localhost:4000/getdatapayrollot', from_to)
         .then(response => {
           console.log('resdata', response.data.result);
           let dataexcel = response.data.result
@@ -40,7 +87,7 @@
         .catch(error => {
           console.error('Error fetching data:', error.message);
         });
-        await axios.get('http://localhost:4000/getdatapayrollot')
+        await axios.post('http://localhost:4000/getdatapayrollot2', from_to)
         .then(response => {
           console.log('resdata', response.data.result);
           let dataexcel = response.data.result
@@ -49,7 +96,7 @@
         .catch(error => {
           console.error('Error fetching data:', error.message);
         });
-        await axios.get('http://localhost:4000/getdatapayrollot')
+        await axios.post('http://localhost:4000/getdatapayrollot3', from_to)
         .then(response => {
           console.log('resdata', response.data.result);
           let dataexcel = response.data.result
@@ -77,6 +124,7 @@
                 }
                 combinedArray.push(combinedObject);
               }
+              console.log('dateTime', combinedArray)
               //export to excell
               const workbook = XLSX.utils.book_new();
               
@@ -94,7 +142,11 @@
         });
       },
       async getallowance () {
-        await axios.get('http://localhost:4000/getdatapayrollallowance')
+        let from_to = {
+          from: this.dateallowancefrom,
+          to: this.dateallowanceto
+        }
+        await axios.post('http://localhost:4000/getdatapayrollallowance', from_to)
         .then(response => {
           console.log('resdata', response.data.result);
           let dataexcel = response.data.result
@@ -103,7 +155,7 @@
         .catch(error => {
           console.error('Error fetching data:', error.message);
         });
-        await axios.get('http://localhost:4000/getdatapayrollallowance2')
+        await axios.post('http://localhost:4000/getdatapayrollallowance2', from_to)
         .then(response => {
           console.log('resdata', response.data.result);
           let dataexcel = response.data.result
@@ -112,7 +164,7 @@
         .catch(error => {
           console.error('Error fetching data:', error.message);
         });
-        await axios.get('http://localhost:4000/getdatapayrollallowance3')
+        await axios.post('http://localhost:4000/getdatapayrollallowance3', from_to)
         .then(response => {
           console.log('resdata', response.data.result);
           let dataexcel = response.data.result

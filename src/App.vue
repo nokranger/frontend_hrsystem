@@ -18,7 +18,7 @@
   text-align: center;
   color: #2c3e50;
   background-color: #dbdbdb;
-  height: 1450px;
+  height: 1500px;
   font-family: 'Noto Serif', sans-serif;
 }
 

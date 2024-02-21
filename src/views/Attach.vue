@@ -4,13 +4,65 @@
       <div>
         <h1 style="text-shadow: 2px 2px 5px black;">Attached</h1>
       </div>
-      <div style="border: 2px solid gray;border-radius: 10px;height: 120px;box-shadow: 5px 5px 5px #888888;">
-        <span  style="display: inline;">
+      <div style="border: 2px solid gray;border-radius: 10px;height: 400px;box-shadow: 5px 5px 5px #888888;">
+        <b-row style="margin: 20px;">
+          <b-col>
+            <b-form-datepicker style="width: 100%;" id="example-datepickerattach7" v-model="dateattach7from" class="mb-2"></b-form-datepicker>
+          </b-col>
+          <b-col>
+            <b-form-datepicker style="width: 100%;" id="example-datepickerattach72" v-model="dateattach7to" class="mb-2"></b-form-datepicker>
+          </b-col>
+          <b-col>
+            <div style="text-align: left;">
+              <b-button variant="outline-primary" @click="getAttach7all" style="box-shadow: 5px 5px 5px #888888;">Attached 7</b-button>
+            </div>
+          </b-col>
+        </b-row>
+        <b-row   style="margin: 20px;">
+          <b-col>
+            <b-form-datepicker style="width: 100%;" id="example-datepickerattach8" v-model="dateattach8from" class="mb-2"></b-form-datepicker>
+          </b-col>
+          <b-col>
+            <b-form-datepicker style="width: 100%;" id="example-datepickerattach82" v-model="dateattach8to" class="mb-2"></b-form-datepicker>
+          </b-col>
+          <b-col>
+            <div style="text-align: left;">
+              <b-button variant="outline-success" @click="getAttach8" style="box-shadow: 5px 5px 5px #888888;">Attached 8</b-button>
+            </div>
+          </b-col>
+        </b-row>
+        <b-row   style="margin: 20px;">
+          <b-col>
+            <b-form-datepicker style="width: 100%;" id="example-datepickerattach9" v-model="dateattach9from" class="mb-2"></b-form-datepicker>
+          </b-col>
+          <b-col>
+            <b-form-datepicker style="width: 100%;" id="example-datepickerattach92" v-model="dateattach9to" class="mb-2"></b-form-datepicker>
+          </b-col>
+          <b-col>
+            <div style="text-align: left;">
+              <b-button variant="outline-danger" @click="getAttach9" style="box-shadow: 5px 5px 5px #888888;">Attached 9</b-button>
+            </div>
+          </b-col>
+        </b-row>
+        <b-row   style="margin: 20px;">
+          <b-col>
+            <b-form-datepicker style="width: 100%;" id="example-datepickerattach10" v-model="dateattach10from" class="mb-2"></b-form-datepicker>
+          </b-col>
+          <b-col>
+            <b-form-datepicker style="width: 100%;" id="example-datepickerattach102" v-model="dateattach10to" class="mb-2"></b-form-datepicker>
+          </b-col>
+          <b-col>
+            <div style="text-align: left;">
+              <b-button variant="outline-warning" @click="getAttach10" style="box-shadow: 5px 5px 5px #888888;">Attached 10</b-button>
+            </div>
+          </b-col>
+        </b-row>
+        <!-- <span  style="display: inline;">
           <b-button variant="outline-primary" @click="getAttach7all" style="margin: 40px;box-shadow: 5px 5px 5px #888888;">Attached 7</b-button>
           <b-button variant="outline-success" @click="getAttach8" style="margin: 40px;box-shadow: 5px 5px 5px #888888;">Attached 8</b-button>
-          <b-button variant="outline-danger" @click="getAttach9all" style="margin: 40px;box-shadow: 5px 5px 5px #888888;">Attached 9</b-button>
+          <b-button variant="outline-danger" @click="getAttach9" style="margin: 40px;box-shadow: 5px 5px 5px #888888;">Attached 9</b-button>
           <b-button variant="outline-warning" @click="getAttach10" style="margin: 40px;box-shadow: 5px 5px 5px #888888;">Attached 10</b-button>
-        </span>
+        </span> -->
       </div>
     </b-container>
     <!-- <span style="display: inline;">
@@ -58,7 +110,15 @@ export default {
       excelarrayattach73: [],
       excelarrayattach9: [],
       excelarrayattach92: [],
-      excelarrayattach93: []
+      excelarrayattach93: [],
+      dateattach7from: '',
+      dateattach7to: '',
+      dateattach8from: '',
+      dateattach8to: '',
+      dateattach9from: '',
+      dateattach9to: '',
+      dateattach10from: '',
+      dateattach10to: ''
     }
   },
   methods: {
@@ -166,16 +226,16 @@ export default {
             // this.excelarraywelfare = dataexcel
             console.log('JSONTYPEOFattach8', this.excelarray.length)
             // //export to excell
-            // const workbook = XLSX.utils.book_new();
+            const workbook = XLSX.utils.book_new();
             
             // // Convert the JSON data to a worksheet
-            // const worksheet = XLSX.utils.json_to_sheet(this.excelarray);
+            const worksheet = XLSX.utils.json_to_sheet(this.excelarray);
 
             // // Add the worksheet to the workbook
-            // XLSX.utils.book_append_sheet(workbook, worksheet, 'attached8-641610');
+            XLSX.utils.book_append_sheet(workbook, worksheet, 'attached8-641610');
 
             // // Save the workbook to a file
-            // XLSX.writeFile(workbook, 'attached8-641610.xlsx');
+            XLSX.writeFile(workbook, 'attached8-641610.xlsx');
             })
       .catch(error => {
         console.error('Error fetching data:', error.message);

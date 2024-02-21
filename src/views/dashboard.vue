@@ -2,17 +2,18 @@
   <div>
     <b-container>
       <div>
-        <h1 style="text-shadow: 2px 2px 5px black;">Import</h1>
+        <h1 style="text-shadow: 2px 2px 5px black;margin: 20px;">Import Data</h1>
       </div>
       <div style="border: 2px solid gray;border-radius: 10px;height: 600px;box-shadow: 5px 5px 5px #888888;">
         <div>
+          <br>
         <div>
           Personal Data
         </div>
         <input type="file" ref="fileInput" @change="handleFileChange" />
-        <button @click="exportToExcel">Export to Excel</button>
+        <!-- <button @click="exportToExcel">Export to Excel</button> -->
         <br><br>
-        <button @click="PersonalSendData">PersonalSendData</button>
+        <!-- <button @click="PersonalSendData">PersonalSendData</button> -->
       </div>
       <br>
       <br>
@@ -45,48 +46,89 @@
             Welfare Data
           </div>
           <input type="file" ref="fileInput" @change="handleFileChangeWelfare" />
-          <button @click="exportToExcelWelfare">Export to Excel</button>
+          <!-- <button @click="exportToExcelWelfare">Export to Excel</button> -->
           <br><br>
-          <button @click="WelfareSendData">Welfare Data</button>
+          <!-- <button @click="WelfareSendData">Welfare Data</button> -->
         </div>
       </div>
       <div>
-        <h1 style="text-shadow: 2px 2px 5px black;">Export</h1>
+        <h1 style="text-shadow: 2px 2px 5px black;margin: 20px;">Export Master Data</h1>
       </div>
-      <div style="border: 2px solid gray;border-radius: 10px;height: 600px;margin-top: 20px;">
+      <div style="border: 2px solid gray;border-radius: 10px;height: 400px;box-shadow: 5px 5px 5px #888888;margin-top: 20px;">
         <div>
-      <div>
+      <!-- <div>
         Master Data
-      </div>
+      </div> -->
       <!-- <input type="file" ref="fileInput" @change="handleFileChangeWelfare" />
       <button @click="exportToExcelWelfare">Export to Excel</button> -->
-      <br><br>{{ excelarray.length }}
-      <button @click="MasterSendData">MasterSendData</button>
+      <!-- <br><br>{{ excelarray.length }} -->
       <br>
       <br>
-      <br>{{ excelarrayinstructor.length }}
-      <button @click="instructorGetData()">instructorgetdata</button>
-      <br>
-      <br>
-      <br>{{ excelarraywelfare.length }}
-      <button @click="welfareGetdata">welfaregetdata</button>
-      <br>
-      <br>
-      <div>
+      <b-row  style="margin: 10px;">
+        <b-col>
+          <b-form-datepicker style="width: 100%;" id="example-datepickertnos" v-model="datetnosfrom" class="mb-2"></b-form-datepicker>
+        </b-col>
+        <b-col>
+          <b-form-datepicker style="width: 100%;" id="example-datepickertnos2" v-model="datetnosto" class="mb-2"></b-form-datepicker>
+        </b-col>
+        <b-col>
+          <div style="text-align: left;">
+            <b-button @click="MasterSendData" variant="outline-primary">TNOS</b-button>
+          </div>
+        </b-col>
+      </b-row>
+      <b-row  style="margin: 10px;">
+        <b-col>
+          <b-form-datepicker style="width: 100%;" id="example-datepickerwelfare" v-model="datewelfarefrom" class="mb-2"></b-form-datepicker>
+        </b-col>
+        <b-col>
+          <b-form-datepicker style="width: 100%;" id="example-datepickerwelfare2" v-model="datewelfareto" class="mb-2"></b-form-datepicker>
+        </b-col>
+        <b-col>
+          <div style="text-align: left;">
+            <b-button @click="instructorGetData()" variant="outline-success">INSTUCTOR</b-button>
+          </div>
+        </b-col>
+      </b-row>
+      <b-row  style="margin: 10px;">
+        <b-col>
+          <b-form-datepicker style="width: 100%;" id="example-datepickerinstuctor" v-model="dateinstuctorfrom" class="mb-2"></b-form-datepicker>
+        </b-col>
+        <b-col>
+          <b-form-datepicker style="width: 100%;" id="example-datepickerinstuctor2" v-model="dateinstuctorto" class="mb-2"></b-form-datepicker>
+        </b-col>
+        <b-col>
+          <div style="text-align: left;">
+            <b-button @click="welfareGetdata" variant="outline-danger">WELFARE</b-button>
+          </div>
+        </b-col>
+      </b-row>
+      <!-- <b-button @click="MasterSendData" variant="outline-primary">TNOS</b-button> -->
+      <!-- <br>
+      <br> -->
+      <!-- <br>{{ excelarrayinstructor.length }} -->
+      <!-- <b-button @click="instructorGetData()" variant="outline-success">INSTUCTOR</b-button> -->
+      <!-- <br>
+      <br> -->
+      <!-- <br>{{ excelarraywelfare.length }} -->
+      <!-- <b-button @click="welfareGetdata" variant="outline-danger">WELFARE</b-button> -->
+      <!-- <br>
+      <br> -->
+      <!-- <div>
         <div>SUM LENGTH = {{ excelarray.length + excelarrayinstructor.length + excelarraywelfare.length}}</div>
-      </div>
+      </div> -->
     </div>
     <br>
     <br>
-    <div>
+    <!-- <div>
       <div>
         Generate PDF
-      </div>
+      </div> -->
       <!-- <input type="file" ref="fileInput" @change="handleFileChangeWelfare" />
       <button @click="exportToExcelWelfare">Export to Excel</button> -->
-      <br><br>
+      <!-- <br><br>
       <button @click="generatePDF">Generate PDF</button>
-    </div>
+    </div> -->
       </div>
     </b-container>
   </div>
@@ -126,7 +168,13 @@ export default {
       jsonDataInstructor2: null,
       testdata: '',
       notoSansThaiFont: null,
-      exportexcelarraywelfare: []
+      exportexcelarraywelfare: [],
+      datetnosfrom: '',
+      datetnosto: '',
+      datewelfarefrom: '',
+      datewelfareto: '',
+      dateinstuctorfrom: '',
+      dateinstuctorto: '',
     };
   },
   mounted () {
@@ -401,7 +449,11 @@ export default {
         name: 'NAMAMAMAM',
         bank_account_number: '12344566'
       }
-      axios.get('http://localhost:4000/masterdata')
+      let from_to = {
+          from: this.datetnosfrom,
+          to: this.datetnosto
+        }
+      axios.post('http://localhost:4000/masterdata', from_to)
       .then(response => {
         console.log('resdata', response.data.result);
         let dataexcel = response.data.result
@@ -446,7 +498,11 @@ export default {
         name: 'NAMAMAMAM',
         bank_account_number: '12344566'
       }
-      axios.get('http://localhost:4000/instructorgetdata')
+      let from_to = {
+          from: this.dateinstuctorfrom,
+          to: this.dateinstuctorto
+        }
+      axios.post('http://localhost:4000/instructorgetdata', from_to)
       .then(response => {
         console.log('resdata', response.data.result);
         let dataexcel = response.data.result
@@ -491,7 +547,11 @@ export default {
         name: 'NAMAMAMAM',
         bank_account_number: '12344566'
       }
-      axios.get('http://localhost:4000/welfaregetdata')
+      let from_to = {
+          from: this.datewelfarefrom,
+          to: this.datewelfareto
+        }
+      axios.post('http://localhost:4000/welfaregetdata', from_to)
       .then(response => {
         console.log('resdata', response.data.result);
         let dataexcel = response.data.result
@@ -567,7 +627,7 @@ export default {
                 to_name: this.excelarrayinstructor[j].DEALER1,
                 tlep_driver_name: this.excelarrayinstructor[j].NAME || '',
                 TAX_FLAG: this.excelarrayinstructor[j].TAX_FLAG || '',
-                yard_out_dateandtime: new Date((this.excelarrayinstructor[j].DEPARTURE_DATETIME - 1) * 24 * 60 * 60 * 1000 + new Date(1900, 0, 0).getTime()) || '',
+                yard_out_dateandtime: this.excelarrayinstructor[j].DEPARTURE_DATETIME || '',
                 total_allowance: this.excelarrayinstructor[j].TRIP_ALLOWANCE || '',
                 total_ot: this.excelarrayinstructor[j].OT_HOURS || '',
                 tlep_driver_code: this.excelarrayinstructor[j].DRIVER1 || '',
@@ -584,7 +644,7 @@ export default {
                 to_name: this.excelarraywelfare[j].DEALER1,
                 tlep_driver_name: this.excelarraywelfare[j].NAME || '',
                 TAX_FLAG: this.excelarraywelfare[j].TAX_FLAG || '',
-                yard_out_dateandtime: new Date((this.excelarraywelfare[j].YARDOUTDATE - 1) * 24 * 60 * 60 * 1000 + new Date(1900, 0, 0).getTime()) || '',
+                yard_out_dateandtime: this.excelarraywelfare[j].YARDOUTDATE || '',
                 total_allowance: this.excelarraywelfare[j].TRIP_ALLOWANCE || '',
                 total_ot: this.excelarraywelfare[j].OT_HOURS || '',
                 tlep_driver_code: this.excelarraywelfare[j].DRIVER1 || '',
