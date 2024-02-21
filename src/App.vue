@@ -1,10 +1,10 @@
 <template>
   <div id="app">
-    <nav>
+    <!-- <nav>
       <router-link to="/dashboard">Import & Export</router-link> || 
       <router-link to="/Attached">Attached</router-link> ||
       <router-link to="/payroll">Payroll</router-link>
-    </nav>
+    </nav> -->
     <router-view/>
   </div>
 </template>

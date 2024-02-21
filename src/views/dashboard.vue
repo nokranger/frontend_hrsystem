@@ -1,5 +1,10 @@
 <template>
   <div>
+    <nav>
+      <router-link to="/dashboard">Import & Export</router-link> || 
+      <router-link to="/Attached">Attached</router-link> ||
+      <router-link to="/payroll">Payroll</router-link>
+    </nav>
     <b-container>
       <div>
         <h1 style="text-shadow: 2px 2px 5px black;margin: 20px;">Import Data</h1>
@@ -129,6 +134,7 @@
       <!-- <br><br>
       <button @click="generatePDF">Generate PDF</button>
     </div> -->
+    <b-button @click="generatePDF">Generate PDF</b-button>
       </div>
     </b-container>
   </div>
@@ -140,7 +146,8 @@ import axios from 'axios';
 const { getJsDateFromExcel } = require("excel-date-to-js");
 // import fs from 'fs'
 
-// import { PDFDocument } from 'pdf-lib'
+import { PDFDocument, StandardFonts, rgb } from 'pdf-lib';
+import * as fontkit from '@btielen/pdf-lib-fontkit';
 // import NotoSerifThai from '../views/NotoSerifThai.ttf'
 // import fontkit from 'fontkit';
 // import aa from '../'
@@ -191,213 +198,208 @@ export default {
     //   });
   },
   methods: {
-    generatePDF() {
-      let data = [
-      { name: 'ดฟหดฟหดฟหดฟหดฟหด', age: 30 },
-      { name: 'ดฟหดฟหดฟหดหฟดหฟ', age: 25 },
-      { name: 'ดฟหดฟหดฟหดหฟดหฟ', age: 25 },
-      { name: 'ดฟหดฟหดฟหดหฟดหฟ', age: 25 },
-      { name: 'ดฟหดฟหดฟหดหฟดหฟ', age: 25 },
-      { name: 'ดฟหดฟหดฟหดหฟดหฟ', age: 25 },
-      { name: 'ดฟหดฟหดฟหดหฟดหฟ', age: 25 },
-      { name: 'ดฟหดฟหดฟหดหฟดหฟ', age: 25 },
-      { name: 'ดฟหดฟหดฟหดหฟดหฟ', age: 25 },
-      { name: 'ดฟหดฟหดฟหดหฟดหฟ', age: 25 },
-      { name: 'ดฟหดฟหดฟหดหฟดหฟ', age: 25 },
-      { name: 'ดฟหดฟหดฟหดหฟดหฟ', age: 25 },
-      { name: 'ดฟหดฟหดฟหดหฟดหฟ', age: 25 },
-      { name: 'ดฟหดฟหดฟหดหฟดหฟ', age: 25 },
-      { name: 'ดฟหดฟหดฟหดหฟดหฟ', age: 25 },
-      { name: 'ดฟหดฟหดฟหดหฟดหฟ', age: 25 },
-      { name: 'ดฟหดฟหดฟหดหฟดหฟ', age: 25 },
-      { name: 'ดฟหดฟหดฟหดหฟดหฟ', age: 25 },
-      { name: 'ดฟหดฟหดฟหดหฟดหฟ', age: 25 },
-      { name: 'ดฟหดฟหดฟหดหฟดหฟ', age: 25 },
-      { name: 'ดฟหดฟหดฟหดหฟดหฟ', age: 25 },
-      { name: 'ดฟหดฟหดฟหดหฟดหฟ', age: 25 },
-      { name: 'ดฟหดฟหดฟหดฟหดฟหด', age: 30 },
-      { name: 'ดฟหดฟหดฟหดหฟดหฟ', age: 25 },
-      { name: 'ดฟหดฟหดฟหดหฟดหฟ', age: 25 },
-      { name: 'ดฟหดฟหดฟหดหฟดหฟ', age: 25 },
-      { name: 'ดฟหดฟหดฟหดหฟดหฟ', age: 25 },
-      { name: 'ดฟหดฟหดฟหดหฟดหฟ', age: 25 },
-      { name: 'ดฟหดฟหดฟหดหฟดหฟ', age: 25 },
-      { name: 'ดฟหดฟหดฟหดหฟดหฟ', age: 25 },
-      { name: 'ดฟหดฟหดฟหดหฟดหฟ', age: 25 },
-      { name: 'ดฟหดฟหดฟหดหฟดหฟ', age: 25 },
-      { name: 'ดฟหดฟหดฟหดหฟดหฟ', age: 25 },
-      { name: 'ดฟหดฟหดฟหดหฟดหฟ', age: 25 },
-      { name: 'ดฟหดฟหดฟหดหฟดหฟ', age: 25 },
-      { name: 'ดฟหดฟหดฟหดหฟดหฟ', age: 25 },
-      { name: 'ดฟหดฟหดฟหดหฟดหฟ', age: 25 },
-      { name: 'ดฟหดฟหดฟหดหฟดหฟ', age: 25 },
-      { name: 'ดฟหดฟหดฟหดหฟดหฟ', age: 25 },
-      { name: 'ดฟหดฟหดฟหดหฟดหฟ', age: 25 },
-      { name: 'ดฟหดฟหดฟหดหฟดหฟ', age: 25 },
-      { name: 'ดฟหดฟหดฟหดหฟดหฟ', age: 25 },
-      { name: 'ดฟหดฟหดฟหดหฟดหฟ', age: 25 },
-      { name: 'ดฟหดฟหดฟหดหฟดหฟ', age: 25 },
-      { name: 'ดฟหดฟหดฟหดฟหดฟหด', age: 30 },
-      { name: 'ดฟหดฟหดฟหดหฟดหฟ', age: 25 },
-      { name: 'ดฟหดฟหดฟหดหฟดหฟ', age: 25 },
-      { name: 'ดฟหดฟหดฟหดหฟดหฟ', age: 25 },
-      { name: 'ดฟหดฟหดฟหดหฟดหฟ', age: 25 },
-      { name: 'ดฟหดฟหดฟหดหฟดหฟ', age: 25 },
-      { name: 'ดฟหดฟหดฟหดหฟดหฟ', age: 25 },
-      { name: 'ดฟหดฟหดฟหดหฟดหฟ', age: 25 },
-      { name: 'ดฟหดฟหดฟหดหฟดหฟ', age: 25 },
-      { name: 'ดฟหดฟหดฟหดหฟดหฟ', age: 25 },
-      { name: 'ดฟหดฟหดฟหดหฟดหฟ', age: 25 },
-      { name: 'ดฟหดฟหดฟหดหฟดหฟ', age: 25 },
-      { name: 'ดฟหดฟหดฟหดหฟดหฟ', age: 25 },
-      { name: 'ดฟหดฟหดฟหดหฟดหฟ', age: 25 },
-      { name: 'ดฟหดฟหดฟหดหฟดหฟ', age: 25 },
-      { name: 'ดฟหดฟหดฟหดหฟดหฟ', age: 25 },
-      { name: 'ดฟหดฟหดฟหดหฟดหฟ', age: 25 },
-      { name: 'ดฟหดฟหดฟหดหฟดหฟ', age: 25 },
-      { name: 'ดฟหดฟหดฟหดหฟดหฟ', age: 25 },
-      { name: 'ดฟหดฟหดฟหดหฟดหฟ', age: 25 },
-      { name: 'ดฟหดฟหดฟหดหฟดหฟ', age: 25 },
-      { name: 'ดฟหดฟหดฟหดหฟดหฟ', age: 25 },
+  //   generatePDF() {
+  //     let data = [
+  //     { name: 'ดฟหดฟหดฟหดฟหดฟหด', age: 30 },
+  //     { name: 'ดฟหดฟหดฟหดหฟดหฟ', age: 25 },
+  //     { name: 'ดฟหดฟหดฟหดหฟดหฟ', age: 25 },
+  //     { name: 'ดฟหดฟหดฟหดหฟดหฟ', age: 25 },
+  //     { name: 'ดฟหดฟหดฟหดหฟดหฟ', age: 25 },
+  //     { name: 'ดฟหดฟหดฟหดหฟดหฟ', age: 25 },
+  //     { name: 'ดฟหดฟหดฟหดหฟดหฟ', age: 25 },
+  //     { name: 'ดฟหดฟหดฟหดหฟดหฟ', age: 25 },
+  //     { name: 'ดฟหดฟหดฟหดหฟดหฟ', age: 25 },
+  //     { name: 'ดฟหดฟหดฟหดหฟดหฟ', age: 25 },
+  //     { name: 'ดฟหดฟหดฟหดหฟดหฟ', age: 25 },
+  //     { name: 'ดฟหดฟหดฟหดหฟดหฟ', age: 25 },
+  //     { name: 'ดฟหดฟหดฟหดหฟดหฟ', age: 25 },
+  //     { name: 'ดฟหดฟหดฟหดหฟดหฟ', age: 25 },
+  //     { name: 'ดฟหดฟหดฟหดหฟดหฟ', age: 25 },
+  //     { name: 'ดฟหดฟหดฟหดหฟดหฟ', age: 25 },
+  //     { name: 'ดฟหดฟหดฟหดหฟดหฟ', age: 25 },
+  //     { name: 'ดฟหดฟหดฟหดหฟดหฟ', age: 25 },
+  //     { name: 'ดฟหดฟหดฟหดหฟดหฟ', age: 25 },
+  //     { name: 'ดฟหดฟหดฟหดหฟดหฟ', age: 25 },
+  //     { name: 'ดฟหดฟหดฟหดหฟดหฟ', age: 25 },
+  //     { name: 'ดฟหดฟหดฟหดหฟดหฟ', age: 25 },
+  //     { name: 'ดฟหดฟหดฟหดฟหดฟหด', age: 30 },
+  //     { name: 'ดฟหดฟหดฟหดหฟดหฟ', age: 25 },
+  //     { name: 'ดฟหดฟหดฟหดหฟดหฟ', age: 25 },
+  //     { name: 'ดฟหดฟหดฟหดหฟดหฟ', age: 25 },
+  //     { name: 'ดฟหดฟหดฟหดหฟดหฟ', age: 25 },
+  //     { name: 'ดฟหดฟหดฟหดหฟดหฟ', age: 25 },
+  //     { name: 'ดฟหดฟหดฟหดหฟดหฟ', age: 25 },
+  //     { name: 'ดฟหดฟหดฟหดหฟดหฟ', age: 25 },
+  //     { name: 'ดฟหดฟหดฟหดหฟดหฟ', age: 25 },
+  //     { name: 'ดฟหดฟหดฟหดหฟดหฟ', age: 25 },
+  //     { name: 'ดฟหดฟหดฟหดหฟดหฟ', age: 25 },
+  //     { name: 'ดฟหดฟหดฟหดหฟดหฟ', age: 25 },
+  //     { name: 'ดฟหดฟหดฟหดหฟดหฟ', age: 25 },
+  //     { name: 'ดฟหดฟหดฟหดหฟดหฟ', age: 25 },
+  //     { name: 'ดฟหดฟหดฟหดหฟดหฟ', age: 25 },
+  //     { name: 'ดฟหดฟหดฟหดหฟดหฟ', age: 25 },
+  //     { name: 'ดฟหดฟหดฟหดหฟดหฟ', age: 25 },
+  //     { name: 'ดฟหดฟหดฟหดหฟดหฟ', age: 25 },
+  //     { name: 'ดฟหดฟหดฟหดหฟดหฟ', age: 25 },
+  //     { name: 'ดฟหดฟหดฟหดหฟดหฟ', age: 25 },
+  //     { name: 'ดฟหดฟหดฟหดหฟดหฟ', age: 25 },
+  //     { name: 'ดฟหดฟหดฟหดหฟดหฟ', age: 25 },
+  //     { name: 'ดฟหดฟหดฟหดฟหดฟหด', age: 30 },
+  //     { name: 'ดฟหดฟหดฟหดหฟดหฟ', age: 25 },
+  //     { name: 'ดฟหดฟหดฟหดหฟดหฟ', age: 25 },
+  //     { name: 'ดฟหดฟหดฟหดหฟดหฟ', age: 25 },
+  //     { name: 'ดฟหดฟหดฟหดหฟดหฟ', age: 25 },
+  //     { name: 'ดฟหดฟหดฟหดหฟดหฟ', age: 25 },
+  //     { name: 'ดฟหดฟหดฟหดหฟดหฟ', age: 25 },
+  //     { name: 'ดฟหดฟหดฟหดหฟดหฟ', age: 25 },
+  //     { name: 'ดฟหดฟหดฟหดหฟดหฟ', age: 25 },
+  //     { name: 'ดฟหดฟหดฟหดหฟดหฟ', age: 25 },
+  //     { name: 'ดฟหดฟหดฟหดหฟดหฟ', age: 25 },
+  //     { name: 'ดฟหดฟหดฟหดหฟดหฟ', age: 25 },
+  //     { name: 'ดฟหดฟหดฟหดหฟดหฟ', age: 25 },
+  //     { name: 'ดฟหดฟหดฟหดหฟดหฟ', age: 25 },
+  //     { name: 'ดฟหดฟหดฟหดหฟดหฟ', age: 25 },
+  //     { name: 'ดฟหดฟหดฟหดหฟดหฟ', age: 25 },
+  //     { name: 'ดฟหดฟหดฟหดหฟดหฟ', age: 25 },
+  //     { name: 'ดฟหดฟหดฟหดหฟดหฟ', age: 25 },
+  //     { name: 'ดฟหดฟหดฟหดหฟดหฟ', age: 25 },
+  //     { name: 'ดฟหดฟหดฟหดหฟดหฟ', age: 25 },
+  //     { name: 'ดฟหดฟหดฟหดหฟดหฟ', age: 25 },
+  //     { name: 'ดฟหดฟหดฟหดหฟดหฟ', age: 25 },
       
-      // Add more data as needed
-    ]
-    const header = { text: 'List of People', style: 'header' };
-    const content = []
-    data.forEach((item) => {
-      content.push(
-        header,
-        { text: `Name: ${item.name}, Age: ${item.age}`, font: 'AngsanaNew', margin: [0, 0, 0, 10]},
-      )
-    })
-    content.pop();
-    const documentDefinition = {
-      content: content,
-      pageBreak: 'auto'
-      // styles: {
-      //   header: {
-      //     fontSize: 18,
-      //     margin: [0, 0, 0, 10]
-      //   }
-      // }
-    };
+  //     // Add more data as needed
+  //   ]
+  //   const header = { text: 'List of People', style: 'header' };
+  //   const content = []
+  //   data.forEach((item) => {
+  //     content.push(
+  //       header,
+  //       { text: `Name: ${item.name}, Age: ${item.age}`, font: 'AngsanaNew', margin: [0, 0, 0, 10]},
+  //     )
+  //   })
+  //   content.pop();
+  //   const documentDefinition = {
+  //     content: content,
+  //     pageBreak: 'auto'
+  //     // styles: {
+  //     //   header: {
+  //     //     fontSize: 18,
+  //     //     margin: [0, 0, 0, 10]
+  //     //   }
+  //     // }
+  //   };
 
-    pdfMake.createPdf(documentDefinition).open();
-  },
-    // async generatePDF(data) {
-    //   const jsonData = [
-    //     { title: 'Product 1', name: 'Document1', price: '$19.99' },
-    //     { title: 'Product 2', name: 'Document2', price: '$29.99' },
-    //     { title: 'Product 3', name: 'Document3', price: '$39.99' },
-    //     { title: 'Product 4', name: 'Document4', price: '$49.99' },
-    //     { title: 'Product 4', name: 'Document4', price: '$49.99' },
-    //     { title: 'Product 4', name: 'Document4', price: '$49.99' },
-    //     { title: 'Product 4', name: 'Document4', price: '$49.99' },
-    //     { title: 'Product 4', name: 'Document4', price: '$49.99' },
-    //     { title: 'Product 4', name: 'Document4', price: '$49.99' },
-    //     { title: 'Product 4', name: 'Document4', price: '$49.99' },
-    //     { title: 'Product 4', name: 'Document4', price: '$49.99' },
-    //     { title: 'Product 4', name: 'Document4', price: '$49.99' },
-    //     { title: 'Product 4', name: 'Document4', price: '$49.99' },
-    //     { title: 'Product 4', name: 'Document4', price: '$49.99' },
-    //     { title: 'Product 4', name: 'Document4', price: '$49.99' },
-    //     { title: 'Product 4', name: 'Document4', price: '$49.99' },
-    //     { title: 'Product 4', name: 'Document4', price: '$49.99' },
-    //     { title: 'Product 4', name: 'Document4', price: '$49.99' },
-    //     { title: 'Product 4', name: 'Document4', price: '$49.99' },
-    //     { title: 'Product 4', name: 'Document4', price: '$49.99' },
-    //     { title: 'Product 4', name: 'Document4', price: '$49.99' },
-    //     { title: 'Product 4', name: 'Document4', price: '$49.99' },
-    //     { title: 'Product 4', name: 'Document4', price: '$49.99' },
-    //     { title: 'Product 4', name: 'Document4', price: '$49.99' },
-    //     { title: 'Product 4', name: 'Document4', price: '$49.99' },
-    //     { title: 'Product 4', name: 'Document4', price: '$49.99' },
-    //     { title: 'Product 4', name: 'Document4', price: '$49.99' },
-    //     { title: 'Product 4', name: 'Document4', price: '$49.99' },
-    //     { title: 'Product 4', name: 'Document4', price: '$49.99' },
-    //     { title: 'Product 4', name: 'Document4', price: '$49.99' },
-    //     { title: 'Product 4', name: 'Document4', price: '$49.99' },
-    //     { title: 'Product 4', name: 'Document4', price: '$49.99' },
-    //     { title: 'Product 4', name: 'Document4', price: '$49.99' },
-    //     { title: 'Product 4', name: 'Document4', price: '$49.99' },
-    //     { title: 'Product 4', name: 'Document4', price: '$49.99' },
-    //     { title: 'Product 4', name: 'Document4', price: '$49.99' },
-    //     { title: 'Product 4', name: 'Document4', price: '$49.99' },
-    //     { title: 'Product 4', name: 'Document4', price: '$49.99' },
-    //     { title: 'Product 4', name: 'Document4', price: '$49.99' },
-    //     { title: 'Product 4', name: 'Document4', price: '$49.99' },
-    //     { title: 'Product 4', name: 'Document4', price: '$49.99' },
-    //     // Add more data as needed
-    //   ];
-    //   // const fontkit = require('@pdf-lib/fontkit')
-    //   // const fontUrl = 'https://cdn.jsdelivr.net/gh/lazywasabi/thai-web-fonts@7/fonts/NotoSansThai/NotoSansThai-Regular.woff2';
-    //   // const response = await fetch(fontUrl);
-    //   // const fontData = await response.arrayBuffer();
-    //   // const notoSansThaiFont = fontkit.create(new Uint8Array(fontData));
-    //   const pdfDoc = await PDFDocument.create();
-    //   let page = pdfDoc.addPage();
-    //   // Customize the PDF content based on your requirements
-    //   let xPosition = 50; // Initial x-position for text
-    //   // const yPosition = 700; // Fixed y-position for horizontal alignment
-    //   let yStart = 700; // Fixed y-position for horizontal titles
-    //   let { width, height } = page.getSize();
-    //   const margin = 50;
-    //   height = 700
-    //   let yPosition = height - margin;
-    //   // Embed the custom font
+  //   pdfMake.createPdf(documentDefinition).open();
+  // },
+    async generatePDF(data) {
+      const jsonData = [
+        { title: 'Product 1', name: 'Document1', price: '$19.99' },
+        { title: 'Product 2', name: 'Document2', price: '$29.99' },
+        { title: 'Product 3', name: 'Document3', price: '$39.99' },
+        { title: 'Product 4', name: 'Document4', price: '$49.99' },
+        { title: 'Product 4', name: 'Document4', price: '$49.99' },
+        { title: 'Product 4', name: 'Document4', price: '$49.99' },
+        { title: 'Product 4', name: 'Document4', price: '$49.99' },
+        { title: 'Product 4', name: 'Document4', price: '$49.99' },
+        { title: 'Product 4', name: 'Document4', price: '$49.99' },
+        { title: 'Product 4', name: 'Document4', price: '$49.99' },
+        { title: 'Product 4', name: 'Document4', price: '$49.99' },
+        { title: 'Product 4', name: 'Document4', price: '$49.99' },
+        { title: 'Product 4', name: 'Document4', price: '$49.99' },
+        { title: 'Product 4', name: 'Document4', price: '$49.99' },
+        { title: 'Product 4', name: 'Document4', price: '$49.99' },
+        { title: 'Product 4', name: 'Document4', price: '$49.99' },
+        { title: 'Product 4', name: 'Document4', price: '$49.99' },
+        { title: 'Product 4', name: 'Document4', price: '$49.99' },
+        { title: 'Product 4', name: 'Document4', price: '$49.99' },
+        { title: 'Product 4', name: 'Document4', price: '$49.99' },
+        { title: 'Product 4', name: 'Document4', price: '$49.99' },
+        { title: 'Product 4', name: 'Document4', price: '$49.99' },
+        { title: 'Product 4', name: 'Document4', price: '$49.99' },
+        { title: 'Product 4', name: 'Document4', price: '$49.99' },
+        { title: 'Product 4', name: 'Document4', price: '$49.99' },
+        { title: 'Product 4', name: 'Document4', price: '$49.99' },
+        { title: 'Product 4', name: 'Document4', price: '$49.99' },
+        { title: 'Product 4', name: 'Document4', price: '$49.99' },
+        { title: 'Product 4', name: 'Document4', price: '$49.99' },
+        { title: 'Product 4', name: 'Document4', price: '$49.99' },
+        { title: 'Product 4', name: 'Document4', price: '$49.99' },
+        { title: 'Product 4', name: 'Document4', price: '$49.99' },
+        { title: 'Product 4', name: 'Document4', price: '$49.99' },
+        { title: 'Product 4', name: 'Document4', price: '$49.99' },
+        { title: 'Product 4', name: 'Document4', price: '$49.99' },
+        { title: 'Product 4', name: 'Document4', price: '$49.99' },
+        { title: 'Product 4', name: 'Document4', price: '$49.99' },
+        { title: 'Product 4', name: 'Document4', price: '$49.99' },
+        { title: 'Product 4', name: 'Document4', price: '$49.99' },
+        { title: 'Product 4', name: 'Document4', price: '$49.99' },
+        { title: 'Product 4', name: 'Document4', price: '$49.99' },
+        // Add more data as needed
+      ];
+      const pdfDoc = await PDFDocument.create();
+      await pdfDoc.registerFontkit(fontkit)
+      let thaiFontBytes = await fetch('https://script-app.github.io/font/THSarabunNew.ttf').then(res => res.arrayBuffer());
+      let thaiFont = await pdfDoc.embedFont(thaiFontBytes);
+      // const rawUpdateFieldAppearances = form.updateFieldAppearances.bind(form);
+      // form.updateFieldAppearances = function () {
+      //   return rawUpdateFieldAppearances(thaiFont);
+      // };
+      let page = pdfDoc.addPage();
+      // Customize the PDF content based on your requirements
+      let xPosition = 50; // Initial x-position for text
+      // const yPosition = 700; // Fixed y-position for horizontal alignment
+      let yStart = 700; // Fixed y-position for horizontal titles
+      let { width, height } = page.getSize();
+      const margin = 50;
+      height = 700
+      let yPosition = height - margin;
+      // Embed the custom font
 
-    //   // const fontBytes = await this.loadFont(NotoSerifThai);
-    //   // const customFont = await pdfDoc.embedFont(fontBytes);
-    //   const fontSize = 12; //
+      // const fontBytes = await this.loadFont(NotoSerifThai);
+      // const customFont = await pdfDoc.embedFont(fontBytes);
+      const fontSize = 12; //
 
-    //   page.drawText(`Titleฟฟฟฟฟฟ`, { x: 50, y: 720 , size: fontSize, font: this.notoSansThaiFont});
-    //   page.drawText(`Name`, { x: 200, y: 720 , size: fontSize});
-    //   page.drawText(`Price`, { x: 350, y: 720 , size: fontSize});
-    //   let count = 0
-    //   let countPage = 1
-    //   page.drawText(`Page${countPage}`, { x: 450, y: 720 , size: fontSize});
-    //   for (const data of jsonData) {
-    //     console.log('count', jsonData.length)
-    //     // const titleHeight = 20; // Adjust as needed
-    //     const descriptionHeight = 30; // Adjust as needed
+      page.drawText(`หฟกฟหดฟห`, { x: 50, y: 720 , size: fontSize, thaiFont});
+      page.drawText(`Name`, { x: 200, y: 720 , size: fontSize});
+      page.drawText(`Price`, { x: 350, y: 720 , size: fontSize});
+      let count = 0
+      let countPage = 1
+      page.drawText(`Page${countPage}`, { x: 450, y: 720 , size: fontSize});
+      for (const data of jsonData) {
+        console.log('count', jsonData.length)
+        // const titleHeight = 20; // Adjust as needed
+        const descriptionHeight = 30; // Adjust as needed
 
-    //     // Check if there is enough space on the current page
-    //     if (yPosition - descriptionHeight < margin) {
-    //       countPage++;
-    //       // Create a new page if the content doesn't fit
-    //       page = pdfDoc.addPage();
-    //       page.drawText(`Title`, { x: 50, y: 720 , size: fontSize});
-    //       page.drawText(`Name`, { x: 200, y: 720 , size: fontSize});
-    //       page.drawText(`Price`, { x: 350, y: 720 , size: fontSize});
-    //       page.drawText(`Page${countPage}`, { x: 450, y: 720 , size: fontSize});
-    //       yPosition = height - margin;
-    //     }
-    //     page.drawText(`${data.title}`, { x: 50, y: yPosition, fontSize});
-    //     // const yNameStart = yStart + 20;
-    //     page.drawText(`${data.name}`, { x: 200, y: yPosition, fontSize});
-    //     // const yPriceStart = yNameStart + 20;
-    //     page.drawText(`${data.price}`, { x: 350, y: yPosition, fontSize});
-    //     yPosition -= descriptionHeight; // Adjust x-position for the next entry
-    //     count++
-    //     if (count > jsonData.length - 1) {
-    //       console.log('countPDF ', count);
-    //       page.drawText(`Total`, { x: 350, y: yPosition - 20 , size: fontSize});
-    //     }
-    //   }
+        // Check if there is enough space on the current page
+        if (yPosition - descriptionHeight < margin) {
+          countPage++;
+          // Create a new page if the content doesn't fit
+          page = pdfDoc.addPage();
+          page.drawText(`Title`, { x: 50, y: 720 , size: fontSize});
+          page.drawText(`Name`, { x: 200, y: 720 , size: fontSize});
+          page.drawText(`Price`, { x: 350, y: 720 , size: fontSize});
+          page.drawText(`Page${countPage}`, { x: 450, y: 720 , size: fontSize});
+          yPosition = height - margin;
+        }
+        page.drawText(`${data.title}`, { x: 50, y: yPosition, fontSize});
+        // const yNameStart = yStart + 20;
+        page.drawText(`${data.name}`, { x: 200, y: yPosition, fontSize});
+        // const yPriceStart = yNameStart + 20;
+        page.drawText(`${data.price}`, { x: 350, y: yPosition, fontSize});
+        yPosition -= descriptionHeight; // Adjust x-position for the next entry
+        count++
+        if (count > jsonData.length - 1) {
+          console.log('countPDF ', count);
+          page.drawText(`Total`, { x: 350, y: yPosition - 20 , size: fontSize});
+        }
+      }
 
-    //   // page.drawText(`${jsonData.title}`, { x: 50, y: 700 });
-    //   // page.drawText(`${jsonData.name}`, { x: 200, y: 700 });
-    //   // page.drawText(`${jsonData.price}`, { x: 350, y: 700 });
-    //   // page.drawText(`${jsonData.title}`, { x: 50, y: 720 });
-    //   // page.drawText(`${jsonData.name}`, { x: 200, y: 720 });
-    //   // page.drawText(`${jsonData.price}`, { x: 350, y: 720 });
-
-    //   // Save the PDF to a file or display it in a new tab
-    //   const pdfBytes = await pdfDoc.save();
-    //   const blob = new Blob([pdfBytes], { type: 'application/pdf' });
-    //   const url = URL.createObjectURL(blob);
-    //   window.open(url, '_blank');
-    // },
+      // Save the PDF to a file or display it in a new tab
+      const pdfBytes = await pdfDoc.save();
+      const blob = new Blob([pdfBytes], { type: 'application/pdf' });
+      const url = URL.createObjectURL(blob);
+      window.open(url, '_blank');
+    },
     PersonalSendData () {
       this.testdata = {
         emp_code: '12345',
