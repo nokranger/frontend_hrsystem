@@ -45,7 +45,7 @@
           </b-col>
           <b-col>
             <div style="text-align: left;">
-              <b-button variant="outline-danger" @click="getAttach9" style="box-shadow: 5px 5px 5px #888888;">Attached 9</b-button>
+              <b-button variant="outline-danger" @click="getAttach9all" style="box-shadow: 5px 5px 5px #888888;">Attached 9</b-button>
             </div>
           </b-col>
         </b-row>
@@ -152,7 +152,11 @@ export default {
       });
     },
     async getAttach7all () {
-      await axios.get('http://localhost:4000/getdataattach7')
+      let from_to = {
+          from: this.dateattach7from,
+          to: this.dateattach7to
+        }
+      await axios.post('http://localhost:4000/getdataattach7', from_to)
       .then(response => {
         console.log('resdata', response.data.result);
         let dataexcel = response.data.result
@@ -161,7 +165,7 @@ export default {
       .catch(error => {
         console.error('Error fetching data:', error.message);
       });
-      await axios.get('http://localhost:4000/getdataattach72')
+      await axios.post('http://localhost:4000/getdataattach72', from_to)
       .then(response => {
         console.log('resdata', response.data.result);
         let dataexcel = response.data.result
@@ -171,7 +175,7 @@ export default {
       .catch(error => {
         console.error('Error fetching data:', error.message);
       });
-      await axios.get('http://localhost:4000/getdataattach73')
+      await axios.post('http://localhost:4000/getdataattach73', from_to)
       .then(response => {
         console.log('resdata', response.data.result);
         let dataexcel = response.data.result
@@ -223,7 +227,11 @@ export default {
       });
     },
     getAttach8 () {
-      axios.get('http://localhost:4000/getdataattach8')
+      let from_to = {
+          from: this.dateattach8from,
+          to: this.dateattach8to
+        }
+      axios.post('http://localhost:4000/getdataattach8', from_to)
       .then(response => {
         // console.log('resdata', response.data.result);
         let dataexcel = response.data.result
@@ -247,7 +255,11 @@ export default {
       });
     },
     getAttach9 () {
-      axios.get('http://localhost:4000/getdataattach9')
+      let from_to = {
+          from: this.dateattach9from,
+          to: this.dateattach9to
+        }
+      axios.post('http://localhost:4000/getdataattach9', from_to)
       .then(response => {
         console.log('resdata', response.data.result);
         let dataexcel = response.data.result
@@ -271,7 +283,11 @@ export default {
       });
     },
     async getAttach9all () {
-      await axios.get('http://localhost:4000/getdataattach9')
+      let from_to = {
+          from: this.dateattach9from,
+          to: this.dateattach9to
+        }
+      await axios.post('http://localhost:4000/getdataattach9', from_to)
       .then(response => {
         console.log('resdata', response.data.result);
         let dataexcel = response.data.result
@@ -280,7 +296,7 @@ export default {
       .catch(error => {
         console.error('Error fetching data:', error.message);
       });
-      await axios.get('http://localhost:4000/getdataattach92')
+      await axios.post('http://localhost:4000/getdataattach92', from_to)
       .then(response => {
         console.log('resdata', response.data.result);
         let dataexcel = response.data.result
@@ -289,7 +305,7 @@ export default {
       .catch(error => {
         console.error('Error fetching data:', error.message);
       });
-      await axios.get('http://localhost:4000/getdataattach93')
+      await axios.post('http://localhost:4000/getdataattach93', from_to)
       .then(response => {
         console.log('resdata', response.data.result);
         let dataexcel = response.data.result
@@ -338,7 +354,11 @@ export default {
     },
     
     getAttach10 () {
-      axios.get('http://localhost:4000/getdataattach10')
+      let from_to = {
+          from: this.dateattach10from,
+          to: this.dateattach10to
+        }
+      axios.post('http://localhost:4000/getdataattach10', from_to)
       .then(response => {
         console.log('resdata', response.data.result);
         let dataexcel = response.data.result
