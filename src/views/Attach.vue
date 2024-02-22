@@ -253,11 +253,13 @@ export default {
       page.drawText(`บริษัท โตโยต้า ทรานสปอร์ต (ประเทศไทย) จํากัด`, { x: 170, y: 800 , size: 20, font: thaiFont});
       page.drawText(`สรุปยอดเงินเบี้ยเลี้ยง/ค่าขับและสวัสดิการของพนักงาน`, { x: 140, y: 780 , size: 20, font: thaiFont});
       page.drawText(`เข้าบัญชีพนักงานวันที่ 5/15/2023`, { x: 190, y: 760 , size: 20, font: thaiFont});
+      page.drawText(`__________________________________________________________________________________`, { x: 10, y: 750 , size: 20, font: thaiFont});
       page.drawText(`ลำดับ`, { x: 50, y: 720 , size: fontSize, font: thaiFont});
       page.drawText(`เลขที่บันชี`, { x: 100, y: 720 , size: fontSize, font: thaiFont});
       page.drawText(`รหัส`, { x: 220, y: 720 , size: fontSize, font: thaiFont});
       page.drawText(`ชื่อ - นามสกุล`, { x: 300, y: 720 , size: fontSize, font: thaiFont});
       page.drawText(`จำนวนเงิน`, { x: 500, y: 720 , size: fontSize, font: thaiFont});
+      page.drawText(`__________________________________________________________________________________`, { x: 10, y: 710 , size: 20, font: thaiFont});
       let count = 0
       let countPage = 1
       let sumValue = datas.reduce((acc, obj) => acc + parseInt(obj.total_allowance), 0);
@@ -276,11 +278,13 @@ export default {
           page.drawText(`บริษัท โตโยต้า ทรานสปอร์ต (ประเทศไทย) จํากัด`, { x: 170, y: 800 , size: 20, font: thaiFont});
           page.drawText(`สรุปยอดเงินเบี้ยเลี้ยง/ค่าขับและสวัสดิการของพนักงาน`, { x: 140, y: 780 , size: 20, font: thaiFont});
           page.drawText(`เข้าบัญชีพนักงานวันที่ 5/15/2023`, { x: 190, y: 760 , size: 20, font: thaiFont});
+          page.drawText(`__________________________________________________________________________________`, { x: 10, y: 750 , size: 20, font: thaiFont});
           page.drawText(`ลำดับ`, { x: 50, y: 720 , size: fontSize, font: thaiFont});
           page.drawText(`เลขที่บันชี`, { x: 100, y: 720 , size: fontSize, font: thaiFont});
           page.drawText(`รหัส`, { x: 220, y: 720 , size: fontSize, font: thaiFont});
           page.drawText(`ชื่อ - นามสกุล`, { x: 300, y: 720 , size: fontSize, font: thaiFont});
           page.drawText(`จำนวนเงิน`, { x: 500, y: 720 , size: fontSize, font: thaiFont});
+          page.drawText(`__________________________________________________________________________________`, { x: 10, y: 710 , size: 20, font: thaiFont});
           // page.drawText(`Page${countPage}`, { x: 450, y: 720 , size: fontSize});
           yPosition = height - margin;
         }
@@ -295,6 +299,7 @@ export default {
         count++
         if (count > datas.length - 1) {
           console.log('countPDF ', count);
+          page.drawText(`__________________________________________________________________________________`, { x: 10, y: yPosition + 20 , size: 20, font: thaiFont});
           page.drawText(`รวม ${sumValue}`, { x: 470, y: yPosition - 20 , size: 20, font: thaiFont});
         }
       }
