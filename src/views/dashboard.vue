@@ -134,12 +134,11 @@
       <!-- <br><br>
       <button @click="generatePDF">Generate PDF</button>
     </div> -->
-    <b-button @click="generatePDF">Generate PDF</b-button>
+    <!-- <b-button @click="generatePDF()">Generate PDF</b-button> -->
       </div>
     </b-container>
   </div>
 </template>
-
 <script>
 import * as XLSX from 'xlsx';
 import axios from 'axios';
@@ -147,10 +146,9 @@ const { getJsDateFromExcel } = require("excel-date-to-js");
 // import fs from 'fs'
 
 import { PDFDocument, StandardFonts, rgb } from 'pdf-lib';
-import * as fontkit from '@btielen/pdf-lib-fontkit';
-// import NotoSerifThai from '../views/NotoSerifThai.ttf'
-// import fontkit from 'fontkit';
-// import aa from '../'
+import fontkit from '@pdf-lib/fontkit';
+// import * as fontkit from 'pdf-lib';
+// const fontKit = require ('@pdf-lib/fontkit')
 export default {
   data() {
     return {
@@ -198,6 +196,15 @@ export default {
     //   });
   },
   methods: {
+    testPDF () {
+      axios.get('http://localhost:4000/pdfget')
+      .then(response => {
+        console.log('resdata', response.data.result);
+            })
+      .catch(error => {
+        console.error('Error fetching data:', error.message);
+      });
+    },
   //   generatePDF() {
   //     let data = [
   //     { name: 'ดฟหดฟหดฟหดฟหดฟหด', age: 30 },
@@ -292,6 +299,7 @@ export default {
   //   pdfMake.createPdf(documentDefinition).open();
   // },
     async generatePDF(data) {
+      // let fontkit = require ('pdf-lib-fontkit')
       const jsonData = [
         { title: 'Product 1', name: 'Document1', price: '$19.99' },
         { title: 'Product 2', name: 'Document2', price: '$29.99' },
@@ -336,14 +344,11 @@ export default {
         { title: 'Product 4', name: 'Document4', price: '$49.99' },
         // Add more data as needed
       ];
-      const pdfDoc = await PDFDocument.create();
-      await pdfDoc.registerFontkit(fontkit)
-      let thaiFontBytes = await fetch('https://script-app.github.io/font/THSarabunNew.ttf').then(res => res.arrayBuffer());
-      let thaiFont = await pdfDoc.embedFont(thaiFontBytes);
-      // const rawUpdateFieldAppearances = form.updateFieldAppearances.bind(form);
-      // form.updateFieldAppearances = function () {
-      //   return rawUpdateFieldAppearances(thaiFont);
-      // };
+      const pdfDoc = await PDFDocument.create()
+      pdfDoc.registerFontkit(fontkit)
+      let urls = 'https://script-app.github.io/font/THSarabunNew.ttf'
+      let thaiFontBytes = await fetch(urls).then(res => res.arrayBuffer());
+      let thaiFont = await pdfDoc.embedFont(thaiFontBytes)
       let page = pdfDoc.addPage();
       // Customize the PDF content based on your requirements
       let xPosition = 50; // Initial x-position for text
@@ -357,14 +362,41 @@ export default {
 
       // const fontBytes = await this.loadFont(NotoSerifThai);
       // const customFont = await pdfDoc.embedFont(fontBytes);
-      const fontSize = 12; //
+      const fontSize = 17; //
+      // const text = 'This is text in an embedded font!หฟฟหฟหห'
+      // const textSize = 35
+      // const textWidth = thaiFont.widthOfTextAtSize(text, textSize)
+      // const textHeight = thaiFont.heightAtSize(textSize)
 
-      page.drawText(`หฟกฟหดฟห`, { x: 50, y: 720 , size: fontSize, thaiFont});
-      page.drawText(`Name`, { x: 200, y: 720 , size: fontSize});
-      page.drawText(`Price`, { x: 350, y: 720 , size: fontSize});
+      // // Draw the string of text on the page
+      // page.drawText(text, {
+      //   x: 40,
+      //   y: 450,
+      //   size: textSize,
+      //   font: thaiFont,
+      //   color: rgb(0, 0.53, 0.71),
+      // })
+
+      // // Draw a box around the string of text
+      // page.drawRectangle({
+      //   x: 40,
+      //   y: 450,
+      //   width: textWidth,
+      //   height: textHeight,
+      //   borderColor: rgb(1, 0, 0),
+      //   borderWidth: 1.5,
+      // })
+      page.drawText(`บริษัท โตโยต้า ทรานสปอร์ต (ประเทศไทย) จํากัด`, { x: 235, y: 800 , size: fontSize, font: thaiFont});
+      page.drawText(`สรุปยอดเงินเบี้ยเลี้ยง/ค่าขับและสวัสดิการของพนักงาน`, { x: 235, y: 780 , size: fontSize, font: thaiFont});
+      page.drawText(`เข้าบัญชีพนักงานวันที่ 5/15/2023`, { x: 235, y: 760 , size: fontSize, font: thaiFont});
+      page.drawText(`ลำดับ`, { x: 50, y: 720 , size: fontSize, font: thaiFont});
+      page.drawText(`เลขที่บันชี`, { x: 100, y: 720 , size: fontSize, font: thaiFont});
+      page.drawText(`รหัส`, { x: 200, y: 720 , size: fontSize, font: thaiFont});
+      page.drawText(`ชื่อ - นามสกุล`, { x: 350, y: 720 , size: fontSize, font: thaiFont});
+      page.drawText(`จำนวนเงิน`, { x: 500, y: 720 , size: fontSize, font: thaiFont});
       let count = 0
       let countPage = 1
-      page.drawText(`Page${countPage}`, { x: 450, y: 720 , size: fontSize});
+      // page.drawText(`Page${countPage}`, { x: 450, y: 720 , size: fontSize});
       for (const data of jsonData) {
         console.log('count', jsonData.length)
         // const titleHeight = 20; // Adjust as needed
@@ -375,10 +407,15 @@ export default {
           countPage++;
           // Create a new page if the content doesn't fit
           page = pdfDoc.addPage();
-          page.drawText(`Title`, { x: 50, y: 720 , size: fontSize});
-          page.drawText(`Name`, { x: 200, y: 720 , size: fontSize});
-          page.drawText(`Price`, { x: 350, y: 720 , size: fontSize});
-          page.drawText(`Page${countPage}`, { x: 450, y: 720 , size: fontSize});
+          page.drawText(`บริษัท โตโยต้า ทรานสปอร์ต (ประเทศไทย) จํากัด`, { x: 235, y: 800 , size: fontSize, font: thaiFont});
+          page.drawText(`สรุปยอดเงินเบี้ยเลี้ยง/ค่าขับและสวัสดิการของพนักงาน`, { x: 235, y: 780 , size: fontSize, font: thaiFont});
+          page.drawText(`เข้าบัญชีพนักงานวันที่ 5/15/2023`, { x: 235, y: 760 , size: fontSize, font: thaiFont});
+          page.drawText(`ลำดับ`, { x: 50, y: 720 , size: fontSize, font: thaiFont});
+          page.drawText(`เลขที่บันชี`, { x: 100, y: 720 , size: fontSize, font: thaiFont});
+          page.drawText(`รหัส`, { x: 200, y: 720 , size: fontSize, font: thaiFont});
+          page.drawText(`ชื่อ - นามสกุล`, { x: 350, y: 720 , size: fontSize, font: thaiFont});
+          page.drawText(`จำนวนเงิน`, { x: 500, y: 720 , size: fontSize, font: thaiFont});
+          // page.drawText(`Page${countPage}`, { x: 450, y: 720 , size: fontSize});
           yPosition = height - margin;
         }
         page.drawText(`${data.title}`, { x: 50, y: yPosition, fontSize});

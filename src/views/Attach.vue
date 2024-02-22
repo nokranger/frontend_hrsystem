@@ -106,6 +106,8 @@
 <script>
 import * as XLSX from 'xlsx';
 import axios from 'axios';
+import { PDFDocument, StandardFonts, rgb } from 'pdf-lib';
+import fontkit from '@pdf-lib/fontkit';
 export default {
   data () {
     return {
@@ -123,7 +125,8 @@ export default {
       dateattach9from: '',
       dateattach9to: '',
       dateattach10from: '',
-      dateattach10to: ''
+      dateattach10to: '',
+      pdfdata: ''
     }
   },
   methods: {
@@ -209,22 +212,98 @@ export default {
                 total_allowance: this.excelarrayattach73[i].total_allowance || '',
               }
               combinedArray.push(combinedObject);
+              this.pdfdata = combinedArray
             }
-            //export to excell
-            const workbook = XLSX.utils.book_new();
+            // //export to excell
+            // const workbook = XLSX.utils.book_new();
             
-            // Convert the JSON data to a worksheet
-            const worksheet = XLSX.utils.json_to_sheet(combinedArray);
+            // // Convert the JSON data to a worksheet
+            // const worksheet = XLSX.utils.json_to_sheet(combinedArray);
 
-            // Add the worksheet to the workbook
-            XLSX.utils.book_append_sheet(workbook, worksheet, 'attached7');
+            // // Add the worksheet to the workbook
+            // XLSX.utils.book_append_sheet(workbook, worksheet, 'attached7');
 
-            // Save the workbook to a file
-            XLSX.writeFile(workbook, 'attached7.xlsx');
+            // // Save the workbook to a file
+            // XLSX.writeFile(workbook, 'attached7.xlsx');
             })
       .catch(error => {
         console.error('Error fetching data:', error.message);
       });
+      await this.generatePDF(this.pdfdata)
+    },
+    async generatePDF(datas) {
+
+      const pdfDoc = await PDFDocument.create()
+      pdfDoc.registerFontkit(fontkit)
+      let urls = 'https://script-app.github.io/font/THSarabunNew.ttf'
+      let thaiFontBytes = await fetch(urls).then(res => res.arrayBuffer());
+      let thaiFont = await pdfDoc.embedFont(thaiFontBytes)
+      let page = pdfDoc.addPage();
+      // Customize the PDF content based on your requirements
+      let xPosition = 50; // Initial x-position for text
+      // const yPosition = 700; // Fixed y-position for horizontal alignment
+      let yStart = 700; // Fixed y-position for horizontal titles
+      let { width, height } = page.getSize();
+      const margin = 50;
+      height = 730
+      let yPosition = height - margin;
+
+      const fontSize = 17; //
+      
+      page.drawText(`บริษัท โตโยต้า ทรานสปอร์ต (ประเทศไทย) จํากัด`, { x: 170, y: 800 , size: 20, font: thaiFont});
+      page.drawText(`สรุปยอดเงินเบี้ยเลี้ยง/ค่าขับและสวัสดิการของพนักงาน`, { x: 140, y: 780 , size: 20, font: thaiFont});
+      page.drawText(`เข้าบัญชีพนักงานวันที่ 5/15/2023`, { x: 190, y: 760 , size: 20, font: thaiFont});
+      page.drawText(`ลำดับ`, { x: 50, y: 720 , size: fontSize, font: thaiFont});
+      page.drawText(`เลขที่บันชี`, { x: 100, y: 720 , size: fontSize, font: thaiFont});
+      page.drawText(`รหัส`, { x: 220, y: 720 , size: fontSize, font: thaiFont});
+      page.drawText(`ชื่อ - นามสกุล`, { x: 300, y: 720 , size: fontSize, font: thaiFont});
+      page.drawText(`จำนวนเงิน`, { x: 500, y: 720 , size: fontSize, font: thaiFont});
+      let count = 0
+      let countPage = 1
+      let sumValue = datas.reduce((acc, obj) => acc + parseInt(obj.total_allowance), 0);
+      // page.drawText(`Page${countPage}`, { x: 450, y: 720 , size: fontSize});
+      for (const data of datas) {
+        console.log('count', datas.length)
+        // const sumValue = data.reduce((acc, obj) => acc + parseInt(obj.total_allowance), 0);
+        // const titleHeight = 20; // Adjust as needed
+        const descriptionHeight = 30; // Adjust as needed
+
+        // Check if there is enough space on the current page
+        if (yPosition - descriptionHeight < margin) {
+          countPage++;
+          // Create a new page if the content doesn't fit
+          page = pdfDoc.addPage();
+          page.drawText(`บริษัท โตโยต้า ทรานสปอร์ต (ประเทศไทย) จํากัด`, { x: 170, y: 800 , size: 20, font: thaiFont});
+          page.drawText(`สรุปยอดเงินเบี้ยเลี้ยง/ค่าขับและสวัสดิการของพนักงาน`, { x: 140, y: 780 , size: 20, font: thaiFont});
+          page.drawText(`เข้าบัญชีพนักงานวันที่ 5/15/2023`, { x: 190, y: 760 , size: 20, font: thaiFont});
+          page.drawText(`ลำดับ`, { x: 50, y: 720 , size: fontSize, font: thaiFont});
+          page.drawText(`เลขที่บันชี`, { x: 100, y: 720 , size: fontSize, font: thaiFont});
+          page.drawText(`รหัส`, { x: 220, y: 720 , size: fontSize, font: thaiFont});
+          page.drawText(`ชื่อ - นามสกุล`, { x: 300, y: 720 , size: fontSize, font: thaiFont});
+          page.drawText(`จำนวนเงิน`, { x: 500, y: 720 , size: fontSize, font: thaiFont});
+          // page.drawText(`Page${countPage}`, { x: 450, y: 720 , size: fontSize});
+          yPosition = height - margin;
+        }
+        page.drawText(`${count+1}`, { x: 50, y: yPosition, fontSize, font: thaiFont});
+        page.drawText(`${data.bank_account_number}`, { x: 90, y: yPosition, fontSize, font: thaiFont});
+        // const yNameStart = yStart + 20;
+        page.drawText(`${data.emp_code}`, { x: 220, y: yPosition, fontSize, font: thaiFont});
+        // const yPriceStart = yNameStart + 20;
+        page.drawText(`${data.name}`, { x: 300, y: yPosition, fontSize, font: thaiFont});
+        page.drawText(`${data.total_allowance}`, { x: 500, y: yPosition, fontSize, font: thaiFont});
+        yPosition -= descriptionHeight; // Adjust x-position for the next entry
+        count++
+        if (count > datas.length - 1) {
+          console.log('countPDF ', count);
+          page.drawText(`รวม ${sumValue}`, { x: 470, y: yPosition - 20 , size: 20, font: thaiFont});
+        }
+      }
+
+      // Save the PDF to a file or display it in a new tab
+      const pdfBytes = await pdfDoc.save();
+      const blob = new Blob([pdfBytes], { type: 'application/pdf' });
+      const url = URL.createObjectURL(blob);
+      window.open(url, '_blank');
     },
     getAttach8 () {
       let from_to = {
