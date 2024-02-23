@@ -18,7 +18,10 @@
             <b-form-datepicker style="width: 100%;" id="example-datepickerattach72" v-model="dateattach7to" class="mb-2"></b-form-datepicker>
           </b-col>
           <b-col>
-            <div style="text-align: left;">
+            <b-form-datepicker style="width: 100%;" id="example-datepickerattach73" v-model="dateattach7select" class="mb-2"></b-form-datepicker>
+          </b-col>
+          <b-col>
+            <div style="text-align: center;">
               <b-button variant="outline-primary" @click="getAttach7all" style="box-shadow: 5px 5px 5px #888888;">Attached 7</b-button>
             </div>
           </b-col>
@@ -31,7 +34,10 @@
             <b-form-datepicker style="width: 100%;" id="example-datepickerattach82" v-model="dateattach8to" class="mb-2"></b-form-datepicker>
           </b-col>
           <b-col>
-            <div style="text-align: left;">
+            <b-form-datepicker style="width: 100%;" id="example-datepickerattach73" v-model="dateattach8select" class="mb-2"></b-form-datepicker>
+          </b-col>
+          <b-col>
+            <div style="text-align: center;">
               <b-button variant="outline-success" @click="getAttach8" style="box-shadow: 5px 5px 5px #888888;">Attached 8</b-button>
             </div>
           </b-col>
@@ -44,7 +50,10 @@
             <b-form-datepicker style="width: 100%;" id="example-datepickerattach92" v-model="dateattach9to" class="mb-2"></b-form-datepicker>
           </b-col>
           <b-col>
-            <div style="text-align: left;">
+            <b-form-datepicker style="width: 100%;" id="example-datepickerattach73" v-model="dateattach9select" class="mb-2"></b-form-datepicker>
+          </b-col>
+          <b-col>
+            <div style="text-align: center;">
               <b-button variant="outline-danger" @click="getAttach9all" style="box-shadow: 5px 5px 5px #888888;">Attached 9</b-button>
             </div>
           </b-col>
@@ -57,49 +66,16 @@
             <b-form-datepicker style="width: 100%;" id="example-datepickerattach102" v-model="dateattach10to" class="mb-2"></b-form-datepicker>
           </b-col>
           <b-col>
-            <div style="text-align: left;">
+            <b-form-datepicker style="width: 100%;" id="example-datepickerattach73" v-model="dateattach10select" class="mb-2"></b-form-datepicker>
+          </b-col>
+          <b-col>
+            <div style="text-align: center;">
               <b-button variant="outline-warning" @click="getAttach10" style="box-shadow: 5px 5px 5px #888888;">Attached 10</b-button>
             </div>
           </b-col>
         </b-row>
-        <!-- <span  style="display: inline;">
-          <b-button variant="outline-primary" @click="getAttach7all" style="margin: 40px;box-shadow: 5px 5px 5px #888888;">Attached 7</b-button>
-          <b-button variant="outline-success" @click="getAttach8" style="margin: 40px;box-shadow: 5px 5px 5px #888888;">Attached 8</b-button>
-          <b-button variant="outline-danger" @click="getAttach9" style="margin: 40px;box-shadow: 5px 5px 5px #888888;">Attached 9</b-button>
-          <b-button variant="outline-warning" @click="getAttach10" style="margin: 40px;box-shadow: 5px 5px 5px #888888;">Attached 10</b-button>
-        </span> -->
       </div>
     </b-container>
-    <!-- <span style="display: inline;">
-      <b-button @click="getAttach7" style="margin: 10px;">Attached 7</b-button>
-      <b-button @click="getAttach7all" style="margin: 10px;">Attached 7 All</b-button>
-      <br>
-      <br>
-    </span>
-    <div>
-      <span  style="display: inline;">
-        <b-button @click="getAttach8" style="margin: 10px;">Attached 8</b-button>
-        <b-button @click="getAttach8" style="margin: 10px;">Attached 8</b-button>
-      </span> -->
-      <!-- <div>EMPCODE: 641610</div> -->
-    <!-- </div>
-    <br>
-    <br>
-    <div>
-      <span style="display: inline;">
-        <b-button @click="getAttach9" style="margin: 10px;">Attached 9</b-button>
-        <b-button @click="getAttach9all" style="margin: 10px;">Attached 9 All</b-button>
-      </span>
-    </div>
-    <br>
-    <br>
-    <div>
-      <span style="display: inline;">
-        <b-button @click="getAttach10" style="margin: 10px;">Attached 10</b-button>
-        <b-button @click="getAttach10" style="margin: 10px;">Attached 10</b-button>
-      </span> -->
-      <!-- <div>EMPCODE: 043331</div> -->
-    <!-- </div> -->
   </div>
 </template>
 
@@ -108,6 +84,7 @@ import * as XLSX from 'xlsx';
 import axios from 'axios';
 import { PDFDocument, StandardFonts, rgb } from 'pdf-lib';
 import fontkit from '@pdf-lib/fontkit';
+import moment from 'moment';
 export default {
   data () {
     return {
@@ -120,12 +97,16 @@ export default {
       excelarrayattach93: [],
       dateattach7from: '',
       dateattach7to: '',
+      dateattach7select: '',
       dateattach8from: '',
       dateattach8to: '',
+      dateattach8select: '',
       dateattach9from: '',
       dateattach9to: '',
+      dateattach9select: '',
       dateattach10from: '',
       dateattach10to: '',
+      dateattach10select: '',
       pdfdata: ''
     }
   },
@@ -214,17 +195,6 @@ export default {
               combinedArray.push(combinedObject);
               this.pdfdata = combinedArray
             }
-            // //export to excell
-            // const workbook = XLSX.utils.book_new();
-            
-            // // Convert the JSON data to a worksheet
-            // const worksheet = XLSX.utils.json_to_sheet(combinedArray);
-
-            // // Add the worksheet to the workbook
-            // XLSX.utils.book_append_sheet(workbook, worksheet, 'attached7');
-
-            // // Save the workbook to a file
-            // XLSX.writeFile(workbook, 'attached7.xlsx');
             })
       .catch(error => {
         console.error('Error fetching data:', error.message);
@@ -252,7 +222,7 @@ export default {
       
       page.drawText(`บริษัท โตโยต้า ทรานสปอร์ต (ประเทศไทย) จํากัด`, { x: 170, y: 800 , size: 20, font: thaiFont});
       page.drawText(`สรุปยอดเงินเบี้ยเลี้ยง/ค่าขับและสวัสดิการของพนักงาน`, { x: 140, y: 780 , size: 20, font: thaiFont});
-      page.drawText(`เข้าบัญชีพนักงานวันที่ 5/15/2023`, { x: 190, y: 760 , size: 20, font: thaiFont});
+      page.drawText(`เข้าบัญชีพนักงานวันที่ ${moment(this.dateattach7select).format('L')}`, { x: 190, y: 760 , size: 20, font: thaiFont});
       page.drawText(`__________________________________________________________________________________`, { x: 10, y: 750 , size: 20, font: thaiFont});
       page.drawText(`ลำดับ`, { x: 50, y: 720 , size: fontSize, font: thaiFont});
       page.drawText(`เลขที่บันชี`, { x: 100, y: 720 , size: fontSize, font: thaiFont});
