@@ -247,7 +247,7 @@ export default {
           page = pdfDoc.addPage();
           page.drawText(`บริษัท โตโยต้า ทรานสปอร์ต (ประเทศไทย) จํากัด`, { x: 170, y: 800 , size: 20, font: thaiFont});
           page.drawText(`สรุปยอดเงินเบี้ยเลี้ยง/ค่าขับและสวัสดิการของพนักงาน`, { x: 140, y: 780 , size: 20, font: thaiFont});
-          page.drawText(`เข้าบัญชีพนักงานวันที่ 5/15/2023`, { x: 190, y: 760 , size: 20, font: thaiFont});
+          page.drawText(`เข้าบัญชีพนักงานวันที่ ${moment(this.dateattach7select).format('L')}`, { x: 190, y: 760 , size: 20, font: thaiFont});
           page.drawText(`__________________________________________________________________________________`, { x: 10, y: 750 , size: 20, font: thaiFont});
           page.drawText(`ลำดับ`, { x: 50, y: 720 , size: fontSize, font: thaiFont});
           page.drawText(`เลขที่บันชี`, { x: 100, y: 720 , size: fontSize, font: thaiFont});
@@ -258,13 +258,13 @@ export default {
           // page.drawText(`Page${countPage}`, { x: 450, y: 720 , size: fontSize});
           yPosition = height - margin;
         }
-        page.drawText(`${count+1}`, { x: 50, y: yPosition, fontSize, font: thaiFont});
-        page.drawText(`${data.bank_account_number}`, { x: 90, y: yPosition, fontSize, font: thaiFont});
+        page.drawText(`${count+1}`, { x: 50, y: yPosition, size: fontSize, font: thaiFont});
+        page.drawText(`${data.bank_account_number}`, { x: 90, y: yPosition, size: fontSize, font: thaiFont});
         // const yNameStart = yStart + 20;
-        page.drawText(`${data.emp_code}`, { x: 220, y: yPosition, fontSize, font: thaiFont});
+        page.drawText(`${data.emp_code}`, { x: 220, y: yPosition, size: fontSize, font: thaiFont});
         // const yPriceStart = yNameStart + 20;
-        page.drawText(`${data.name}`, { x: 300, y: yPosition, fontSize, font: thaiFont});
-        page.drawText(`${data.total_allowance}`, { x: 500, y: yPosition, fontSize, font: thaiFont});
+        page.drawText(`${data.name}`, { x: 300, y: yPosition, size: fontSize, font: thaiFont});
+        page.drawText(`${data.total_allowance}`, { x: 500, y: yPosition, size: fontSize, font: thaiFont});
         yPosition -= descriptionHeight; // Adjust x-position for the next entry
         count++
         if (count > datas.length - 1) {
