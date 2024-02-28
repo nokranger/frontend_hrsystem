@@ -21,6 +21,9 @@
             <b-form-datepicker style="width: 100%;" id="example-datepickerattach73" v-model="dateattach7select" class="mb-2"></b-form-datepicker>
           </b-col>
           <b-col>
+            <b-input v-on:keyup.enter="getOneAttach7" placeholder="Enter Employee Code" v-model="dataattach7one"></b-input>
+          </b-col>
+          <b-col>
             <div style="text-align: center;">
               <b-button variant="outline-primary" @click="getAttach7all" style="box-shadow: 5px 5px 5px #888888;">Attached 7</b-button>
             </div>
@@ -34,7 +37,10 @@
             <b-form-datepicker style="width: 100%;" id="example-datepickerattach82" v-model="dateattach8to" class="mb-2"></b-form-datepicker>
           </b-col>
           <b-col>
-            <b-form-datepicker style="width: 100%;" id="example-datepickerattach73" v-model="dateattach8select" class="mb-2"></b-form-datepicker>
+            <b-form-datepicker style="width: 100%;" id="example-datepickerattach83" v-model="dateattach8select" class="mb-2"></b-form-datepicker>
+          </b-col>
+          <b-col>
+            <b-input v-on:keyup.enter="getOneAttach7" placeholder="Enter Employee Code" v-model="dataattach8one"></b-input>
           </b-col>
           <b-col>
             <div style="text-align: center;">
@@ -50,7 +56,10 @@
             <b-form-datepicker style="width: 100%;" id="example-datepickerattach92" v-model="dateattach9to" class="mb-2"></b-form-datepicker>
           </b-col>
           <b-col>
-            <b-form-datepicker style="width: 100%;" id="example-datepickerattach73" v-model="dateattach9select" class="mb-2"></b-form-datepicker>
+            <b-form-datepicker style="width: 100%;" id="example-datepickerattach93" v-model="dateattach9select" class="mb-2"></b-form-datepicker>
+          </b-col>
+          <b-col>
+            <b-input v-on:keyup.enter="getOneAttach9" placeholder="Enter Employee Code" v-model="dataattach9one"></b-input>
           </b-col>
           <b-col>
             <div style="text-align: center;">
@@ -66,7 +75,10 @@
             <b-form-datepicker style="width: 100%;" id="example-datepickerattach102" v-model="dateattach10to" class="mb-2"></b-form-datepicker>
           </b-col>
           <b-col>
-            <b-form-datepicker style="width: 100%;" id="example-datepickerattach73" v-model="dateattach10select" class="mb-2"></b-form-datepicker>
+            <b-form-datepicker style="width: 100%;" id="example-datepickerattach103" v-model="dateattach10select" class="mb-2"></b-form-datepicker>
+          </b-col>
+          <b-col>
+            <b-input v-on:keyup.enter="getOneAttach7" placeholder="Enter Employee Code" v-model="dataattach10one"></b-input>
           </b-col>
           <b-col>
             <div style="text-align: center;">
@@ -98,19 +110,42 @@ export default {
       dateattach7from: '',
       dateattach7to: '',
       dateattach7select: '',
+      dataattach7one: '',
       dateattach8from: '',
       dateattach8to: '',
       dateattach8select: '',
+      dataattach8one: '',
       dateattach9from: '',
       dateattach9to: '',
       dateattach9select: '',
+      dataattach9one: '',
       dateattach10from: '',
       dateattach10to: '',
       dateattach10select: '',
+      dataattach10one: '',
       pdfdata: ''
     }
   },
   methods: {
+    async getOneAttach7 () {
+      let from_to = {
+          from: this.dateattach7from,
+          to: this.dateattach7to,
+          emp_code: this.dataattach7one
+        }
+        console.log('resdataFromTo', from_to);
+      await axios.post('http://localhost:4000/getdataattach7one', from_to)
+      .then(response => {
+        console.log('resdata', response.data.result);
+        let dataexcel = response.data.result
+            this.excelarrayattach7 = Object.values(dataexcel);
+            this.pdfdata = this.excelarrayattach7
+            })
+      .catch(error => {
+        console.error('Error fetching data:', error.message);
+      });
+      await this.generatePDF(this.pdfdata)
+    },
     getAttach7 () {
       axios.get('http://localhost:4000/getdataattach7')
       .then(response => {
@@ -308,33 +343,24 @@ export default {
         console.error('Error fetching data:', error.message);
       });
     },
-    getAttach9 () {
+    async getOneAttach9 () {
       let from_to = {
           from: this.dateattach9from,
-          to: this.dateattach9to
+          to: this.dateattach9to,
+          emp_code: this.dataattach9one
         }
-      axios.post('http://localhost:4000/getdataattach9', from_to)
+        console.log('resdataFromTo', from_to);
+      await axios.post('http://localhost:4000/getdataattach9one', from_to)
       .then(response => {
         console.log('resdata', response.data.result);
         let dataexcel = response.data.result
-            this.excelarray = Object.values(dataexcel);
-            // this.excelarraywelfare = dataexcel
-            console.log('JSONTYPEOFwelfare', this.excelarray.length)
-            //export to excell
-            const workbook = XLSX.utils.book_new();
-            
-            // Convert the JSON data to a worksheet
-            const worksheet = XLSX.utils.json_to_sheet(this.excelarray);
-
-            // Add the worksheet to the workbook
-            XLSX.utils.book_append_sheet(workbook, worksheet, 'attached9');
-
-            // Save the workbook to a file
-            XLSX.writeFile(workbook, 'attached9.xlsx');
+            this.excelarrayattach9 = Object.values(dataexcel);
+            this.pdfdata = this.excelarrayattach9
             })
       .catch(error => {
         console.error('Error fetching data:', error.message);
       });
+      await this.generatePDF91(this.pdfdata)
     },
     async getAttach9all () {
       let from_to = {
@@ -389,30 +415,173 @@ export default {
                 total_ot: this.excelarrayattach93[i].OT_HOURS || '',
               }
               combinedArray.push(combinedObject);
+              this.pdfdata = combinedArray
             }
-            //export to excell
-            const workbook = XLSX.utils.book_new();
-            
-            // Convert the JSON data to a worksheet
-            const worksheet = XLSX.utils.json_to_sheet(combinedArray);
-
-            // Add the worksheet to the workbook
-            XLSX.utils.book_append_sheet(workbook, worksheet, 'attached9');
-
-            // Save the workbook to a file
-            XLSX.writeFile(workbook, 'attached9.xlsx');
-            })
+          })
       .catch(error => {
         console.error('Error fetching data:', error.message);
       });
+      await this.generatePDF9(this.pdfdata)
     },
+  async generatePDF9 (datas) {
+    const pdfDoc = await PDFDocument.create()
+    pdfDoc.registerFontkit(fontkit)
+    let urls = 'https://script-app.github.io/font/THSarabunNew.ttf'
+    let thaiFontBytes = await fetch(urls).then(res => res.arrayBuffer());
+    let thaiFont = await pdfDoc.embedFont(thaiFontBytes)
+    let page = pdfDoc.addPage();
+    // Customize the PDF content based on your requirements
+    let xPosition = 50; // Initial x-position for text
+    // const yPosition = 700; // Fixed y-position for horizontal alignment
+    let yStart = 700; // Fixed y-position for horizontal titles
+    let { width, height } = page.getSize();
+    const margin = 50;
+    height = 730
+    let yPosition = height - margin;
+
+    const fontSize = 17; //
+
+    page.drawText(`บริษัท โตโยต้า ทรานสปอร์ต (ประเทศไทย) จํากัด`, { x: 170, y: 800 , size: 20, font: thaiFont});
+    page.drawText(`สรุปยอดชม.ล่วงเวลาของพนักงานประจำเดือนเมษายนจ่ายเดือนพฤษภาคม`, { x: 140, y: 780 , size: 20, font: thaiFont});
+    page.drawText(`เข้าบัญชีพนักงานวันที่ ${moment(this.dateattach9select).format('L')}`, { x: 190, y: 760 , size: 20, font: thaiFont});
+    page.drawText(`__________________________________________________________________________________`, { x: 10, y: 750 , size: 20, font: thaiFont});
+    page.drawText(`ลำดับ`, { x: 50, y: 720 , size: fontSize, font: thaiFont});
+    page.drawText(`รหัส`, { x: 100, y: 720 , size: fontSize, font: thaiFont});
+    page.drawText(`ชื่อ - นามสกุล`, { x: 220, y: 720 , size: fontSize, font: thaiFont});
+    page.drawText(`จำนวนชั่วโมงเกินเวลา`, { x: 400, y: 720 , size: fontSize, font: thaiFont});
+    page.drawText(`__________________________________________________________________________________`, { x: 10, y: 710 , size: 20, font: thaiFont});
+    let count = 0
+    let countPage = 1
+    let sumValue = datas.reduce((acc, obj) => acc + parseInt(obj.total_ot), 0);
+    // page.drawText(`Page${countPage}`, { x: 450, y: 720 , size: fontSize});
+    for (const data of datas) {
+      console.log('count', datas.length)
+      // const sumValue = data.reduce((acc, obj) => acc + parseInt(obj.total_allowance), 0);
+      // const titleHeight = 20; // Adjust as needed
+      const descriptionHeight = 30; // Adjust as needed
+
+      // Check if there is enough space on the current page
+      if (yPosition - descriptionHeight < margin) {
+        countPage++;
+        // Create a new page if the content doesn't fit
+        page = pdfDoc.addPage();
+        page.drawText(`บริษัท โตโยต้า ทรานสปอร์ต (ประเทศไทย) จํากัด`, { x: 170, y: 800 , size: 20, font: thaiFont});
+        page.drawText(`สรุปยอดชม.ล่วงเวลาของพนักงานประจำเดือนเมษายนจ่ายเดือนพฤษภาคม`, { x: 140, y: 780 , size: 20, font: thaiFont});
+        page.drawText(`เข้าบัญชีพนักงานวันที่ ${moment(this.dateattach7select).format('L')}`, { x: 190, y: 760 , size: 20, font: thaiFont});
+        page.drawText(`__________________________________________________________________________________`, { x: 10, y: 750 , size: 20, font: thaiFont});
+        page.drawText(`ลำดับ`, { x: 50, y: 720 , size: fontSize, font: thaiFont});
+        page.drawText(`รหัส`, { x: 100, y: 720 , size: fontSize, font: thaiFont});
+        page.drawText(`ชื่อ - นามสกุล`, { x: 220, y: 720 , size: fontSize, font: thaiFont});
+        page.drawText(`จำนวนชั่วโมงเกินเวลา`, { x: 400, y: 720 , size: fontSize, font: thaiFont});
+        page.drawText(`__________________________________________________________________________________`, { x: 10, y: 710 , size: 20, font: thaiFont});
+        // page.drawText(`Page${countPage}`, { x: 450, y: 720 , size: fontSize});
+        yPosition = height - margin;
+      }
+      page.drawText(`${count+1}`, { x: 50, y: yPosition, size: fontSize, font: thaiFont});
+      page.drawText(`${data.emp_code}`, { x: 90, y: yPosition, size: fontSize, font: thaiFont});
+      // const yNameStart = yStart + 20;
+      page.drawText(`${data.driver_name}`, { x: 220, y: yPosition, size: fontSize, font: thaiFont});
+      // const yPriceStart = yNameStart + 20;
+      // page.drawText(`${data.name}`, { x: 300, y: yPosition, size: fontSize, font: thaiFont});
+      page.drawText(`${data.total_ot}`, { x: 450, y: yPosition, size: fontSize, font: thaiFont});
+      yPosition -= descriptionHeight; // Adjust x-position for the next entry
+      count++
+      if (count > datas.length - 1) {
+        console.log('countPDF ', count);
+        page.drawText(`__________________________________________________________________________________`, { x: 10, y: yPosition + 20 , size: 20, font: thaiFont});
+        page.drawText(`รวม ${sumValue}`, { x: 400, y: yPosition - 20 , size: 20, font: thaiFont});
+      }
+    }
+
+    // Save the PDF to a file or display it in a new tab
+    const pdfBytes = await pdfDoc.save();
+    const blob = new Blob([pdfBytes], { type: 'application/pdf' });
+    const url = URL.createObjectURL(blob);
+    window.open(url, '_blank');
+},
+async generatePDF91 (datas) {
+    const pdfDoc = await PDFDocument.create()
+    pdfDoc.registerFontkit(fontkit)
+    let urls = 'https://script-app.github.io/font/THSarabunNew.ttf'
+    let thaiFontBytes = await fetch(urls).then(res => res.arrayBuffer());
+    let thaiFont = await pdfDoc.embedFont(thaiFontBytes)
+    let page = pdfDoc.addPage();
+    // Customize the PDF content based on your requirements
+    let xPosition = 50; // Initial x-position for text
+    // const yPosition = 700; // Fixed y-position for horizontal alignment
+    let yStart = 700; // Fixed y-position for horizontal titles
+    let { width, height } = page.getSize();
+    const margin = 50;
+    height = 730
+    let yPosition = height - margin;
+
+    const fontSize = 17; //
+
+    page.drawText(`บริษัท โตโยต้า ทรานสปอร์ต (ประเทศไทย) จํากัด`, { x: 170, y: 800 , size: 20, font: thaiFont});
+    page.drawText(`สรุปยอดชม.ล่วงเวลาของพนักงานประจำเดือนเมษายนจ่ายเดือนพฤษภาคม`, { x: 140, y: 780 , size: 20, font: thaiFont});
+    page.drawText(`เข้าบัญชีพนักงานวันที่ ${moment(this.dateattach9select).format('L')}`, { x: 190, y: 760 , size: 20, font: thaiFont});
+    page.drawText(`__________________________________________________________________________________`, { x: 10, y: 750 , size: 20, font: thaiFont});
+    page.drawText(`ลำดับ`, { x: 50, y: 720 , size: fontSize, font: thaiFont});
+    page.drawText(`รหัส`, { x: 100, y: 720 , size: fontSize, font: thaiFont});
+    page.drawText(`ชื่อ - นามสกุล`, { x: 220, y: 720 , size: fontSize, font: thaiFont});
+    page.drawText(`จำนวนชั่วโมงเกินเวลา`, { x: 400, y: 720 , size: fontSize, font: thaiFont});
+    page.drawText(`__________________________________________________________________________________`, { x: 10, y: 710 , size: 20, font: thaiFont});
+    let count = 0
+    let countPage = 1
+    let sumValue = datas.reduce((acc, obj) => acc + parseInt(obj.total_ot), 0);
+    // page.drawText(`Page${countPage}`, { x: 450, y: 720 , size: fontSize});
+    for (const data of datas) {
+      console.log('count', datas.length)
+      // const sumValue = data.reduce((acc, obj) => acc + parseInt(obj.total_allowance), 0);
+      // const titleHeight = 20; // Adjust as needed
+      const descriptionHeight = 30; // Adjust as needed
+
+      // Check if there is enough space on the current page
+      if (yPosition - descriptionHeight < margin) {
+        countPage++;
+        // Create a new page if the content doesn't fit
+        page = pdfDoc.addPage();
+        page.drawText(`บริษัท โตโยต้า ทรานสปอร์ต (ประเทศไทย) จํากัด`, { x: 170, y: 800 , size: 20, font: thaiFont});
+        page.drawText(`สรุปยอดชม.ล่วงเวลาของพนักงานประจำเดือนเมษายนจ่ายเดือนพฤษภาคม`, { x: 140, y: 780 , size: 20, font: thaiFont});
+        page.drawText(`เข้าบัญชีพนักงานวันที่ ${moment(this.dateattach7select).format('L')}`, { x: 190, y: 760 , size: 20, font: thaiFont});
+        page.drawText(`__________________________________________________________________________________`, { x: 10, y: 750 , size: 20, font: thaiFont});
+        page.drawText(`ลำดับ`, { x: 50, y: 720 , size: fontSize, font: thaiFont});
+        page.drawText(`รหัส`, { x: 100, y: 720 , size: fontSize, font: thaiFont});
+        page.drawText(`ชื่อ - นามสกุล`, { x: 220, y: 720 , size: fontSize, font: thaiFont});
+        page.drawText(`จำนวนชั่วโมงเกินเวลา`, { x: 400, y: 720 , size: fontSize, font: thaiFont});
+        page.drawText(`__________________________________________________________________________________`, { x: 10, y: 710 , size: 20, font: thaiFont});
+        // page.drawText(`Page${countPage}`, { x: 450, y: 720 , size: fontSize});
+        yPosition = height - margin;
+      }
+      page.drawText(`${count+1}`, { x: 50, y: yPosition, size: fontSize, font: thaiFont});
+      page.drawText(`${data.ttt_employee_code}`, { x: 90, y: yPosition, size: fontSize, font: thaiFont});
+      // const yNameStart = yStart + 20;
+      page.drawText(`${data.tlep_driver_name}`, { x: 220, y: yPosition, size: fontSize, font: thaiFont});
+      // const yPriceStart = yNameStart + 20;
+      // page.drawText(`${data.name}`, { x: 300, y: yPosition, size: fontSize, font: thaiFont});
+      page.drawText(`${data.total_ot}`, { x: 450, y: yPosition, size: fontSize, font: thaiFont});
+      yPosition -= descriptionHeight; // Adjust x-position for the next entry
+      count++
+      if (count > datas.length - 1) {
+        console.log('countPDF ', count);
+        page.drawText(`__________________________________________________________________________________`, { x: 10, y: yPosition + 20 , size: 20, font: thaiFont});
+        page.drawText(`รวม ${sumValue}`, { x: 400, y: yPosition - 20 , size: 20, font: thaiFont});
+      }
+    }
+
+    // Save the PDF to a file or display it in a new tab
+    const pdfBytes = await pdfDoc.save();
+    const blob = new Blob([pdfBytes], { type: 'application/pdf' });
+    const url = URL.createObjectURL(blob);
+    window.open(url, '_blank');
+},
     
-    getAttach10 () {
+    async getAttach10 () {
       let from_to = {
           from: this.dateattach10from,
           to: this.dateattach10to
         }
-      axios.post('http://localhost:4000/getdataattach10', from_to)
+      await axios.post('http://localhost:4000/getdataattach10', from_to)
       .then(response => {
         console.log('resdata', response.data.result);
         let dataexcel = response.data.result
@@ -435,6 +604,85 @@ export default {
         console.error('Error fetching data:', error.message);
       });
     },
+    async generatePDF10(datas) {
+
+      const pdfDoc = await PDFDocument.create()
+      pdfDoc.registerFontkit(fontkit)
+      let urls = 'https://script-app.github.io/font/THSarabunNew.ttf'
+      let thaiFontBytes = await fetch(urls).then(res => res.arrayBuffer());
+      let thaiFont = await pdfDoc.embedFont(thaiFontBytes)
+      let page = pdfDoc.addPage();
+      // Customize the PDF content based on your requirements
+      let xPosition = 50; // Initial x-position for text
+      // const yPosition = 700; // Fixed y-position for horizontal alignment
+      let yStart = 700; // Fixed y-position for horizontal titles
+      let { width, height } = page.getSize();
+      const margin = 50;
+      height = 730
+      let yPosition = height - margin;
+
+      const fontSize = 17; //
+
+      page.drawText(`บริษัท โตโยต้า ทรานสปอร์ต (ประเทศไทย) จํากัด`, { x: 170, y: 800 , size: 20, font: thaiFont});
+      page.drawText(`สรุปยอดเงินเบี้ยเลี้ยง/ค่าขับและสวัสดิการของพนักงาน`, { x: 140, y: 780 , size: 20, font: thaiFont});
+      page.drawText(`เข้าบัญชีพนักงานวันที่ ${moment(this.dateattach7select).format('L')}`, { x: 190, y: 760 , size: 20, font: thaiFont});
+      page.drawText(`__________________________________________________________________________________`, { x: 10, y: 750 , size: 20, font: thaiFont});
+      page.drawText(`ลำดับ`, { x: 50, y: 720 , size: fontSize, font: thaiFont});
+      page.drawText(`เลขที่บันชี`, { x: 100, y: 720 , size: fontSize, font: thaiFont});
+      page.drawText(`รหัส`, { x: 220, y: 720 , size: fontSize, font: thaiFont});
+      page.drawText(`ชื่อ - นามสกุล`, { x: 300, y: 720 , size: fontSize, font: thaiFont});
+      page.drawText(`จำนวนเงิน`, { x: 500, y: 720 , size: fontSize, font: thaiFont});
+      page.drawText(`__________________________________________________________________________________`, { x: 10, y: 710 , size: 20, font: thaiFont});
+      let count = 0
+      let countPage = 1
+      let sumValue = datas.reduce((acc, obj) => acc + parseInt(obj.total_allowance), 0);
+      // page.drawText(`Page${countPage}`, { x: 450, y: 720 , size: fontSize});
+      for (const data of datas) {
+        console.log('count', datas.length)
+        // const sumValue = data.reduce((acc, obj) => acc + parseInt(obj.total_allowance), 0);
+        // const titleHeight = 20; // Adjust as needed
+        const descriptionHeight = 30; // Adjust as needed
+
+        // Check if there is enough space on the current page
+        if (yPosition - descriptionHeight < margin) {
+          countPage++;
+          // Create a new page if the content doesn't fit
+          page = pdfDoc.addPage();
+          page.drawText(`บริษัท โตโยต้า ทรานสปอร์ต (ประเทศไทย) จํากัด`, { x: 170, y: 800 , size: 20, font: thaiFont});
+          page.drawText(`สรุปยอดเงินเบี้ยเลี้ยง/ค่าขับและสวัสดิการของพนักงาน`, { x: 140, y: 780 , size: 20, font: thaiFont});
+          page.drawText(`เข้าบัญชีพนักงานวันที่ ${moment(this.dateattach7select).format('L')}`, { x: 190, y: 760 , size: 20, font: thaiFont});
+          page.drawText(`__________________________________________________________________________________`, { x: 10, y: 750 , size: 20, font: thaiFont});
+          page.drawText(`ลำดับ`, { x: 50, y: 720 , size: fontSize, font: thaiFont});
+          page.drawText(`เลขที่บันชี`, { x: 100, y: 720 , size: fontSize, font: thaiFont});
+          page.drawText(`รหัส`, { x: 220, y: 720 , size: fontSize, font: thaiFont});
+          page.drawText(`ชื่อ - นามสกุล`, { x: 300, y: 720 , size: fontSize, font: thaiFont});
+          page.drawText(`จำนวนเงิน`, { x: 500, y: 720 , size: fontSize, font: thaiFont});
+          page.drawText(`__________________________________________________________________________________`, { x: 10, y: 710 , size: 20, font: thaiFont});
+          // page.drawText(`Page${countPage}`, { x: 450, y: 720 , size: fontSize});
+          yPosition = height - margin;
+        }
+        page.drawText(`${count+1}`, { x: 50, y: yPosition, size: fontSize, font: thaiFont});
+        page.drawText(`${data.bank_account_number}`, { x: 90, y: yPosition, size: fontSize, font: thaiFont});
+        // const yNameStart = yStart + 20;
+        page.drawText(`${data.emp_code}`, { x: 220, y: yPosition, size: fontSize, font: thaiFont});
+        // const yPriceStart = yNameStart + 20;
+        page.drawText(`${data.name}`, { x: 300, y: yPosition, size: fontSize, font: thaiFont});
+        page.drawText(`${data.total_allowance}`, { x: 500, y: yPosition, size: fontSize, font: thaiFont});
+        yPosition -= descriptionHeight; // Adjust x-position for the next entry
+        count++
+        if (count > datas.length - 1) {
+          console.log('countPDF ', count);
+          page.drawText(`__________________________________________________________________________________`, { x: 10, y: yPosition + 20 , size: 20, font: thaiFont});
+          page.drawText(`รวม ${sumValue}`, { x: 470, y: yPosition - 20 , size: 20, font: thaiFont});
+        }
+      }
+
+      // Save the PDF to a file or display it in a new tab
+      const pdfBytes = await pdfDoc.save();
+      const blob = new Blob([pdfBytes], { type: 'application/pdf' });
+      const url = URL.createObjectURL(blob);
+      window.open(url, '_blank');
+},
     getot () {
       axios.get('http://localhost:4000/getdatapayrollot')
       .then(response => {
