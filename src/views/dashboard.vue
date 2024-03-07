@@ -45,12 +45,21 @@
       <br>
       <br>
         <div>
-          <br>
-          <br>
           <div>
             Welfare Data
           </div>
           <input type="file" ref="fileInput" @change="handleFileChangeWelfare" />
+          <!-- <button @click="exportToExcelWelfare">Export to Excel</button> -->
+          <br><br>
+          <!-- <button @click="WelfareSendData">Welfare Data</button> -->
+        </div>
+        <br>
+      <br>
+        <div>
+          <div>
+            Holiday Data
+          </div>
+          <input type="file" ref="fileInput" @change="handleFileChangeHoliday" />
           <!-- <button @click="exportToExcelWelfare">Export to Excel</button> -->
           <br><br>
           <!-- <button @click="WelfareSendData">Welfare Data</button> -->
@@ -61,12 +70,6 @@
       </div>
       <div style="border: 2px solid gray;border-radius: 10px;height: 400px;box-shadow: 5px 5px 5px #888888;margin-top: 20px;">
         <div>
-      <!-- <div>
-        Master Data
-      </div> -->
-      <!-- <input type="file" ref="fileInput" @change="handleFileChangeWelfare" />
-      <button @click="exportToExcelWelfare">Export to Excel</button> -->
-      <!-- <br><br>{{ excelarray.length }} -->
       <br>
       <br>
       <b-row  style="margin: 10px;">
@@ -108,33 +111,9 @@
           </div>
         </b-col>
       </b-row>
-      <!-- <b-button @click="MasterSendData" variant="outline-primary">TNOS</b-button> -->
-      <!-- <br>
-      <br> -->
-      <!-- <br>{{ excelarrayinstructor.length }} -->
-      <!-- <b-button @click="instructorGetData()" variant="outline-success">INSTUCTOR</b-button> -->
-      <!-- <br>
-      <br> -->
-      <!-- <br>{{ excelarraywelfare.length }} -->
-      <!-- <b-button @click="welfareGetdata" variant="outline-danger">WELFARE</b-button> -->
-      <!-- <br>
-      <br> -->
-      <!-- <div>
-        <div>SUM LENGTH = {{ excelarray.length + excelarrayinstructor.length + excelarraywelfare.length}}</div>
-      </div> -->
     </div>
     <br>
     <br>
-    <!-- <div>
-      <div>
-        Generate PDF
-      </div> -->
-      <!-- <input type="file" ref="fileInput" @change="handleFileChangeWelfare" />
-      <button @click="exportToExcelWelfare">Export to Excel</button> -->
-      <!-- <br><br>
-      <button @click="generatePDF">Generate PDF</button>
-    </div> -->
-    <!-- <b-button @click="generatePDF()">Generate PDF</b-button> -->
       </div>
     </b-container>
   </div>
@@ -171,6 +150,9 @@ export default {
       excelarrayTnos: [],
       jsonDataInstructor: null,
       jsonDataInstructor2: null,
+      jsondataHoliday: null,
+      jsonArrayHoliday: [],
+      excelarrayHoliday: [],
       testdata: '',
       notoSansThaiFont: null,
       exportexcelarraywelfare: [],
@@ -183,17 +165,6 @@ export default {
     };
   },
   mounted () {
-    // let th = this
-    //     // Load the Noto Sans Thai font (replace the URL with the actual font file URL)
-    //     const fontUrl = 'https://cdn.jsdelivr.net/gh/lazywasabi/thai-web-fonts@7/fonts/NotoSansThai/NotoSansThai-Regular.woff2';
-    // fetch(fontUrl)
-    //   .then((response) => response.arrayBuffer())
-    //   .then((fontData) => {
-    //     th.notoSansThaiFont = fontkit.create(new Uint8Array(fontData));
-    //   })
-    //   .catch((error) => {
-    //     console.error('Error loading font:', error);
-    //   });
   },
   methods: {
     testPDF () {
@@ -205,99 +176,6 @@ export default {
         console.error('Error fetching data:', error.message);
       });
     },
-  //   generatePDF() {
-  //     let data = [
-  //     { name: 'ดฟหดฟหดฟหดฟหดฟหด', age: 30 },
-  //     { name: 'ดฟหดฟหดฟหดหฟดหฟ', age: 25 },
-  //     { name: 'ดฟหดฟหดฟหดหฟดหฟ', age: 25 },
-  //     { name: 'ดฟหดฟหดฟหดหฟดหฟ', age: 25 },
-  //     { name: 'ดฟหดฟหดฟหดหฟดหฟ', age: 25 },
-  //     { name: 'ดฟหดฟหดฟหดหฟดหฟ', age: 25 },
-  //     { name: 'ดฟหดฟหดฟหดหฟดหฟ', age: 25 },
-  //     { name: 'ดฟหดฟหดฟหดหฟดหฟ', age: 25 },
-  //     { name: 'ดฟหดฟหดฟหดหฟดหฟ', age: 25 },
-  //     { name: 'ดฟหดฟหดฟหดหฟดหฟ', age: 25 },
-  //     { name: 'ดฟหดฟหดฟหดหฟดหฟ', age: 25 },
-  //     { name: 'ดฟหดฟหดฟหดหฟดหฟ', age: 25 },
-  //     { name: 'ดฟหดฟหดฟหดหฟดหฟ', age: 25 },
-  //     { name: 'ดฟหดฟหดฟหดหฟดหฟ', age: 25 },
-  //     { name: 'ดฟหดฟหดฟหดหฟดหฟ', age: 25 },
-  //     { name: 'ดฟหดฟหดฟหดหฟดหฟ', age: 25 },
-  //     { name: 'ดฟหดฟหดฟหดหฟดหฟ', age: 25 },
-  //     { name: 'ดฟหดฟหดฟหดหฟดหฟ', age: 25 },
-  //     { name: 'ดฟหดฟหดฟหดหฟดหฟ', age: 25 },
-  //     { name: 'ดฟหดฟหดฟหดหฟดหฟ', age: 25 },
-  //     { name: 'ดฟหดฟหดฟหดหฟดหฟ', age: 25 },
-  //     { name: 'ดฟหดฟหดฟหดหฟดหฟ', age: 25 },
-  //     { name: 'ดฟหดฟหดฟหดฟหดฟหด', age: 30 },
-  //     { name: 'ดฟหดฟหดฟหดหฟดหฟ', age: 25 },
-  //     { name: 'ดฟหดฟหดฟหดหฟดหฟ', age: 25 },
-  //     { name: 'ดฟหดฟหดฟหดหฟดหฟ', age: 25 },
-  //     { name: 'ดฟหดฟหดฟหดหฟดหฟ', age: 25 },
-  //     { name: 'ดฟหดฟหดฟหดหฟดหฟ', age: 25 },
-  //     { name: 'ดฟหดฟหดฟหดหฟดหฟ', age: 25 },
-  //     { name: 'ดฟหดฟหดฟหดหฟดหฟ', age: 25 },
-  //     { name: 'ดฟหดฟหดฟหดหฟดหฟ', age: 25 },
-  //     { name: 'ดฟหดฟหดฟหดหฟดหฟ', age: 25 },
-  //     { name: 'ดฟหดฟหดฟหดหฟดหฟ', age: 25 },
-  //     { name: 'ดฟหดฟหดฟหดหฟดหฟ', age: 25 },
-  //     { name: 'ดฟหดฟหดฟหดหฟดหฟ', age: 25 },
-  //     { name: 'ดฟหดฟหดฟหดหฟดหฟ', age: 25 },
-  //     { name: 'ดฟหดฟหดฟหดหฟดหฟ', age: 25 },
-  //     { name: 'ดฟหดฟหดฟหดหฟดหฟ', age: 25 },
-  //     { name: 'ดฟหดฟหดฟหดหฟดหฟ', age: 25 },
-  //     { name: 'ดฟหดฟหดฟหดหฟดหฟ', age: 25 },
-  //     { name: 'ดฟหดฟหดฟหดหฟดหฟ', age: 25 },
-  //     { name: 'ดฟหดฟหดฟหดหฟดหฟ', age: 25 },
-  //     { name: 'ดฟหดฟหดฟหดหฟดหฟ', age: 25 },
-  //     { name: 'ดฟหดฟหดฟหดหฟดหฟ', age: 25 },
-  //     { name: 'ดฟหดฟหดฟหดฟหดฟหด', age: 30 },
-  //     { name: 'ดฟหดฟหดฟหดหฟดหฟ', age: 25 },
-  //     { name: 'ดฟหดฟหดฟหดหฟดหฟ', age: 25 },
-  //     { name: 'ดฟหดฟหดฟหดหฟดหฟ', age: 25 },
-  //     { name: 'ดฟหดฟหดฟหดหฟดหฟ', age: 25 },
-  //     { name: 'ดฟหดฟหดฟหดหฟดหฟ', age: 25 },
-  //     { name: 'ดฟหดฟหดฟหดหฟดหฟ', age: 25 },
-  //     { name: 'ดฟหดฟหดฟหดหฟดหฟ', age: 25 },
-  //     { name: 'ดฟหดฟหดฟหดหฟดหฟ', age: 25 },
-  //     { name: 'ดฟหดฟหดฟหดหฟดหฟ', age: 25 },
-  //     { name: 'ดฟหดฟหดฟหดหฟดหฟ', age: 25 },
-  //     { name: 'ดฟหดฟหดฟหดหฟดหฟ', age: 25 },
-  //     { name: 'ดฟหดฟหดฟหดหฟดหฟ', age: 25 },
-  //     { name: 'ดฟหดฟหดฟหดหฟดหฟ', age: 25 },
-  //     { name: 'ดฟหดฟหดฟหดหฟดหฟ', age: 25 },
-  //     { name: 'ดฟหดฟหดฟหดหฟดหฟ', age: 25 },
-  //     { name: 'ดฟหดฟหดฟหดหฟดหฟ', age: 25 },
-  //     { name: 'ดฟหดฟหดฟหดหฟดหฟ', age: 25 },
-  //     { name: 'ดฟหดฟหดฟหดหฟดหฟ', age: 25 },
-  //     { name: 'ดฟหดฟหดฟหดหฟดหฟ', age: 25 },
-  //     { name: 'ดฟหดฟหดฟหดหฟดหฟ', age: 25 },
-  //     { name: 'ดฟหดฟหดฟหดหฟดหฟ', age: 25 },
-      
-  //     // Add more data as needed
-  //   ]
-  //   const header = { text: 'List of People', style: 'header' };
-  //   const content = []
-  //   data.forEach((item) => {
-  //     content.push(
-  //       header,
-  //       { text: `Name: ${item.name}, Age: ${item.age}`, font: 'AngsanaNew', margin: [0, 0, 0, 10]},
-  //     )
-  //   })
-  //   content.pop();
-  //   const documentDefinition = {
-  //     content: content,
-  //     pageBreak: 'auto'
-  //     // styles: {
-  //     //   header: {
-  //     //     fontSize: 18,
-  //     //     margin: [0, 0, 0, 10]
-  //     //   }
-  //     // }
-  //   };
-
-  //   pdfMake.createPdf(documentDefinition).open();
-  // },
     async generatePDF(data) {
       // let fontkit = require ('pdf-lib-fontkit')
       const jsonData = [
@@ -363,29 +241,6 @@ export default {
       // const fontBytes = await this.loadFont(NotoSerifThai);
       // const customFont = await pdfDoc.embedFont(fontBytes);
       const fontSize = 17; //
-      // const text = 'This is text in an embedded font!หฟฟหฟหห'
-      // const textSize = 35
-      // const textWidth = thaiFont.widthOfTextAtSize(text, textSize)
-      // const textHeight = thaiFont.heightAtSize(textSize)
-
-      // // Draw the string of text on the page
-      // page.drawText(text, {
-      //   x: 40,
-      //   y: 450,
-      //   size: textSize,
-      //   font: thaiFont,
-      //   color: rgb(0, 0.53, 0.71),
-      // })
-
-      // // Draw a box around the string of text
-      // page.drawRectangle({
-      //   x: 40,
-      //   y: 450,
-      //   width: textWidth,
-      //   height: textHeight,
-      //   borderColor: rgb(1, 0, 0),
-      //   borderWidth: 1.5,
-      // })
       page.drawText(`บริษัท โตโยต้า ทรานสปอร์ต (ประเทศไทย) จํากัด`, { x: 235, y: 800 , size: fontSize, font: thaiFont});
       page.drawText(`สรุปยอดเงินเบี้ยเลี้ยง/ค่าขับและสวัสดิการของพนักงาน`, { x: 235, y: 780 , size: fontSize, font: thaiFont});
       page.drawText(`เข้าบัญชีพนักงานวันที่ 5/15/2023`, { x: 235, y: 760 , size: fontSize, font: thaiFont});
@@ -496,40 +351,12 @@ export default {
       .then(response => {
         console.log('resdata', response.data.result);
         let dataexcel = response.data.result
-        // let jsonMaps = dataexcel.map((data, i) => {
-        //       return {
-        //         "Emp. Code": data.emp_code,
-        //         "Name - Surname": data.name,
-        //         "Bank account number": data.bank_account_number
-        //       }
-        //     })
-            // console.log('resdataExcel', jsonMaps);
             this.excelarray = Object.values(dataexcel)
             console.log('JSONTYPEOF2Aftermap23', this.excelarray)
-
-            // //export to excell
-            // const workbook = XLSX.utils.book_new();
-            
-            // // Convert the JSON data to a worksheet
-            // const worksheet = XLSX.utils.json_to_sheet(this.excelarray);
-
-            // // Add the worksheet to the workbook
-            // XLSX.utils.book_append_sheet(workbook, worksheet, 'MasterData');
-
-            // // Save the workbook to a file
-            // XLSX.writeFile(workbook, 'exported_data.xlsx');
             })
       .catch(error => {
         console.error('Error fetching data:', error.message);
       });
-      // console.log(this.testdata)
-      // axios.post('http://localhost:4000/personal', this.testdata)
-      // .then(response => {
-      //   console.log(response.data);
-      // })
-      // .catch(error => {
-      //   console.error('Error fetching data:', error.message);
-      // });
     },
     instructorGetData () {
       this.testdata = {
@@ -555,30 +382,10 @@ export default {
             // console.log('resdataExcel', jsonMaps);
             this.excelarrayinstructor = Object.values(dataexcel)
             console.log('JSONTYPEOF2Aftermap23', this.excelarrayinstructor)
-
-            // //export to excell
-            // const workbook = XLSX.utils.book_new();
-            
-            // // Convert the JSON data to a worksheet
-            // const worksheet = XLSX.utils.json_to_sheet(this.excelarray);
-
-            // // Add the worksheet to the workbook
-            // XLSX.utils.book_append_sheet(workbook, worksheet, 'MasterData');
-
-            // // Save the workbook to a file
-            // XLSX.writeFile(workbook, 'exported_data.xlsx');
             })
       .catch(error => {
         console.error('Error fetching data:', error.message);
       });
-      // console.log(this.testdata)
-      // axios.post('http://localhost:4000/personal', this.testdata)
-      // .then(response => {
-      //   console.log(response.data);
-      // })
-      // .catch(error => {
-      //   console.error('Error fetching data:', error.message);
-      // });
     },
     welfareGetdata () {
       this.testdata = {
@@ -710,14 +517,6 @@ export default {
       .catch(error => {
         console.error('Error fetching data:', error.message);
       });
-      // console.log(this.testdata)
-      // axios.post('http://localhost:4000/personal', this.testdata)
-      // .then(response => {
-      //   console.log(response.data);
-      // })
-      // .catch(error => {
-      //   console.error('Error fetching data:', error.message);
-      // });
     },
     handleFileChange(event) {
       console.log('UnWelfare')
@@ -833,14 +632,6 @@ export default {
       .catch(error => {
         console.error('Error fetching data:', error.message);
       });
-      // console.log(this.testdata)
-      // axios.post('http://localhost:4000/personal', this.testdata)
-      // .then(response => {
-      //   console.log(response.data);
-      // })
-      // .catch(error => {
-      //   console.error('Error fetching data:', error.message);
-      // });
     },
     handleFileChangeWelfare(event) {
       console.log('Welfare')
@@ -927,6 +718,85 @@ export default {
           console.error('Error fetching data:', error.message);
         });
         axios.post('http://localhost:4000/welfare2', this.jsondata2Welfare2)
+        .then(response => {
+          console.log(response.data);
+        })
+        .catch(error => {
+          console.error('Error fetching data:', error.message);
+        });
+      };
+
+      reader.readAsBinaryString(file);
+    },
+    handleFileChangeHoliday(event) {
+      console.log('Holiday')
+      const file = event.target.files[0];
+
+      if (file) {
+        this.readExcelholiday(file);
+      }
+    },
+    readExcelholiday(file) {
+      const reader = new FileReader();
+
+      reader.onload = (e) => {
+        const data = e.target.result;
+        const workbook = XLSX.read(data, { type: 'binary' });
+
+        // Assume the first sheet is the one you want to read
+        const sheetName = workbook.SheetNames[0];
+        const sheet = workbook.Sheets[sheetName];
+
+        // Convert the sheet data to JSON
+        const jsonData = XLSX.utils.sheet_to_json(sheet, { header: 1 });
+
+        // Set the JSON data to be displayed in the component
+        this.jsondataHoliday = JSON.stringify(jsonData, null, 2);
+        this.jsondataHoliday = JSON.parse(this.jsondataHoliday)
+        this.jsondataHoliday.shift()
+        // console.log('mapdata1: ', this.jsonData)
+        console.log('JSONLenght: ',  this.jsonDataHoliday)
+        // console.log('JSONLenghtSHIFT: ',  JSON.parse(this.jsonData).shift())
+        console.log('JSONTYPEOF: ',  typeof(this.jsonDataHoliday))
+        // console.log('JSONTYPEOF2: ',  typeof(JSON.parse(this.jsonData)))
+        let jsonobjectHoliday = {}
+        let jsonobject2Holiday = this.jsonDataHoliday
+        jsonobjectHoliday = jsonobject2Holiday.map(innerarray => {
+          return innerarray.reduce((acc, item, index) => {
+            acc[`item${index + 1}`] = item;
+            return acc
+          }, {})
+        })
+        let jsonMapHoliday = jsonobjectHoliday.map((data, i) => {
+              return {
+                TRIP_NO: data.item1,
+                TRIP_ALLOWANCE: data.item2,
+                TOTAL_ALLOWANCE: data.item3,
+                OT_HOURS: data.item4,
+                DEPARTURE_POINT: data.item5,
+                DEPARTURE_DATETIME: data.item6,
+                YARDOUTDATE: data.item7,
+                DRIVER1: data.item8,
+                NAME: data.item9,
+                DRIVER2: data.item10,
+                NULLS: data.item11,
+                DEALER1: data.item12,
+                DEALER2: data.item13,
+                DEALER3: data.item14,
+                DEALER4: data.item15,
+                DEALER5: data.item16,
+                UNITS1: data.item17,
+                UNITS2: data.item18,
+                UNITS3: data.item19,
+                UNITS4: data.item20,
+                UNITS5: data.item21,
+                TAX_FLAG: data.item22
+
+              }
+            })
+        console.log('JSONTYPEOF2Aftermap: ',  typeof(jsonobjectHoliday))
+        this.jsondataHoliday = jsonMapHoliday
+        axios.post('http://localhost:4000/holiday', this.jsondataHoliday)
         .then(response => {
           console.log(response.data);
         })

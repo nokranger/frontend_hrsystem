@@ -29,14 +29,21 @@
           </b-col>
           <b-col>
             <div style="text-align: center;">
-              <b-button variant="outline-primary" @click="getAttach7all" style="box-shadow: 5px 5px 5px #888888;">Attached
+              <b-button variant="outline-primary" @click="getAttach7all"
+                style="box-shadow: 5px 5px 5px #888888;">Attached
                 7 PDF</b-button>
             </div>
           </b-col>
           <b-col>
             <div style="text-align: center;">
-              <b-button variant="outline-primary" @click="getAttach7excel" style="box-shadow: 5px 5px 5px #888888;">Attached
+              <b-button variant="outline-primary" @click="getAttach7excel"
+                style="box-shadow: 5px 5px 5px #888888;">Attached
                 7 Excel</b-button>
+            </div>
+          </b-col>
+          <b-col>
+            <div>
+              <b-form-select v-model="selectedattach7" :options="optionsattach7"></b-form-select>
             </div>
           </b-col>
         </b-row>
@@ -83,7 +90,8 @@
           </b-col>
           <b-col>
             <div style="text-align: center;">
-              <b-button variant="outline-danger" @click="getAttach9all" style="box-shadow: 5px 5px 5px #888888;">Attached
+              <b-button variant="outline-danger" @click="getAttach9all"
+                style="box-shadow: 5px 5px 5px #888888;">Attached
                 9</b-button>
             </div>
           </b-col>
@@ -149,7 +157,19 @@ export default {
       dateattach10to: '',
       dateattach10select: '',
       dataattach10one: '',
-      pdfdata: ''
+      pdfdata: '',
+      titleattach7: '',
+      titleattach8: '',
+      titleattach9: '',
+      titleattach10: '',
+      selectedattach7: null,
+      optionsattach7: [
+        { value: null, text: 'Please select an option' },
+        { value: 1, text: 'ดูทั้งหมด' },
+        { value: 2, text: 'จ่ายแล้ว' },
+        { value: 3, text: 'ยังไม่จ่าย' }
+      ],
+      sumValue: 0
     }
   },
   methods: {
@@ -230,32 +250,32 @@ export default {
           const combinedArray = []
           for (let i = 0; i < this.excelarrayattach7.length; i++) {
             const combinedObject = {
-              bank_account_number: this.excelarrayattach7[i].bank_account_number || '',
-              emp_code: this.excelarrayattach7[i].emp_code || '',
-              name: this.excelarrayattach7[i].name || '',
-              total_allowance: this.excelarrayattach7[i].total_allowance || '',
+              bank_account_number: this.excelarrayattach7[i].bank_account_number,
+              emp_code: this.excelarrayattach7[i].emp_code,
+              name: this.excelarrayattach7[i].name,
+              total_allowance: (this.excelarrayattach7[i].total_allowance),
             }
             combinedArray.push(combinedObject);
           }
           for (let i = 0; i < this.excelarrayattach72.length; i++) {
             const combinedObject = {
-              bank_account_number: this.excelarrayattach72[i].bank_account_number || '',
-              emp_code: this.excelarrayattach72[i].emp_code || '',
-              name: this.excelarrayattach72[i].name || '',
-              total_allowance: this.excelarrayattach72[i].total_allowance || '',
+              bank_account_number: this.excelarrayattach72[i].bank_account_number,
+              emp_code: this.excelarrayattach72[i].emp_code,
+              name: this.excelarrayattach72[i].name,
+              total_allowance: parseInt(this.excelarrayattach72[i].total_allowance),
             }
             combinedArray.push(combinedObject);
           }
           for (let i = 0; i < this.excelarrayattach73.length; i++) {
             const combinedObject = {
-              bank_account_number: this.excelarrayattach73[i].bank_account_number || '',
-              emp_code: this.excelarrayattach73[i].emp_code || '',
-              name: this.excelarrayattach73[i].name || '',
-              total_allowance: this.excelarrayattach73[i].total_allowance || '',
+              bank_account_number: this.excelarrayattach73[i].bank_account_number,
+              emp_code: this.excelarrayattach73[i].emp_code,
+              name: this.excelarrayattach73[i].name,
+              total_allowance: parseInt(this.excelarrayattach73[i].total_allowance),
             }
             combinedArray.push(combinedObject);
-            this.pdfdata = combinedArray
           }
+          this.pdfdata = combinedArray
         })
         .catch(error => {
           console.error('Error fetching data:', error.message);
@@ -296,32 +316,32 @@ export default {
           const combinedArray = []
           for (let i = 0; i < this.excelarrayattach7.length; i++) {
             const combinedObject = {
-              bank_account_number: this.excelarrayattach7[i].bank_account_number || '',
-              emp_code: this.excelarrayattach7[i].emp_code || '',
-              name: this.excelarrayattach7[i].name || '',
-              total_allowance: this.excelarrayattach7[i].total_allowance || '',
+              bank_account_number: this.excelarrayattach7[i].bank_account_number,
+              emp_code: this.excelarrayattach7[i].emp_code,
+              name: this.excelarrayattach7[i].name,
+              total_allowance: parseInt(this.excelarrayattach7[i].total_allowance),
             }
             combinedArray.push(combinedObject);
           }
           for (let i = 0; i < this.excelarrayattach72.length; i++) {
             const combinedObject = {
-              bank_account_number: this.excelarrayattach72[i].bank_account_number || '',
-              emp_code: this.excelarrayattach72[i].emp_code || '',
-              name: this.excelarrayattach72[i].name || '',
-              total_allowance: this.excelarrayattach72[i].total_allowance || '',
+              bank_account_number: this.excelarrayattach72[i].bank_account_number,
+              emp_code: this.excelarrayattach72[i].emp_code,
+              name: this.excelarrayattach72[i].name,
+              total_allowance: parseInt(this.excelarrayattach72[i].total_allowance),
             }
             combinedArray.push(combinedObject);
           }
           for (let i = 0; i < this.excelarrayattach73.length; i++) {
             const combinedObject = {
-              bank_account_number: this.excelarrayattach73[i].bank_account_number || '',
-              emp_code: this.excelarrayattach73[i].emp_code || '',
-              name: this.excelarrayattach73[i].name || '',
-              total_allowance: this.excelarrayattach73[i].total_allowance || '',
+              bank_account_number: this.excelarrayattach73[i].bank_account_number,
+              emp_code: this.excelarrayattach73[i].emp_code,
+              name: this.excelarrayattach73[i].name,
+              total_allowance: parseInt(this.excelarrayattach73[i].total_allowance),
             }
             combinedArray.push(combinedObject);
-            this.pdfdata = combinedArray
           }
+          this.pdfdata = combinedArray
         })
         .catch(error => {
           console.error('Error fetching data:', error.message);
@@ -329,12 +349,6 @@ export default {
       await this.exporttoexcel(this.pdfdata)
     },
     async exporttoexcel(data) {
-      // console.log('resdata', response.data.result);
-      // let dataexcel = response.data.result
-      // this.excelarray = Object.values(dataexcel);
-      // this.excelarraywelfare = dataexcel
-      // console.log('JSONTYPEOFattach8', this.excelarray.length)
-      // //export to excell
       const workbook = XLSX.utils.book_new();
 
       // // Convert the JSON data to a worksheet
@@ -376,11 +390,21 @@ export default {
       page.drawText(`จำนวนเงิน`, { x: 500, y: 720, size: fontSize, font: thaiFont });
       page.drawText(`__________________________________________________________________________________`, { x: 10, y: 710, size: 20, font: thaiFont });
       let count = 0
+      let count2 = 0
+      let count3 = 0
       let countPage = 1
-      let sumValue = datas.reduce((acc, obj) => acc + parseInt(obj.total_allowance), 0);
+      // let sumValue = 0
+      // var sumValue = datas.reduce(function(_this, val) {
+      //     return _this + parseInt(val.total_allowance)
+      // }, 0);
+      // let sumValue = datas.reduce((acc, obj) => acc += parseInt(obj.total_allowance), 0);
       // page.drawText(`Page${countPage}`, { x: 450, y: 720 , size: fontSize});
       for (const data of datas) {
-        console.log('count', datas.length)
+        console.log('count', data.length)
+        // if (count === datas.length) {
+        //   sumValue = data.reduce((acc, obj) => acc += parseInt(obj.total_allowance), 0);
+        // }
+        console.log('countValue', count2)
         // const sumValue = data.reduce((acc, obj) => acc + parseInt(obj.total_allowance), 0);
         // const titleHeight = 20; // Adjust as needed
         const descriptionHeight = 30; // Adjust as needed
@@ -413,9 +437,18 @@ export default {
         yPosition -= descriptionHeight; // Adjust x-position for the next entry
         count++
         if (count > datas.length - 1) {
+          console.log('CountSumBefore', this.sumValue)
+          if (count === datas.length) {
+            // console.log('CountSum', this.sumValue)
+            this.sumValue = await datas.reduce(function(_this, val) {
+          return _this + parseInt(val.total_allowance)
+      }, 0);
+            console.log('CountSum', this.sumValue)
+            console.log('CountSum', await datas.reduce((acc, obj) => acc += parseInt(obj.total_allowance), 0))
+          }
           console.log('countPDF ', count);
           page.drawText(`__________________________________________________________________________________`, { x: 10, y: yPosition + 20, size: 20, font: thaiFont });
-          page.drawText(`รวม ${sumValue}`, { x: 470, y: yPosition - 20, size: 20, font: thaiFont });
+          page.drawText(`รวม ${this.sumValue}`, { x: 470, y: yPosition - 20, size: 20, font: thaiFont });
         }
       }
 
