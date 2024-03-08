@@ -43,7 +43,18 @@
           </b-col>
           <b-col>
             <div>
-              <b-form-select v-model="selectedattach7" :options="optionsattach7"></b-form-select>
+              <b-form-select id="selectattach7" v-model="selectedattach7" :options="optionsattach7"></b-form-select>
+            </div>
+          </b-col>
+          <b-col>
+            <div>
+              <b-input placeholder="Enter your title Report"
+              v-model="titleattach7"></b-input>
+            </div>
+          </b-col>
+          <b-col>
+            <div>
+              <b-button @click="updatepayment7">Update payment status</b-button>
             </div>
           </b-col>
         </b-row>
@@ -380,7 +391,8 @@ export default {
       const fontSize = 17; //
 
       page.drawText(`บริษัท โตโยต้า ทรานสปอร์ต (ประเทศไทย) จํากัด`, { x: 170, y: 800, size: 20, font: thaiFont });
-      page.drawText(`สรุปยอดเงินเบี้ยเลี้ยง/ค่าขับและสวัสดิการของพนักงาน`, { x: 140, y: 780, size: 20, font: thaiFont });
+      // page.drawText(`สรุปยอดเงินเบี้ยเลี้ยง/ค่าขับและสวัสดิการของพนักงาน`, { x: 140, y: 780, size: 20, font: thaiFont });
+      page.drawText(`${this.titleattach7}`, { x: 140, y: 780, size: 20, font: thaiFont });
       page.drawText(`เข้าบัญชีพนักงานวันที่ ${moment(this.dateattach7select).format('L')}`, { x: 190, y: 760, size: 20, font: thaiFont });
       page.drawText(`__________________________________________________________________________________`, { x: 10, y: 750, size: 20, font: thaiFont });
       page.drawText(`ลำดับ`, { x: 50, y: 720, size: fontSize, font: thaiFont });
@@ -415,7 +427,8 @@ export default {
           // Create a new page if the content doesn't fit
           page = pdfDoc.addPage();
           page.drawText(`บริษัท โตโยต้า ทรานสปอร์ต (ประเทศไทย) จํากัด`, { x: 170, y: 800, size: 20, font: thaiFont });
-          page.drawText(`สรุปยอดเงินเบี้ยเลี้ยง/ค่าขับและสวัสดิการของพนักงาน`, { x: 140, y: 780, size: 20, font: thaiFont });
+          // page.drawText(`สรุปยอดเงินเบี้ยเลี้ยง/ค่าขับและสวัสดิการของพนักงาน`, { x: 140, y: 780, size: 20, font: thaiFont });
+          page.drawText(`${this.titleattach7}`, { x: 140, y: 780, size: 20, font: thaiFont });
           page.drawText(`เข้าบัญชีพนักงานวันที่ ${moment(this.dateattach7select).format('L')}`, { x: 190, y: 760, size: 20, font: thaiFont });
           page.drawText(`__________________________________________________________________________________`, { x: 10, y: 750, size: 20, font: thaiFont });
           page.drawText(`ลำดับ`, { x: 50, y: 720, size: fontSize, font: thaiFont });
@@ -457,6 +470,15 @@ export default {
       const blob = new Blob([pdfBytes], { type: 'application/pdf' });
       const url = URL.createObjectURL(blob);
       window.open(url, '_blank');
+    },
+    async updatepayment7() {
+      let e = document.getElementById("selectattach7")
+      let updatepayment = {
+        payment_status: e.value,
+        from: this.dateattach7from,
+        to: this.dateattach7to
+      }
+      console.log('paymenyupdate', updatepayment)
     },
     async getOneAttach8() {
       let from_to = {
