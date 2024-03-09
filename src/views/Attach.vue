@@ -510,35 +510,39 @@ export default {
         });
       await this.generatePDF8(this.pdfdata)
     },
-    getAttach8() {
+    async getAttach8() {
       let from_to = {
         from: this.dateattach8from,
         to: this.dateattach8to
       }
-      axios.post('http://localhost:4000/getdataattach8', from_to)
+      await axios.post('http://localhost:4000/getdataattach8', from_to)
         .then(response => {
           // console.log('resdata', response.data.result);
           let dataexcel = response.data.result
           this.excelarray = Object.values(dataexcel);
-          // this.excelarraywelfare = dataexcel
-          console.log('JSONTYPEOFattach8', this.excelarray.length)
-          // //export to excell
-          const workbook = XLSX.utils.book_new();
+          this.pdfdata = this.excelarray
+          // // this.excelarraywelfare = dataexcel
+          // console.log('JSONTYPEOFattach8', this.excelarray.length)
+          // // //export to excell
+          // const workbook = XLSX.utils.book_new();
 
-          // // Convert the JSON data to a worksheet
-          const worksheet = XLSX.utils.json_to_sheet(this.excelarray);
+          // // // Convert the JSON data to a worksheet
+          // const worksheet = XLSX.utils.json_to_sheet(this.excelarray);
 
-          // // Add the worksheet to the workbook
-          XLSX.utils.book_append_sheet(workbook, worksheet, 'attached8-641610');
+          // // // Add the worksheet to the workbook
+          // XLSX.utils.book_append_sheet(workbook, worksheet, 'attached8-641610');
 
-          // // Save the workbook to a file
-          XLSX.writeFile(workbook, 'attached8-641610.xlsx');
+          // // // Save the workbook to a file
+          // XLSX.writeFile(workbook, 'attached8-641610.xlsx');
         })
         .catch(error => {
           console.error('Error fetching data:', error.message);
         });
+        await this.generatePDF8(this.pdfdata)
     },
     async generatePDF8(datas) {
+      console.log('count', datas)
+      console.log('count', datas.length)
       const pdfDoc = await PDFDocument.create()
       pdfDoc.registerFontkit(fontkit)
       let urls = 'https://script-app.github.io/font/THSarabunNew.ttf'
@@ -559,8 +563,8 @@ export default {
       page.drawText(`บริษัท โตโยต้า ทรานสปอร์ต (ประเทศไทย) จํากัด`, { x: 170, y: 800, size: 20, font: thaiFont });
       page.drawText(`สรุปยอดเงินเบี้ยเลี้ยง/ค่าขับและสวัสดิการของพนักงาน`, { x: 140, y: 780, size: 20, font: thaiFont });
       page.drawText(`เข้าบัญชีพนักงานวันที่ ${moment(this.dateattach8select).format('L')}`, { x: 50, y: 760, size: 20, font: thaiFont });
-      page.drawText(`${datas[0].tlep_driver_name}`, { x: 250, y: 760, size: 20, font: thaiFont });
-      page.drawText(`รหัส ${datas[0].ttt_employee_code}`, { x: 370, y: 760, size: 20, font: thaiFont });
+      page.drawText(`${datas.tlep_driver_name}`, { x: 250, y: 760, size: 20, font: thaiFont });
+      page.drawText(`รหัส ${datas.ttt_employee_code}`, { x: 370, y: 760, size: 20, font: thaiFont });
       page.drawText(`__________________________________________________________________________________`, { x: 10, y: 750, size: 20, font: thaiFont });
       page.drawText(`วันที่`, { x: 20, y: 720, size: fontSize, font: thaiFont });
       page.drawText(`เลขอ้างอิง`, { x: 150, y: 720, size: fontSize, font: thaiFont });
@@ -571,24 +575,44 @@ export default {
       page.drawText(`__________________________________________________________________________________`, { x: 10, y: 710, size: 20, font: thaiFont });
       let count = 0
       let countPage = 1
-      let sumValue = datas.reduce((acc, obj) => acc + parseInt(obj.total_allowance), 0);
+      // let sumValue = datas.reduce((acc, obj) => acc + parseInt(obj.total_allowance), 0);
+      let empCheck = ''
       // page.drawText(`Page${countPage}`, { x: 450, y: 720 , size: fontSize});
       for (const data of datas) {
         console.log('count', datas.length)
         // const sumValue = data.reduce((acc, obj) => acc + parseInt(obj.total_allowance), 0);
         // const titleHeight = 20; // Adjust as needed
         const descriptionHeight = 30; // Adjust as needed
-
+        empCheck = data.ttt_employee_code
+        console.log('empCheck !== data.ttt_employee_code', data.ttt_employee_code)
         // Check if there is enough space on the current page
-        if (yPosition - descriptionHeight < margin) {
+        if (empCheck !== data.ttt_employee_code) {
           countPage++;
+          console.log('empCheck !== data.ttt_employee_code', data.ttt_employee_code)
           // Create a new page if the content doesn't fit
           page = pdfDoc.addPage();
           page.drawText(`บริษัท โตโยต้า ทรานสปอร์ต (ประเทศไทย) จํากัด`, { x: 170, y: 800, size: 20, font: thaiFont });
           page.drawText(`สรุปยอดเงินเบี้ยเลี้ยง/ค่าขับและสวัสดิการของพนักงาน`, { x: 140, y: 780, size: 20, font: thaiFont });
           page.drawText(`เข้าบัญชีพนักงานวันที่ ${moment(this.dateattach8select).format('L')}`, { x: 50, y: 760, size: 20, font: thaiFont });
-          page.drawText(`${datas[0].tlep_driver_name}`, { x: 250, y: 760, size: 20, font: thaiFont });
-          page.drawText(`รหัส ${datas[0].ttt_employee_code}`, { x: 370, y: 760, size: 20, font: thaiFont });
+          page.drawText(`${data.ttt_employee_code}`, { x: 250, y: 760, size: 20, font: thaiFont });
+          page.drawText(`รหัส ${data.ttt_employee_code}`, { x: 370, y: 760, size: 20, font: thaiFont });
+          page.drawText(`__________________________________________________________________________________`, { x: 10, y: 750, size: 20, font: thaiFont });
+          page.drawText(`วันที่`, { x: 35, y: 720, size: fontSize, font: thaiFont });
+          page.drawText(`เลขอ้างอิง`, { x: 150, y: 720, size: fontSize, font: thaiFont });
+          page.drawText(`เบี้ยเลี้ยง`, { x: 240, y: 720, size: fontSize, font: thaiFont });
+          page.drawText(`รายละเอียด`, { x: 300, y: 720, size: fontSize, font: thaiFont });
+          page.drawText(`ค่าตอบแทน (ชม.)`, { x: 400, y: 720, size: fontSize, font: thaiFont });
+          page.drawText(`เพิ่ม/ลด`, { x: 500, y: 720, size: fontSize, font: thaiFont });
+          page.drawText(`__________________________________________________________________________________`, { x: 10, y: 710, size: 20, font: thaiFont });
+          // page.drawText(`Page${countPage}`, { x: 450, y: 720 , size: fontSize});
+          yPosition = height - margin;
+        } else {
+          page = pdfDoc.addPage();
+          page.drawText(`บริษัท โตโยต้า ทรานสปอร์ต (ประเทศไทย) จํากัด`, { x: 170, y: 800, size: 20, font: thaiFont });
+          page.drawText(`สรุปยอดเงินเบี้ยเลี้ยง/ค่าขับและสวัสดิการของพนักงาน`, { x: 140, y: 780, size: 20, font: thaiFont });
+          page.drawText(`เข้าบัญชีพนักงานวันที่ ${moment(this.dateattach8select).format('L')}`, { x: 50, y: 760, size: 20, font: thaiFont });
+          page.drawText(`${data.ttt_employee_code}`, { x: 250, y: 760, size: 20, font: thaiFont });
+          page.drawText(`รหัส ${data.ttt_employee_code}`, { x: 370, y: 760, size: 20, font: thaiFont });
           page.drawText(`__________________________________________________________________________________`, { x: 10, y: 750, size: 20, font: thaiFont });
           page.drawText(`วันที่`, { x: 35, y: 720, size: fontSize, font: thaiFont });
           page.drawText(`เลขอ้างอิง`, { x: 150, y: 720, size: fontSize, font: thaiFont });
