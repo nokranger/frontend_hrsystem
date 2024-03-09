@@ -472,24 +472,12 @@ export default {
     },
     async updatepayment7() {
       let e = document.getElementById("selectattach7")
-      let updatepayment = [
-    {
-      payment_status: '0',
-      emp_code: '641610'
-    },
-    {
-      payment_status: '1',
-      emp_code: '651604'
-    }
-  ]
-      // console.log('paymenyupdate', updatepayment)
-      // await axios.post('http://localhost:4000/addpaymentstatusattach7', updatepayment)
-      // .then(response => {
-      //   console.log('resdataUpdate', response)
-      // })
-      // .catch(error => {
-      //     console.error('Error fetching data:', error.message);
-      //   });
+      let updatepayment = {
+        payment_status: e.value,
+        from: this.dateattach7from,
+        to: this.dateattach7to
+      }
+      console.log('paymenyupdate', updatepayment)
     },
     async getOneAttach8() {
       let from_to = {
