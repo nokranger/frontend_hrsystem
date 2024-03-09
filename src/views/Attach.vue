@@ -482,14 +482,14 @@ export default {
       emp_code: '651604'
     }
   ]
-      // console.log('paymenyupdate', updatepayment)
-      // await axios.post('http://localhost:4000/addpaymentstatusattach7', updatepayment)
-      // .then(response => {
-      //   console.log('resdataUpdate', response)
-      // })
-      // .catch(error => {
-      //     console.error('Error fetching data:', error.message);
-      //   });
+      console.log('paymenyupdate', updatepayment)
+      await axios.post('http://localhost:4000/addpaymentstatusattach7', updatepayment)
+      .then(response => {
+        console.log('resdataUpdate', response)
+      })
+      .catch(error => {
+          console.error('Error fetching data:', error.message);
+        });
     },
     async getOneAttach8() {
       let from_to = {
