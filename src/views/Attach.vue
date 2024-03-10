@@ -6,59 +6,25 @@
       <router-link to="/payroll">Payroll</router-link>
     </nav>
     <b-container>
-      <attached7></attached7>
+      <div>
+        <b-form-select id="selectoption" v-model="selectOption" :options="optionss"></b-form-select>
+      </div>
+      <div v-if="selectOption == 7">
+        <attached7></attached7>
+      </div>
+      <div v-if="selectOption == 8">
+        <attached7></attached7>
+      </div>
+      <div v-if="selectOption == 9">
+        <attached9></attached9>
+      </div>
+      <div v-if="selectOption == 10">
+        <attached7></attached7>
+      </div>
       <div>
         <h1 style="text-shadow: 2px 2px 5px black;">Attached</h1>
       </div>
       <div style="border: 2px solid gray;border-radius: 10px;height: 400px;box-shadow: 5px 5px 5px #888888;">
-        
-        <!-- <b-row style="margin: 20px;">
-          <b-col>
-            <b-form-datepicker style="width: 100%;" id="example-datepickerattach7" v-model="dateattach7from"
-              class="mb-2"></b-form-datepicker>
-          </b-col>
-          <b-col>
-            <b-form-datepicker style="width: 100%;" id="example-datepickerattach72" v-model="dateattach7to"
-              class="mb-2"></b-form-datepicker>
-          </b-col>
-          <b-col>
-            <b-form-datepicker style="width: 100%;" id="example-datepickerattach73" v-model="dateattach7select"
-              class="mb-2"></b-form-datepicker>
-          </b-col>
-          <b-col>
-            <b-input v-on:keyup.enter="getOneAttach7" placeholder="Enter Employee Code"
-              v-model="dataattach7one"></b-input>
-          </b-col>
-          <b-col>
-            <div style="text-align: center;">
-              <b-button variant="outline-primary" @click="getAttach7all"
-                style="box-shadow: 5px 5px 5px #888888;">Attached
-                7 PDF</b-button>
-            </div>
-          </b-col>
-          <b-col>
-            <div style="text-align: center;">
-              <b-button variant="outline-primary" @click="getAttach7excel"
-                style="box-shadow: 5px 5px 5px #888888;">Attached
-                7 Excel</b-button>
-            </div>
-          </b-col>
-          <b-col>
-            <div>
-              <b-form-select id="selectattach7" v-model="selectedattach7" :options="optionsattach7"></b-form-select>
-            </div>
-          </b-col>
-          <b-col>
-            <div>
-              <b-input placeholder="Enter your title Report" v-model="titleattach7"></b-input>
-            </div>
-          </b-col>
-          <b-col>
-            <div>
-              <b-button @click="updatepayment7">Update payment status</b-button>
-            </div>
-          </b-col>
-        </b-row> -->
         <b-row style="margin: 20px;">
           <b-col>
             <b-form-datepicker style="width: 100%;" id="example-datepickerattach8" v-model="dateattach8from"
@@ -144,9 +110,11 @@ import { PDFDocument, StandardFonts, rgb } from 'pdf-lib';
 import fontkit from '@pdf-lib/fontkit';
 import moment from 'moment';
 import attached7 from '../views/attach7.vue'
+import attached9 from '../views/attach9.vue';
 export default {
   components: {
-    attached7
+    attached7,
+    attached9
   },
   data() {
     return {
@@ -178,6 +146,14 @@ export default {
       titleattach8: '',
       titleattach9: '',
       titleattach10: '',
+      selectOption: null,
+      optionss: [
+        { value: null, text: 'ดูทั้งหมด' },
+        { value: 7, text: '7' },
+        { value: 8, text: '8' },
+        { value: 9, text: '9' },
+        { value: 10, text: '10' },
+      ],
       selectedattach7: null,
       optionsattach7: [
         { value: null, text: 'Please select an option' },

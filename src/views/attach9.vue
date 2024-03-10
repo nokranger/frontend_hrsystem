@@ -1,10 +1,10 @@
 <template>
   <div>
-    <nav>
+    <!-- <nav>
       <router-link to="/dashboard">Import & Export</router-link> ||
       <router-link to="/Attached">Attached</router-link> ||
       <router-link to="/payroll">Payroll</router-link>
-    </nav>
+    </nav> -->
     <b-container>
       <div>
         <h1 style="text-shadow: 2px 2px 5px black;">Attached</h1>
@@ -12,75 +12,91 @@
       <div style="border: 2px solid gray;border-radius: 10px;height: 400px;box-shadow: 5px 5px 5px #888888;">
         <b-row style="margin: 20px;">
           <b-col>
-            <b-form-datepicker style="width: 100%;" id="example-datepickerattach7" v-model="dateattach7from"
+            <b-form-datepicker style="width: 100%;" id="datepickerattach9" v-model="dateattach9from"
               class="mb-2"></b-form-datepicker>
           </b-col>
           <b-col>
-            <b-form-datepicker style="width: 100%;" id="example-datepickerattach72" v-model="dateattach7to"
+            <b-form-datepicker style="width: 100%;" id="datepickerattach92" v-model="dateattach9to"
               class="mb-2"></b-form-datepicker>
           </b-col>
           <b-col>
-            <b-form-datepicker style="width: 100%;" id="example-datepickerattach73" v-model="dateattach7select"
+            <b-form-datepicker style="width: 100%;" id="datepickerattach93" v-model="dateattach9select"
               class="mb-2"></b-form-datepicker>
-          </b-col>
-          <b-col>
-            <b-input v-on:keyup.enter="getOneAttach7" placeholder="Enter Employee Code"
-              v-model="dataattach7one"></b-input>
-          </b-col>
-          <b-col>
-            <div style="text-align: center;">
-              <b-button variant="outline-primary" @click="getAttach7all"
-                style="box-shadow: 5px 5px 5px #888888;">Attached
-                7 PDF</b-button>
-            </div>
-          </b-col>
-          <b-col>
-            <div style="text-align: center;">
-              <b-button variant="outline-primary" @click="getAttach7excel"
-                style="box-shadow: 5px 5px 5px #888888;">Attached
-                7 Excel</b-button>
-            </div>
-          </b-col>
-          <b-col>
-            <div>
-              <b-form-select id="selectattach7" v-model="selectedattach7" :options="optionsattach7"></b-form-select>
-            </div>
-          </b-col>
-          <b-col>
-            <div>
-              <b-input placeholder="Enter your title Report" v-model="titleattach7"></b-input>
-            </div>
-          </b-col>
-          <b-col>
-            <div>
-              <b-button @click="updatepayment7">Update payment status</b-button>
-            </div>
           </b-col>
         </b-row>
         <b-row style="margin: 20px;">
           <b-col>
-            <b-form-datepicker style="width: 100%;" id="example-datepickerattach8" v-model="dateattach8from"
-              class="mb-2"></b-form-datepicker>
+            <div>
+              <b-input placeholder="Enter your Title Report" v-model="titleattach9"></b-input>
+            </div>
           </b-col>
           <b-col>
-            <b-form-datepicker style="width: 100%;" id="example-datepickerattach82" v-model="dateattach8to"
-              class="mb-2"></b-form-datepicker>
+            <b-input v-on:keyup.enter="getOneAttach9" placeholder="Enter Employee Code"
+              v-model="dataattach7one"></b-input>
           </b-col>
+          <b-col></b-col>
+        </b-row>
+        <b-row style="margin: 20px;">
           <b-col>
-            <b-form-datepicker style="width: 100%;" id="example-datepickerattach83" v-model="dateattach8select"
-              class="mb-2"></b-form-datepicker>
-          </b-col>
-          <b-col>
-            <b-input v-on:keyup.enter="getOneAttach8" placeholder="Enter Employee Code"
-              v-model="dataattach8one"></b-input>
+            <div style="text-align: center;">
+              <b-button variant="outline-primary" @click="getAttach9all"
+                style="box-shadow: 5px 5px 5px #888888;">Attached
+                9 PDF <b-icon-file-earmark-pdf-fill variant="danger"></b-icon-file-earmark-pdf-fill></b-button>
+            </div>
           </b-col>
           <b-col>
             <div style="text-align: center;">
-              <b-button variant="outline-success" @click="getAttach8" style="box-shadow: 5px 5px 5px #888888;">Attached
-                8</b-button>
+              <b-button variant="outline-primary" @click="getAttach9excel"
+                style="box-shadow: 5px 5px 5px #888888;">Attached
+                9 Excel <b-icon-file-earmark-excel-fill variant="success"></b-icon-file-earmark-excel-fill></b-button>
             </div>
           </b-col>
+          <b-col>
+            <!-- <div>
+              <b-button variant="outline-primary" @click="updatepayment9">Update payment status</b-button>
+            </div> -->
+          </b-col>
         </b-row>
+        <b-row>
+          <b-col>
+            <!-- <div>
+              <b-form-checkbox
+                id="checkbox-1"
+                v-model="status"
+                name="checkbox-1"
+                value="1"
+                unchecked-value="not_accepted"
+              >
+                <div style="margin: 10px;font-size: 20px;">ยืนยันการจ่ายเงิน</div>
+              </b-form-checkbox>
+            </div> -->
+          </b-col>
+        </b-row>
+        <!-- <div>
+          <h1 style="text-shadow: 2px 2px 5px black;">Preview</h1>
+        </div>
+        <b-row style="margin: 20px;">
+          <b-col>
+            <div>
+              <b-form-select id="selectattach9" v-model="selectedattach9" :options="optionsattach9"></b-form-select>
+            </div>
+          </b-col>
+          <b-col>
+            <div style="text-align: center;">
+              <b-button variant="outline-primary" @click="getAttach9allPdf"
+                style="box-shadow: 5px 5px 5px #888888;">Preview PDF <b-icon-file-earmark-pdf-fill variant="danger"></b-icon-file-earmark-pdf-fill></b-button>
+            </div>
+          </b-col>
+          <b-col>
+            <div style="text-align: center;">
+              <b-button variant="outline-primary" @click="getAttach9excelP"
+                style="box-shadow: 5px 5px 5px #888888;">Preview Excel <b-icon-file-earmark-excel-fill variant="success"></b-icon-file-earmark-excel-fill></b-button>
+            </div>
+          </b-col>
+        </b-row> -->
+      </div>
+      
+      <!-- <div style="border: 2px solid gray;border-radius: 10px;height: 400px;box-shadow: 5px 5px 5px #888888;">
         <b-row style="margin: 20px;">
           <b-col>
             <b-form-datepicker style="width: 100%;" id="example-datepickerattach9" v-model="dateattach9from"
@@ -106,31 +122,7 @@
             </div>
           </b-col>
         </b-row>
-        <b-row style="margin: 20px;">
-          <b-col>
-            <b-form-datepicker style="width: 100%;" id="example-datepickerattach10" v-model="dateattach10from"
-              class="mb-2"></b-form-datepicker>
-          </b-col>
-          <b-col>
-            <b-form-datepicker style="width: 100%;" id="example-datepickerattach102" v-model="dateattach10to"
-              class="mb-2"></b-form-datepicker>
-          </b-col>
-          <b-col>
-            <b-form-datepicker style="width: 100%;" id="example-datepickerattach103" v-model="dateattach10select"
-              class="mb-2"></b-form-datepicker>
-          </b-col>
-          <b-col>
-            <b-input v-on:keyup.enter="getOneAttach10" placeholder="Enter Employee Code"
-              v-model="dataattach10one"></b-input>
-          </b-col>
-          <b-col>
-            <div style="text-align: center;">
-              <b-button variant="outline-warning" @click="getAttach10" style="box-shadow: 5px 5px 5px #888888;">Attached
-                10</b-button>
-            </div>
-          </b-col>
-        </b-row>
-      </div>
+      </div> -->
     </b-container>
   </div>
 </template>
@@ -172,14 +164,14 @@ export default {
       titleattach8: '',
       titleattach9: '',
       titleattach10: '',
-      selectedattach7: null,
-      optionsattach7: [
-        { value: null, text: 'Please select an option' },
-        { value: 1, text: 'ดูทั้งหมด' },
-        { value: 2, text: 'จ่ายแล้ว' },
-        { value: 3, text: 'ยังไม่จ่าย' }
+      selectedattach9: null,
+      optionsattach9: [
+        { value: null, text: 'ดูทั้งหมด' },
+        { value: 1, text: 'จ่ายแล้ว' },
+        { value: 2, text: 'ยังไม่จ่าย' }
       ],
-      sumValue: 0
+      sumValue: 0,
+      status: '0'
     }
   },
   methods: {
@@ -201,6 +193,30 @@ export default {
           console.error('Error fetching data:', error.message);
         });
       await this.generatePDF91(this.pdfdata)
+    },
+    getAttach9() {
+      axios.get('http://localhost:4000/getdataattach7')
+        .then(response => {
+          console.log('resdata', response.data.result);
+          let dataexcel = response.data.result
+          this.excelarray = Object.values(dataexcel);
+          // this.excelarraywelfare = dataexcel
+          console.log('JSONTYPEOFwelfare', this.excelarray.length)
+          //export to excell
+          const workbook = XLSX.utils.book_new();
+
+          // Convert the JSON data to a worksheet
+          const worksheet = XLSX.utils.json_to_sheet(this.excelarray);
+
+          // Add the worksheet to the workbook
+          XLSX.utils.book_append_sheet(workbook, worksheet, 'attached7');
+
+          // Save the workbook to a file
+          XLSX.writeFile(workbook, 'attached7.xlsx');
+        })
+        .catch(error => {
+          console.error('Error fetching data:', error.message);
+        });
     },
     async getAttach9all() {
       let from_to = {
@@ -255,13 +271,88 @@ export default {
               total_ot: this.excelarrayattach93[i].OT_HOURS || '',
             }
             combinedArray.push(combinedObject);
-            this.pdfdata = combinedArray
           }
+          this.pdfdata = combinedArray
         })
         .catch(error => {
           console.error('Error fetching data:', error.message);
         });
       await this.generatePDF9(this.pdfdata)
+    },
+    async getAttach9excel() {
+      let from_to = {
+        from: this.dateattach9from,
+        to: this.dateattach9to
+      }
+      await axios.post('http://localhost:4000/getdataattach9', from_to)
+        .then(response => {
+          console.log('resdata', response.data.result);
+          let dataexcel = response.data.result
+          this.excelarrayattach9 = Object.values(dataexcel);
+          // console.log('filterEX', this.excelarrayattach9)
+        })
+        .catch(error => {
+          console.error('Error fetching data:', error.message);
+        });
+      await axios.post('http://localhost:4000/getdataattach92', from_to)
+        .then(response => {
+          console.log('resdata', response.data.result);
+          let dataexcel = response.data.result
+          this.excelarrayattach92 = Object.values(dataexcel);
+          // console.log('filterEX', this.excelarrayattach92)
+        })
+        .catch(error => {
+          console.error('Error fetching data:', error.message);
+        });
+      await axios.post('http://localhost:4000/getdataattach93', from_to)
+        .then(response => {
+          console.log('resdata', response.data.result);
+          let dataexcel = response.data.result
+          this.excelarrayattach93 = Object.values(dataexcel);
+          // console.log('filterEX', this.excelarrayattach93)
+          const combinedArray = []
+          for (let i = 0; i < this.excelarrayattach9.length; i++) {
+            const combinedObject = {
+              emp_code: this.excelarrayattach9[i].ttt_employee_code || '',
+              driver_name: this.excelarrayattach9[i].tlep_driver_name || '',
+              total_ot: this.excelarrayattach9[i].total_ot || '',
+            }
+            combinedArray.push(combinedObject);
+          }
+          for (let i = 0; i < this.excelarrayattach92.length; i++) {
+            const combinedObject = {
+              emp_code: this.excelarrayattach92[i].DRIVER1 || '',
+              driver_name: this.excelarrayattach92[i].NAME || '',
+              total_ot: this.excelarrayattach92[i].OT_HOURS || '',
+            }
+            combinedArray.push(combinedObject);
+          }
+          for (let i = 0; i < this.excelarrayattach93.length; i++) {
+            const combinedObject = {
+              emp_code: this.excelarrayattach93[i].DRIVER1 || '',
+              driver_name: this.excelarrayattach93[i].NAME || '',
+              total_ot: this.excelarrayattach93[i].NULL1 || '',
+            }
+            combinedArray.push(combinedObject);
+          }
+          this.pdfdata = combinedArray
+        })
+        .catch(error => {
+          console.error('Error fetching data:', error.message);
+        });
+      await this.exporttoexcel(this.pdfdata)
+    },
+    async exporttoexcel(data) {
+      const workbook = XLSX.utils.book_new();
+
+      // // Convert the JSON data to a worksheet
+      const worksheet = XLSX.utils.json_to_sheet(data);
+
+      // // Add the worksheet to the workbook
+      XLSX.utils.book_append_sheet(workbook, worksheet, 'sheet1');
+
+      // // Save the workbook to a file
+      XLSX.writeFile(workbook, 'attached9.xlsx');
     },
     async generatePDF9(datas) {
       const pdfDoc = await PDFDocument.create()
@@ -282,7 +373,8 @@ export default {
       const fontSize = 17; //
 
       page.drawText(`บริษัท โตโยต้า ทรานสปอร์ต (ประเทศไทย) จํากัด`, { x: 170, y: 800, size: 20, font: thaiFont });
-      page.drawText(`สรุปยอดชม.ล่วงเวลาของพนักงานประจำเดือนเมษายนจ่ายเดือนพฤษภาคม`, { x: 140, y: 780, size: 20, font: thaiFont });
+      // page.drawText(`สรุปยอดชม.ล่วงเวลาของพนักงานประจำเดือนเมษายนจ่ายเดือนพฤษภาคม`, { x: 140, y: 780, size: 20, font: thaiFont });
+      page.drawText(`${this.titleattach9}`, { x: 140, y: 780, size: 20, font: thaiFont });
       page.drawText(`เข้าบัญชีพนักงานวันที่ ${moment(this.dateattach9select).format('L')}`, { x: 190, y: 760, size: 20, font: thaiFont });
       page.drawText(`__________________________________________________________________________________`, { x: 10, y: 750, size: 20, font: thaiFont });
       page.drawText(`ลำดับ`, { x: 50, y: 720, size: fontSize, font: thaiFont });
@@ -306,7 +398,8 @@ export default {
           // Create a new page if the content doesn't fit
           page = pdfDoc.addPage();
           page.drawText(`บริษัท โตโยต้า ทรานสปอร์ต (ประเทศไทย) จํากัด`, { x: 170, y: 800, size: 20, font: thaiFont });
-          page.drawText(`สรุปยอดชม.ล่วงเวลาของพนักงานประจำเดือนเมษายนจ่ายเดือนพฤษภาคม`, { x: 140, y: 780, size: 20, font: thaiFont });
+          // page.drawText(`สรุปยอดชม.ล่วงเวลาของพนักงานประจำเดือนเมษายนจ่ายเดือนพฤษภาคม`, { x: 140, y: 780, size: 20, font: thaiFont });
+          page.drawText(`${this.titleattach9}`, { x: 140, y: 780, size: 20, font: thaiFont });
           page.drawText(`เข้าบัญชีพนักงานวันที่ ${moment(this.dateattach7select).format('L')}`, { x: 190, y: 760, size: 20, font: thaiFont });
           page.drawText(`__________________________________________________________________________________`, { x: 10, y: 750, size: 20, font: thaiFont });
           page.drawText(`ลำดับ`, { x: 50, y: 720, size: fontSize, font: thaiFont });
@@ -358,7 +451,8 @@ export default {
       const fontSize = 17; //
 
       page.drawText(`บริษัท โตโยต้า ทรานสปอร์ต (ประเทศไทย) จํากัด`, { x: 170, y: 800, size: 20, font: thaiFont });
-      page.drawText(`สรุปยอดชม.ล่วงเวลาของพนักงานประจำเดือนเมษายนจ่ายเดือนพฤษภาคม`, { x: 140, y: 780, size: 20, font: thaiFont });
+      // page.drawText(`สรุปยอดชม.ล่วงเวลาของพนักงานประจำเดือนเมษายนจ่ายเดือนพฤษภาคม`, { x: 140, y: 780, size: 20, font: thaiFont });
+      page.drawText(`${this.titleattach9}`, { x: 140, y: 780, size: 20, font: thaiFont });
       page.drawText(`เข้าบัญชีพนักงานวันที่ ${moment(this.dateattach9select).format('L')}`, { x: 190, y: 760, size: 20, font: thaiFont });
       page.drawText(`__________________________________________________________________________________`, { x: 10, y: 750, size: 20, font: thaiFont });
       page.drawText(`ลำดับ`, { x: 50, y: 720, size: fontSize, font: thaiFont });
@@ -382,7 +476,8 @@ export default {
           // Create a new page if the content doesn't fit
           page = pdfDoc.addPage();
           page.drawText(`บริษัท โตโยต้า ทรานสปอร์ต (ประเทศไทย) จํากัด`, { x: 170, y: 800, size: 20, font: thaiFont });
-          page.drawText(`สรุปยอดชม.ล่วงเวลาของพนักงานประจำเดือนเมษายนจ่ายเดือนพฤษภาคม`, { x: 140, y: 780, size: 20, font: thaiFont });
+          // page.drawText(`สรุปยอดชม.ล่วงเวลาของพนักงานประจำเดือนเมษายนจ่ายเดือนพฤษภาคม`, { x: 140, y: 780, size: 20, font: thaiFont });
+          page.drawText(`${this.titleattach9}`, { x: 140, y: 780, size: 20, font: thaiFont });
           page.drawText(`เข้าบัญชีพนักงานวันที่ ${moment(this.dateattach7select).format('L')}`, { x: 190, y: 760, size: 20, font: thaiFont });
           page.drawText(`__________________________________________________________________________________`, { x: 10, y: 750, size: 20, font: thaiFont });
           page.drawText(`ลำดับ`, { x: 50, y: 720, size: fontSize, font: thaiFont });
@@ -414,6 +509,45 @@ export default {
       const blob = new Blob([pdfBytes], { type: 'application/pdf' });
       const url = URL.createObjectURL(blob);
       window.open(url, '_blank');
+    },
+    async updatepayment9() {
+      let e = document.getElementById("selectattach7")
+      let updatepayment = [
+        {
+          payment_status: '0',
+          emp_code: '641610'
+        },
+        {
+          payment_status: '1',
+          emp_code: '651604'
+        }
+      ]
+      // let sendData = this.pdfdata
+      let sendData = await this.pdfdata.map(obj => {
+        return { ...obj, payment_status: this.status, payment_date: this.dateattach7select };
+      });
+      console.log('paymenyupdate', sendData)
+      await axios.post('http://localhost:4000/addpaymentstatusattach9', sendData)
+      .then(response => {
+        console.log('resdataUpdate', response)
+      })
+      .catch(error => {
+          console.error('Error fetching data:', error.message);
+      });
+      await axios.post('http://localhost:4000/addpaymentstatusattach92', sendData)
+      .then(response => {
+        console.log('resdataUpdate', response)
+      })
+      .catch(error => {
+          console.error('Error fetching data:', error.message);
+      });
+      await axios.post('http://localhost:4000/addpaymentstatusattach93', sendData)
+      .then(response => {
+        console.log('resdataUpdate', response)
+      })
+      .catch(error => {
+          console.error('Error fetching data:', error.message);
+      });
     },
   }
 }

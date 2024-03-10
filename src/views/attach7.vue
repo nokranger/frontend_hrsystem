@@ -12,13 +12,6 @@
       <div style="border: 2px solid gray;border-radius: 10px;height: 400px;box-shadow: 5px 5px 5px #888888;">
         <b-row style="margin: 20px;">
           <b-col>
-            <div>
-              <b-form-select id="selectattach7" v-model="selectedattach7" :options="optionsattach7"></b-form-select>
-            </div>
-          </b-col>
-        </b-row>
-        <b-row style="margin: 20px;">
-          <b-col>
             <b-form-datepicker style="width: 100%;" id="example-datepickerattach7" v-model="dateattach7from"
               class="mb-2"></b-form-datepicker>
           </b-col>
@@ -48,14 +41,14 @@
             <div style="text-align: center;">
               <b-button variant="outline-primary" @click="getAttach7all"
                 style="box-shadow: 5px 5px 5px #888888;">Attached
-                7 PDF</b-button>
+                7 PDF <b-icon-file-earmark-pdf-fill variant="danger"></b-icon-file-earmark-pdf-fill></b-button>
             </div>
           </b-col>
           <b-col>
             <div style="text-align: center;">
               <b-button variant="outline-primary" @click="getAttach7excel"
                 style="box-shadow: 5px 5px 5px #888888;">Attached
-                7 Excel</b-button>
+                7 Excel <b-icon-file-earmark-excel-fill variant="success"></b-icon-file-earmark-excel-fill></b-button>
             </div>
           </b-col>
           <b-col>
@@ -74,8 +67,30 @@
                 value="1"
                 unchecked-value="not_accepted"
               >
-                <div style="margin: 10px;">ยืนยันการจ่ายเงิน</div>
+                <div style="margin: 10px;font-size: 20px;">ยืนยันการจ่ายเงิน</div>
               </b-form-checkbox>
+            </div>
+          </b-col>
+        </b-row>
+        <div>
+          <h1 style="text-shadow: 2px 2px 5px black;">Preview</h1>
+        </div>
+        <b-row style="margin: 20px;">
+          <b-col>
+            <div>
+              <b-form-select id="selectattach7" v-model="selectedattach7" :options="optionsattach7"></b-form-select>
+            </div>
+          </b-col>
+          <b-col>
+            <div style="text-align: center;">
+              <b-button variant="outline-primary" @click="getAttach7allPdf"
+                style="box-shadow: 5px 5px 5px #888888;">Preview PDF <b-icon-file-earmark-pdf-fill variant="danger"></b-icon-file-earmark-pdf-fill></b-button>
+            </div>
+          </b-col>
+          <b-col>
+            <div style="text-align: center;">
+              <b-button variant="outline-primary" @click="getAttach7excelP"
+                style="box-shadow: 5px 5px 5px #888888;">Preview Excel <b-icon-file-earmark-excel-fill variant="success"></b-icon-file-earmark-excel-fill></b-button>
             </div>
           </b-col>
         </b-row>
@@ -317,7 +332,7 @@ export default {
       XLSX.utils.book_append_sheet(workbook, worksheet, 'sheet1');
 
       // // Save the workbook to a file
-      XLSX.writeFile(workbook, 'attached.xlsx');
+      XLSX.writeFile(workbook, 'attached7.xlsx');
     },
     async generatePDF(datas) {
 
@@ -360,11 +375,11 @@ export default {
       // let sumValue = datas.reduce((acc, obj) => acc += parseInt(obj.total_allowance), 0);
       // page.drawText(`Page${countPage}`, { x: 450, y: 720 , size: fontSize});
       for (const data of datas) {
-        console.log('count', data.length)
+        // console.log('count', data.length)
         // if (count === datas.length) {
         //   sumValue = data.reduce((acc, obj) => acc += parseInt(obj.total_allowance), 0);
         // }
-        console.log('countValue', count2)
+        // console.log('countValue', count2)
         // const sumValue = data.reduce((acc, obj) => acc + parseInt(obj.total_allowance), 0);
         // const titleHeight = 20; // Adjust as needed
         const descriptionHeight = 30; // Adjust as needed
@@ -404,8 +419,8 @@ export default {
             this.sumValue = await datas.reduce(function (_this, val) {
               return _this + parseInt(val.total_allowance)
             }, 0);
-            console.log('CountSum', this.sumValue)
-            console.log('CountSum', await datas.reduce((acc, obj) => acc += parseInt(obj.total_allowance), 0))
+            // console.log('CountSum', this.sumValue)
+            // console.log('CountSum', await datas.reduce((acc, obj) => acc += parseInt(obj.total_allowance), 0))
           }
           console.log('countPDF ', count);
           page.drawText(`__________________________________________________________________________________`, { x: 10, y: yPosition + 20, size: 20, font: thaiFont });
@@ -418,6 +433,162 @@ export default {
       const blob = new Blob([pdfBytes], { type: 'application/pdf' });
       const url = URL.createObjectURL(blob);
       window.open(url, '_blank');
+    },
+    async getAttach7allPdf() {
+      let e = document.getElementById("selectattach7")
+      let from_to = {
+        from: this.dateattach7from,
+        to: this.dateattach7to,
+      }
+      await axios.post('http://localhost:4000/getdataattach7P', from_to)
+        .then(response => {
+          // console.log('resdata', response.data.result);
+          // console.log('resdata22', dataexcel);
+          let dataexcel = response.data.result
+          console.log('resdata22', dataexcel);
+          this.excelarrayattach7 = Object.values(dataexcel);
+          this.excelarrayattach7 = this.excelarrayattach7.filter((i)=> {
+            if (e.value === null || e.value === '' ) {
+              return i.payment_status_2
+            } else {
+              return i.payment_status_2 === e.value
+            }
+          })
+          console.log('filterEX', this.excelarrayattach7)
+        })
+        .catch(error => {
+          console.error('Error fetching data:', error.message);
+        });
+      await axios.post('http://localhost:4000/getdataattach72P', from_to)
+        .then(response => {
+          console.log('resdata', response.data.result);
+          let dataexcel = response.data.result
+          this.excelarrayattach72 = Object.values(dataexcel);
+          this.excelarrayattach72 = this.excelarrayattach72.filter((i)=> {
+            if (e.value === null || e.value === '' ) {
+              return i.payment_status_2
+            } else {
+              return i.payment_status_2 === e.value
+            }
+          })
+        })
+        .catch(error => {
+          console.error('Error fetching data:', error.message);
+        });
+      await axios.post('http://localhost:4000/getdataattach73P', from_to)
+        .then(response => {
+          console.log('resdata', response.data.result);
+          let dataexcel = response.data.result
+          this.excelarrayattach73 = Object.values(dataexcel);
+          this.excelarrayattach73 = this.excelarrayattach73.filter((i)=> {
+            if (e.value === null || e.value === '' ) {
+              return i.payment_status_2
+            } else {
+              return i.payment_status_2 === e.value
+            }
+          })
+          // this.excelarraywelfare = dataexcel
+          // console.log('JSONTYPEOFwelfare', this.excelarray.length)
+          const combinedArray = []
+          for (let i = 0; i < this.excelarrayattach7.length; i++) {
+            const combinedObject = {
+              bank_account_number: this.excelarrayattach7[i].bank_account_number,
+              emp_code: this.excelarrayattach7[i].emp_code,
+              name: this.excelarrayattach7[i].name,
+              total_allowance: (this.excelarrayattach7[i].total_allowance),
+            }
+            combinedArray.push(combinedObject);
+          }
+          for (let i = 0; i < this.excelarrayattach72.length; i++) {
+            const combinedObject = {
+              bank_account_number: this.excelarrayattach72[i].bank_account_number,
+              emp_code: this.excelarrayattach72[i].emp_code,
+              name: this.excelarrayattach72[i].name,
+              total_allowance: parseInt(this.excelarrayattach72[i].total_allowance),
+            }
+            combinedArray.push(combinedObject);
+          }
+          for (let i = 0; i < this.excelarrayattach73.length; i++) {
+            const combinedObject = {
+              bank_account_number: this.excelarrayattach73[i].bank_account_number,
+              emp_code: this.excelarrayattach73[i].emp_code,
+              name: this.excelarrayattach73[i].name,
+              total_allowance: parseInt(this.excelarrayattach73[i].total_allowance),
+            }
+            combinedArray.push(combinedObject);
+          }
+          this.pdfdata = combinedArray
+        })
+        .catch(error => {
+          console.error('Error fetching data:', error.message);
+        });
+      await this.generatePDF(this.pdfdata)
+    },
+    async getAttach7excelP() {
+      let from_to = {
+        from: this.dateattach7from,
+        to: this.dateattach7to
+      }
+      await axios.post('http://localhost:4000/getdataattach7', from_to)
+        .then(response => {
+          console.log('resdata', response.data.result);
+          let dataexcel = response.data.result
+          this.excelarrayattach7 = Object.values(dataexcel);
+        })
+        .catch(error => {
+          console.error('Error fetching data:', error.message);
+        });
+      await axios.post('http://localhost:4000/getdataattach72', from_to)
+        .then(response => {
+          console.log('resdata', response.data.result);
+          let dataexcel = response.data.result
+          this.excelarrayattach72 = Object.values(dataexcel);
+          console.log('JSONTYPEOFwelfare', this.excelarray.length)
+        })
+        .catch(error => {
+          console.error('Error fetching data:', error.message);
+        });
+      await axios.post('http://localhost:4000/getdataattach73', from_to)
+        .then(response => {
+          console.log('resdata', response.data.result);
+          let dataexcel = response.data.result
+          this.excelarrayattach73 = Object.values(dataexcel);
+          // this.excelarraywelfare = dataexcel
+          // console.log('JSONTYPEOFwelfare', this.excelarray.length)
+          const combinedArray = []
+          for (let i = 0; i < this.excelarrayattach7.length; i++) {
+            const combinedObject = {
+              bank_account_number: this.excelarrayattach7[i].bank_account_number,
+              emp_code: this.excelarrayattach7[i].emp_code,
+              name: this.excelarrayattach7[i].name,
+              total_allowance: parseInt(this.excelarrayattach7[i].total_allowance),
+            }
+            combinedArray.push(combinedObject);
+          }
+          for (let i = 0; i < this.excelarrayattach72.length; i++) {
+            const combinedObject = {
+              bank_account_number: this.excelarrayattach72[i].bank_account_number,
+              emp_code: this.excelarrayattach72[i].emp_code,
+              name: this.excelarrayattach72[i].name,
+              total_allowance: parseInt(this.excelarrayattach72[i].total_allowance),
+            }
+            combinedArray.push(combinedObject);
+          }
+          for (let i = 0; i < this.excelarrayattach73.length; i++) {
+            const combinedObject = {
+              bank_account_number: this.excelarrayattach73[i].bank_account_number,
+              emp_code: this.excelarrayattach73[i].emp_code,
+              name: this.excelarrayattach73[i].name,
+              total_allowance: parseInt(this.excelarrayattach73[i].total_allowance),
+            }
+            combinedArray.push(combinedObject);
+          }
+          this.pdfdata = combinedArray
+        })
+        .catch(error => {
+          console.error('Error fetching data:', error.message);
+        });
+      await this.exporttoexcel(this.pdfdata)
     },
     async updatepayment7() {
       let e = document.getElementById("selectattach7")
@@ -437,6 +608,20 @@ export default {
       });
       console.log('paymenyupdate', sendData)
       await axios.post('http://localhost:4000/addpaymentstatusattach7', sendData)
+      .then(response => {
+        console.log('resdataUpdate', response)
+      })
+      .catch(error => {
+          console.error('Error fetching data:', error.message);
+      });
+      await axios.post('http://localhost:4000/addpaymentstatusattach72', sendData)
+      .then(response => {
+        console.log('resdataUpdate', response)
+      })
+      .catch(error => {
+          console.error('Error fetching data:', error.message);
+      });
+      await axios.post('http://localhost:4000/addpaymentstatusattach73', sendData)
       .then(response => {
         console.log('resdataUpdate', response)
       })
