@@ -779,10 +779,17 @@ export default {
             allowance_payment_date: data.item44,
           }
         })
-        console.log('Aftermap', jsonobjectTnos)
-        console.log('Aftermap25', jsonMapTnos5)
-
+        // console.log('Aftermap', jsonobjectTnos)
+        // console.log('Aftermap25', jsonMapTnos5)        
+        console.log('AftermapSend', this.jsondata2Tnos5)
         this.jsondata2Tnos5 = jsonMapTnos5
+        axios.post('http://localhost:4000/tnos5', this.jsondata2Tnos5)
+          .then(response => {
+            console.log(response.data);
+          })
+          .catch(error => {
+            console.error('Error fetching data:', error.message);
+          });
       };
 
       reader.readAsBinaryString(file);

@@ -6,11 +6,13 @@
       <router-link to="/payroll">Payroll</router-link>
     </nav>
     <b-container>
+      <attached7></attached7>
       <div>
         <h1 style="text-shadow: 2px 2px 5px black;">Attached</h1>
       </div>
       <div style="border: 2px solid gray;border-radius: 10px;height: 400px;box-shadow: 5px 5px 5px #888888;">
-        <b-row style="margin: 20px;">
+        
+        <!-- <b-row style="margin: 20px;">
           <b-col>
             <b-form-datepicker style="width: 100%;" id="example-datepickerattach7" v-model="dateattach7from"
               class="mb-2"></b-form-datepicker>
@@ -56,7 +58,7 @@
               <b-button @click="updatepayment7">Update payment status</b-button>
             </div>
           </b-col>
-        </b-row>
+        </b-row> -->
         <b-row style="margin: 20px;">
           <b-col>
             <b-form-datepicker style="width: 100%;" id="example-datepickerattach8" v-model="dateattach8from"
@@ -141,7 +143,11 @@ import axios from 'axios';
 import { PDFDocument, StandardFonts, rgb } from 'pdf-lib';
 import fontkit from '@pdf-lib/fontkit';
 import moment from 'moment';
+import attached7 from '../views/attach7.vue'
 export default {
+  components: {
+    attached7
+  },
   data() {
     return {
       excelarray: [],
@@ -489,7 +495,7 @@ export default {
       })
       .catch(error => {
           console.error('Error fetching data:', error.message);
-        });
+      });
     },
     async getOneAttach8() {
       let from_to = {

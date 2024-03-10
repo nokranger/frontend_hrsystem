@@ -1,15 +1,22 @@
 <template>
   <div>
-    <nav>
+    <!-- <nav>
       <router-link to="/dashboard">Import & Export</router-link> ||
       <router-link to="/Attached">Attached</router-link> ||
       <router-link to="/payroll">Payroll</router-link>
-    </nav>
+    </nav> -->
     <b-container>
       <div>
         <h1 style="text-shadow: 2px 2px 5px black;">Attached</h1>
       </div>
       <div style="border: 2px solid gray;border-radius: 10px;height: 400px;box-shadow: 5px 5px 5px #888888;">
+        <b-row style="margin: 20px;">
+          <b-col>
+            <div>
+              <b-form-select id="selectattach7" v-model="selectedattach7" :options="optionsattach7"></b-form-select>
+            </div>
+          </b-col>
+        </b-row>
         <b-row style="margin: 20px;">
           <b-col>
             <b-form-datepicker style="width: 100%;" id="example-datepickerattach7" v-model="dateattach7from"
@@ -23,10 +30,20 @@
             <b-form-datepicker style="width: 100%;" id="example-datepickerattach73" v-model="dateattach7select"
               class="mb-2"></b-form-datepicker>
           </b-col>
+        </b-row>
+        <b-row style="margin: 20px;">
+          <b-col>
+            <div>
+              <b-input placeholder="Enter your Title Report" v-model="titleattach7"></b-input>
+            </div>
+          </b-col>
           <b-col>
             <b-input v-on:keyup.enter="getOneAttach7" placeholder="Enter Employee Code"
               v-model="dataattach7one"></b-input>
           </b-col>
+          <b-col></b-col>
+        </b-row>
+        <b-row style="margin: 20px;">
           <b-col>
             <div style="text-align: center;">
               <b-button variant="outline-primary" @click="getAttach7all"
@@ -43,17 +60,22 @@
           </b-col>
           <b-col>
             <div>
-              <b-form-select id="selectattach7" v-model="selectedattach7" :options="optionsattach7"></b-form-select>
+              <b-button variant="outline-primary" @click="updatepayment7">Update payment status</b-button>
             </div>
           </b-col>
+        </b-row>
+        <b-row>
           <b-col>
             <div>
-              <b-input placeholder="Enter your title Report" v-model="titleattach7"></b-input>
-            </div>
-          </b-col>
-          <b-col>
-            <div>
-              <b-button @click="updatepayment7">Update payment status</b-button>
+              <b-form-checkbox
+                id="checkbox-1"
+                v-model="status"
+                name="checkbox-1"
+                value="1"
+                unchecked-value="not_accepted"
+              >
+                <div style="margin: 10px;">ยืนยันการจ่ายเงิน</div>
+              </b-form-checkbox>
             </div>
           </b-col>
         </b-row>
@@ -101,12 +123,12 @@ export default {
       titleattach10: '',
       selectedattach7: null,
       optionsattach7: [
-        { value: null, text: 'Please select an option' },
-        { value: 1, text: 'ดูทั้งหมด' },
-        { value: 2, text: 'จ่ายแล้ว' },
-        { value: 3, text: 'ยังไม่จ่าย' }
+        { value: null, text: 'ดูทั้งหมด' },
+        { value: 1, text: 'จ่ายแล้ว' },
+        { value: 2, text: 'ยังไม่จ่าย' }
       ],
-      sumValue: 0
+      sumValue: 0,
+      status: '0'
     }
   },
   methods: {
@@ -399,13 +421,29 @@ export default {
     },
     async updatepayment7() {
       let e = document.getElementById("selectattach7")
-      let updatepayment = {
-        payment_status: e.value,
-        from: this.dateattach7from,
-        to: this.dateattach7to
-      }
-      console.log('paymenyupdate', updatepayment)
-    }
+      let updatepayment = [
+        {
+          payment_status: '0',
+          emp_code: '641610'
+        },
+        {
+          payment_status: '1',
+          emp_code: '651604'
+        }
+      ]
+      // let sendData = this.pdfdata
+      let sendData = await this.pdfdata.map(obj => {
+        return { ...obj, payment_status: this.status, payment_date: this.dateattach7select };
+      });
+      console.log('paymenyupdate', sendData)
+      await axios.post('http://localhost:4000/addpaymentstatusattach7', sendData)
+      .then(response => {
+        console.log('resdataUpdate', response)
+      })
+      .catch(error => {
+          console.error('Error fetching data:', error.message);
+      });
+    },
   }
 }
 </script>
