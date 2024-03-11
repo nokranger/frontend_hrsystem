@@ -6,9 +6,9 @@
       <router-link to="/payroll">Payroll</router-link>
     </nav> -->
     <b-container>
-      <div>
+      <!-- <div>
         <h1 style="text-shadow: 2px 2px 5px black;">Attached</h1>
-      </div>
+      </div> -->
       <div style="border: 2px solid gray;border-radius: 10px;height: 400px;box-shadow: 5px 5px 5px #888888;">
         <b-row style="margin: 20px;">
           <b-col>
@@ -78,7 +78,7 @@
         <b-row style="margin: 20px;">
           <b-col>
             <div>
-              <b-form-select id="selectattach7" v-model="selectedattach7" :options="optionsattach7"></b-form-select>
+              <b-form-select style="width: 100%;height: 40px;font-family: 'Noto Serif', sans-serif;font-weight: bold;font-size: 20px;border-radius:10px;border:1px solid #cccccc;" id="selectattach7" v-model="selectedattach7" :options="optionsattach7"></b-form-select>
             </div>
           </b-col>
           <b-col>

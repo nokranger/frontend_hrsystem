@@ -6,14 +6,20 @@
       <router-link to="/payroll">Payroll</router-link>
     </nav>
     <b-container>
-      <div>
-        <b-form-select id="selectoption" v-model="selectOption" :options="optionss"></b-form-select>
+      <div style="display: inline;">
+        <h1 style="text-shadow: 2px 2px 5px black;display: inline;">Attached</h1>
+        <b-form-select
+          style="display: inline; margin: 10px;width: 300px;height: 40px;font-family: 'Noto Serif', sans-serif;font-weight: bold;font-size: 20px;border-radius:10px;border:1px solid #cccccc;"
+          id="selectoption" v-model="selectOption" :options="optionss"></b-form-select>
       </div>
+      <!-- <div style="display: inline;">
+        <b-form-select id="selectoption" v-model="selectOption" :options="optionss"></b-form-select>
+      </div> -->
       <div v-if="selectOption == 7">
         <attached7></attached7>
       </div>
       <div v-if="selectOption == 8">
-        <attached7></attached7>
+        <attached8></attached8>
       </div>
       <div v-if="selectOption == 9">
         <attached9></attached9>
@@ -21,35 +27,35 @@
       <div v-if="selectOption == 10">
         <attached7></attached7>
       </div>
-      <div>
+      <!-- <div>
         <h1 style="text-shadow: 2px 2px 5px black;">Attached</h1>
-      </div>
-      <div style="border: 2px solid gray;border-radius: 10px;height: 400px;box-shadow: 5px 5px 5px #888888;">
-        <b-row style="margin: 20px;">
-          <b-col>
-            <b-form-datepicker style="width: 100%;" id="example-datepickerattach8" v-model="dateattach8from"
-              class="mb-2"></b-form-datepicker>
-          </b-col>
-          <b-col>
-            <b-form-datepicker style="width: 100%;" id="example-datepickerattach82" v-model="dateattach8to"
-              class="mb-2"></b-form-datepicker>
-          </b-col>
-          <b-col>
-            <b-form-datepicker style="width: 100%;" id="example-datepickerattach83" v-model="dateattach8select"
-              class="mb-2"></b-form-datepicker>
-          </b-col>
-          <b-col>
-            <b-input v-on:keyup.enter="getOneAttach8" placeholder="Enter Employee Code"
-              v-model="dataattach8one"></b-input>
-          </b-col>
-          <b-col>
-            <div style="text-align: center;">
-              <b-button variant="outline-success" @click="getAttach8" style="box-shadow: 5px 5px 5px #888888;">Attached
-                8</b-button>
-            </div>
-          </b-col>
-        </b-row>
-        <b-row style="margin: 20px;">
+      </div> -->
+      <!-- <div style="border: 2px solid gray;border-radius: 10px;height: 400px;box-shadow: 5px 5px 5px #888888;"> -->
+      <!-- <b-row style="margin: 20px;">
+        <b-col>
+          <b-form-datepicker style="width: 100%;" id="example-datepickerattach8" v-model="dateattach8from"
+            class="mb-2"></b-form-datepicker>
+        </b-col>
+        <b-col>
+          <b-form-datepicker style="width: 100%;" id="example-datepickerattach82" v-model="dateattach8to"
+            class="mb-2"></b-form-datepicker>
+        </b-col>
+        <b-col>
+          <b-form-datepicker style="width: 100%;" id="example-datepickerattach83" v-model="dateattach8select"
+            class="mb-2"></b-form-datepicker>
+        </b-col>
+        <b-col>
+          <b-input v-on:keyup.enter="getOneAttach8" placeholder="Enter Employee Code"
+            v-model="dataattach8one"></b-input>
+        </b-col>
+        <b-col>
+          <div style="text-align: center;">
+            <b-button variant="outline-success" @click="getAttach8" style="box-shadow: 5px 5px 5px #888888;">Attached
+              8</b-button>
+          </div>
+        </b-col>
+      </b-row> -->
+      <!-- <b-row style="margin: 20px;">
           <b-col>
             <b-form-datepicker style="width: 100%;" id="example-datepickerattach9" v-model="dateattach9from"
               class="mb-2"></b-form-datepicker>
@@ -73,8 +79,8 @@
                 9</b-button>
             </div>
           </b-col>
-        </b-row>
-        <b-row style="margin: 20px;">
+        </b-row> -->
+      <!-- <b-row style="margin: 20px;">
           <b-col>
             <b-form-datepicker style="width: 100%;" id="example-datepickerattach10" v-model="dateattach10from"
               class="mb-2"></b-form-datepicker>
@@ -97,8 +103,8 @@
                 10</b-button>
             </div>
           </b-col>
-        </b-row>
-      </div>
+        </b-row> -->
+      <!-- </div> -->
     </b-container>
   </div>
 </template>
@@ -110,11 +116,13 @@ import { PDFDocument, StandardFonts, rgb } from 'pdf-lib';
 import fontkit from '@pdf-lib/fontkit';
 import moment from 'moment';
 import attached7 from '../views/attach7.vue'
+import attached8 from '../views/attach8.vue';
 import attached9 from '../views/attach9.vue';
 export default {
   components: {
     attached7,
-    attached9
+    attached9,
+    attached8
   },
   data() {
     return {
@@ -148,11 +156,11 @@ export default {
       titleattach10: '',
       selectOption: null,
       optionss: [
-        { value: null, text: 'ดูทั้งหมด' },
-        { value: 7, text: '7' },
-        { value: 8, text: '8' },
-        { value: 9, text: '9' },
-        { value: 10, text: '10' },
+        { value: null, text: 'เลือก' },
+        { value: 7, text: 'สรุปยอดเงินเบี้ยเลี้ยง/ค่าขับและสวัสดิการของพนักงาน' },
+        { value: 8, text: 'สรุปยอดเงินเบี้ยเลี้ยง/ค่าขับของพนักงาน' },
+        { value: 9, text: 'สรุปยอดชม.ล่วงเวลาของพนักงานประจําเดือน' },
+        { value: 10, text: 'สรุปยอดเงินเบี้ยเลี้ยงของพนักงานขับรถ' },
       ],
       selectedattach7: null,
       optionsattach7: [
@@ -455,23 +463,23 @@ export default {
     async updatepayment7() {
       let e = document.getElementById("selectattach7")
       let updatepayment = [
-    {
-      payment_status: '0',
-      emp_code: '641610'
-    },
-    {
-      payment_status: '1',
-      emp_code: '651604'
-    }
-  ]
+        {
+          payment_status: '0',
+          emp_code: '641610'
+        },
+        {
+          payment_status: '1',
+          emp_code: '651604'
+        }
+      ]
       console.log('paymenyupdate', updatepayment)
       await axios.post('http://localhost:4000/addpaymentstatusattach7', updatepayment)
-      .then(response => {
-        console.log('resdataUpdate', response)
-      })
-      .catch(error => {
+        .then(response => {
+          console.log('resdataUpdate', response)
+        })
+        .catch(error => {
           console.error('Error fetching data:', error.message);
-      });
+        });
     },
     async getOneAttach8() {
       let from_to = {
@@ -520,11 +528,21 @@ export default {
         .catch(error => {
           console.error('Error fetching data:', error.message);
         });
-        await this.generatePDF8(this.pdfdata)
+      await this.generatePDF8(this.pdfdata)
     },
     async generatePDF8(datas) {
-      console.log('count', datas)
-      console.log('count', datas.length)
+      const result = await datas.reduce((acc, obj) => {
+        // If the key doesn't exist, create an array for it
+        if (!acc[obj.ttt_employee_code]) {
+          acc[obj.ttt_employee_code] = [];
+        }
+        // Push the current object into the array for this ttt_employee_code
+        acc[obj.ttt_employee_code].push(obj);
+        return acc;
+      }, {});
+      // let aa = result.forEach({})
+      // console.log('count', datas)
+      // console.log('count', datas.length)
       const pdfDoc = await PDFDocument.create()
       pdfDoc.registerFontkit(fontkit)
       let urls = 'https://script-app.github.io/font/THSarabunNew.ttf'
@@ -555,56 +573,113 @@ export default {
       page.drawText(`ค่าตอบแทน (ชม.)`, { x: 400, y: 720, size: fontSize, font: thaiFont });
       page.drawText(`เพิ่ม/ลด`, { x: 500, y: 720, size: fontSize, font: thaiFont });
       page.drawText(`__________________________________________________________________________________`, { x: 10, y: 710, size: 20, font: thaiFont });
+      // page.drawText(`เพิ่ม/ลด${result}`, { x: 20, y: 720, size: fontSize, font: thaiFont });
       let count = 0
       let countPage = 1
       // let sumValue = datas.reduce((acc, obj) => acc + parseInt(obj.total_allowance), 0);
-      let empCheck = ''
+      let lastEmpCode = null;
       // page.drawText(`Page${countPage}`, { x: 450, y: 720 , size: fontSize});
       for (const data of datas) {
-        console.log('count', datas.length)
+        // console.log('count', datas.length)
         // const sumValue = data.reduce((acc, obj) => acc + parseInt(obj.total_allowance), 0);
         // const titleHeight = 20; // Adjust as needed
         const descriptionHeight = 30; // Adjust as needed
-        empCheck = data.ttt_employee_code
-        console.log('empCheck !== data.ttt_employee_code', data.ttt_employee_code)
-        // Check if there is enough space on the current page
-        if (empCheck !== data.ttt_employee_code) {
-          countPage++;
-          console.log('empCheck !== data.ttt_employee_code', data.ttt_employee_code)
-          // Create a new page if the content doesn't fit
-          page = pdfDoc.addPage();
-          page.drawText(`บริษัท โตโยต้า ทรานสปอร์ต (ประเทศไทย) จํากัด`, { x: 170, y: 800, size: 20, font: thaiFont });
-          page.drawText(`สรุปยอดเงินเบี้ยเลี้ยง/ค่าขับและสวัสดิการของพนักงาน`, { x: 140, y: 780, size: 20, font: thaiFont });
-          page.drawText(`เข้าบัญชีพนักงานวันที่ ${moment(this.dateattach8select).format('L')}`, { x: 50, y: 760, size: 20, font: thaiFont });
-          page.drawText(`${data.ttt_employee_code}`, { x: 250, y: 760, size: 20, font: thaiFont });
-          page.drawText(`รหัส ${data.ttt_employee_code}`, { x: 370, y: 760, size: 20, font: thaiFont });
-          page.drawText(`__________________________________________________________________________________`, { x: 10, y: 750, size: 20, font: thaiFont });
-          page.drawText(`วันที่`, { x: 35, y: 720, size: fontSize, font: thaiFont });
-          page.drawText(`เลขอ้างอิง`, { x: 150, y: 720, size: fontSize, font: thaiFont });
-          page.drawText(`เบี้ยเลี้ยง`, { x: 240, y: 720, size: fontSize, font: thaiFont });
-          page.drawText(`รายละเอียด`, { x: 300, y: 720, size: fontSize, font: thaiFont });
-          page.drawText(`ค่าตอบแทน (ชม.)`, { x: 400, y: 720, size: fontSize, font: thaiFont });
-          page.drawText(`เพิ่ม/ลด`, { x: 500, y: 720, size: fontSize, font: thaiFont });
-          page.drawText(`__________________________________________________________________________________`, { x: 10, y: 710, size: 20, font: thaiFont });
-          // page.drawText(`Page${countPage}`, { x: 450, y: 720 , size: fontSize});
-          yPosition = height - margin;
-        } else {
-          page = pdfDoc.addPage();
-          page.drawText(`บริษัท โตโยต้า ทรานสปอร์ต (ประเทศไทย) จํากัด`, { x: 170, y: 800, size: 20, font: thaiFont });
-          page.drawText(`สรุปยอดเงินเบี้ยเลี้ยง/ค่าขับและสวัสดิการของพนักงาน`, { x: 140, y: 780, size: 20, font: thaiFont });
-          page.drawText(`เข้าบัญชีพนักงานวันที่ ${moment(this.dateattach8select).format('L')}`, { x: 50, y: 760, size: 20, font: thaiFont });
-          page.drawText(`${data.ttt_employee_code}`, { x: 250, y: 760, size: 20, font: thaiFont });
-          page.drawText(`รหัส ${data.ttt_employee_code}`, { x: 370, y: 760, size: 20, font: thaiFont });
-          page.drawText(`__________________________________________________________________________________`, { x: 10, y: 750, size: 20, font: thaiFont });
-          page.drawText(`วันที่`, { x: 35, y: 720, size: fontSize, font: thaiFont });
-          page.drawText(`เลขอ้างอิง`, { x: 150, y: 720, size: fontSize, font: thaiFont });
-          page.drawText(`เบี้ยเลี้ยง`, { x: 240, y: 720, size: fontSize, font: thaiFont });
-          page.drawText(`รายละเอียด`, { x: 300, y: 720, size: fontSize, font: thaiFont });
-          page.drawText(`ค่าตอบแทน (ชม.)`, { x: 400, y: 720, size: fontSize, font: thaiFont });
-          page.drawText(`เพิ่ม/ลด`, { x: 500, y: 720, size: fontSize, font: thaiFont });
-          page.drawText(`__________________________________________________________________________________`, { x: 10, y: 710, size: 20, font: thaiFont });
-          // page.drawText(`Page${countPage}`, { x: 450, y: 720 , size: fontSize});
-          yPosition = height - margin;
+        // empCheck = data.ttt_employee_code
+
+        if (yPosition - descriptionHeight < margin) {
+          if (lastEmpCode !== data.ttt_employee_code) {
+            countPage++;
+            // console.log('empCheck !== data.ttt_employee_code', data.ttt_employee_code)
+            // Create a new page if the content doesn't fit
+            page = pdfDoc.addPage();
+            lastEmpCode = data.ttt_employee_code;
+            page.drawText(`บริษัท โตโยต้า ทรานสปอร์ต (ประเทศไทย) จํากัด`, { x: 170, y: 800, size: 20, font: thaiFont });
+            page.drawText(`สรุปยอดเงินเบี้ยเลี้ยง/ค่าขับและสวัสดิการของพนักงาน`, { x: 140, y: 780, size: 20, font: thaiFont });
+            page.drawText(`เข้าบัญชีพนักงานวันที่ ${moment(this.dateattach8select).format('L')}`, { x: 50, y: 760, size: 20, font: thaiFont });
+            page.drawText(`${data.ttt_employee_code}`, { x: 250, y: 760, size: 20, font: thaiFont });
+            page.drawText(`รหัส ${data.ttt_employee_code}`, { x: 370, y: 760, size: 20, font: thaiFont });
+            page.drawText(`__________________________________________________________________________________`, { x: 10, y: 750, size: 20, font: thaiFont });
+            page.drawText(`วันที่`, { x: 35, y: 720, size: fontSize, font: thaiFont });
+            page.drawText(`เลขอ้างอิง`, { x: 150, y: 720, size: fontSize, font: thaiFont });
+            page.drawText(`เบี้ยเลี้ยง`, { x: 240, y: 720, size: fontSize, font: thaiFont });
+            page.drawText(`รายละเอียด`, { x: 300, y: 720, size: fontSize, font: thaiFont });
+            page.drawText(`ค่าตอบแทน (ชม.)`, { x: 400, y: 720, size: fontSize, font: thaiFont });
+            page.drawText(`เพิ่ม/ลด`, { x: 500, y: 720, size: fontSize, font: thaiFont });
+            page.drawText(`__________________________________________________________________________________`, { x: 10, y: 710, size: 20, font: thaiFont });
+            // page.drawText(`Page${countPage}`, { x: 450, y: 720 , size: fontSize});
+            yPosition = height - margin;
+          } else {
+            countPage++;
+            // console.log('empCheck !== data.ttt_employee_code', data.ttt_employee_code)
+            // Create a new page if the content doesn't fit
+            page = pdfDoc.addPage();
+            lastEmpCode = data.ttt_employee_code;
+            page.drawText(`บริษัท โตโยต้า ทรานสปอร์ต (ประเทศไทย) จํากัด`, { x: 170, y: 800, size: 20, font: thaiFont });
+            page.drawText(`สรุปยอดเงินเบี้ยเลี้ยง/ค่าขับและสวัสดิการของพนักงาน`, { x: 140, y: 780, size: 20, font: thaiFont });
+            page.drawText(`เข้าบัญชีพนักงานวันที่ ${moment(this.dateattach8select).format('L')}`, { x: 50, y: 760, size: 20, font: thaiFont });
+            page.drawText(`${data.ttt_employee_code}`, { x: 250, y: 760, size: 20, font: thaiFont });
+            page.drawText(`รหัส ${data.ttt_employee_code}`, { x: 370, y: 760, size: 20, font: thaiFont });
+            page.drawText(`__________________________________________________________________________________`, { x: 10, y: 750, size: 20, font: thaiFont });
+            page.drawText(`วันที่`, { x: 35, y: 720, size: fontSize, font: thaiFont });
+            page.drawText(`เลขอ้างอิง`, { x: 150, y: 720, size: fontSize, font: thaiFont });
+            page.drawText(`เบี้ยเลี้ยง`, { x: 240, y: 720, size: fontSize, font: thaiFont });
+            page.drawText(`รายละเอียด`, { x: 300, y: 720, size: fontSize, font: thaiFont });
+            page.drawText(`ค่าตอบแทน (ชม.)`, { x: 400, y: 720, size: fontSize, font: thaiFont });
+            page.drawText(`เพิ่ม/ลด`, { x: 500, y: 720, size: fontSize, font: thaiFont });
+            page.drawText(`__________________________________________________________________________________`, { x: 10, y: 710, size: 20, font: thaiFont });
+            // page.drawText(`Page${countPage}`, { x: 450, y: 720 , size: fontSize});
+            yPosition = height - margin;
+            page.drawText(`${data.recieve_job_dateandtime}`, { x: 25, y: yPosition, size: fontSize, font: thaiFont });
+            page.drawText(`${data.calling_sheet_no}`, { x: 150, y: yPosition, size: fontSize, font: thaiFont });
+            // const yNameStart = yStart + 20;
+            page.drawText(`${data.total_allowance}`, { x: 240, y: yPosition, size: fontSize, font: thaiFont });
+            // const yPriceStart = yNameStart + 20;
+            page.drawText(`${data.to_name}`, { x: 300, y: yPosition, size: fontSize, font: thaiFont });
+            page.drawText(`${data.total_ot}`, { x: 420, y: yPosition, size: fontSize, font: thaiFont });
+            page.drawText(`${data.over_ot}`, { x: 500, y: yPosition, size: fontSize, font: thaiFont });
+            yPosition -= descriptionHeight; // Adjust x-position for the next entry
+            count++
+            if (count > datas.length - 1) {
+              console.log('countPDF ', count);
+              page.drawText(`__________________________________________________________________________________`, { x: 10, y: yPosition + 20, size: 20, font: thaiFont });
+              // page.drawText(`รวม ${sumValue}`, { x: 470, y: yPosition - 20 , size: 20, font: thaiFont});
+            }
+          }
+          page.drawText(`${data.recieve_job_dateandtime}`, { x: 25, y: yPosition, size: fontSize, font: thaiFont });
+          page.drawText(`${data.calling_sheet_no}`, { x: 150, y: yPosition, size: fontSize, font: thaiFont });
+          // const yNameStart = yStart + 20;
+          page.drawText(`${data.total_allowance}`, { x: 240, y: yPosition, size: fontSize, font: thaiFont });
+          // const yPriceStart = yNameStart + 20;
+          page.drawText(`${data.to_name}`, { x: 300, y: yPosition, size: fontSize, font: thaiFont });
+          page.drawText(`${data.total_ot}`, { x: 420, y: yPosition, size: fontSize, font: thaiFont });
+          page.drawText(`${data.over_ot}`, { x: 500, y: yPosition, size: fontSize, font: thaiFont });
+          yPosition -= descriptionHeight; // Adjust x-position for the next entry
+          count++
+          if (count > datas.length - 1) {
+            console.log('countPDF ', count);
+            page.drawText(`__________________________________________________________________________________`, { x: 10, y: yPosition + 20, size: 20, font: thaiFont });
+            // page.drawText(`รวม ${sumValue}`, { x: 470, y: yPosition - 20 , size: 20, font: thaiFont});
+          }
+          // countPage++;
+          // // console.log('empCheck !== data.ttt_employee_code', data.ttt_employee_code)
+          // // Create a new page if the content doesn't fit
+          // page = pdfDoc.addPage();
+          // page.drawText(`บริษัท โตโยต้า ทรานสปอร์ต (ประเทศไทย) จํากัด`, { x: 170, y: 800, size: 20, font: thaiFont });
+          // page.drawText(`สรุปยอดเงินเบี้ยเลี้ยง/ค่าขับและสวัสดิการของพนักงาน`, { x: 140, y: 780, size: 20, font: thaiFont });
+          // page.drawText(`เข้าบัญชีพนักงานวันที่ ${moment(this.dateattach8select).format('L')}`, { x: 50, y: 760, size: 20, font: thaiFont });
+          // page.drawText(`${data.ttt_employee_code}`, { x: 250, y: 760, size: 20, font: thaiFont });
+          // page.drawText(`รหัส ${data.ttt_employee_code}`, { x: 370, y: 760, size: 20, font: thaiFont });
+          // page.drawText(`__________________________________________________________________________________`, { x: 10, y: 750, size: 20, font: thaiFont });
+          // page.drawText(`วันที่`, { x: 35, y: 720, size: fontSize, font: thaiFont });
+          // page.drawText(`เลขอ้างอิง`, { x: 150, y: 720, size: fontSize, font: thaiFont });
+          // page.drawText(`เบี้ยเลี้ยง`, { x: 240, y: 720, size: fontSize, font: thaiFont });
+          // page.drawText(`รายละเอียด`, { x: 300, y: 720, size: fontSize, font: thaiFont });
+          // page.drawText(`ค่าตอบแทน (ชม.)`, { x: 400, y: 720, size: fontSize, font: thaiFont });
+          // page.drawText(`เพิ่ม/ลด`, { x: 500, y: 720, size: fontSize, font: thaiFont });
+          // page.drawText(`__________________________________________________________________________________`, { x: 10, y: 710, size: 20, font: thaiFont });
+          // // page.drawText(`Page${countPage}`, { x: 450, y: 720 , size: fontSize});
+          // yPosition = height - margin;
+
         }
         page.drawText(`${data.recieve_job_dateandtime}`, { x: 25, y: yPosition, size: fontSize, font: thaiFont });
         page.drawText(`${data.calling_sheet_no}`, { x: 150, y: yPosition, size: fontSize, font: thaiFont });
@@ -612,7 +687,7 @@ export default {
         page.drawText(`${data.total_allowance}`, { x: 240, y: yPosition, size: fontSize, font: thaiFont });
         // const yPriceStart = yNameStart + 20;
         page.drawText(`${data.to_name}`, { x: 300, y: yPosition, size: fontSize, font: thaiFont });
-        page.drawText(`${data.total_ot}`, { x: 500, y: yPosition, size: fontSize, font: thaiFont });
+        page.drawText(`${data.total_ot}`, { x: 420, y: yPosition, size: fontSize, font: thaiFont });
         page.drawText(`${data.over_ot}`, { x: 500, y: yPosition, size: fontSize, font: thaiFont });
         yPosition -= descriptionHeight; // Adjust x-position for the next entry
         count++
@@ -621,6 +696,7 @@ export default {
           page.drawText(`__________________________________________________________________________________`, { x: 10, y: yPosition + 20, size: 20, font: thaiFont });
           // page.drawText(`รวม ${sumValue}`, { x: 470, y: yPosition - 20 , size: 20, font: thaiFont});
         }
+
       }
 
       // Save the PDF to a file or display it in a new tab

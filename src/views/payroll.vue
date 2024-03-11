@@ -9,7 +9,7 @@
       <div>
         <h1 style="text-shadow: 2px 2px 5px black;">Payroll</h1>
       </div>
-      <div style="border: 2px solid gray;border-radius: 10px;height: 400px;box-shadow: 5px 5px 5px #888888;">
+      <div style="border: 2px solid gray;border-radius: 10px;height: 200px;box-shadow: 5px 5px 5px #888888;">
         <span style="display: inline;">
           <b-row style="margin: 10px;">
             <b-col>

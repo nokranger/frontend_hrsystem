@@ -9,10 +9,10 @@
       <div>
         <h1 style="text-shadow: 2px 2px 5px black;margin: 20px;">Import Data</h1>
       </div>
-      <div style="border: 2px solid gray;border-radius: 10px;height: 600px;box-shadow: 5px 5px 5px #888888;">
+      <div style="border: 2px solid gray;border-radius: 10px;height: 650px;box-shadow: 5px 5px 5px #888888;">
         <div>
           <br>
-          <div>
+          <div style="font-weight: bold;font-size: 20px;margin: 10px;">
             Personal Data
           </div>
           <input type="file" ref="fileInput" @change="handleFileChange" />
@@ -20,10 +20,8 @@
           <br><br>
           <!-- <button @click="PersonalSendData">PersonalSendData</button> -->
         </div>
-        <br>
-        <br>
         <div>
-          <div>
+          <div style="font-weight: bold;font-size: 20px;margin: 10px;">
             Instructor Data
           </div>
           <input type="file" ref="fileInput" @change="handleFileChangeInstructor" />
@@ -34,7 +32,7 @@
         <br>
         <br>
         <div>
-          <div>
+          <div style="font-weight: bold;font-size: 20px;margin: 10px;">
             T-nos Data
           </div>
           <input type="file" ref="fileInput" @change="handleFileChangeTnos" />
@@ -45,7 +43,7 @@
         <br>
         <br>
         <div>
-          <div>
+          <div style="font-weight: bold;font-size: 20px;margin: 10px;">
             Welfare Data
           </div>
           <input type="file" ref="fileInput" @change="handleFileChangeWelfare" />
@@ -53,10 +51,8 @@
           <br><br>
           <!-- <button @click="WelfareSendData">Welfare Data</button> -->
         </div>
-        <br>
-        <br>
         <div>
-          <div>
+          <div style="font-weight: bold;font-size: 20px;margin: 10px;">
             Holiday Data
           </div>
           <input type="file" ref="fileInput" @change="handleFileChangeHoliday" />
