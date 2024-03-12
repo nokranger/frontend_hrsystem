@@ -227,7 +227,7 @@ export default {
               bank_account_number: this.excelarrayattach7[i].bank_account_number,
               emp_code: this.excelarrayattach7[i].emp_code,
               name: this.excelarrayattach7[i].name,
-              total_allowance: (this.excelarrayattach7[i].total_allowance),
+              total_allowance: parseFloat(this.excelarrayattach7[i].total_allowance),
             }
             combinedArray.push(combinedObject);
           }
@@ -236,7 +236,7 @@ export default {
               bank_account_number: this.excelarrayattach72[i].bank_account_number,
               emp_code: this.excelarrayattach72[i].emp_code,
               name: this.excelarrayattach72[i].name,
-              total_allowance: parseInt(this.excelarrayattach72[i].total_allowance),
+              total_allowance: parseFloat(this.excelarrayattach72[i].total_allowance),
             }
             combinedArray.push(combinedObject);
           }
@@ -245,7 +245,7 @@ export default {
               bank_account_number: this.excelarrayattach73[i].bank_account_number,
               emp_code: this.excelarrayattach73[i].emp_code,
               name: this.excelarrayattach73[i].name,
-              total_allowance: parseInt(this.excelarrayattach73[i].total_allowance),
+              total_allowance: parseFloat(this.excelarrayattach73[i].total_allowance),
             }
             combinedArray.push(combinedObject);
           }
@@ -293,7 +293,7 @@ export default {
               bank_account_number: this.excelarrayattach7[i].bank_account_number,
               emp_code: this.excelarrayattach7[i].emp_code,
               name: this.excelarrayattach7[i].name,
-              total_allowance: parseInt(this.excelarrayattach7[i].total_allowance),
+              total_allowance: parseFloat(this.excelarrayattach7[i].total_allowance),
             }
             combinedArray.push(combinedObject);
           }
@@ -302,7 +302,7 @@ export default {
               bank_account_number: this.excelarrayattach72[i].bank_account_number,
               emp_code: this.excelarrayattach72[i].emp_code,
               name: this.excelarrayattach72[i].name,
-              total_allowance: parseInt(this.excelarrayattach72[i].total_allowance),
+              total_allowance: parseFloat(this.excelarrayattach72[i].total_allowance),
             }
             combinedArray.push(combinedObject);
           }
@@ -311,7 +311,7 @@ export default {
               bank_account_number: this.excelarrayattach73[i].bank_account_number,
               emp_code: this.excelarrayattach73[i].emp_code,
               name: this.excelarrayattach73[i].name,
-              total_allowance: parseInt(this.excelarrayattach73[i].total_allowance),
+              total_allowance: parseFloat(this.excelarrayattach73[i].total_allowance),
             }
             combinedArray.push(combinedObject);
           }
@@ -417,7 +417,7 @@ export default {
           if (count === datas.length) {
             // console.log('CountSum', this.sumValue)
             this.sumValue = await datas.reduce(function (_this, val) {
-              return _this + parseInt(val.total_allowance)
+              return _this + parseFloat(val.total_allowance)
             }, 0);
             // console.log('CountSum', this.sumValue)
             // console.log('CountSum', await datas.reduce((acc, obj) => acc += parseInt(obj.total_allowance), 0))
@@ -504,7 +504,7 @@ export default {
               bank_account_number: this.excelarrayattach72[i].bank_account_number,
               emp_code: this.excelarrayattach72[i].emp_code,
               name: this.excelarrayattach72[i].name,
-              total_allowance: parseInt(this.excelarrayattach72[i].total_allowance),
+              total_allowance: parseFloat(this.excelarrayattach72[i].total_allowance),
             }
             combinedArray.push(combinedObject);
           }
@@ -513,7 +513,7 @@ export default {
               bank_account_number: this.excelarrayattach73[i].bank_account_number,
               emp_code: this.excelarrayattach73[i].emp_code,
               name: this.excelarrayattach73[i].name,
-              total_allowance: parseInt(this.excelarrayattach73[i].total_allowance),
+              total_allowance: parseFloat(this.excelarrayattach73[i].total_allowance),
             }
             combinedArray.push(combinedObject);
           }
@@ -561,7 +561,7 @@ export default {
               bank_account_number: this.excelarrayattach7[i].bank_account_number,
               emp_code: this.excelarrayattach7[i].emp_code,
               name: this.excelarrayattach7[i].name,
-              total_allowance: parseInt(this.excelarrayattach7[i].total_allowance),
+              total_allowance: parseFloat(this.excelarrayattach7[i].total_allowance),
             }
             combinedArray.push(combinedObject);
           }
@@ -570,7 +570,7 @@ export default {
               bank_account_number: this.excelarrayattach72[i].bank_account_number,
               emp_code: this.excelarrayattach72[i].emp_code,
               name: this.excelarrayattach72[i].name,
-              total_allowance: parseInt(this.excelarrayattach72[i].total_allowance),
+              total_allowance: parseFloat(this.excelarrayattach72[i].total_allowance),
             }
             combinedArray.push(combinedObject);
           }
@@ -579,7 +579,7 @@ export default {
               bank_account_number: this.excelarrayattach73[i].bank_account_number,
               emp_code: this.excelarrayattach73[i].emp_code,
               name: this.excelarrayattach73[i].name,
-              total_allowance: parseInt(this.excelarrayattach73[i].total_allowance),
+              total_allowance: parseFloat(this.excelarrayattach73[i].total_allowance),
             }
             combinedArray.push(combinedObject);
           }

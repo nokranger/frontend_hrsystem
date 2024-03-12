@@ -101,11 +101,11 @@
           </b-row>
           <b-row style="margin: 10px;">
             <b-col>
-              <b-form-datepicker style="width: 100%;" id="example-datepickerinstuctor" v-model="dateinstuctorfrom"
+              <b-form-datepicker style="width: 100%;" id="example-datepickerinstuctor" v-model="datewelfarefrom"
                 class="mb-2"></b-form-datepicker>
             </b-col>
             <b-col>
-              <b-form-datepicker style="width: 100%;" id="example-datepickerinstuctor2" v-model="dateinstuctorto"
+              <b-form-datepicker style="width: 100%;" id="example-datepickerinstuctor2" v-model="datewelfareto"
                 class="mb-2"></b-form-datepicker>
             </b-col>
             <b-col>
@@ -217,7 +217,7 @@ export default {
           console.error('Error fetching data:', error.message);
         });
     },
-    MasterSendData() {
+    async MasterSendData() {
       this.testdata = {
         emp_code: '12345',
         name: 'NAMAMAMAM',
@@ -227,7 +227,7 @@ export default {
         from: this.datetnosfrom,
         to: this.datetnosto
       }
-      axios.post('http://localhost:4000/masterdata', from_to)
+      await axios.post('http://localhost:4000/masterdata', from_to)
         .then(response => {
           console.log('resdata', response.data.result);
           let dataexcel = response.data.result
@@ -238,7 +238,7 @@ export default {
           console.error('Error fetching data:', error.message);
         });
     },
-    instructorGetData() {
+    async instructorGetData() {
       this.testdata = {
         emp_code: '12345',
         name: 'NAMAMAMAM',
@@ -248,7 +248,7 @@ export default {
         from: this.dateinstuctorfrom,
         to: this.dateinstuctorto
       }
-      axios.post('http://localhost:4000/instructorgetdata', from_to)
+      await axios.post('http://localhost:4000/instructorgetdata', from_to)
         .then(response => {
           console.log('resdata', response.data.result);
           let dataexcel = response.data.result
@@ -259,7 +259,7 @@ export default {
           console.error('Error fetching data:', error.message);
         });
     },
-    welfareGetdata() {
+    async welfareGetdata() {
       this.testdata = {
         emp_code: '12345',
         name: 'NAMAMAMAM',
@@ -269,7 +269,28 @@ export default {
         from: this.datewelfarefrom,
         to: this.datewelfareto
       }
-      axios.post('http://localhost:4000/welfaregetdata', from_to)
+      console.log('resdata', from_to);
+      await axios.post('http://localhost:4000/masterdata', from_to)
+        .then(response => {
+          console.log('resdata', response.data.result);
+          let dataexcel = response.data.result
+          this.excelarray = Object.values(dataexcel)
+          console.log('JSONTYPEOF2Aftermap23', this.excelarray)
+        })
+        .catch(error => {
+          console.error('Error fetching data:', error.message);
+        });
+      await axios.post('http://localhost:4000/instructorgetdata', from_to)
+        .then(response => {
+          console.log('resdata', response.data.result);
+          let dataexcel = response.data.result
+          this.excelarrayinstructor = Object.values(dataexcel)
+          console.log('JSONTYPEOF2Aftermap23', this.excelarrayinstructor)
+        })
+        .catch(error => {
+          console.error('Error fetching data:', error.message);
+        });
+      await axios.post('http://localhost:4000/welfaregetdata', from_to)
         .then(response => {
           console.log('resdata', response.data.result);
           let dataexcel = response.data.result
@@ -281,51 +302,53 @@ export default {
           const combinedArray = []
           for (let i = 0; i < this.excelarray.length; i++) {
             const combinedObject = {
-              Working_date: this.excelarray[i].Working_date || '',
-              job_code: this.excelarray[i].job_code || '',
-              shift: this.excelarray[i].shift || '',
-              trip_no: this.excelarray[i].trip_no || '',
-              ttt_employee_code: this.excelarray[i].ttt_employee_code || '',
-              tlep_driver_code: this.excelarray[i].tlep_driver_code || '',
-              tlep_driver_name: this.excelarray[i].tlep_driver_name || '',
-              company_code: this.excelarray[i].ompany_code || '',
-              company_name: this.excelarray[i].company_name || '',
-              trailer_code: this.excelarray[i].trailer_code || '',
-              trailer_type_code: this.excelarray[i].trailer_type_code || '',
-              trailer_type: this.excelarray[i].trailer_type || '',
-              ttt_payment_status: this.excelarray[i].ttt_payment_status || '',
-              calling_sheet_no: this.excelarray[i].calling_sheet_no || '',
-              trip_type: this.excelarray[i].trip_type || '',
-              recieve_job_dateandtime: this.excelarray[i].recieve_job_dateandtime || '',
-              from_code: this.excelarray[i].from_code || '',
-              from_name: this.excelarray[i].from_name || '',
-              yard_out_dateandtime: this.excelarray[i].yard_out_dateandtime || '',
-              to_code: this.excelarray[i].to_code || '',
-              to_name: this.excelarray[i].to_name || '',
-              to_in_dateandtime: this.excelarray[i].to_in_dateandtime || '',
-              reture_code: this.excelarray[i].reture_code || '',
-              return_name: this.excelarray[i].return_name || '',
-              return_in_dateandtime: this.excelarray[i].return_in_dateandtime || '',
-              loading_units: this.excelarray[i].loading_units || '',
-              loading_count: this.excelarray[i].loading_count || '',
-              unloading_count: this.excelarray[i].unloading_count || '',
-              number_of_driver: this.excelarray[i].number_of_driver || '',
-              nd2_employee_code: this.excelarray[i].nd2_employee_code || '',
-              nd2_tlep_driver_code: this.excelarray[i].nd2_tlep_driver_code || '',
-              nd2_tlep_driver_name: this.excelarray[i].nd2_tlep_driver_name || '',
-              mileage: this.excelarray[i].mileage || '',
-              allowance: this.excelarray[i].allowance || '',
-              allowance2: this.excelarray[i].allowance2 || '',
-              allowance3: this.excelarray[i].allowance3 || '',
-              allowance4: this.excelarray[i].allowance4 || '',
-              total_allowance: this.excelarray[i].total_allowance || '',
-              standard_ot: this.excelarray[i].standard_ot || '',
-              over_ot: this.excelarray[i].over_ot || '',
-              total_ot: this.excelarray[i].total_ot || '',
-              payment_status: this.excelarray[i].payment_status || '',
-              ot_payment_date: this.excelarray[i].ot_payment_date || '',
-              allowance_payment_date: this.excelarray[i].allowance_payment_date || '',
-              TAX_FLAG: this.excelarray[i].TAX_FLAG || ''
+              Working_date: this.excelarray[i].Working_date,
+              job_code: this.excelarray[i].job_code,
+              shift: this.excelarray[i].shift,
+              trip_no: this.excelarray[i].trip_no,
+              ttt_employee_code: this.excelarray[i].ttt_employee_code,
+              tlep_driver_code: this.excelarray[i].tlep_driver_code,
+              tlep_driver_name: this.excelarray[i].tlep_driver_name,
+              company_code: this.excelarray[i].ompany_code,
+              company_name: this.excelarray[i].company_name,
+              trailer_code: this.excelarray[i].trailer_code,
+              trailer_type_code: this.excelarray[i].trailer_type_code,
+              trailer_type: this.excelarray[i].trailer_type,
+              ttt_payment_status: this.excelarray[i].ttt_payment_status,
+              calling_sheet_no: this.excelarray[i].calling_sheet_no,
+              trip_type: this.excelarray[i].trip_type,
+              recieve_job_dateandtime: this.excelarray[i].recieve_job_dateandtime,
+              from_code: this.excelarray[i].from_code,
+              from_name: this.excelarray[i].from_name,
+              yard_out_dateandtime: this.excelarray[i].yard_out_dateandtime,
+              to_code: this.excelarray[i].to_code,
+              to_name: this.excelarray[i].to_name,
+              to_in_dateandtime: this.excelarray[i].to_in_dateandtime,
+              reture_code: this.excelarray[i].reture_code,
+              return_name: this.excelarray[i].return_name,
+              return_in_dateandtime: this.excelarray[i].return_in_dateandtime,
+              loading_units: this.excelarray[i].loading_units,
+              loading_count: this.excelarray[i].loading_count,
+              unloading_count: this.excelarray[i].unloading_count,
+              number_of_driver: this.excelarray[i].number_of_driver,
+              nd2_employee_code: this.excelarray[i].nd2_employee_code,
+              nd2_tlep_driver_code: this.excelarray[i].nd2_tlep_driver_code,
+              nd2_tlep_driver_name: this.excelarray[i].nd2_tlep_driver_name,
+              mileage: this.excelarray[i].mileage,
+              allowance: this.excelarray[i].allowance,
+              allowance2: this.excelarray[i].allowance2,
+              allowance3: this.excelarray[i].allowance3,
+              allowance4: this.excelarray[i].allowance4,
+              total_allowance: this.excelarray[i].total_allowance,
+              standard_ot: this.excelarray[i].standard_ot,
+              over_ot: this.excelarray[i].over_ot,
+              total_ot: this.excelarray[i].total_ot,
+              payment_status: this.excelarray[i].payment_status,
+              ot_payment_date: this.excelarray[i].ot_payment_date,
+              allowance_payment_date: this.excelarray[i].allowance_payment_date,
+              payment_status_2: this.excelarray[i].payment_status_2,
+              payment_date_st: this.excelarray[i].payment_date_st,
+              TAX_FLAG: this.excelarray[i].TAX_FLAG
             };
 
             combinedArray.push(combinedObject);
@@ -333,32 +356,37 @@ export default {
           }
           for (let j = 0; j < this.excelarrayinstructor.length; j++) {
             const combinedObject = {
-              // AA: this.excelarraywelfare[j].DEALER1 || '',
+              // AA: this.excelarraywelfare[j].DEALER1,
               to_name: this.excelarrayinstructor[j].DEALER1,
-              tlep_driver_name: this.excelarrayinstructor[j].NAME || '',
-              TAX_FLAG: this.excelarrayinstructor[j].TAX_FLAG || '',
-              yard_out_dateandtime: this.excelarrayinstructor[j].DEPARTURE_DATETIME || '',
-              total_allowance: this.excelarrayinstructor[j].TRIP_ALLOWANCE || '',
-              total_ot: this.excelarrayinstructor[j].OT_HOURS || '',
-              tlep_driver_code: this.excelarrayinstructor[j].DRIVER1 || '',
-              trip_no: this.excelarrayinstructor[j].TRIP_NO || ''
+              tlep_driver_name: this.excelarrayinstructor[j].NAME,
+              TAX_FLAG: this.excelarrayinstructor[j].TAX_FLAG,
+              recieve_job_dateandtime: this.excelarrayinstructor[j].DEPARTURE_DATETIME,
+              yard_out_dateandtime: this.excelarrayinstructor[j].YARDOUTDATE,
+              total_allowance: this.excelarrayinstructor[j].TRIP_ALLOWANCE,
+              tlep_driver_code: this.excelarrayinstructor[j].DRIVER1,
+              trip_no: this.excelarrayinstructor[j].TRIP_NO,
+              payment_status_2: this.excelarrayinstructor[j].payment_status_2,
+              payment_date_st: this.excelarrayinstructor[j].payment_date_st
 
-              // BB: object1[i].BB || '',
-              // CC: object2[i].AC || object1[i].CC || ''
+              // BB: object1[i].BB,
+              // CC: object2[i].AC || object1[i].CC
             };
             combinedArray.push(combinedObject);
           }
           for (let j = 0; j < this.excelarraywelfare.length; j++) {
             const combinedObject = {
-              // AA: this.excelarraywelfare[j].DEALER1 || '',
+              // AA: this.excelarraywelfare[j].DEALER1,
               to_name: this.excelarraywelfare[j].DEALER1,
-              tlep_driver_name: this.excelarraywelfare[j].NAME || '',
-              TAX_FLAG: this.excelarraywelfare[j].TAX_FLAG || '',
-              yard_out_dateandtime: this.excelarraywelfare[j].YARDOUTDATE || '',
-              total_allowance: this.excelarraywelfare[j].TRIP_ALLOWANCE || '',
-              total_ot: this.excelarraywelfare[j].OT_HOURS || '',
-              tlep_driver_code: this.excelarraywelfare[j].DRIVER1 || '',
-              trip_no: this.excelarraywelfare[j].TRIP_NO || ''
+              tlep_driver_name: this.excelarraywelfare[j].NAME,
+              TAX_FLAG: this.excelarraywelfare[j].TAX_FLAG,
+              recieve_job_dateandtime: this.excelarraywelfare[j].DEPARTURE_DATETIME,
+              yard_out_dateandtime: this.excelarraywelfare[j].YARDOUTDATE,
+              total_allowance: this.excelarraywelfare[j].TRIP_ALLOWANCE,
+              total_ot: this.excelarraywelfare[j].OT_HOURS,
+              tlep_driver_code: this.excelarraywelfare[j].DRIVER1,
+              trip_no: this.excelarraywelfare[j].TRIP_NO,
+              payment_status_2: this.excelarraywelfare[j].payment_status_2,
+              payment_date_st: this.excelarraywelfare[j].payment_date_st,
 
               // BB: object1[i].BB || '',
               // CC: object2[i].AC || object1[i].CC || ''
@@ -549,12 +577,6 @@ export default {
             NAME: data.item9,
             DRIVER2: data.item10,
             NULLS: data.item11,
-
-          }
-        })
-        let jsonMapWelfare2 = jsonobjectWelfare.map((data, i) => {
-          return {
-            TRIP_NO: data.item1,
             DEALER1: data.item12,
             DEALER2: data.item13,
             DEALER3: data.item14,
@@ -566,14 +588,34 @@ export default {
             UNITS4: data.item20,
             UNITS5: data.item21,
             TAX_FLAG: data.item22,
+
           }
         })
-        console.log('Aftermap', jsonobjectWelfare)
-        console.log('Aftermap2', jsonMapWelfare)
-        console.log('Aftermap22', jsonMapWelfare2)
+        jsonMapWelfare = jsonMapWelfare.filter((i) => {
+          return i.TRIP_NO !== 'SUM' && i.TRIP_NO !== undefined
+        })
+        // let jsonMapWelfare2 = jsonobjectWelfare.map((data, i) => {
+        //   return {
+        //     TRIP_NO: data.item1,
+        //     DEALER1: data.item12,
+        //     DEALER2: data.item13,
+        //     DEALER3: data.item14,
+        //     DEALER4: data.item15,
+        //     DEALER5: data.item16,
+        //     UNITS1: data.item17,
+        //     UNITS2: data.item18,
+        //     UNITS3: data.item19,
+        //     UNITS4: data.item20,
+        //     UNITS5: data.item21,
+        //     TAX_FLAG: data.item22,
+        //   }
+        // })
+        console.log('jsonobjectWelfare', jsonobjectWelfare)
+        console.log('Aftermap2jsonMapWelfare)', jsonMapWelfare)
+        // console.log('Aftermap22', jsonMapWelfare2)
         console.log('JSONTYPEOF2Aftermap: ', typeof (jsonobjectWelfare))
         this.jsondata2Welfare = jsonMapWelfare
-        this.jsondata2Welfare2 = jsonMapWelfare2
+        // this.jsondata2Welfare2 = jsonMapWelfare2
         axios.post('http://localhost:4000/welfare', this.jsondata2Welfare)
           .then(response => {
             console.log(response.data);
@@ -581,13 +623,13 @@ export default {
           .catch(error => {
             console.error('Error fetching data:', error.message);
           });
-        axios.post('http://localhost:4000/welfare2', this.jsondata2Welfare2)
-          .then(response => {
-            console.log(response.data);
-          })
-          .catch(error => {
-            console.error('Error fetching data:', error.message);
-          });
+        // axios.post('http://localhost:4000/welfare2', this.jsondata2Welfare2)
+        //   .then(response => {
+        //     console.log(response.data);
+        //   })
+        //   .catch(error => {
+        //     console.error('Error fetching data:', error.message);
+        //   });
       };
 
       reader.readAsBinaryString(file);
@@ -689,7 +731,7 @@ export default {
       XLSX.writeFile(workbook, 'exported_data.xlsx');
     },
     handleFileChangeTnos(event) {
-      console.log('Welfare')
+      console.log('tnos')
       const file = event.target.files[0];
 
       if (file) {
@@ -775,9 +817,9 @@ export default {
             allowance_payment_date: data.item44,
           }
         })
-        // console.log('Aftermap', jsonobjectTnos)
+        console.log('jsonobjectTnos', jsonobjectTnos)
         // console.log('Aftermap25', jsonMapTnos5)        
-        console.log('AftermapSend', this.jsondata2Tnos5)
+        console.log('AftermapjsonMapTnos5', jsonMapTnos5)
         this.jsondata2Tnos5 = jsonMapTnos5
         axios.post('http://localhost:4000/tnos5', this.jsondata2Tnos5)
           .then(response => {
@@ -838,17 +880,11 @@ export default {
             NULL1: data.item5,
             NULL2: data.item6,
             DEPARTURE_DATETIME: data.item7,
-            DEPARTURE_DATETIME2: data.item8,
+            YARDOUTDATE: data.item8,
             DRIVER1: data.item9,
             NAME: data.item10,
             NULL3: data.item11,
             NULL4: data.item12,
-
-          }
-        })
-        let jsonMapInstructor2 = jsonobjectInstructor.map((data, i) => {
-          return {
-            TRIP_NO: data.item2,
             DEALER1: data.item13,
             DEALER2: data.item14,
             DEALER3: data.item15,
@@ -862,12 +898,31 @@ export default {
             TAX_FLAG: data.item23,
           }
         })
-        console.log('Aftermap', jsonobjectInstructor)
-        console.log('Aftermap2', jsonMapInstructor)
-        console.log('Aftermap22', jsonMapInstructor2)
-        console.log('JSONTYPEOF2Aftermap: ', typeof (jsonobjectInstructor))
+        jsonMapInstructor = jsonMapInstructor.filter((i) => {
+          return i.number !== null && i.number !== undefined
+        })
+        // let jsonMapInstructor2 = jsonobjectInstructor.map((data, i) => {
+        //   return {
+        //     TRIP_NO: data.item2,
+        //     DEALER1: data.item13,
+        //     DEALER2: data.item14,
+        //     DEALER3: data.item15,
+        //     DEALER4: data.item16,
+        //     DEALER5: data.item17,
+        //     UNITS1: data.item18,
+        //     UNITS2: data.item19,
+        //     UNITS3: data.item20,
+        //     UNITS4: data.item21,
+        //     UNITS5: data.item22,
+        //     TAX_FLAG: data.item23,
+        //   }
+        // })
+        console.log('jsonobjectInstructor', jsonobjectInstructor)
+        console.log('Aftermap2jsonMapInstructor', jsonMapInstructor)
+        // console.log('Aftermap22', jsonMapInstructor2)
+        // console.log('JSONTYPEOF2Aftermap: ', typeof (jsonobjectInstructor))
         this.jsondata2Instructor = jsonMapInstructor
-        this.jsondata2Instructor2 = jsonMapInstructor2
+        // this.jsondata2Instructor2 = jsonMapInstructor2
         axios.post('http://localhost:4000/instructor', this.jsondata2Instructor)
           .then(response => {
             console.log(response.data);
@@ -875,13 +930,13 @@ export default {
           .catch(error => {
             console.error('Error fetching data:', error.message);
           });
-        axios.post('http://localhost:4000/instructor2', this.jsondata2Instructor2)
-          .then(response => {
-            console.log(response.data);
-          })
-          .catch(error => {
-            console.error('Error fetching data:', error.message);
-          });
+        // axios.post('http://localhost:4000/instructor2', this.jsondata2Instructor2)
+        //   .then(response => {
+        //     console.log(response.data);
+        //   })
+        //   .catch(error => {
+        //     console.error('Error fetching data:', error.message);
+        //   });
       };
 
       reader.readAsBinaryString(file);

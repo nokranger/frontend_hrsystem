@@ -273,6 +273,10 @@ export default {
             combinedArray.push(combinedObject);
           }
           this.pdfdata = combinedArray
+          this.pdfdata  = this.pdfdata.filter((i) => {
+          return i.total_ot !== '0' && i.total_ot !== ''
+        })
+        console.log('Error fetching data:', this.pdfdata);
         })
         .catch(error => {
           console.error('Error fetching data:', error.message);
@@ -313,29 +317,33 @@ export default {
           const combinedArray = []
           for (let i = 0; i < this.excelarrayattach9.length; i++) {
             const combinedObject = {
-              emp_code: this.excelarrayattach9[i].ttt_employee_code || '',
-              driver_name: this.excelarrayattach9[i].tlep_driver_name || '',
-              total_ot: this.excelarrayattach9[i].total_ot || '',
+              emp_code: this.excelarrayattach9[i].ttt_employee_code,
+              driver_name: this.excelarrayattach9[i].tlep_driver_name,
+              total_ot: this.excelarrayattach9[i].total_ot,
             }
             combinedArray.push(combinedObject);
           }
           for (let i = 0; i < this.excelarrayattach92.length; i++) {
             const combinedObject = {
-              emp_code: this.excelarrayattach92[i].DRIVER1 || '',
-              driver_name: this.excelarrayattach92[i].NAME || '',
-              total_ot: this.excelarrayattach92[i].OT_HOURS || '',
+              emp_code: this.excelarrayattach92[i].DRIVER1,
+              driver_name: this.excelarrayattach92[i].NAME,
+              total_ot: this.excelarrayattach92[i].OT_HOURS,
             }
             combinedArray.push(combinedObject);
           }
           for (let i = 0; i < this.excelarrayattach93.length; i++) {
             const combinedObject = {
-              emp_code: this.excelarrayattach93[i].DRIVER1 || '',
-              driver_name: this.excelarrayattach93[i].NAME || '',
-              total_ot: this.excelarrayattach93[i].NULL1 || '',
+              emp_code: this.excelarrayattach93[i].DRIVER1,
+              driver_name: this.excelarrayattach93[i].NAME,
+              total_ot: ''
             }
             combinedArray.push(combinedObject);
           }
           this.pdfdata = combinedArray
+          this.pdfdata = combinedArray
+          this.pdfdata  = this.pdfdata.filter((i) => {
+          return i.total_ot !== '0' && i.total_ot !== null
+        })
         })
         .catch(error => {
           console.error('Error fetching data:', error.message);
@@ -384,7 +392,7 @@ export default {
       page.drawText(`__________________________________________________________________________________`, { x: 10, y: 710, size: 20, font: thaiFont });
       let count = 0
       let countPage = 1
-      let sumValue = datas.reduce((acc, obj) => acc + parseInt(obj.total_ot), 0);
+      let sumValue = datas.reduce((acc, obj) => acc + parseFloat(obj.total_ot), 0);
       // page.drawText(`Page${countPage}`, { x: 450, y: 720 , size: fontSize});
       for (const data of datas) {
         console.log('count', datas.length)
