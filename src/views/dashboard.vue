@@ -15,7 +15,7 @@
           <div style="font-weight: bold;font-size: 20px;margin: 10px;">
             Personal Data
           </div>
-          <input type="file" ref="fileInput" @change="handleFileChange" />
+          <input type="file" ref="fileInput" @change="handleFileChangetest" />
           <!-- <button @click="exportToExcel">Export to Excel</button> -->
           <br><br>
           <!-- <button @click="PersonalSendData">PersonalSendData</button> -->
@@ -69,7 +69,7 @@
         <div>
           <br>
           <br>
-          <b-row style="margin: 10px;">
+          <!-- <b-row style="margin: 10px;">
             <b-col>
               <b-form-datepicker style="width: 100%;" id="example-datepickertnos" v-model="datetnosfrom"
                 class="mb-2"></b-form-datepicker>
@@ -83,7 +83,7 @@
                 <b-button @click="MasterSendData" variant="outline-primary">TNOS</b-button>
               </div>
             </b-col>
-          </b-row>
+          </b-row> -->
           <b-row style="margin: 10px;">
             <b-col>
               <b-form-datepicker style="width: 100%;" id="example-datepickerwelfare" v-model="datewelfarefrom"
@@ -95,7 +95,7 @@
             </b-col>
             <b-col>
               <div style="text-align: left;">
-                <b-button @click="instructorGetData()" variant="outline-success">INSTUCTOR</b-button>
+                <b-button @click="testPDF" variant="outline-success">INSTUCTOR</b-button>
               </div>
             </b-col>
           </b-row>
@@ -110,7 +110,7 @@
             </b-col>
             <b-col>
               <div style="text-align: left;">
-                <b-button @click="welfareGetdata" variant="outline-danger">WELFARE</b-button>
+                <b-button @click="welfareGetdata" variant="outline-primary">Master Data</b-button>
               </div>
             </b-col>
           </b-row>
@@ -171,14 +171,161 @@ export default {
   mounted() {
   },
   methods: {
-    testPDF() {
-      axios.get('http://localhost:4000/pdfget')
-        .then(response => {
-          console.log('resdata', response.data.result);
+    handleFileChangetest(event) {
+      console.log('personal')
+      const file = event.target.files[0];
+
+      if (file) {
+        this.readExceltest(file);
+      }
+    },
+    async readExceltest(file) {
+      console.log('KUY')
+      const reader = new FileReader();
+
+      reader.onload = (e) => {
+        console.log('KUY2')
+        const data = e.target.result;
+        const workbook = XLSX.read(data, { type: 'binary' });
+
+        // Assume the first sheet is the one you want to read
+        const sheetName = workbook.SheetNames[0];
+        const sheet = workbook.Sheets[sheetName];
+
+        // Convert the sheet data to JSON
+        const jsonData = XLSX.utils.sheet_to_json(sheet, { header: 1 });
+
+        // Set the JSON data to be displayed in the component
+        this.jsonData = JSON.stringify(jsonData, null, 2);
+        this.jsonData = JSON.parse(this.jsonData)
+        this.jsonData.shift()
+        // console.log('mapdata1: ', this.jsonData)
+        // console.log('JSONLenght: ', this.jsonData)
+        // console.log('JSONLenghtSHIFT: ',  JSON.parse(this.jsonData).shift())
+        // console.log('JSONTYPEOF: ', typeof (this.jsonData))
+        // console.log('JSONTYPEOF2: ',  typeof(JSON.parse(this.jsonData)))
+        let jsonobject = {}
+        let jsonobject2 = this.jsonData
+        jsonobject = jsonobject2.map(innerarray => {
+          return innerarray.reduce((acc, item, index) => {
+            acc[`item${index + 1}`] = item;
+            return acc
+          }, {})
         })
-        .catch(error => {
-          console.error('Error fetching data:', error.message);
+        let jsonMap = jsonobject.map((data, i) => {
+          return {
+            empCode: data.item1,
+            name: data.item2,
+            bankaccount: data.item3
+          }
+        })
+        this.jsondata2 = jsonMap
+        console.log('resdataExcel', this.jsondata2);
+        // console.log('Aftermap', this.jsondata2)
+        axios.get('http://localhost:4000/personals')
+          .then(response => {
+            // console.log('resdata', response.data.result);
+            let dataexcel = response.data.result
+            let jsonMaps = dataexcel.map((data, i) => {
+              return {
+                empCode: data.emp_code,
+                name: data.name,
+                bankaccount: data.bank_account_number
+              }
+            })
+            console.log('resdataaxios', jsonMaps);
+            this.excelarray = Object.values(jsonMaps);
+            // Add objects from data1 and data2 to the map
+            // var uniqueData = new Map();
+            function isUnique(obj1, arr) {
+              return !arr.some(obj2 => obj2.empCode !== obj1.empCode);
+            }
+            let comparedataPersonal = this.jsondata2.filter(obj => isUnique(obj, this.excelarray));
+            console.log('comparedataNull', comparedataPersonal);
+            if (comparedataPersonal.length !== 0) {
+              console.log('comparedataNull', comparedataPersonal);
+              axios.post('http://localhost:4000/personal', this.jsondata2)
+                .then(response => {
+                  console.log(response.data);
+                })
+                .catch(error => {
+                  console.error('Error fetching data:', error.message);
+                });
+            } else if (comparedataPersonal.length === 0) {
+              console.log('comparedataNotNull', comparedataPersonal);
+              axios.post('http://localhost:4000/personal', comparedataPersonal)
+                .then(response => {
+                  console.log(response.data);
+                })
+                .catch(error => {
+                  console.error('Error fetching data:', error.message);
+                });
+            }
+            // console.log('comparedata', comparedataPersonal);
+            // axios.post('http://localhost:4000/personal', comparedataPersonal)
+            //   .then(response => {
+            //     console.log(response.data);
+            //   })
+            //   .catch(error => {
+            //     console.error('Error fetching data:', error.message);
+            //   });
+          })
+          .catch(error => {
+            console.error('Error fetching data:', error.message);
+          });
+      };
+      // var data1 = [{ data: '1', data2: '1' }, { data: '2', data2: '3' }, { data: '3', data2: '4' }];
+      // var data2 = [{ data: '1', data2: '1' }, { data: '2', data2: '3' }, { data: '3', data2: '3' }, { data: '4', data2: '5' }];
+
+      reader.readAsBinaryString(file);
+      // var uniqueData = new Map();
+      // function addUnique(dataArray) {
+      //   dataArray.forEach(obj => {
+      //     var key = `${obj.data}-${obj.data2}`;
+      //     if (!uniqueData.has(key)) {
+      //       uniqueData.set(key, obj);
+      //     }
+      //   });
+
+      // }
+
+    },
+    async addUnique(dataArray) {
+      var uniqueData = new Map();
+      await dataArray.forEach(obj => {
+        var key = `${obj.data}-${obj.data2}`;
+        if (!uniqueData.has(key)) {
+          uniqueData.set(key, obj);
+        }
+      });
+
+    },
+    testPDF() {
+
+      var data1 = [{ data: '1', data2: '1' }, { data: '2', data2: '3' }, { data: '3', data2: '4' }];
+      var data2 = [{ data: '1', data2: '1' }, { data: '2', data2: '3' }, { data: '3', data2: '3' }, { data: '4', data2: '5' }];
+
+      // Create a new map to store unique objects
+      var uniqueData = new Map();
+
+      // Function to add objects to the map if they don't exist
+      function addUnique(dataArray) {
+        dataArray.forEach(obj => {
+          var key = `${obj.data}-${obj.data2}`;
+          if (!uniqueData.has(key)) {
+            uniqueData.set(key, obj);
+          }
         });
+      }
+
+      // Add objects from data1 and data2 to the map
+      addUnique(data1);
+      addUnique(data2);
+
+      // Convert the map values back to an array
+      data1 = Array.from(uniqueData.values());
+
+      console.log(data1);
     },
     PersonalSendData() {
       this.testdata = {

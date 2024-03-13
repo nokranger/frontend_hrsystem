@@ -409,7 +409,7 @@ export default {
         page.drawText(`${data.emp_code}`, { x: 220, y: yPosition, size: fontSize, font: thaiFont });
         // const yPriceStart = yNameStart + 20;
         page.drawText(`${data.name}`, { x: 300, y: yPosition, size: fontSize, font: thaiFont });
-        page.drawText(`${data.total_allowance}`, { x: 500, y: yPosition, size: fontSize, font: thaiFont });
+        page.drawText(`${(data.total_allowance.toFixed(2)).toLocaleString()}`, { x: 500, y: yPosition, size: fontSize, font: thaiFont });
         yPosition -= descriptionHeight; // Adjust x-position for the next entry
         count++
         if (count > datas.length - 1) {
@@ -424,7 +424,7 @@ export default {
           }
           console.log('countPDF ', count);
           page.drawText(`__________________________________________________________________________________`, { x: 10, y: yPosition + 20, size: 20, font: thaiFont });
-          page.drawText(`รวม ${this.sumValue}`, { x: 470, y: yPosition - 20, size: 20, font: thaiFont });
+          page.drawText(`รวม ${(this.sumValue.toFixed(2)).toLocaleString()}`, { x: 470, y: yPosition - 20, size: 20, font: thaiFont });
         }
       }
 
