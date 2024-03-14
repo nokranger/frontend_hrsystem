@@ -632,21 +632,21 @@ export default {
               // page.drawText(`รวม ${sumValue}`, { x: 470, y: yPosition - 20 , size: 20, font: thaiFont});
             }
           }
-          page.drawText(`${data.recieve_job_dateandtime}`, { x: 25, y: yPosition, size: fontSize, font: thaiFont });
-          page.drawText(`${data.calling_sheet_no}`, { x: 150, y: yPosition, size: fontSize, font: thaiFont });
-          // const yNameStart = yStart + 20;
-          page.drawText(`${data.total_allowance}`, { x: 240, y: yPosition, size: fontSize, font: thaiFont });
-          // const yPriceStart = yNameStart + 20;
-          page.drawText(`${data.to_name}`, { x: 300, y: yPosition, size: fontSize, font: thaiFont });
-          page.drawText(`${data.total_ot}`, { x: 420, y: yPosition, size: fontSize, font: thaiFont });
-          page.drawText(`${data.over_ot}`, { x: 500, y: yPosition, size: fontSize, font: thaiFont });
-          yPosition -= descriptionHeight; // Adjust x-position for the next entry
-          count++
-          if (count > datas.length - 1) {
-            console.log('countPDF ', count);
-            page.drawText(`__________________________________________________________________________________`, { x: 10, y: yPosition + 20, size: 20, font: thaiFont });
-            // page.drawText(`รวม ${sumValue}`, { x: 470, y: yPosition - 20 , size: 20, font: thaiFont});
-          }
+          // page.drawText(`${data.recieve_job_dateandtime}`, { x: 25, y: yPosition, size: fontSize, font: thaiFont });
+          // page.drawText(`${data.calling_sheet_no}`, { x: 150, y: yPosition, size: fontSize, font: thaiFont });
+          // // const yNameStart = yStart + 20;
+          // page.drawText(`${data.total_allowance}`, { x: 240, y: yPosition, size: fontSize, font: thaiFont });
+          // // const yPriceStart = yNameStart + 20;
+          // page.drawText(`${data.to_name}`, { x: 300, y: yPosition, size: fontSize, font: thaiFont });
+          // page.drawText(`${data.total_ot}`, { x: 420, y: yPosition, size: fontSize, font: thaiFont });
+          // page.drawText(`${data.over_ot}`, { x: 500, y: yPosition, size: fontSize, font: thaiFont });
+          // yPosition -= descriptionHeight; // Adjust x-position for the next entry
+          // count++
+          // if (count > datas.length - 1) {
+          //   console.log('countPDF ', count);
+          //   page.drawText(`__________________________________________________________________________________`, { x: 10, y: yPosition + 20, size: 20, font: thaiFont });
+          //   // page.drawText(`รวม ${sumValue}`, { x: 470, y: yPosition - 20 , size: 20, font: thaiFont});
+          // }
           // countPage++;
           // // console.log('empCheck !== data.ttt_employee_code', data.ttt_employee_code)
           // // Create a new page if the content doesn't fit
