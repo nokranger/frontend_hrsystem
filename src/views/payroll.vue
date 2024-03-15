@@ -13,10 +13,12 @@
         <span style="display: inline;">
           <b-row style="margin: 10px;">
             <b-col>
+              <div style="font-size: 20px;text-align: left;margin-left: 10px;">ตั้งแต่วันที่</div>
               <b-form-datepicker style="width: 100%;" id="example-datepicker1" v-model="dateotfrom"
                 class="mb-2"></b-form-datepicker>
             </b-col>
             <b-col>
+              <div style="font-size: 20px;text-align: left;margin-left: 10px;">ถึงวันที่</div>
               <b-form-datepicker style="width: 100%;" id="example-datepicker2" v-model="dateotto"
                 class="mb-2"></b-form-datepicker>
             </b-col>
@@ -29,10 +31,12 @@
           </b-row>
           <b-row style="margin: 10px;">
             <b-col>
+              <div style="font-size: 20px;text-align: left;margin-left: 10px;">ตั้งแต่วันที่</div>
               <b-form-datepicker style="width: 100%;" id="example-datepicker3" v-model="dateallowancefrom"
                 class="mb-2"></b-form-datepicker>
             </b-col>
             <b-col>
+              <div style="font-size: 20px;text-align: left;margin-left: 10px;">ถึงวันที่</div>
               <b-form-datepicker style="width: 100%;" id="example-datepicker4" v-model="dateallowanceto"
                 class="mb-2"></b-form-datepicker>
             </b-col>

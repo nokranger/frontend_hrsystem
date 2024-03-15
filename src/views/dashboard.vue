@@ -110,10 +110,12 @@
           </b-row> -->
           <b-row style="margin: 10px;">
             <b-col>
+              <div style="font-size: 20px;text-align: left;margin-left: 10px;">ตั้งแต่วันที่</div>
               <b-form-datepicker style="width: 100%;" id="example-datepickerinstuctor" v-model="datewelfarefrom"
                 class="mb-2"></b-form-datepicker>
             </b-col>
             <b-col>
+              <div style="font-size: 20px;text-align: left;margin-left: 10px;">ถึงวันที่</div>
               <b-form-datepicker style="width: 100%;" id="example-datepickerinstuctor2" v-model="datewelfareto"
                 class="mb-2"></b-form-datepicker>
             </b-col>

@@ -12,24 +12,29 @@
       <div style="border: 2px solid gray;border-radius: 10px;height: 450px;box-shadow: 5px 5px 5px #888888;">
         <b-row style="margin: 20px;">
           <b-col>
+            <div style="font-size: 20px;text-align: left;margin-left: 10px;">ตั้งแต่วันที่</div>
             <b-form-datepicker style="width: 100%;" id="example-datepickerattach7" v-model="dateattach7from"
               class="mb-2"></b-form-datepicker>
           </b-col>
           <b-col>
+            <div style="font-size: 20px;text-align: left;margin-left: 10px;">ถึงวันที่</div>
             <b-form-datepicker style="width: 100%;" id="example-datepickerattach72" v-model="dateattach7to"
               class="mb-2"></b-form-datepicker>
           </b-col>
           <b-col>
+            <div style="font-size: 20px;text-align: left;margin-left: 10px;">วันที่จ่ายเงิน</div>
             <b-form-datepicker style="width: 100%;" id="example-datepickerattach73" v-model="dateattach7select"
               class="mb-2"></b-form-datepicker>
           </b-col>
         </b-row>
         <b-row style="margin: 20px;">
           <b-col>
+            <div style="font-size: 20px;text-align: left;margin-left: 10px;">ตั้งแต่วันที่</div>
             <b-form-datepicker style="width: 100%;" id="example-datepickerattach7welfare"
               v-model="dateattach7welfareform" class="mb-2"></b-form-datepicker>
           </b-col>
           <b-col>
+            <div style="font-size: 20px;text-align: left;margin-left: 10px;">ถึงวันที่</div>
             <b-form-datepicker style="width: 100%;" id="example-datepickerattach72welfare"
               v-model="dateattach7welfareto" class="mb-2"></b-form-datepicker>
           </b-col>
@@ -43,10 +48,12 @@
         <b-row style="margin: 20px;">
           <b-col>
             <div>
+              <div style="font-size: 20px;text-align: left;margin-left: 10px;">กรุณากรอกหัวข้อรายงาน</div>
               <b-input placeholder="Enter your Title Report" v-model="titleattach7"></b-input>
             </div>
           </b-col>
           <b-col>
+            <div style="font-size: 20px;text-align: left;margin-left: 10px;">หมายเลขพนักงาน</div>
             <b-input v-on:keyup.enter="getOneAttach7" placeholder="Enter Employee Code"
               v-model="dataattach7one"></b-input>
           </b-col>
@@ -127,6 +134,7 @@ export default {
       excelarrayattach7: [],
       excelarrayattach72: [],
       excelarrayattach721: [],
+      excelarrayattach731: [],
       excelarrayattach73: [],
       excelarrayattach9: [],
       excelarrayattach92: [],
@@ -146,54 +154,12 @@ export default {
         { value: 2, text: 'ยังไม่จ่าย' }
       ],
       sumValue: 0,
-      status: '0'
+      status: '0',
     }
   },
   methods: {
     async getOneAttach7() {
-      let from_to = {
-        from: this.dateattach7from,
-        to: this.dateattach7to,
-        emp_code: this.dataattach7one
-      }
-      console.log('resdataFromTo', from_to);
-      await axios.post('http://localhost:4000/getdataattach7one', from_to)
-        .then(response => {
-          console.log('resdata', response.data.result);
-          let dataexcel = response.data.result
-          this.excelarrayattach7 = Object.values(dataexcel);
-          this.pdfdata = this.excelarrayattach7
-        })
-        .catch(error => {
-          console.error('Error fetching data:', error.message);
-        });
-      await this.generatePDF(this.pdfdata)
-    },
-    getAttach7() {
-      axios.get('http://localhost:4000/getdataattach7')
-        .then(response => {
-          console.log('resdata', response.data.result);
-          let dataexcel = response.data.result
-          this.excelarray = Object.values(dataexcel);
-          // this.excelarraywelfare = dataexcel
-          console.log('JSONTYPEOFwelfare', this.excelarray.length)
-          //export to excell
-          const workbook = XLSX.utils.book_new();
 
-          // Convert the JSON data to a worksheet
-          const worksheet = XLSX.utils.json_to_sheet(this.excelarray);
-
-          // Add the worksheet to the workbook
-          XLSX.utils.book_append_sheet(workbook, worksheet, 'attached7');
-
-          // Save the workbook to a file
-          XLSX.writeFile(workbook, 'attached7.xlsx');
-        })
-        .catch(error => {
-          console.error('Error fetching data:', error.message);
-        });
-    },
-    async getAttach7all() {
       let from_to = {
         from: this.dateattach7from,
         to: this.dateattach7to
@@ -286,6 +252,151 @@ export default {
           this.pdfdata = Object.values(this.pdfdata);
           console.log(this.pdfdata);
           this.pdfdata.sort((a, b) => a.updated_at - b.updated_at);
+          this.pdfdata = this.pdfdata.filter((i) => {
+            return i.emp_code === this.dataattach7one
+          })
+        })
+        .catch(error => {
+          console.error('Error fetching data:', error.message);
+        });
+      await this.generatePDF(this.pdfdata)
+    },
+    getAttach7() {
+      axios.get('http://localhost:4000/getdataattach7')
+        .then(response => {
+          console.log('resdata', response.data.result);
+          let dataexcel = response.data.result
+          this.excelarray = Object.values(dataexcel);
+          // this.excelarraywelfare = dataexcel
+          console.log('JSONTYPEOFwelfare', this.excelarray.length)
+          //export to excell
+          const workbook = XLSX.utils.book_new();
+
+          // Convert the JSON data to a worksheet
+          const worksheet = XLSX.utils.json_to_sheet(this.excelarray);
+
+          // Add the worksheet to the workbook
+          XLSX.utils.book_append_sheet(workbook, worksheet, 'attached7');
+
+          // Save the workbook to a file
+          XLSX.writeFile(workbook, 'attached7.xlsx');
+        })
+        .catch(error => {
+          console.error('Error fetching data:', error.message);
+        });
+    },
+    async getAttach7all() {
+      let from_to = {
+        from: this.dateattach7from,
+        to: this.dateattach7to
+      }
+      let from_to_welfare = {
+        from: this.dateattach7welfareform,
+        to: this.dateattach7welfareto
+      }
+      await axios.post('http://localhost:4000/getdataattach7', from_to)
+        .then(response => {
+          console.log('resdataTnos', response.data.result);
+          let dataexcel = response.data.result
+          this.excelarrayattach7 = Object.values(dataexcel);
+        })
+        .catch(error => {
+          console.error('Error fetching data:', error.message);
+        });
+      await axios.post('http://localhost:4000/getdataattach72', from_to_welfare)
+        .then(response => {
+          console.log('resdatawelfare', response.data.result);
+          let dataexcel = response.data.result
+          this.excelarrayattach72 = Object.values(dataexcel);
+          console.log('JSONTYPEOFwelfare', this.excelarray.length)
+        })
+        .catch(error => {
+          console.error('Error fetching data:', error.message);
+        });
+      await axios.post('http://localhost:4000/getdataattach721', from_to_welfare)
+        .then(response => {
+          console.log('resdatawelfare', response.data.result);
+          let dataexcel = response.data.result
+          this.excelarrayattach721 = Object.values(dataexcel);
+          console.log('JSONTYPEOFwelfare', this.excelarray.length)
+        })
+        .catch(error => {
+          console.error('Error fetching data:', error.message);
+        });
+      await axios.post('http://localhost:4000/getdataattach731', from_to)
+        .then(response => {
+          console.log('resdatawelfare', response.data.result);
+          let dataexcel = response.data.result
+          this.excelarrayattach731 = Object.values(dataexcel);
+          console.log('JSONTYPEOFwelfare', this.excelarray.length)
+        })
+        .catch(error => {
+          console.error('Error fetching data:', error.message);
+        });
+      await axios.post('http://localhost:4000/getdataattach73', from_to)
+        .then(response => {
+          console.log('resdatainstuctor', response.data.result);
+          let dataexcel = response.data.result
+          this.excelarrayattach73 = Object.values(dataexcel);
+          // this.excelarraywelfare = dataexcel
+          // console.log('JSONTYPEOFwelfare', this.excelarray.length)
+          const combinedArray = []
+          for (let i = 0; i < this.excelarrayattach7.length; i++) {
+            const combinedObject = {
+              bank_account_number: this.excelarrayattach7[i].bank_account_number,
+              emp_code: this.excelarrayattach7[i].emp_code,
+              name: this.excelarrayattach7[i].name,
+              total_allowance: parseFloat(this.excelarrayattach7[i].total_allowance),
+            }
+            combinedArray.push(combinedObject);
+          }
+          for (let i = 0; i < this.excelarrayattach72.length; i++) {
+            const combinedObject = {
+              bank_account_number: this.excelarrayattach72[i].bank_account_number,
+              emp_code: this.excelarrayattach72[i].emp_code,
+              name: this.excelarrayattach72[i].name,
+              total_allowance: parseFloat(this.excelarrayattach72[i].total_allowance),
+            }
+            combinedArray.push(combinedObject);
+          }
+          for (let i = 0; i < this.excelarrayattach731.length; i++) {
+            const combinedObject = {
+              bank_account_number: this.excelarrayattach731[i].bank_account_number,
+              emp_code: this.excelarrayattach731[i].emp_code,
+              name: this.excelarrayattach731[i].name,
+              total_allowance: parseFloat(this.excelarrayattach731[i].total_allowance),
+            }
+            combinedArray.push(combinedObject);
+          }
+          for (let i = 0; i < this.excelarrayattach721.length; i++) {
+            const combinedObject = {
+              bank_account_number: this.excelarrayattach721[i].bank_account_number,
+              emp_code: this.excelarrayattach721[i].emp_code,
+              name: this.excelarrayattach721[i].name,
+              total_allowance: parseFloat(this.excelarrayattach721[i].total_allowance),
+            }
+            combinedArray.push(combinedObject);
+          }
+          for (let i = 0; i < this.excelarrayattach73.length; i++) {
+            const combinedObject = {
+              bank_account_number: this.excelarrayattach73[i].bank_account_number,
+              emp_code: this.excelarrayattach73[i].emp_code,
+              name: this.excelarrayattach73[i].name,
+              total_allowance: parseFloat(this.excelarrayattach73[i].total_allowance),
+            }
+            combinedArray.push(combinedObject);
+          }
+          this.pdfdata = combinedArray
+          this.pdfdata = this.pdfdata.reduce((acc, { total_allowance, emp_code, bank_account_number, name }) => {
+            if (!acc[emp_code]) {
+              acc[emp_code] = { emp_code, total_allowance: 0, bank_account_number, name };
+            }
+            acc[emp_code].total_allowance += total_allowance;
+            return acc;
+          }, {});
+          this.pdfdata = Object.values(this.pdfdata);
+          console.log(this.pdfdata);
+          this.pdfdata.sort((a, b) => a.updated_at - b.updated_at);
         })
         .catch(error => {
           console.error('Error fetching data:', error.message);
@@ -330,6 +441,16 @@ export default {
         .catch(error => {
           console.error('Error fetching data:', error.message);
         });
+      await axios.post('http://localhost:4000/getdataattach731', from_to)
+        .then(response => {
+          console.log('resdatawelfare', response.data.result);
+          let dataexcel = response.data.result
+          this.excelarrayattach731 = Object.values(dataexcel);
+          console.log('JSONTYPEOFwelfare', this.excelarray.length)
+        })
+        .catch(error => {
+          console.error('Error fetching data:', error.message);
+        });
       await axios.post('http://localhost:4000/getdataattach73', from_to)
         .then(response => {
           console.log('resdata', response.data.result);
@@ -362,6 +483,15 @@ export default {
               emp_code: this.excelarrayattach721[i].emp_code,
               name: this.excelarrayattach721[i].name,
               total_allowance: parseFloat(this.excelarrayattach721[i].total_allowance),
+            }
+            combinedArray.push(combinedObject);
+          }
+          for (let i = 0; i < this.excelarrayattach731.length; i++) {
+            const combinedObject = {
+              bank_account_number: this.excelarrayattach731[i].bank_account_number,
+              emp_code: this.excelarrayattach731[i].emp_code,
+              name: this.excelarrayattach731[i].name,
+              total_allowance: parseFloat(this.excelarrayattach731[i].total_allowance),
             }
             combinedArray.push(combinedObject);
           }

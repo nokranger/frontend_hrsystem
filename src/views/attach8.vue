@@ -264,7 +264,8 @@ export default {
         .catch(error => {
           console.error('Error fetching data:', error.message);
         });
-      await this.generatePDF(this.pdfdata)
+      // await this.generatePDF(this.pdfdata)
+      await this.exporttoexcel(this.pdfdata)
     },
     async getAttach7excel() {
       let from_to = {
@@ -512,7 +513,8 @@ export default {
         .catch(error => {
           console.error('Error fetching data:', error.message);
         });
-      await this.generatePDF8(this.pdfdata)
+      // await this.generatePDF8(this.pdfdata)
+      await this.exporttoexcel(this.pdfdata)
     },
     async generatePDF8(datas) {
       const result = await datas.reduce((acc, obj) => {
