@@ -1,13 +1,13 @@
 <template>
   <div>
     <nav>
-      <router-link to="/dashboard">Import & Export</router-link> ||
-      <router-link to="/Attached">Attached</router-link> ||
-      <router-link to="/payroll">Payroll</router-link>
+      <router-link to="/dashboard" style="font-size: 20px;">Import & Export</router-link> ||
+      <router-link to="/Attached" style="font-size: 20px;">Attached</router-link> ||
+      <router-link to="/payroll" style="font-size: 20px;">Payroll</router-link>
     </nav>
     <b-container>
       <div>
-        <h1 style="text-shadow: 2px 2px 5px black;">Payroll</h1>
+        <h1 style="text-shadow: 2px 2px 5px black;font-size: 25px;">Payroll</h1>
       </div>
       <div style="border: 2px solid gray;border-radius: 10px;height: 200px;box-shadow: 5px 5px 5px #888888;">
         <span style="display: inline;">
@@ -90,38 +90,28 @@ export default {
           console.log('resdata', response.data.result);
           let dataexcel = response.data.result
           this.excelarrayot2 = Object.values(dataexcel);
-        })
-        .catch(error => {
-          console.error('Error fetching data:', error.message);
-        });
-      await axios.post('http://localhost:4000/getdatapayrollot3', from_to)
-        .then(response => {
-          console.log('resdata', response.data.result);
-          let dataexcel = response.data.result
-          this.excelarrayot3 = Object.values(dataexcel);
-
           const combinedArray = []
           for (let i = 0; i < this.excelarrayot.length; i++) {
             const combinedObject = {
-              EMP_CODE: this.excelarrayot[i].EMP_CODE || '',
-              OT: this.excelarrayot[i].OT || '',
+              EMP_CODE: this.excelarrayot[i].EMP_CODE,
+              OT: this.excelarrayot[i].OT,
             }
             combinedArray.push(combinedObject);
           }
           for (let i = 0; i < this.excelarrayot2.length; i++) {
             const combinedObject = {
-              EMP_CODE: this.excelarrayot2[i].EMP_CODE || '',
-              OT: this.excelarrayot2[i].OT || '',
+              EMP_CODE: this.excelarrayot2[i].EMP_CODE,
+              OT: this.excelarrayot2[i].OT,
             }
             combinedArray.push(combinedObject);
           }
-          for (let i = 0; i < this.excelarrayot3.length; i++) {
-            const combinedObject = {
-              EMP_CODE: this.excelarrayot3[i].EMP_CODE || '',
-              OT: this.excelarrayot3[i].OT || '',
-            }
-            combinedArray.push(combinedObject);
-          }
+          // for (let i = 0; i < this.excelarrayot3.length; i++) {
+          //   const combinedObject = {
+          //     EMP_CODE: this.excelarrayot3[i].EMP_CODE,
+          //     OT: this.excelarrayot3[i].OT,
+          //   }
+          //   combinedArray.push(combinedObject);
+          // }
           console.log('dateTime', combinedArray)
           //export to excell
           const workbook = XLSX.utils.book_new();
@@ -138,6 +128,50 @@ export default {
         .catch(error => {
           console.error('Error fetching data:', error.message);
         });
+      // await axios.post('http://localhost:4000/getdatapayrollot3', from_to)
+      //   .then(response => {
+      //     console.log('resdata', response.data.result);
+      //     let dataexcel = response.data.result
+      //     this.excelarrayot3 = Object.values(dataexcel);
+
+      //     // const combinedArray = []
+      //     // for (let i = 0; i < this.excelarrayot.length; i++) {
+      //     //   const combinedObject = {
+      //     //     EMP_CODE: this.excelarrayot[i].EMP_CODE,
+      //     //     OT: this.excelarrayot[i].OT,
+      //     //   }
+      //     //   combinedArray.push(combinedObject);
+      //     // }
+      //     // for (let i = 0; i < this.excelarrayot2.length; i++) {
+      //     //   const combinedObject = {
+      //     //     EMP_CODE: this.excelarrayot2[i].EMP_CODE,
+      //     //     OT: this.excelarrayot2[i].OT,
+      //     //   }
+      //     //   combinedArray.push(combinedObject);
+      //     // }
+      //     // // for (let i = 0; i < this.excelarrayot3.length; i++) {
+      //     // //   const combinedObject = {
+      //     // //     EMP_CODE: this.excelarrayot3[i].EMP_CODE,
+      //     // //     OT: this.excelarrayot3[i].OT,
+      //     // //   }
+      //     // //   combinedArray.push(combinedObject);
+      //     // // }
+      //     // console.log('dateTime', combinedArray)
+      //     // //export to excell
+      //     // const workbook = XLSX.utils.book_new();
+
+      //     // // Convert the JSON data to a worksheet
+      //     // const worksheet = XLSX.utils.json_to_sheet(combinedArray);
+
+      //     // // Add the worksheet to the workbook
+      //     // XLSX.utils.book_append_sheet(workbook, worksheet, 'payrollOT');
+
+      //     // // Save the workbook to a file
+      //     // XLSX.writeFile(workbook, 'payrollOT.xlsx');
+      //   })
+      //   .catch(error => {
+      //     console.error('Error fetching data:', error.message);
+      //   });
     },
     async getallowance() {
       let from_to = {
@@ -171,22 +205,22 @@ export default {
           const combinedArray = []
           for (let i = 0; i < this.excelarrayallowance.length; i++) {
             const combinedObject = {
-              EMP_CODE: this.excelarrayallowance[i].EMP_CODE || '',
-              ALLOWANCE: this.excelarrayallowance[i].ALLOWANCE || '',
+              EMP_CODE: this.excelarrayallowance[i].EMP_CODE,
+              ALLOWANCE: this.excelarrayallowance[i].ALLOWANCE,
             }
             combinedArray.push(combinedObject);
           }
           for (let i = 0; i < this.excelarrayallowance2.length; i++) {
             const combinedObject = {
-              EMP_CODE: this.excelarrayallowance2[i].EMP_CODE || '',
-              ALLOWANCE: this.excelarrayallowance2[i].ALLOWANCE || '',
+              EMP_CODE: this.excelarrayallowance2[i].EMP_CODE,
+              ALLOWANCE: this.excelarrayallowance2[i].ALLOWANCE,
             }
             combinedArray.push(combinedObject);
           }
           for (let i = 0; i < this.excelarrayallowance3.length; i++) {
             const combinedObject = {
-              EMP_CODE: this.excelarrayallowance3[i].EMP_CODE || '',
-              ALLOWANCE: this.excelarrayallowance3[i].ALLOWANCE || '',
+              EMP_CODE: this.excelarrayallowance3[i].EMP_CODE,
+              ALLOWANCE: this.excelarrayallowance3[i].ALLOWANCE,
             }
             combinedArray.push(combinedObject);
           }

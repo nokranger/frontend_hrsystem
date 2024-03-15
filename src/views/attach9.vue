@@ -237,16 +237,6 @@ export default {
           console.log('resdata', response.data.result);
           let dataexcel = response.data.result
           this.excelarrayattach92 = Object.values(dataexcel);
-        })
-        .catch(error => {
-          console.error('Error fetching data:', error.message);
-        });
-      await axios.post('http://localhost:4000/getdataattach93', from_to)
-        .then(response => {
-          console.log('resdata', response.data.result);
-          let dataexcel = response.data.result
-          this.excelarrayattach93 = Object.values(dataexcel);
-
           const combinedArray = []
           for (let i = 0; i < this.excelarrayattach9.length; i++) {
             const combinedObject = {
@@ -264,23 +254,62 @@ export default {
             }
             combinedArray.push(combinedObject);
           }
-          for (let i = 0; i < this.excelarrayattach93.length; i++) {
-            const combinedObject = {
-              emp_code: this.excelarrayattach93[i].DRIVER1 || '',
-              driver_name: this.excelarrayattach93[i].NAME || '',
-              total_ot: this.excelarrayattach93[i].OT_HOURS || '',
-            }
-            combinedArray.push(combinedObject);
-          }
+          // for (let i = 0; i < this.excelarrayattach93.length; i++) {
+          //   const combinedObject = {
+          //     emp_code: this.excelarrayattach93[i].DRIVER1 || '',
+          //     driver_name: this.excelarrayattach93[i].NAME || '',
+          //     total_ot: this.excelarrayattach93[i].OT_HOURS || '',
+          //   }
+          //   combinedArray.push(combinedObject);
+          // }
           this.pdfdata = combinedArray
           this.pdfdata  = this.pdfdata.filter((i) => {
           return i.total_ot !== '0' && i.total_ot !== ''
         })
-        console.log('Error fetching data:', this.pdfdata);
         })
         .catch(error => {
           console.error('Error fetching data:', error.message);
         });
+      // await axios.post('http://localhost:4000/getdataattach93', from_to)
+      //   .then(response => {
+      //     console.log('resdata', response.data.result);
+      //     let dataexcel = response.data.result
+      //     this.excelarrayattach93 = Object.values(dataexcel);
+
+      //     const combinedArray = []
+      //     for (let i = 0; i < this.excelarrayattach9.length; i++) {
+      //       const combinedObject = {
+      //         emp_code: this.excelarrayattach9[i].ttt_employee_code || '',
+      //         driver_name: this.excelarrayattach9[i].tlep_driver_name || '',
+      //         total_ot: this.excelarrayattach9[i].total_ot || '',
+      //       }
+      //       combinedArray.push(combinedObject);
+      //     }
+      //     for (let i = 0; i < this.excelarrayattach92.length; i++) {
+      //       const combinedObject = {
+      //         emp_code: this.excelarrayattach92[i].DRIVER1 || '',
+      //         driver_name: this.excelarrayattach92[i].NAME || '',
+      //         total_ot: this.excelarrayattach92[i].OT_HOURS || '',
+      //       }
+      //       combinedArray.push(combinedObject);
+      //     }
+      //     for (let i = 0; i < this.excelarrayattach93.length; i++) {
+      //       const combinedObject = {
+      //         emp_code: this.excelarrayattach93[i].DRIVER1 || '',
+      //         driver_name: this.excelarrayattach93[i].NAME || '',
+      //         total_ot: this.excelarrayattach93[i].OT_HOURS || '',
+      //       }
+      //       combinedArray.push(combinedObject);
+      //     }
+      //     this.pdfdata = combinedArray
+      //     this.pdfdata  = this.pdfdata.filter((i) => {
+      //     return i.total_ot !== '0' && i.total_ot !== ''
+      //   })
+      //   console.log('Error fetching data:', this.pdfdata);
+      //   })
+      //   .catch(error => {
+      //     console.error('Error fetching data:', error.message);
+      //   });
       await this.generatePDF9(this.pdfdata)
     },
     async getAttach9excel() {
@@ -304,16 +333,6 @@ export default {
           let dataexcel = response.data.result
           this.excelarrayattach92 = Object.values(dataexcel);
           // console.log('filterEX', this.excelarrayattach92)
-        })
-        .catch(error => {
-          console.error('Error fetching data:', error.message);
-        });
-      await axios.post('http://localhost:4000/getdataattach93', from_to)
-        .then(response => {
-          console.log('resdata', response.data.result);
-          let dataexcel = response.data.result
-          this.excelarrayattach93 = Object.values(dataexcel);
-          // console.log('filterEX', this.excelarrayattach93)
           const combinedArray = []
           for (let i = 0; i < this.excelarrayattach9.length; i++) {
             const combinedObject = {
@@ -331,16 +350,16 @@ export default {
             }
             combinedArray.push(combinedObject);
           }
-          for (let i = 0; i < this.excelarrayattach93.length; i++) {
-            const combinedObject = {
-              emp_code: this.excelarrayattach93[i].DRIVER1,
-              driver_name: this.excelarrayattach93[i].NAME,
-              total_ot: ''
-            }
-            combinedArray.push(combinedObject);
-          }
+          // for (let i = 0; i < this.excelarrayattach93.length; i++) {
+          //   const combinedObject = {
+          //     emp_code: this.excelarrayattach93[i].DRIVER1,
+          //     driver_name: this.excelarrayattach93[i].NAME,
+          //     total_ot: ''
+          //   }
+          //   combinedArray.push(combinedObject);
+          // }
           this.pdfdata = combinedArray
-          this.pdfdata = combinedArray
+          // this.pdfdata = combinedArray
           this.pdfdata  = this.pdfdata.filter((i) => {
           return i.total_ot !== '0' && i.total_ot !== null
         })
@@ -348,6 +367,46 @@ export default {
         .catch(error => {
           console.error('Error fetching data:', error.message);
         });
+      // await axios.post('http://localhost:4000/getdataattach93', from_to)
+      //   .then(response => {
+      //     console.log('resdata', response.data.result);
+      //     let dataexcel = response.data.result
+      //     this.excelarrayattach93 = Object.values(dataexcel);
+      //     // console.log('filterEX', this.excelarrayattach93)
+      //   //   const combinedArray = []
+      //   //   for (let i = 0; i < this.excelarrayattach9.length; i++) {
+      //   //     const combinedObject = {
+      //   //       emp_code: this.excelarrayattach9[i].ttt_employee_code,
+      //   //       driver_name: this.excelarrayattach9[i].tlep_driver_name,
+      //   //       total_ot: this.excelarrayattach9[i].total_ot,
+      //   //     }
+      //   //     combinedArray.push(combinedObject);
+      //   //   }
+      //   //   for (let i = 0; i < this.excelarrayattach92.length; i++) {
+      //   //     const combinedObject = {
+      //   //       emp_code: this.excelarrayattach92[i].DRIVER1,
+      //   //       driver_name: this.excelarrayattach92[i].NAME,
+      //   //       total_ot: this.excelarrayattach92[i].OT_HOURS,
+      //   //     }
+      //   //     combinedArray.push(combinedObject);
+      //   //   }
+      //   //   for (let i = 0; i < this.excelarrayattach93.length; i++) {
+      //   //     const combinedObject = {
+      //   //       emp_code: this.excelarrayattach93[i].DRIVER1,
+      //   //       driver_name: this.excelarrayattach93[i].NAME,
+      //   //       total_ot: ''
+      //   //     }
+      //   //     combinedArray.push(combinedObject);
+      //   //   }
+      //   //   this.pdfdata = combinedArray
+      //   //   this.pdfdata = combinedArray
+      //   //   this.pdfdata  = this.pdfdata.filter((i) => {
+      //   //   return i.total_ot !== '0' && i.total_ot !== null
+      //   // })
+      //   })
+      //   .catch(error => {
+      //     console.error('Error fetching data:', error.message);
+      //   });
       await this.exporttoexcel(this.pdfdata)
     },
     async exporttoexcel(data) {
@@ -430,7 +489,7 @@ export default {
         if (count > datas.length - 1) {
           console.log('countPDF ', count);
           page.drawText(`__________________________________________________________________________________`, { x: 10, y: yPosition + 20, size: 20, font: thaiFont });
-          page.drawText(`รวม ${sumValue}`, { x: 400, y: yPosition - 20, size: 20, font: thaiFont });
+          page.drawText(`รวม ${(sumValue.toFixed(2)).toLocaleString()}`, { x: 400, y: yPosition - 20, size: 20, font: thaiFont });
         }
       }
 
@@ -508,7 +567,7 @@ export default {
         if (count > datas.length - 1) {
           console.log('countPDF ', count);
           page.drawText(`__________________________________________________________________________________`, { x: 10, y: yPosition + 20, size: 20, font: thaiFont });
-          page.drawText(`รวม ${sumValue}`, { x: 400, y: yPosition - 20, size: 20, font: thaiFont });
+          page.drawText(`รวม ${(sumValue.toFixed(2)).toLocaleString()}`, { x: 400, y: yPosition - 20, size: 20, font: thaiFont });
         }
       }
 

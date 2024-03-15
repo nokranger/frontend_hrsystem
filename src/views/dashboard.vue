@@ -1,17 +1,23 @@
 <template>
   <div>
     <nav>
-      <router-link to="/dashboard">Import & Export</router-link> ||
-      <router-link to="/Attached">Attached</router-link> ||
-      <router-link to="/payroll">Payroll</router-link>
+      <router-link to="/dashboard" style="font-size: 20px;">Import & Export</router-link> ||
+      <router-link to="/Attached" style="font-size: 20px;">Attached</router-link> ||
+      <router-link to="/payroll" style="font-size: 20px;">Payroll</router-link>
     </nav>
     <b-container>
       <div>
-        <h1 style="text-shadow: 2px 2px 5px black;margin: 20px;">Import Data</h1>
+        <h1 style="text-shadow: 2px 2px 5px black;margin: 20px;font-size: 25px;">Import Data</h1>
       </div>
-      <b-alert v-if="alertStatus === 1" show variant="success" :show="dismissCountDown" fade @dismiss-count-down="countDownChanged"><a href="#" style="text-decoration:none" class="alert-link">อัพโหลดข้อมูลสำเร็จ</a></b-alert>
-      <b-alert v-if="alertStatus === 2" show variant="warning" :show="dismissCountDown" fade @dismiss-count-down="countDownChanged"><a href="#" style="text-decoration:none" class="alert-link">ไม่มีข้อมูลเปลี่ยนแปลง</a></b-alert>
-      <b-alert v-if="alertStatus === 3" show variant="danger" :show="dismissCountDown" fade @dismiss-count-down="countDownChanged"><a href="#" style="text-decoration:none" class="alert-link">อัพโหลดข้อมูลล้มเหลว</a></b-alert>
+      <b-alert v-if="alertStatus === 1" show variant="success" :show="dismissCountDown" fade
+        @dismiss-count-down="countDownChanged"><a href="#" style="text-decoration:none"
+          class="alert-link">อัพโหลดข้อมูล{{showStatus}}สำเร็จ</a></b-alert>
+      <b-alert v-if="alertStatus === 2" show variant="warning" :show="dismissCountDown" fade
+        @dismiss-count-down="countDownChanged"><a href="#" style="text-decoration:none"
+          class="alert-link">ไม่มีข้อมูล{{showStatus}}เปลี่ยนแปลง</a></b-alert>
+      <b-alert v-if="alertStatus === 3" show variant="danger" :show="dismissCountDown" fade
+        @dismiss-count-down="countDownChanged"><a href="#" style="text-decoration:none"
+          class="alert-link">อัพโหลดข้อมูล{{showStatus}}ล้มเหลว</a></b-alert>
       <div style="border: 2px solid gray;border-radius: 10px;height: 650px;box-shadow: 5px 5px 5px #888888;">
         <div>
           <br>
@@ -65,7 +71,7 @@
         </div>
       </div>
       <div>
-        <h1 style="text-shadow: 2px 2px 5px black;margin: 20px;">Export Master Data</h1>
+        <h1 style="text-shadow: 2px 2px 5px black;margin: 20px;font-size: 25px;">Export Master Data</h1>
       </div>
       <div
         style="border: 2px solid gray;border-radius: 10px;height: 400px;box-shadow: 5px 5px 5px #888888;margin-top: 20px;">
@@ -172,15 +178,16 @@ export default {
       alertStatus: 0,
       dismissSecs: 5,
       dismissCountDown: 0,
-      showDismissibleAlert: false
+      showDismissibleAlert: false,
+      showStatus: ''
     };
   },
   mounted() {
   },
   methods: {
     countDownChanged(dismissCountDown) {
-        this.dismissCountDown = dismissCountDown
-      },
+      this.dismissCountDown = dismissCountDown
+    },
     handleFileChangetest(event) {
       console.log('personal')
       const file = event.target.files[0];
@@ -258,6 +265,7 @@ export default {
               console.log('comparedataNull', comparedataPersonal);
               this.alertStatus = 2
               this.dismissCountDown = this.dismissSecs
+              this.showStatus = ' Personal Data '
               // axios.post('http://localhost:4000/personal', this.jsondata2)
               //   .then(response => {
               //     console.log(response.data);
@@ -272,11 +280,13 @@ export default {
                   console.log(response.data);
                   this.alertStatus = 1
                   this.dismissCountDown = this.dismissSecs
+                  this.showStatus = ' Personal Data '
                 })
                 .catch(error => {
                   console.error('Error fetching data:', error.message);
                   this.alertStatus = 3
                   this.dismissCountDown = this.dismissSecs
+                  this.showStatus = ' Personal Data '
                 });
             }
           })
@@ -776,9 +786,15 @@ export default {
         axios.post('http://localhost:4000/welfare', this.jsondata2Welfare)
           .then(response => {
             console.log(response.data);
+            this.alertStatus = 1
+            this.dismissCountDown = this.dismissSecs
+            this.showStatus = ' Welfare Data '
           })
           .catch(error => {
             console.error('Error fetching data:', error.message);
+            this.alertStatus = 3
+            this.dismissCountDown = this.dismissSecs
+            this.showStatus = ' Welfare Data '
           });
         // axios.post('http://localhost:4000/welfare2', this.jsondata2Welfare2)
         //   .then(response => {
@@ -853,18 +869,25 @@ export default {
             UNITS3: data.item19,
             UNITS4: data.item20,
             UNITS5: data.item21,
-            TAX_FLAG: data.item22
-
+            TAX_FLAG: data.item22,
           }
         })
         console.log('JSONTYPEOF2Aftermap: ', typeof (jsonobjectHoliday))
-        this.jsondataHoliday = jsonMapHoliday
+        this.jsondataHoliday = jsonMapHoliday.filter((i) => {
+          return i.TRIP_NO !== 'SUM' && i.TRIP_NO !== undefined
+        })
         axios.post('http://localhost:4000/holiday', this.jsondataHoliday)
           .then(response => {
             console.log(response.data);
+            this.alertStatus = 1
+            this.dismissCountDown = this.dismissSecs
+            this.showStatus = ' Holiday Data '
           })
           .catch(error => {
             console.error('Error fetching data:', error.message);
+            this.alertStatus = 3
+            this.dismissCountDown = this.dismissSecs
+            this.showStatus = ' Holiday Data '
           });
       };
 
@@ -981,9 +1004,15 @@ export default {
         axios.post('http://localhost:4000/tnos5', this.jsondata2Tnos5)
           .then(response => {
             console.log(response.data);
+            this.alertStatus = 1
+            this.dismissCountDown = this.dismissSecs
+            this.showStatus = ' TNOS Data '
           })
           .catch(error => {
             console.error('Error fetching data:', error.message);
+            this.alertStatus = 3
+            this.dismissCountDown = this.dismissSecs
+            this.showStatus = ' TNOS Data '
           });
       };
 
@@ -1058,22 +1087,6 @@ export default {
         jsonMapInstructor = jsonMapInstructor.filter((i) => {
           return i.number !== null && i.number !== undefined
         })
-        // let jsonMapInstructor2 = jsonobjectInstructor.map((data, i) => {
-        //   return {
-        //     TRIP_NO: data.item2,
-        //     DEALER1: data.item13,
-        //     DEALER2: data.item14,
-        //     DEALER3: data.item15,
-        //     DEALER4: data.item16,
-        //     DEALER5: data.item17,
-        //     UNITS1: data.item18,
-        //     UNITS2: data.item19,
-        //     UNITS3: data.item20,
-        //     UNITS4: data.item21,
-        //     UNITS5: data.item22,
-        //     TAX_FLAG: data.item23,
-        //   }
-        // })
         console.log('jsonobjectInstructor', jsonobjectInstructor)
         console.log('Aftermap2jsonMapInstructor', jsonMapInstructor)
         // console.log('Aftermap22', jsonMapInstructor2)
@@ -1083,9 +1096,15 @@ export default {
         axios.post('http://localhost:4000/instructor', this.jsondata2Instructor)
           .then(response => {
             console.log(response.data);
+            this.alertStatus = 1
+            this.dismissCountDown = this.dismissSecs
+            this.showStatus = ' Instructor Data '
           })
           .catch(error => {
             console.error('Error fetching data:', error.message);
+            this.alertStatus = 3
+            this.dismissCountDown = this.dismissSecs
+            this.showStatus = ' Instructor Data '
           });
         // axios.post('http://localhost:4000/instructor2', this.jsondata2Instructor2)
         //   .then(response => {

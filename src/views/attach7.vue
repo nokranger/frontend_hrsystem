@@ -83,10 +83,10 @@
             </div>
           </b-col>
         </b-row>
-        <div>
+        <!-- <div>
           <h1 style="text-shadow: 2px 2px 5px black;">Preview</h1>
-        </div>
-        <b-row style="margin: 20px;">
+        </div> -->
+        <!-- <b-row style="margin: 20px;">
           <b-col>
             <div>
               <b-form-select
@@ -108,7 +108,7 @@
                   variant="success"></b-icon-file-earmark-excel-fill></b-button>
             </div>
           </b-col>
-        </b-row>
+        </b-row> -->
       </div>
     </b-container>
   </div>
@@ -285,7 +285,7 @@ export default {
           }, {});
           this.pdfdata = Object.values(this.pdfdata);
           console.log(this.pdfdata);
-          this.pdfdata.sort((a,b) => a.updated_at - b.updated_at);
+          this.pdfdata.sort((a, b) => a.updated_at - b.updated_at);
         })
         .catch(error => {
           console.error('Error fetching data:', error.message);
@@ -384,7 +384,7 @@ export default {
           }, {});
           this.pdfdata = Object.values(this.pdfdata);
           console.log(this.pdfdata);
-          this.pdfdata.sort((a,b) => a.updated_at - b.updated_at);
+          this.pdfdata.sort((a, b) => a.updated_at - b.updated_at);
         })
         .catch(error => {
           console.error('Error fetching data:', error.message);
@@ -513,7 +513,7 @@ export default {
         from: this.dateattach7welfareform,
         to: this.dateattach7welfareto
       }
-      await axios.post('http://localhost:4000/getdataattach7P', from_to)
+      await axios.post('http://localhost:4000/getdataattach7', from_to)
         .then(response => {
           // console.log('resdata', response.data.result);
           // console.log('resdata22', dataexcel);
@@ -532,7 +532,7 @@ export default {
         .catch(error => {
           console.error('Error fetching data:', error.message);
         });
-      await axios.post('http://localhost:4000/getdataattach72P', from_to_welfare)
+      await axios.post('http://localhost:4000/getdataattach72', from_to_welfare)
         .then(response => {
           console.log('resdata', response.data.result);
           let dataexcel = response.data.result
@@ -548,7 +548,17 @@ export default {
         .catch(error => {
           console.error('Error fetching data:', error.message);
         });
-      await axios.post('http://localhost:4000/getdataattach73P', from_to)
+      await axios.post('http://localhost:4000/getdataattach721', from_to_welfare)
+        .then(response => {
+          console.log('resdatawelfare', response.data.result);
+          let dataexcel = response.data.result
+          this.excelarrayattach721 = Object.values(dataexcel);
+          console.log('JSONTYPEOFwelfare', this.excelarray.length)
+        })
+        .catch(error => {
+          console.error('Error fetching data:', error.message);
+        });
+      await axios.post('http://localhost:4000/getdataattach73', from_to)
         .then(response => {
           console.log('resdata', response.data.result);
           let dataexcel = response.data.result
@@ -581,6 +591,15 @@ export default {
             }
             combinedArray.push(combinedObject);
           }
+          for (let i = 0; i < this.excelarrayattach721.length; i++) {
+            const combinedObject = {
+              bank_account_number: this.excelarrayattach721[i].bank_account_number,
+              emp_code: this.excelarrayattach721[i].emp_code,
+              name: this.excelarrayattach721[i].name,
+              total_allowance: parseFloat(this.excelarrayattach721[i].total_allowance),
+            }
+            combinedArray.push(combinedObject);
+          }
           for (let i = 0; i < this.excelarrayattach73.length; i++) {
             const combinedObject = {
               bank_account_number: this.excelarrayattach73[i].bank_account_number,
@@ -591,6 +610,16 @@ export default {
             combinedArray.push(combinedObject);
           }
           this.pdfdata = combinedArray
+          this.pdfdata = this.pdfdata.reduce((acc, { total_allowance, emp_code, bank_account_number, name }) => {
+            if (!acc[emp_code]) {
+              acc[emp_code] = { emp_code, total_allowance: 0, bank_account_number, name };
+            }
+            acc[emp_code].total_allowance += total_allowance;
+            return acc;
+          }, {});
+          this.pdfdata = Object.values(this.pdfdata);
+          console.log(this.pdfdata);
+          this.pdfdata.sort((a, b) => a.updated_at - b.updated_at);
         })
         .catch(error => {
           console.error('Error fetching data:', error.message);
@@ -602,7 +631,7 @@ export default {
         from: this.dateattach7from,
         to: this.dateattach7to
       }
-      await axios.post('http://localhost:4000/getdataattach7P', from_to)
+      await axios.post('http://localhost:4000/getdataattach7', from_to)
         .then(response => {
           console.log('resdata', response.data.result);
           let dataexcel = response.data.result
@@ -611,7 +640,7 @@ export default {
         .catch(error => {
           console.error('Error fetching data:', error.message);
         });
-      await axios.post('http://localhost:4000/getdataattach72P', from_to_welfare)
+      await axios.post('http://localhost:4000/getdataattach72', from_to_welfare)
         .then(response => {
           console.log('resdata', response.data.result);
           let dataexcel = response.data.result
@@ -621,7 +650,17 @@ export default {
         .catch(error => {
           console.error('Error fetching data:', error.message);
         });
-      await axios.post('http://localhost:4000/getdataattach73P', from_to)
+      await axios.post('http://localhost:4000/getdataattach721', from_to_welfare)
+        .then(response => {
+          console.log('resdatawelfare', response.data.result);
+          let dataexcel = response.data.result
+          this.excelarrayattach721 = Object.values(dataexcel);
+          console.log('JSONTYPEOFwelfare', this.excelarray.length)
+        })
+        .catch(error => {
+          console.error('Error fetching data:', error.message);
+        });
+      await axios.post('http://localhost:4000/getdataattach73', from_to)
         .then(response => {
           console.log('resdata', response.data.result);
           let dataexcel = response.data.result
@@ -666,6 +705,7 @@ export default {
             combinedArray.push(combinedObject);
           }
           this.pdfdata = combinedArray
+          this.pdfdata.sort((a, b) => a.updated_at - b.updated_at);
         })
         .catch(error => {
           console.error('Error fetching data:', error.message);

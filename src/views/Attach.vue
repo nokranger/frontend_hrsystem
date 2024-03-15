@@ -1,13 +1,13 @@
 <template>
   <div>
     <nav>
-      <router-link to="/dashboard">Import & Export</router-link> ||
-      <router-link to="/Attached">Attached</router-link> ||
-      <router-link to="/payroll">Payroll</router-link>
+      <router-link to="/dashboard" style="font-size: 20px;">Import & Export</router-link> ||
+      <router-link to="/Attached" style="font-size: 20px;">Attached</router-link> ||
+      <router-link to="/payroll" style="font-size: 20px;">Payroll</router-link>
     </nav>
     <b-container>
       <div style="display: inline;">
-        <h1 style="text-shadow: 2px 2px 5px black;display: inline;">Attached</h1>
+        <h1 style="text-shadow: 2px 2px 5px black;display: inline;font-size: 25px;">Attached</h1>
         <b-form-select
           style="display: inline; margin: 10px;width: 300px;height: 40px;font-family: 'Noto Serif', sans-serif;font-weight: bold;font-size: 20px;border-radius:10px;border:1px solid #cccccc;"
           id="selectoption" v-model="selectOption" :options="optionss"></b-form-select>
