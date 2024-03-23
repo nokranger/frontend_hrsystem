@@ -199,11 +199,11 @@ export default {
       }
     },
     async readExceltest(file) {
-      console.log('KUY')
+      // console.log('KUY')
       const reader = new FileReader();
 
       reader.onload = (e) => {
-        console.log('KUY2')
+        // console.log('KUY2')
         const data = e.target.result;
         const workbook = XLSX.read(data, { type: 'binary' });
 
@@ -721,9 +721,9 @@ export default {
         this.jsonDataWelfare = JSON.parse(this.jsonDataWelfare)
         this.jsonDataWelfare.shift()
         // console.log('mapdata1: ', this.jsonData)
-        console.log('JSONLenght: ', this.jsonDataWelfare)
+        // console.log('JSONLenght: ', this.jsonDataWelfare)
         // console.log('JSONLenghtSHIFT: ',  JSON.parse(this.jsonData).shift())
-        console.log('JSONTYPEOF: ', typeof (this.jsonDataWelfare))
+        // console.log('JSONTYPEOF: ', typeof (this.jsonDataWelfare))
         // console.log('JSONTYPEOF2: ',  typeof(JSON.parse(this.jsonData)))
         let jsonobjectWelfare = {}
         let jsonobject2Welfare = this.jsonDataWelfare
@@ -779,25 +779,41 @@ export default {
         //     TAX_FLAG: data.item22,
         //   }
         // })
-        console.log('jsonobjectWelfare', jsonobjectWelfare)
-        console.log('Aftermap2jsonMapWelfare)', jsonMapWelfare)
+        // console.log('jsonobjectWelfare', jsonobjectWelfare)
+        // console.log('Aftermap2jsonMapWelfare)', jsonMapWelfare)
         // console.log('Aftermap22', jsonMapWelfare2)
-        console.log('JSONTYPEOF2Aftermap: ', typeof (jsonobjectWelfare))
+        // console.log('JSONTYPEOF2Aftermap: ', typeof (jsonobjectWelfare))
         this.jsondata2Welfare = jsonMapWelfare
+        axios.get('http://localhost:4000/getcomparedata1',).then(response => {
+          let compare = response.data.result
+          this.excelarray = Object.values(compare)
+          // console.log('JSONTYPEOF2Aftermap23', this.jsondata2Welfare[1].TRIP_NO)
+          let dup = this.excelarray.filter(a=> this.jsondata2Welfare.some(b => a.TRIP_NO === b.TRIP_NO))
+          let Notdup = this.excelarray.filter(a=> !this.jsondata2Welfare.some(b => a.TRIP_NO === b.TRIP_NO))
+          console.log('dupl', dup)
+          console.log('Notdupl', Notdup)
+          if (Notdup.length > 0) {
+            console.log('InsertNotdupl', Notdup)
+          }
+          // console.log('dupl', dup)
+          // console.log('Notdupl', Notdup)
+        }).catch(error => {
+          console.error('Error fetching data:', error.message)
+        })
         // this.jsondata2Welfare2 = jsonMapWelfare2
-        axios.post('http://localhost:4000/welfare', this.jsondata2Welfare)
-          .then(response => {
-            console.log(response.data);
-            this.alertStatus = 1
-            this.dismissCountDown = this.dismissSecs
-            this.showStatus = ' Welfare Data '
-          })
-          .catch(error => {
-            console.error('Error fetching data:', error.message);
-            this.alertStatus = 3
-            this.dismissCountDown = this.dismissSecs
-            this.showStatus = ' Welfare Data '
-          });
+        // axios.post('http://localhost:4000/welfare', this.jsondata2Welfare)
+        //   .then(response => {
+        //     console.log(response.data);
+        //     this.alertStatus = 1
+        //     this.dismissCountDown = this.dismissSecs
+        //     this.showStatus = ' Welfare Data '
+        //   })
+        //   .catch(error => {
+        //     console.error('Error fetching data:', error.message);
+        //     this.alertStatus = 3
+        //     this.dismissCountDown = this.dismissSecs
+        //     this.showStatus = ' Welfare Data '
+        //   });
         // axios.post('http://localhost:4000/welfare2', this.jsondata2Welfare2)
         //   .then(response => {
         //     console.log(response.data);

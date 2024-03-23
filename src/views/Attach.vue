@@ -25,7 +25,7 @@
         <attached9></attached9>
       </div>
       <div v-if="selectOption == 10">
-        <attached7></attached7>
+        <attached10></attached10>
       </div>
       <!-- <div>
         <h1 style="text-shadow: 2px 2px 5px black;">Attached</h1>
@@ -118,11 +118,13 @@ import moment from 'moment';
 import attached7 from '../views/attach7.vue'
 import attached8 from '../views/attach8.vue';
 import attached9 from '../views/attach9.vue';
+import attached10 from '../views/attach10.vue';
 export default {
   components: {
     attached7,
     attached9,
-    attached8
+    attached8,
+    attached10
   },
   data() {
     return {
