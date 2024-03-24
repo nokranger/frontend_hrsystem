@@ -6,37 +6,206 @@
       <router-link to="/payroll" style="font-size: 20px;">Payroll</router-link>
     </nav>
     <b-container>
+      <b-modal id="modal-welfare" size="xl" title="ข้อมูล Welfare ที่ซ้ำ" hide-footer>
+        <tr style="border: 1px solid;">
+          <td style="border: 1px solid;">NO.</td>
+          <td style="border: 1px solid;">TRIP_NO</td>
+          <td style="border: 1px solid;">TRIP_ALLOWANCE</td>
+          <td style="border: 1px solid;">DEPARTURE_DATETIME</td>
+          <td style="border: 1px solid;">DRIVER1</td>
+          <td style="border: 1px solid;">NAME</td>
+          <td style="border: 1px solid;">DEALER1</td>
+          <td style="border: 1px solid;">create_time</td>
+        </tr>
+        <tr v-for="(item, index) in showWelfareDup" :key="index" style="border: 1px solid;">
+          <td style="border: 1px solid;">{{ index + 1 }}</td>
+          <td style="border: 1px solid;">{{ item.TRIP_NO }}</td>
+          <td style="border: 1px solid;">{{ item.TRIP_ALLOWANCE.toLocaleString() }}</td>
+          <td style="border: 1px solid;">{{ new Date((item.DEPARTURE_DATETIME - 1) * 24 * 60 * 60 * 1000 + new
+          Date(1900, 0, 0).getTime()).toLocaleString() }}</td>
+          <td style="border: 1px solid;">{{ item.DRIVER1 }}</td>
+          <td style="border: 1px solid;">{{ item.NAME }}</td>
+          <td style="border: 1px solid;">{{ item.DEALER1 }}</td>
+          <td style="border: 1px solid;">{{ item.create_time }}</td>
+        </tr>
+      </b-modal>
+      <b-modal id="modal-instructor" size="xl" title="ข้อมูล Instructor ที่ซ้ำ" hide-footer>
+        <tr style="border: 1px solid;">
+          <td style="border: 1px solid;">NO.</td>
+          <td style="border: 1px solid;">TRIP_NO</td>
+          <td style="border: 1px solid;">TRIP_ALLOWANCE</td>
+          <td style="border: 1px solid;">DEPARTURE_DATETIME</td>
+          <td style="border: 1px solid;">DRIVER1</td>
+          <td style="border: 1px solid;">NAME</td>
+          <td style="border: 1px solid;">DEALER1</td>
+          <td style="border: 1px solid;">create_time</td>
+        </tr>
+        <tr v-for="(item, index) in showInstructorDup" :key="index" style="border: 1px solid;">
+          <td style="border: 1px solid;">{{ index + 1 }}</td>
+          <td style="border: 1px solid;">{{ item.TRIP_NO }}</td>
+          <td style="border: 1px solid;">{{ item.TRIP_ALLOWANCE.toLocaleString() }}</td>
+          <td style="border: 1px solid;">{{ new Date((item.DEPARTURE_DATETIME - 1) * 24 * 60 * 60 * 1000 + new
+          Date(1900, 0, 0).getTime()).toLocaleString() }}</td>
+          <td style="border: 1px solid;">{{ item.DRIVER1 }}</td>
+          <td style="border: 1px solid;">{{ item.NAME }}</td>
+          <td style="border: 1px solid;">{{ item.DEALER1 }}</td>
+          <td style="border: 1px solid;">{{ item.create_time }}</td>
+        </tr>
+      </b-modal>
+      <b-modal id="modal-tnos" size="xl" title="ข้อมูล TNOS ที่ซ้ำ" hide-footer>
+        <tr style="border: 1px solid;">
+          <td style="border: 1px solid;">NO.</td>
+          <td style="border: 1px solid;">Calling Sheet No</td>
+          <td style="border: 1px solid;">TRIP_ALLOWANCE</td>
+          <td style="border: 1px solid;">DEPARTURE_DATETIME</td>
+          <td style="border: 1px solid;">Employee code</td>
+          <td style="border: 1px solid;">NAME</td>
+          <td style="border: 1px solid;">To Name</td>
+          <td style="border: 1px solid;">create_time</td>
+        </tr>
+        <tr v-for="(item, index) in showtnosDup" :key="index" style="border: 1px solid;">
+          <td style="border: 1px solid;">{{ index + 1 }}</td>
+          <td style="border: 1px solid;">{{ item.calling_sheet_no }}</td>
+          <td style="border: 1px solid;">{{ item.total_allowance.toLocaleString() }}</td>
+          <td style="border: 1px solid;">{{ new Date((item.recieve_job_dateandtime - 1) * 24 * 60 * 60 * 1000 + new
+          Date(1900, 0, 0).getTime()).toLocaleString() }}</td>
+          <td style="border: 1px solid;">{{ item.ttt_employee_code }}</td>
+          <td style="border: 1px solid;">{{ item.tlep_driver_name }}</td>
+          <td style="border: 1px solid;">{{ item.to_name }}</td>
+          <td style="border: 1px solid;">{{ item.create_time }}</td>
+        </tr>
+      </b-modal>
       <div>
         <h1 style="text-shadow: 2px 2px 5px black;margin: 20px;font-size: 25px;">Import Data</h1>
       </div>
       <b-alert v-if="alertStatus === 1" show variant="success" :show="dismissCountDown" fade
         @dismiss-count-down="countDownChanged"><a href="#" style="text-decoration:none"
-          class="alert-link">อัพโหลดข้อมูล{{showStatus}}สำเร็จ</a></b-alert>
+          class="alert-link">อัพโหลดข้อมูล{{ showStatus }}สำเร็จ</a></b-alert>
       <b-alert v-if="alertStatus === 2" show variant="warning" :show="dismissCountDown" fade
-        @dismiss-count-down="countDownChanged"><a href="#" style="text-decoration:none"
-          class="alert-link">ไม่มีข้อมูล{{showStatus}}เปลี่ยนแปลง</a></b-alert>
+        @dismiss-count-down="countDownChanged"><a href="#" style="text-decoration:none" class="alert-link">ไม่มีข้อมูล{{
+          showStatus }}เปลี่ยนแปลง</a></b-alert>
       <b-alert v-if="alertStatus === 3" show variant="danger" :show="dismissCountDown" fade
         @dismiss-count-down="countDownChanged"><a href="#" style="text-decoration:none"
-          class="alert-link">อัพโหลดข้อมูล{{showStatus}}ล้มเหลว</a></b-alert>
+          class="alert-link">อัพโหลดข้อมูล{{ showStatus }}ล้มเหลว</a></b-alert>
+      <b-alert v-if="alertStatus2 === 1" show variant="success" :show="dismissCountDown" fade
+        @dismiss-count-down="countDownChanged"><a href="#" style="text-decoration:none"
+          class="alert-link">ลบข้อมูลสำเร็จ</a></b-alert>
+      <b-alert v-if="alertStatus2 === 3" show variant="danger" :show="dismissCountDown" fade
+        @dismiss-count-down="countDownChanged"><a href="#" style="text-decoration:none"
+          class="alert-link">ลบข้อมูลล้มเหลว</a></b-alert>
       <div style="border: 2px solid gray;border-radius: 10px;height: 650px;box-shadow: 5px 5px 5px #888888;">
-        <div>
+        <b-row>
+          <b-col>
+            <div>
+              <br>
+              <div style="font-weight: bold;font-size: 20px;margin: 10px;">
+                Personal Data
+              </div>
+              <input type="file" ref="fileInput" @change="handleFileChangetest" />
+              <!-- <button @click="exportToExcel">Export to Excel</button> -->
+              <!-- <button @click="PersonalSendData">PersonalSendData</button> -->
+            </div>
+          </b-col>
+          <b-col>
+            <!-- <br>
+            <div style="font-weight: bold;font-size: 20px;margin: 10px;">
+              เลือกช่วงเวลาสำหรับลบข้อมูล
+            </div> -->
+            <!-- <b-form-select
+              style="display: inline;width: 300px;height: 40px;font-family: 'Noto Serif', sans-serif;font-weight: bold;font-size: 20px;border-radius:10px;border:1px solid #cccccc;"
+              id="selectoption" v-model="selectOption" :options="deleteTnos" v-on:change="tnosdelete()"></b-form-select> -->
+          </b-col>
+        </b-row>
+        <br>
+        <b-row>
+          <b-col>
+            <div>
+              <div style="font-weight: bold;font-size: 20px;margin: 10px;">
+                Instructor Data
+              </div>
+              <input type="file" ref="fileInput" @change="handleFileChangeInstructor" />
+            </div>
+          </b-col>
+          <b-col>
+            <div style="font-weight: bold;font-size: 20px;margin: 5px;">
+              เลือกช่วงเวลาสำหรับลบข้อมูล Instructor
+            </div>
+            <b-form-select
+              style="display: inline;width: 300px;height: 40px;font-family: 'Noto Serif', sans-serif;font-weight: bold;font-size: 20px;border-radius:10px;border:1px solid #cccccc;"
+              id="selectoption" v-model="selectOptionInstructor" :options="deleteInstrutor"
+              v-on:change="Instructordelete()"></b-form-select>
+          </b-col>
+        </b-row>
+        <br>
+        <b-row>
+          <b-col>
+            <div>
+              <div style="font-weight: bold;font-size: 20px;margin: 10px;">
+                T-nos Data
+              </div>
+              <input type="file" ref="fileInput" @change="handleFileChangeTnos" />
+            </div>
+          </b-col>
+          <b-col>
+            <div style="font-weight: bold;font-size: 20px;margin: 5px;">
+              เลือกช่วงเวลาสำหรับลบข้อมูล T-nos
+            </div>
+            <b-form-select
+              style="display: inline;width: 300px;height: 40px;font-family: 'Noto Serif', sans-serif;font-weight: bold;font-size: 20px;border-radius:10px;border:1px solid #cccccc;"
+              id="selectoption" v-model="selectOption" :options="deleteTnos" v-on:change="tnosdelete()"></b-form-select>
+          </b-col>
+        </b-row>
+        <br>
+        <b-row>
+          <b-col>
+            <div>
+              <div style="font-weight: bold;font-size: 20px;margin: 10px;">
+                Welfare Data
+              </div>
+              <input type="file" ref="fileInput" @change="handleFileChangeWelfare" />
+            </div>
+          </b-col>
+          <b-col>
+            <div style="font-weight: bold;font-size: 20px;margin: 5px;">
+              เลือกช่วงเวลาสำหรับลบข้อมูล Welfare
+            </div>
+            <b-form-select
+              style="display: inline;width: 300px;height: 40px;font-family: 'Noto Serif', sans-serif;font-weight: bold;font-size: 20px;border-radius:10px;border:1px solid #cccccc;"
+              id="selectoption" v-model="selectOptionwelfare" :options="deleteWelfare"
+              v-on:change="Welfaredelete()"></b-form-select>
+          </b-col>
+        </b-row>
+        <br>
+        <b-row>
+          <b-col>
+            <div>
+              <div style="font-weight: bold;font-size: 20px;margin: 10px;">
+                Holiday Data
+              </div>
+              <input type="file" ref="fileInput" @change="handleFileChangeHoliday" />
+            </div>
+          </b-col>
+          <b-col>
+            <!-- <div style="font-weight: bold;font-size: 20px;margin: 5px;">
+              เลือกช่วงเวลาสำหรับลบข้อมูล Holiday
+            </div> -->
+            <!-- <b-form-select
+              style="display: inline;width: 300px;height: 40px;font-family: 'Noto Serif', sans-serif;font-weight: bold;font-size: 20px;border-radius:10px;border:1px solid #cccccc;"
+              id="selectoption" v-model="selectOption" :options="deleteTnos" v-on:change="tnosdelete()"></b-form-select> -->
+          </b-col>
+        </b-row>
+        <!-- <div>
           <br>
           <div style="font-weight: bold;font-size: 20px;margin: 10px;">
             Personal Data
           </div>
           <input type="file" ref="fileInput" @change="handleFileChangetest" />
-          <!-- <button @click="exportToExcel">Export to Excel</button> -->
-          <br><br>
-          <!-- <button @click="PersonalSendData">PersonalSendData</button> -->
         </div>
         <div>
           <div style="font-weight: bold;font-size: 20px;margin: 10px;">
             Instructor Data
           </div>
           <input type="file" ref="fileInput" @change="handleFileChangeInstructor" />
-          <!-- <button @click="exportToExcel">Export to Excel</button>
-        <br><br>
-        <button @click="PersonalSendData">Instructor Data</button> -->
         </div>
         <br>
         <br>
@@ -45,9 +214,6 @@
             T-nos Data
           </div>
           <input type="file" ref="fileInput" @change="handleFileChangeTnos" />
-          <!-- <button @click="exportToExcelTnos">Export to Excel</button>
-        <br><br>
-        <button @click="TnosSendData">T-nos Data</button> -->
         </div>
         <br>
         <br>
@@ -56,19 +222,13 @@
             Welfare Data
           </div>
           <input type="file" ref="fileInput" @change="handleFileChangeWelfare" />
-          <!-- <button @click="exportToExcelWelfare">Export to Excel</button> -->
-          <br><br>
-          <!-- <button @click="WelfareSendData">Welfare Data</button> -->
         </div>
         <div>
           <div style="font-weight: bold;font-size: 20px;margin: 10px;">
             Holiday Data
           </div>
           <input type="file" ref="fileInput" @change="handleFileChangeHoliday" />
-          <!-- <button @click="exportToExcelWelfare">Export to Excel</button> -->
-          <br><br>
-          <!-- <button @click="WelfareSendData">Welfare Data</button> -->
-        </div>
+        </div> -->
       </div>
       <div>
         <h1 style="text-shadow: 2px 2px 5px black;margin: 20px;font-size: 25px;">Export Master Data</h1>
@@ -136,13 +296,6 @@
 <script>
 import * as XLSX from 'xlsx';
 import axios from 'axios';
-const { getJsDateFromExcel } = require("excel-date-to-js");
-// import fs from 'fs'
-
-import { PDFDocument, StandardFonts, rgb } from 'pdf-lib';
-import fontkit from '@pdf-lib/fontkit';
-// import * as fontkit from 'pdf-lib';
-// const fontKit = require ('@pdf-lib/fontkit')
 export default {
   data() {
     return {
@@ -178,15 +331,140 @@ export default {
       dateinstuctorfrom: '',
       dateinstuctorto: '',
       alertStatus: 0,
+      alertStatus2: 0,
       dismissSecs: 5,
       dismissCountDown: 0,
       showDismissibleAlert: false,
-      showStatus: ''
+      showStatus: '',
+      showWelfareDup: '',
+      showInstructorDup: '',
+      showtnosDup: '',
+      deleteWelfare: [],
+      deleteInstrutor: [],
+      deleteTnos: [],
+      itemWelfaredup: '',
+      selectOption: null,
+      selectOptionwelfare: null,
+      selectOptionInstructor: null
     };
   },
-  mounted() {
+  async mounted() {
+    // axios.get('http://localhost:4000//selectdeletetnos').then({
+
+    // })
+    await axios.get('http://localhost:4000/selectdeletetnos')
+      .then(response => {
+        this.deleteTnos = Object.values(response.data.result)
+        // console.log('dadas', this.deleteTnos)
+        this.deleteTnos = this.deleteTnos.map((data, i) => {
+          return {
+            value: data.create_time,
+            text: data.create_time
+          }
+        })
+        let nulls = {
+          value: null,
+          text: 'กรุณาเลือกช่วงเวลา'
+        }
+        this.deleteTnos.push(nulls)
+        // console.log('dadas22', this.deleteTnos)
+      })
+      .catch(error => {
+        console.error('Error fetching data:', error.message);
+      });
+    await axios.get('http://localhost:4000/selectdeletewelfare')
+      .then(response => {
+        this.deleteWelfare = Object.values(response.data.result)
+        // console.log('dadas', this.deleteWelfare)
+        this.deleteWelfare = this.deleteWelfare.map((data, i) => {
+          return {
+            value: data.create_time,
+            text: data.create_time
+          }
+        })
+        let nulls = {
+          value: null,
+          text: 'กรุณาเลือกช่วงเวลา'
+        }
+        this.deleteWelfare.push(nulls)
+        // console.log('dadas22', this.deleteWelfare)
+      })
+      .catch(error => {
+        console.error('Error fetching data:', error.message);
+      });
+    await axios.get('http://localhost:4000/selectdeleteinstructor')
+      .then(response => {
+        this.deleteInstrutor = Object.values(response.data.result)
+        // console.log('dadas', this.deleteInstrutor)
+        this.deleteInstrutor = this.deleteInstrutor.map((data, i) => {
+          return {
+            value: data.create_time,
+            text: data.create_time
+          }
+        })
+        let nulls = {
+          value: null,
+          text: 'กรุณาเลือกช่วงเวลา'
+        }
+        this.deleteInstrutor.push(nulls)
+        // console.log('dadas22', this.deleteInstrutor)
+      })
+      .catch(error => {
+        console.error('Error fetching data:', error.message);
+      });
   },
   methods: {
+    tnosdelete() {
+      // console.log('testSelecyt', this.selectOption)
+      let select = {
+        create_time: this.selectOption,
+      }
+      axios.post('http://localhost:4000/deletetnos', select)
+        .then(response => {
+          // console.log('delete done', response)
+          this.alertStatus2 = 1
+          this.dismissCountDown = this.dismissSecs
+        })
+        .catch(error => {
+          console.error('Error fetching data:', error.message);
+          this.alertStatus2 = 3
+          this.dismissCountDown = this.dismissSecs
+        });
+    },
+    Instructordelete() {
+      // console.log('testSelecyt', this.selectOptionInstructor)
+      let select = {
+        create_time: this.selectOptionInstructor,
+      }
+      axios.post('http://localhost:4000/deleteinstructor', select)
+        .then(response => {
+          // console.log('delete done', response)
+          this.alertStatus2 = 1
+          this.dismissCountDown = this.dismissSecs
+        })
+        .catch(error => {
+          console.error('Error fetching data:', error.message);
+          this.alertStatus2 = 3
+          this.dismissCountDown = this.dismissSecs
+        });
+    },
+    Welfaredelete() {
+      // console.log('testSelecyt', this.selectOptionwelfare)
+      let select = {
+        create_time: this.selectOptionwelfare,
+      }
+      axios.post('http://localhost:4000/deletewelfare', select)
+        .then(response => {
+          // console.log('delete done', response)
+          this.alertStatus2 = 1
+          this.dismissCountDown = this.dismissSecs
+        })
+        .catch(error => {
+          console.error('Error fetching data:', error.message);
+          this.alertStatus2 = 3
+          this.dismissCountDown = this.dismissSecs
+        });
+    },
     countDownChanged(dismissCountDown) {
       this.dismissCountDown = dismissCountDown
     },
@@ -257,14 +535,14 @@ export default {
             const comparedataPersonal = this.jsondata2.filter(obj1 =>
               !this.excelarray.some(obj2 => obj1.empCode === obj2.empCode)
             );
-            console.log('comparedata1', this.excelarray);
-            console.log('comparedata2', this.jsondata2);
+            // console.log('comparedata1', this.excelarray);
+            // console.log('comparedata2', this.jsondata2);
             // let comparedataPersonal = Array.from(uniqueData.values());
             // const mergedArray = [...this.jsondata2, ...this.excelarray];
             // comparedataPersonal = Array.from(uniqueData.values());
-            console.log('comparedataPersonal', comparedataPersonal);
+            // console.log('comparedataPersonal', comparedataPersonal);
             if (comparedataPersonal.length === 0) {
-              console.log('comparedataNull', comparedataPersonal);
+              // console.log('comparedataNull', comparedataPersonal);
               this.alertStatus = 2
               this.dismissCountDown = this.dismissSecs
               this.showStatus = ' Personal Data '
@@ -276,7 +554,7 @@ export default {
               //     console.error('Error fetching data:', error.message);
               //   });
             } else if (comparedataPersonal.length !== 0) {
-              console.log('comparedataNotNull');
+              // console.log('comparedataNotNull');
               axios.post('http://localhost:4000/personal', comparedataPersonal)
                 .then(response => {
                   console.log(response.data);
@@ -366,9 +644,9 @@ export default {
               "Bank account number": data.bank_account_number
             }
           })
-          console.log('resdataExcel', jsonMaps);
+          // console.log('resdataExcel', jsonMaps);
           this.excelarray = Object.values(jsonMaps);
-          console.log('JSONTYPEOF2Aftermap23', this.excelarray)
+          // console.log('JSONTYPEOF2Aftermap23', this.excelarray)
 
           //export to excell
           const workbook = XLSX.utils.book_new();
@@ -398,10 +676,10 @@ export default {
       }
       await axios.post('http://localhost:4000/masterdata', from_to)
         .then(response => {
-          console.log('resdata', response.data.result);
+          // console.log('resdata', response.data.result);
           let dataexcel = response.data.result
           this.excelarray = Object.values(dataexcel)
-          console.log('JSONTYPEOF2Aftermap23', this.excelarray)
+          // console.log('JSONTYPEOF2Aftermap23', this.excelarray)
         })
         .catch(error => {
           console.error('Error fetching data:', error.message);
@@ -419,10 +697,10 @@ export default {
       }
       await axios.post('http://localhost:4000/instructorgetdata', from_to)
         .then(response => {
-          console.log('resdata', response.data.result);
+          // console.log('resdata', response.data.result);
           let dataexcel = response.data.result
           this.excelarrayinstructor = Object.values(dataexcel)
-          console.log('JSONTYPEOF2Aftermap23', this.excelarrayinstructor)
+          // console.log('JSONTYPEOF2Aftermap23', this.excelarrayinstructor)
         })
         .catch(error => {
           console.error('Error fetching data:', error.message);
@@ -441,7 +719,7 @@ export default {
       console.log('resdata', from_to);
       await axios.post('http://localhost:4000/masterdata', from_to)
         .then(response => {
-          console.log('resdatatnos', response.data.result);
+          // console.log('resdatatnos', response.data.result);
           let dataexcel = response.data.result
           this.excelarray = Object.values(dataexcel)
           // console.log('JSONTYPEOF2Aftermap23', this.excelarray)
@@ -451,7 +729,7 @@ export default {
         });
       await axios.post('http://localhost:4000/instructorgetdata', from_to)
         .then(response => {
-          console.log('resdatainstructor', response.data.result);
+          // console.log('resdatainstructor', response.data.result);
           let dataexcel = response.data.result
           this.excelarrayinstructor = Object.values(dataexcel)
           // console.log('JSONTYPEOF2Aftermap23', this.excelarrayinstructor)
@@ -461,7 +739,7 @@ export default {
         });
       await axios.post('http://localhost:4000/welfaregetdata', from_to)
         .then(response => {
-          console.log('resdatawelfare', response.data.result);
+          // console.log('resdatawelfare', response.data.result);
           let dataexcel = response.data.result
           this.excelarraywelfare = Object.values(dataexcel);
           // this.excelarraywelfare = dataexcel
@@ -562,7 +840,7 @@ export default {
             };
             combinedArray.push(combinedObject);
           }
-          console.log('combinedObject', combinedArray)
+          // console.log('combinedObject', combinedArray)
           //export to excell
           const workbook = XLSX.utils.book_new();
 
@@ -606,9 +884,9 @@ export default {
         this.jsonData = JSON.parse(this.jsonData)
         this.jsonData.shift()
         // console.log('mapdata1: ', this.jsonData)
-        console.log('JSONLenght: ', this.jsonData)
+        // console.log('JSONLenght: ', this.jsonData)
         // console.log('JSONLenghtSHIFT: ',  JSON.parse(this.jsonData).shift())
-        console.log('JSONTYPEOF: ', typeof (this.jsonData))
+        // console.log('JSONTYPEOF: ', typeof (this.jsonData))
         // console.log('JSONTYPEOF2: ',  typeof(JSON.parse(this.jsonData)))
         let jsonobject = {}
         let jsonobject2 = this.jsonData
@@ -625,13 +903,13 @@ export default {
             bankaccount: data.item3
           }
         })
-        console.log('Aftermap', jsonobject)
-        console.log('Aftermap2', jsonMap)
-        console.log('JSONTYPEOF2Aftermap: ', typeof (jsonobject))
+        // console.log('Aftermap', jsonobject)
+        // console.log('Aftermap2', jsonMap)
+        // console.log('JSONTYPEOF2Aftermap: ', typeof (jsonobject))
         this.jsondata2 = jsonMap
         axios.post('http://localhost:4000/personal', this.jsondata2)
           .then(response => {
-            console.log(response.data);
+            // console.log(response.data);
           })
           .catch(error => {
             console.error('Error fetching data:', error.message);
@@ -641,9 +919,9 @@ export default {
       reader.readAsBinaryString(file);
     },
     exportToExcel() {
-      console.log('JSONTYPEOF2Aftermap2', this.jsondata2[1])
+      // console.log('JSONTYPEOF2Aftermap2', this.jsondata2[1])
       this.jsonArray = Object.values(this.jsondata2);
-      console.log('JSONTYPEOF2Aftermap23', this.jsonArray)
+      // console.log('JSONTYPEOF2Aftermap23', this.jsonArray)
 
       //export to excell
       const workbook = XLSX.utils.book_new();
@@ -665,7 +943,7 @@ export default {
       }
       axios.get('http://localhost:4000/personals')
         .then(response => {
-          console.log('resdata', response.data.result);
+          // console.log('resdata', response.data.result);
           let dataexcelWelfare = response.data.result
           let jsonMapsWelfare = dataexcelWelfare.map((data, i) => {
             return {
@@ -674,9 +952,9 @@ export default {
               "Bank account number": data.bank_account_number
             }
           })
-          console.log('resdataExcel', jsonMapsWelfare);
+          // console.log('resdataExcel', jsonMapsWelfare);
           this.excelarray = Object.values(jsonMapsWelfare);
-          console.log('JSONTYPEOF2Aftermap23', this.excelarrayWelfare)
+          // console.log('JSONTYPEOF2Aftermap23', this.excelarrayWelfare)
 
           //export to excell
           const workbook = XLSX.utils.book_new();
@@ -757,46 +1035,79 @@ export default {
             UNITS4: data.item20,
             UNITS5: data.item21,
             TAX_FLAG: data.item22,
+            create_time: new Date().toLocaleString()
 
           }
         })
         jsonMapWelfare = jsonMapWelfare.filter((i) => {
           return i.TRIP_NO !== 'SUM' && i.TRIP_NO !== undefined
         })
-        // let jsonMapWelfare2 = jsonobjectWelfare.map((data, i) => {
-        //   return {
-        //     TRIP_NO: data.item1,
-        //     DEALER1: data.item12,
-        //     DEALER2: data.item13,
-        //     DEALER3: data.item14,
-        //     DEALER4: data.item15,
-        //     DEALER5: data.item16,
-        //     UNITS1: data.item17,
-        //     UNITS2: data.item18,
-        //     UNITS3: data.item19,
-        //     UNITS4: data.item20,
-        //     UNITS5: data.item21,
-        //     TAX_FLAG: data.item22,
-        //   }
-        // })
-        // console.log('jsonobjectWelfare', jsonobjectWelfare)
-        // console.log('Aftermap2jsonMapWelfare)', jsonMapWelfare)
-        // console.log('Aftermap22', jsonMapWelfare2)
-        // console.log('JSONTYPEOF2Aftermap: ', typeof (jsonobjectWelfare))
         this.jsondata2Welfare = jsonMapWelfare
+        // console.log('jsonobjectWelfare', this.jsondata2Welfare)
         axios.get('http://localhost:4000/getcomparedata1',).then(response => {
           let compare = response.data.result
           this.excelarray = Object.values(compare)
           // console.log('JSONTYPEOF2Aftermap23', this.jsondata2Welfare[1].TRIP_NO)
-          let dup = this.excelarray.filter(a=> this.jsondata2Welfare.some(b => a.TRIP_NO === b.TRIP_NO))
-          let Notdup = this.excelarray.filter(a=> !this.jsondata2Welfare.some(b => a.TRIP_NO === b.TRIP_NO))
-          console.log('dupl', dup)
-          console.log('Notdupl', Notdup)
-          if (Notdup.length > 0) {
-            console.log('InsertNotdupl', Notdup)
+          // console.log('LENG1', this.excelarray.length)
+          let dup = this.jsondata2Welfare.filter(a => this.excelarray.some(b => a.TRIP_NO === b.TRIP_NO))
+          console.log('IsDuplicate', dup)
+          if (dup.length > 0) {
+            this.showWelfareDup = dup
+            this.$root.$emit("bv::show::modal", "modal-welfare");
           }
-          // console.log('dupl', dup)
-          // console.log('Notdupl', Notdup)
+          if (this.excelarray.length > this.jsondata2Welfare.length) {
+            const Notdup = this.jsondata2Welfare.filter(({ TRIP_NO: id1 }) => !this.excelarray.some(({ TRIP_NO: id2 }) => id2 === id1));
+            // console.log('duplicateIF', Notdup)
+
+            if (Notdup.length > 0) {
+              // console.log('InsertNotduplIF', Notdup)
+              // console.log('InsertNotduplIFWelfare', this.jsondata2Welfare)
+              this.jsondata2Welfare = Notdup
+              axios.post('http://localhost:4000/welfare', this.jsondata2Welfare)
+                .then(response => {
+                  console.log(response.data);
+                  this.alertStatus = 1
+                  this.dismissCountDown = this.dismissSecs
+                  this.showStatus = ' Welfare Data '
+                })
+                .catch(error => {
+                  console.error('Error fetching data:', error.message);
+                  this.alertStatus = 3
+                  this.dismissCountDown = this.dismissSecs
+                  this.showStatus = ' Welfare Data '
+                });
+            } else {
+              this.alertStatus = 2
+              this.dismissCountDown = this.dismissSecs
+            }
+          } else {
+            // let Notdup = this.jsondata2Welfare.filter(a => !this.excelarray.some(b => a.TRIP_NO === b.TRIP_NO))
+            // let dup = this.jsondata2Welfare.filter(a => this.excelarray.some(b => a.TRIP_NO === b.TRIP_NO))
+            const Notdup = this.jsondata2Welfare.filter(({ TRIP_NO: id1 }) => !this.excelarray.some(({ TRIP_NO: id2 }) => id2 === id1));
+            // console.log('duplicateelse', Notdup)
+            if (Notdup.length > 0) {
+              // console.log('InsertNotduplElse', Notdup)
+              // console.log('InsertNotduplElseWelfare', this.jsondata2Welfare)
+              // console.log('InsertNotdupl', Notdup)
+              this.jsondata2Welfare = Notdup
+              axios.post('http://localhost:4000/welfare', this.jsondata2Welfare)
+                .then(response => {
+                  console.log(response.data);
+                  this.alertStatus = 1
+                  this.dismissCountDown = this.dismissSecs
+                  this.showStatus = ' Welfare Data '
+                })
+                .catch(error => {
+                  console.error('Error fetching data:', error.message);
+                  this.alertStatus = 3
+                  this.dismissCountDown = this.dismissSecs
+                  this.showStatus = ' Welfare Data '
+                });
+            } else {
+              this.alertStatus = 2
+              this.dismissCountDown = this.dismissSecs
+            }
+          }
         }).catch(error => {
           console.error('Error fetching data:', error.message)
         })
@@ -852,9 +1163,9 @@ export default {
         this.jsondataHoliday = JSON.parse(this.jsondataHoliday)
         this.jsondataHoliday.shift()
         // console.log('mapdata1: ', this.jsonData)
-        console.log('JSONLenght: ', this.jsonDataHoliday)
+        // console.log('JSONLenght: ', this.jsonDataHoliday)
         // console.log('JSONLenghtSHIFT: ',  JSON.parse(this.jsonData).shift())
-        console.log('JSONTYPEOF: ', typeof (this.jsonDataHoliday))
+        // console.log('JSONTYPEOF: ', typeof (this.jsonDataHoliday))
         // console.log('JSONTYPEOF2: ',  typeof(JSON.parse(this.jsonData)))
         let jsonobjectHoliday = {}
         let jsonobject2Holiday = this.jsonDataHoliday
@@ -888,9 +1199,10 @@ export default {
             UNITS4: data.item20,
             UNITS5: data.item21,
             TAX_FLAG: data.item22,
+            create_time: new Date().toLocaleString()
           }
         })
-        console.log('JSONTYPEOF2Aftermap: ', typeof (jsonobjectHoliday))
+        // console.log('JSONTYPEOF2Aftermap: ', typeof (jsonobjectHoliday))
         this.jsondataHoliday = jsonMapHoliday.filter((i) => {
           return i.TRIP_NO !== 'SUM' && i.TRIP_NO !== undefined
         })
@@ -912,9 +1224,9 @@ export default {
       reader.readAsBinaryString(file);
     },
     exportToExcelWelfare() {
-      console.log('JSONTYPEOF2Aftermap2', this.jsondata2Welfare[1])
+      // console.log('JSONTYPEOF2Aftermap2', this.jsondata2Welfare[1])
       this.jsonArrayWelfare = Object.values(this.jsondata2Welfare);
-      console.log('JSONTYPEOF2Aftermap23', this.jsonArrayWelfare)
+      // console.log('JSONTYPEOF2Aftermap23', this.jsonArrayWelfare)
 
       //export to excell
       const workbook = XLSX.utils.book_new();
@@ -936,7 +1248,7 @@ export default {
         this.readExcelTnos(file);
       }
     },
-    readExcelTnos(file) {
+    async readExcelTnos(file) {
       const reader = new FileReader();
 
       reader.onload = (e) => {
@@ -957,7 +1269,7 @@ export default {
         // console.log('mapdata1: ', this.jsonData)
         // console.log('JSONLenght: ',  this.jsonDataTnos)
         // console.log('JSONLenghtSHIFT: ',  JSON.parse(this.jsonData).shift())
-        console.log('JSONTYPEOF: ', typeof (this.jsonDataTnos))
+        // console.log('JSONTYPEOF: ', typeof (this.jsonDataTnos))
         // console.log('JSONTYPEOF2: ',  typeof(JSON.parse(this.jsonData)))
         let jsonobjectTnos = {}
         let jsonobject2Tnos = this.jsonDataTnos
@@ -1013,25 +1325,102 @@ export default {
             payment_status: data.item42,
             ot_payment_date: data.item43,
             allowance_payment_date: data.item44,
+            create_time: new Date().toLocaleString()
           }
         })
-        console.log('jsonobjectTnos', jsonobjectTnos)
+        // console.log('jsonobjectTnos', jsonobjectTnos)
         // console.log('Aftermap25', jsonMapTnos5)        
-        console.log('AftermapjsonMapTnos5', jsonMapTnos5)
+        // console.log('AftermapjsonMapTnos5', jsonMapTnos5)
         this.jsondata2Tnos5 = jsonMapTnos5
-        axios.post('http://localhost:4000/tnos5', this.jsondata2Tnos5)
-          .then(response => {
-            console.log(response.data);
-            this.alertStatus = 1
-            this.dismissCountDown = this.dismissSecs
-            this.showStatus = ' TNOS Data '
-          })
-          .catch(error => {
-            console.error('Error fetching data:', error.message);
-            this.alertStatus = 3
-            this.dismissCountDown = this.dismissSecs
-            this.showStatus = ' TNOS Data '
-          });
+        axios.get('http://localhost:4000/getcomparedata2',).then(response => {
+          let compare = response.data.result
+          this.excelarray = Object.values(compare)
+
+          // console.log('JSONTYPEOF2Aftermap23', this.jsondata2Welfare[1].TRIP_NO)
+          // console.log('LENG1', this.excelarray)
+          // console.log('LENG2',this.jsondata2Tnos5)
+          let dup = this.jsondata2Tnos5.filter(({ ttt_employee_code: ids1, calling_sheet_no: id1 }) => this.excelarray.some(({ ttt_employee_code: ids2, calling_sheet_no: id2 }) => {
+            // console.log('ID1', id2, id1)
+            // console.log('IDS2', ids2, ids1)
+            return id2 === id1 && ids2 === ids1
+          }))
+          // this.jsondata2Tnos5.filter(({ calling_sheet_no: id1, ttt_employee_code: ids1 }) => this.excelarray.some(({ calling_sheet_no: id2, ttt_employee_code: ids2 }) => id2 === id1 && ids2 === ids1))
+          console.log('IsDuplicate', dup)
+          if (dup.length > 0) {
+            this.showtnosDup = dup
+            this.$root.$emit("bv::show::modal", "modal-tnos");
+          }
+          if (this.excelarray.length > this.jsondata2Tnos5.length) {
+            const Notdup = this.jsondata2Tnos5.filter(({ ttt_employee_code: ids1, calling_sheet_no: id1 }) => !this.excelarray.some(({ ttt_employee_code: ids2, calling_sheet_no: id2 }) => id2 === id1 && ids2 === ids1));
+            // console.log('NotduplicateIF', Notdup)
+
+            if (Notdup.length > 0) {
+              console.log('NotduplicateIF', Notdup)
+              // console.log('InsertNotduplIF', Notdup)
+              // console.log('InsertNotduplIFWelfare', this.jsondata2Tnos5)
+              this.jsondata2Tnos5 = Notdup
+              axios.post('http://localhost:4000/tnos5', this.jsondata2Tnos5)
+                .then(response => {
+                  console.log(response.data);
+                  this.alertStatus = 1
+                  this.dismissCountDown = this.dismissSecs
+                  this.showStatus = ' Tnos Data '
+                })
+                .catch(error => {
+                  console.error('Error fetching data:', error.message);
+                  this.alertStatus = 3
+                  this.dismissCountDown = this.dismissSecs
+                  this.showStatus = ' Tnos Data '
+                });
+            } else {
+              this.alertStatus = 2
+              this.dismissCountDown = this.dismissSecs
+            }
+          } else {
+            // let Notdup = this.jsondata2Tnos5.filter(a => !this.excelarray.some(b => a.TRIP_NO === b.TRIP_NO))
+            // let dup = this.jsondata2Tnos5.filter(a => this.excelarray.some(b => a.TRIP_NO === b.TRIP_NO))
+            const Notdup = this.jsondata2Tnos5.filter(({ TRIP_NO: id1 }) => !this.excelarray.some(({ TRIP_NO: id2 }) => id2 === id1));
+            // console.log('duplicateelse', Notdup)
+            if (Notdup.length > 0) {
+              // console.log('InsertNotduplElse', Notdup)
+              // console.log('InsertNotduplElseTnos', this.jsondata2Tnos5)
+              // console.log('InsertNotdupl', Notdup)
+              // console.log('NotduplicateElse', Notdup)
+              this.jsondata2Tnos5 = Notdup
+              axios.post('http://localhost:4000/tnos5', this.jsondata2Tnos5)
+                .then(response => {
+                  console.log(response.data);
+                  this.alertStatus = 1
+                  this.dismissCountDown = this.dismissSecs
+                  this.showStatus = ' Tnos Data '
+                })
+                .catch(error => {
+                  console.error('Error fetching data:', error.message);
+                  this.alertStatus = 3
+                  this.dismissCountDown = this.dismissSecs
+                  this.showStatus = ' Tnos Data '
+                });
+            } else {
+              this.alertStatus = 2
+              this.dismissCountDown = this.dismissSecs
+            }
+          }
+        }).catch(error => {
+          console.error('Error fetching data:', error.message)
+        })
+        // axios.post('http://localhost:4000/tnos5', this.jsondata2Tnos5)
+        //   .then(response => {
+        //     console.log(response.data);
+        //     this.alertStatus = 1
+        //     this.dismissCountDown = this.dismissSecs
+        //     this.showStatus = ' TNOS Data '
+        //   })
+        //   .catch(error => {
+        //     console.error('Error fetching data:', error.message);
+        //     this.alertStatus = 3
+        //     this.dismissCountDown = this.dismissSecs
+        //     this.showStatus = ' TNOS Data '
+        //   });
       };
 
       reader.readAsBinaryString(file);
@@ -1063,9 +1452,9 @@ export default {
         this.jsonDataInstructor = JSON.parse(this.jsonDataInstructor)
         this.jsonDataInstructor.shift()
         // console.log('mapdata1: ', this.jsonData)
-        console.log('JSONLenght: ', this.jsonDataInstructor)
+        // console.log('JSONLenght: ', this.jsonDataInstructor)
         // console.log('JSONLenghtSHIFT: ',  JSON.parse(this.jsonData).shift())
-        console.log('JSONTYPEOF: ', typeof (this.jsonDataInstructor))
+        // console.log('JSONTYPEOF: ', typeof (this.jsonDataInstructor))
         // console.log('JSONTYPEOF2: ',  typeof(JSON.parse(this.jsonData)))
         let jsonobjectInstructor = {}
         let jsonobject2Instructor = this.jsonDataInstructor
@@ -1100,30 +1489,99 @@ export default {
             UNITS4: data.item21,
             UNITS5: data.item22,
             TAX_FLAG: data.item23,
+            create_time: new Date().toLocaleString()
           }
         })
         jsonMapInstructor = jsonMapInstructor.filter((i) => {
           return i.number !== null && i.number !== undefined
         })
-        console.log('jsonobjectInstructor', jsonobjectInstructor)
-        console.log('Aftermap2jsonMapInstructor', jsonMapInstructor)
+        // console.log('jsonobjectInstructor', jsonobjectInstructor)
+        // console.log('Aftermap2jsonMapInstructor', jsonMapInstructor)
         // console.log('Aftermap22', jsonMapInstructor2)
         // console.log('JSONTYPEOF2Aftermap: ', typeof (jsonobjectInstructor))
         this.jsondata2Instructor = jsonMapInstructor
+        axios.get('http://localhost:4000/getcomparedata3',).then(response => {
+          let compare = response.data.result
+          this.excelarray = Object.values(compare)
+          // console.log('JSONTYPEOF2Aftermap23', this.jsondata2Welfare[1].TRIP_NO)
+          // console.log('LENG1', this.excelarray)
+          // console.log('LENG2', this.jsondata2Instructor)
+          let dup = this.jsondata2Instructor.filter(a => this.excelarray.some(b => a.TRIP_NO === b.TRIP_NO))
+          // console.log('IsDuplicate', dup)
+          if (dup.length > 0) {
+            this.showInstructorDup = dup
+            this.$root.$emit("bv::show::modal", "modal-instructor");
+          }
+          if (this.excelarray.length > this.jsondata2Instructor.length) {
+            const Notdup = this.jsondata2Instructor.filter(({ TRIP_NO: id1 }) => !this.excelarray.some(({ TRIP_NO: id2 }) => id2 === id1));
+            // console.log('duplicateIF', Notdup)
+
+            if (Notdup.length > 0) {
+              // console.log('InsertNotduplIF', Notdup)
+              // console.log('InsertNotduplIFWelfare', this.jsondata2Instructor)
+              this.jsondata2Instructor = Notdup
+              axios.post('http://localhost:4000/instructor', this.jsondata2Instructor)
+                .then(response => {
+                  console.log(response.data);
+                  this.alertStatus = 1
+                  this.dismissCountDown = this.dismissSecs
+                  this.showStatus = ' instructor Data '
+                })
+                .catch(error => {
+                  console.error('Error fetching data:', error.message);
+                  this.alertStatus = 3
+                  this.dismissCountDown = this.dismissSecs
+                  this.showStatus = ' instructor Data '
+                });
+            } else {
+              this.alertStatus = 2
+              this.dismissCountDown = this.dismissSecs
+            }
+          } else {
+            // let Notdup = this.jsondata2Instructor.filter(a => !this.excelarray.some(b => a.TRIP_NO === b.TRIP_NO))
+            // let dup = this.jsondata2Instructor.filter(a => this.excelarray.some(b => a.TRIP_NO === b.TRIP_NO))
+            const Notdup = this.jsondata2Instructor.filter(({ TRIP_NO: id1 }) => !this.excelarray.some(({ TRIP_NO: id2 }) => id2 === id1));
+            // console.log('duplicateelse', Notdup)
+            if (Notdup.length > 0) {
+              // console.log('InsertNotduplElse', Notdup)
+              // console.log('InsertNotduplElseinstructor', this.jsondata2Instructor)
+              console.log('InsertNotdupl', Notdup)
+              this.jsondata2Instructor = Notdup
+              axios.post('http://localhost:4000/instructor', this.jsondata2Instructor)
+                .then(response => {
+                  console.log(response.data);
+                  this.alertStatus = 1
+                  this.dismissCountDown = this.dismissSecs
+                  this.showStatus = ' instructor Data '
+                })
+                .catch(error => {
+                  console.error('Error fetching data:', error.message);
+                  this.alertStatus = 3
+                  this.dismissCountDown = this.dismissSecs
+                  this.showStatus = ' instructor Data '
+                });
+            } else {
+              this.alertStatus = 2
+              this.dismissCountDown = this.dismissSecs
+            }
+          }
+        }).catch(error => {
+          console.error('Error fetching data:', error.message)
+        })
         // this.jsondata2Instructor2 = jsonMapInstructor2
-        axios.post('http://localhost:4000/instructor', this.jsondata2Instructor)
-          .then(response => {
-            console.log(response.data);
-            this.alertStatus = 1
-            this.dismissCountDown = this.dismissSecs
-            this.showStatus = ' Instructor Data '
-          })
-          .catch(error => {
-            console.error('Error fetching data:', error.message);
-            this.alertStatus = 3
-            this.dismissCountDown = this.dismissSecs
-            this.showStatus = ' Instructor Data '
-          });
+        // axios.post('http://localhost:4000/instructor', this.jsondata2Instructor)
+        //   .then(response => {
+        //     console.log(response.data);
+        //     this.alertStatus = 1
+        //     this.dismissCountDown = this.dismissSecs
+        //     this.showStatus = ' Instructor Data '
+        //   })
+        //   .catch(error => {
+        //     console.error('Error fetching data:', error.message);
+        //     this.alertStatus = 3
+        //     this.dismissCountDown = this.dismissSecs
+        //     this.showStatus = ' Instructor Data '
+        //   });
         // axios.post('http://localhost:4000/instructor2', this.jsondata2Instructor2)
         //   .then(response => {
         //     console.log(response.data);

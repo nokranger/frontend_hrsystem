@@ -26,6 +26,24 @@
         </b-row>
         <b-row style="margin: 20px;">
           <b-col>
+            <div style="font-size: 20px;text-align: left;margin-left: 10px;">ตั้งแต่วันที่</div>
+            <b-form-datepicker style="width: 100%;" id="example-datepickerattach8welfare"
+              v-model="dateattach8welfareform" class="mb-2"></b-form-datepicker>
+          </b-col>
+          <b-col>
+            <div style="font-size: 20px;text-align: left;margin-left: 10px;">ถึงวันที่</div>
+            <b-form-datepicker style="width: 100%;" id="example-datepickerattach82welfare"
+              v-model="dateattach8welfareto" class="mb-2"></b-form-datepicker>
+          </b-col>
+          <b-col>
+            <!-- <div style="text-align: center;">
+              <b-button variant="outline-primary" @click="getAttach7all"
+                style="box-shadow: 5px 5px 5px #888888;">ดึงข้อมูล</b-button>
+            </div> -->
+          </b-col>
+        </b-row>
+        <b-row style="margin: 20px;">
+          <b-col>
             <div>
               <b-input placeholder="Enter your Title Report" v-model="titleattach8"></b-input>
             </div>
@@ -111,13 +129,15 @@ export default {
   data() {
     return {
       excelarray: [],
-      excelarrayattach7: [],
-      excelarrayattach72: [],
-      excelarrayattach73: [],
+      excelarrayattach8: [],
+      excelarrayattach82: [],
+      excelarrayattach83: [],
       dateattach8from: '',
       dateattach8to: '',
       dateattach8select: '',
       dataattach8one: '',
+      dateattach8welfareform: '',
+      dateattach8welfareto: '',
       pdfdata: '',
       titleattach8: '',
       selectOption: null,
@@ -163,31 +183,79 @@ export default {
         from: this.dateattach8from,
         to: this.dateattach8to
       }
+      let from_to_welfare = {
+        from: this.dateattach8welfareform,
+        to: this.dateattach8welfareto
+      }
       await axios.post('http://localhost:4000/getdataattach8', from_to)
         .then(response => {
           // console.log('resdata', response.data.result);
           let dataexcel = response.data.result
-          this.excelarray = Object.values(dataexcel);
-          this.pdfdata = this.excelarray
-          // // this.excelarraywelfare = dataexcel
-          // console.log('JSONTYPEOFattach8', this.excelarray.length)
-          // // //export to excell
-          // const workbook = XLSX.utils.book_new();
-
-          // // // Convert the JSON data to a worksheet
-          // const worksheet = XLSX.utils.json_to_sheet(this.excelarray);
-
-          // // // Add the worksheet to the workbook
-          // XLSX.utils.book_append_sheet(workbook, worksheet, 'attached8-641610');
-
-          // // // Save the workbook to a file
-          // XLSX.writeFile(workbook, 'attached8-641610.xlsx');
-          const aa = [
-            { emp_code: '123', aa: 'AA' },
-            { emp_code: '123', aa: 'AA' },
-            { emp_code: '234', aa: 'AA' }
-          ];
-
+          this.excelarrayattach8 = Object.values(dataexcel);
+        })
+        .catch(error => {
+          console.error('Error fetching data:', error.message);
+        });
+      await axios.post('http://localhost:4000/getdataattach82', from_to_welfare)
+        .then(response => {
+          // console.log('resdata', response.data.result);
+          let dataexcel = response.data.result
+          this.excelarrayattach82 = Object.values(dataexcel);
+        })
+        .catch(error => {
+          console.error('Error fetching data:', error.message);
+        });
+      await axios.post('http://localhost:4000/getdataattach83', from_to)
+        .then(response => {
+          // console.log('resdata', response.data.result);
+          let dataexcel = response.data.result
+          this.excelarrayattach83 = Object.values(dataexcel);
+          const combinedArray = []
+          for (let i = 0; i < this.excelarrayattach8.length; i++) {
+            const combinedObject = {
+              recieve_job_dateandtime: this.excelarrayattach8[i].recieve_job_dateandtime,
+              calling_sheet_no: this.excelarrayattach8[i].calling_sheet_no,
+              total_allowance: parseFloat(this.excelarrayattach8[i].total_allowance),
+              to_name: this.excelarrayattach8[i].to_name,
+              total_ot: this.excelarrayattach8[i].total_ot,
+              ttt_employee_code: this.excelarrayattach8[i].ttt_employee_code,
+              over_ot: this.excelarrayattach8[i].over_ot,
+              tlep_driver_name: this.excelarrayattach8[i].tlep_driver_name
+            }
+            combinedArray.push(combinedObject);
+          }
+          // for (let i = 0; i < this.excelarrayattach82.length; i++) {
+          //   const combinedObject = {
+          //     recieve_job_dateandtime: this.excelarrayattach82[i].DEPARTURE_DATETIME,
+          //     calling_sheet_no: this.excelarrayattach82[i].TRIP_NO,
+          //     total_allowance: parseFloat(this.excelarrayattach82[i].TOTAL_ALLOWANCE),
+          //     to_name: this.excelarrayattach82[i].DEALER1,
+          //     total_ot: 0.00,
+          //     ttt_employee_code: this.excelarrayattach82[i].DRIVER1,
+          //     over_ot: 0.00,
+          //     tlep_driver_name: this.excelarrayattach82[i].NAME
+          //   }
+          //   combinedArray.push(combinedObject);
+          // }
+          // for (let i = 0; i < this.excelarrayattach83.length; i++) {
+          //   const combinedObject = {
+          //     recieve_job_dateandtime: this.excelarrayattach83[i].DEPARTURE_DATETIME,
+          //     calling_sheet_no: this.excelarrayattach83[i].TRIP_NO,
+          //     total_allowance: parseFloat(this.excelarrayattach83[i].TOTAL_ALLOWANCE),
+          //     to_name: this.excelarrayattach83[i].DEALER1,
+          //     total_ot: 0.00,
+          //     ttt_employee_code: this.excelarrayattach83[i].DRIVER1,
+          //     over_ot: 0.00,
+          //     tlep_driver_name: this.excelarrayattach83[i].NAME
+          //   }
+          //   combinedArray.push(combinedObject);
+          // }
+          // const aa = [
+          //   { emp_code: '123', aa: 'AA' },
+          //   { emp_code: '123', aa: 'AA' },
+          //   { emp_code: '234', aa: 'AA' }
+          // ];
+          this.pdfdata = combinedArray
           this.pdfdata = this.pdfdata.reduce((acc, obj) => {
             // If the key doesn't exist, create an array for it
             if (!acc[obj.ttt_employee_code]) {
@@ -198,15 +266,6 @@ export default {
             return acc;
           }, {});
 
-          // console.log(result['010645'][0]);
-          // for (let key in result) {
-          //   for (let i = 0; i < result[key].length; i++) {
-          //     console.log(`Key: ${key}`);
-          //     console.log('Show 1 resule', result[key][i])
-          //   }
-          //   // console.log(`Key: ${key}`);
-          //   // console.log(`Value: `, result[key]);
-          // }
         })
         .catch(error => {
           console.error('Error fetching data:', error.message);
@@ -243,7 +302,7 @@ export default {
       height = 730
       let yPosition = height - margin;
 
-      const fontSize = 17; //
+      const fontSize = 14; //
 
       // page.drawText(`บริษัท โตโยต้า ทรานสปอร์ต (ประเทศไทย) จํากัด`, { x: 170, y: 800, size: 20, font: thaiFont });
       // page.drawText(`สรุปยอดเงินเบี้ยเลี้ยง/ค่าขับและสวัสดิการของพนักงาน`, { x: 140, y: 780, size: 20, font: thaiFont });
@@ -289,11 +348,11 @@ export default {
             // console.log('same key', result[key][i].ttt_employee_code)
             // let sum = 0;
             page.drawText(`${result[key][i].recieve_job_dateandtime}`, { x: 25, y: yPosition, size: fontSize, font: thaiFont });
-            page.drawText(`${result[key][i].calling_sheet_no}`, { x: 150, y: yPosition, size: fontSize, font: thaiFont });
-            page.drawText(`${result[key][i].total_allowance}`, { x: 240, y: yPosition, size: fontSize, font: thaiFont });
-            page.drawText(`${result[key][i].to_name}`, { x: 300, y: yPosition, size: fontSize, font: thaiFont });
-            page.drawText(`${result[key][i].total_ot}`, { x: 420, y: yPosition, size: fontSize, font: thaiFont });
-            page.drawText(`${result[key][i].over_ot}`, { x: 500, y: yPosition, size: fontSize, font: thaiFont });
+            page.drawText(`${result[key][i].calling_sheet_no}`, { x: 130, y: yPosition, size: fontSize, font: thaiFont });
+            page.drawText(`${result[key][i].total_allowance.toLocaleString()}`, { x: 220, y: yPosition, size: fontSize, font: thaiFont });
+            page.drawText(`${result[key][i].to_name}`, { x: 270, y: yPosition, size: fontSize, font: thaiFont });
+            page.drawText(`${result[key][i].total_ot}`, { x: 470, y: yPosition, size: fontSize, font: thaiFont });
+            page.drawText(`${result[key][i].over_ot}`, { x: 520, y: yPosition, size: fontSize, font: thaiFont });
             // page.drawText(`${result[key][i].ttt_employee_code}`, { x: 200, y: yPosition, size: fontSize, font: thaiFont });
             yPosition -= descriptionHeight; // Adjust x-position for the next entry
             keycount = result[key][i].ttt_employee_code
@@ -307,9 +366,9 @@ export default {
               sumOverOT = result[key].reduce((acc, obj) => acc + parseFloat(obj.over_ot), 0);
               // page.drawText(`${sum}`, { x: 530, y: yPosition, size: fontSize, font: thaiFont });
               page.drawText(`__________________________________________________________________________________`, { x: 10, y: yPosition + 20, size: 20, font: thaiFont });
-              page.drawText(`${sumAllowance}`, { x: 240, y: yPosition, size: fontSize, font: thaiFont });
-              page.drawText(`${sumOT}`, { x: 420, y: yPosition, size: fontSize, font: thaiFont });
-              page.drawText(`${sumOverOT}`, { x: 500, y: yPosition, size: fontSize, font: thaiFont });
+              page.drawText(`${(sumAllowance).toLocaleString()}`, { x: 220, y: yPosition, size: fontSize, font: thaiFont });
+              page.drawText(`${sumOT}`, { x: 470, y: yPosition, size: fontSize, font: thaiFont });
+              page.drawText(`${sumOverOT}`, { x: 520, y: yPosition, size: fontSize, font: thaiFont });
               page.drawText(`** หมายเหตุ: ช่องเบี้ยเลี้ยง ประกอบไปด้วย 1.เบี้ยเลี้ยงต่อเที่ยว 2.เงินจูงใจ เบี้ยเลี้ยง หมายถึง สวัสดิการที่เป็นเงินจูงใจในการทํางาน`, { x: 10, y: yPosition - 30, size: 16, font: thaiFont });
             }
           } else {
@@ -331,17 +390,17 @@ export default {
             page.drawText(`__________________________________________________________________________________`, { x: 10, y: 750, size: 20, font: thaiFont });
             page.drawText(`วันที่`, { x: 35, y: 720, size: fontSize, font: thaiFont });
             page.drawText(`เลขอ้างอิง`, { x: 150, y: 720, size: fontSize, font: thaiFont });
-            page.drawText(`เบี้ยเลี้ยง`, { x: 240, y: 720, size: fontSize, font: thaiFont });
+            page.drawText(`เบี้ยเลี้ยง`, { x: 220, y: 720, size: fontSize, font: thaiFont });
             page.drawText(`รายละเอียด`, { x: 300, y: 720, size: fontSize, font: thaiFont });
-            page.drawText(`ค่าตอบแทน (ชม.)`, { x: 400, y: 720, size: fontSize, font: thaiFont });
+            page.drawText(`ค่าตอบแทน (ชม.)`, { x: 420, y: 720, size: fontSize, font: thaiFont });
             page.drawText(`เพิ่ม/ลด`, { x: 500, y: 720, size: fontSize, font: thaiFont });
             page.drawText(`__________________________________________________________________________________`, { x: 10, y: 710, size: 20, font: thaiFont });
             page.drawText(`${result[key][i].recieve_job_dateandtime}`, { x: 25, y: yPosition, size: fontSize, font: thaiFont });
-            page.drawText(`${result[key][i].calling_sheet_no}`, { x: 150, y: yPosition, size: fontSize, font: thaiFont });
-            page.drawText(`${result[key][i].total_allowance}`, { x: 240, y: yPosition, size: fontSize, font: thaiFont });
-            page.drawText(`${result[key][i].to_name}`, { x: 300, y: yPosition, size: fontSize, font: thaiFont });
-            page.drawText(`${result[key][i].total_ot}`, { x: 420, y: yPosition, size: fontSize, font: thaiFont });
-            page.drawText(`${result[key][i].over_ot}`, { x: 500, y: yPosition, size: fontSize, font: thaiFont });
+            page.drawText(`${result[key][i].calling_sheet_no}`, { x: 130, y: yPosition, size: fontSize, font: thaiFont });
+            page.drawText(`${result[key][i].total_allowance.toLocaleString()}`, { x: 220, y: yPosition, size: fontSize, font: thaiFont });
+            page.drawText(`${result[key][i].to_name}`, { x: 270, y: yPosition, size: fontSize, font: thaiFont });
+            page.drawText(`${result[key][i].total_ot}`, { x: 470, y: yPosition, size: fontSize, font: thaiFont });
+            page.drawText(`${result[key][i].over_ot}`, { x: 520, y: yPosition, size: fontSize, font: thaiFont });
             // page.drawText(`${result[key][i].ttt_employee_code}`, { x: 200, y: yPosition, size: fontSize, font: thaiFont });
             yPosition -= descriptionHeight; // Adjust x-position for the next entry
             keycount = result[key][i].ttt_employee_code
@@ -352,10 +411,10 @@ export default {
               sumOverOT = result[key].reduce((acc, obj) => acc + parseFloat(obj.over_ot), 0);
               // page.drawText(`${sum}`, { x: 530, y: yPosition, size: fontSize, font: thaiFont });
               page.drawText(`__________________________________________________________________________________`, { x: 10, y: yPosition + 20, size: 20, font: thaiFont });
-              page.drawText(`${sumAllowance}`, { x: 240, y: yPosition, size: fontSize, font: thaiFont });
-              page.drawText(`${sumOT}`, { x: 420, y: yPosition, size: fontSize, font: thaiFont });
-              page.drawText(`${sumOverOT}`, { x: 500, y: yPosition, size: fontSize, font: thaiFont });
-              page.drawText(`** หมายเหตุ: ช่องเบี้ยเลี้ยง ประกอบไปด้วย 1.เบี้ยเลี้ยงต่อเที่ยว 2.เงินจูงใจ เบี้ยเลี้ยง หมายถึง สวัสดิการที่เป็นเงินจูงใจในการทํางาน`, { x: 10, y: yPosition -30 , size: 16, font: thaiFont });
+              page.drawText(`${sumAllowance.toLocaleString()}`, { x: 220, y: yPosition, size: fontSize, font: thaiFont });
+              page.drawText(`${sumOT}`, { x: 470, y: yPosition, size: fontSize, font: thaiFont });
+              page.drawText(`${sumOverOT}`, { x: 520, y: yPosition, size: fontSize, font: thaiFont });
+              page.drawText(`** หมายเหตุ: ช่องเบี้ยเลี้ยง ประกอบไปด้วย 1.เบี้ยเลี้ยงต่อเที่ยว 2.เงินจูงใจ เบี้ยเลี้ยง หมายถึง สวัสดิการที่เป็นเงินจูงใจในการทํางาน`, { x: 10, y: yPosition - 30, size: 16, font: thaiFont });
             }
           }
           //   // console.log('Not same key', result[key][i].ttt_employee_code)

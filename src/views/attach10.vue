@@ -1,14 +1,14 @@
 <template>
   <div>
-    <nav>
+    <!-- <nav>
       <router-link to="/dashboard">Import & Export</router-link> ||
       <router-link to="/Attached">Attached</router-link> ||
       <router-link to="/payroll">Payroll</router-link>
-    </nav>
+    </nav> -->
     <b-container>
-      <div>
+      <!-- <div>
         <h1 style="text-shadow: 2px 2px 5px black;">Attached</h1>
-      </div>
+      </div> -->
       <div style="border: 2px solid gray;border-radius: 10px;height: 400px;box-shadow: 5px 5px 5px #888888;">
         <b-row style="margin: 20px;">
           <b-col>
@@ -194,9 +194,9 @@ export default {
             // const yNameStart = yStart + 20;
             page.drawText(`${result[key][i].to_name}`, { x: 240, y: yPosition, size: fontSize, font: thaiFont });
             // const yPriceStart = yNameStart + 20;
-            page.drawText(`${result[key][i].standard_ot}`, { x: 370, y: yPosition, size: fontSize, font: thaiFont });
-            page.drawText(`${result[key][i].over_ot}`, { x: 460, y: yPosition, size: fontSize, font: thaiFont });
-            page.drawText(`${result[key][i].total_ot}`, { x: 550, y: yPosition, size: fontSize, font: thaiFont });
+            page.drawText(`${result[key][i].standard_ot}`, { x: 390, y: yPosition, size: fontSize, font: thaiFont });
+            page.drawText(`${result[key][i].over_ot}`, { x: 480, y: yPosition, size: fontSize, font: thaiFont });
+            page.drawText(`${result[key][i].total_ot}`, { x: 540, y: yPosition, size: fontSize, font: thaiFont });
             yPosition -= descriptionHeight; // Adjust x-position for the next entry
             keycount = result[key][i].ttt_employee_code
             count++
@@ -206,9 +206,9 @@ export default {
               sumOverOT = result[key].reduce((acc, obj) => acc + parseFloat(obj.over_ot), 0);
               // page.drawText(`${sum}`, { x: 530, y: yPosition, size: fontSize, font: thaiFont });
               page.drawText(`__________________________________________________________________________________`, { x: 10, y: yPosition + 20, size: 20, font: thaiFont });
-              page.drawText(`${sumStadardOt}`, { x: 370, y: yPosition, size: fontSize, font: thaiFont });
-              page.drawText(`${sumOverOT}`, { x: 460, y: yPosition, size: fontSize, font: thaiFont });
-              page.drawText(`${sumOT}`, { x: 550, y: yPosition, size: fontSize, font: thaiFont });
+              page.drawText(`${sumStadardOt}`, { x: 390, y: yPosition, size: fontSize, font: thaiFont });
+              page.drawText(`${sumOverOT}`, { x: 480, y: yPosition, size: fontSize, font: thaiFont });
+              page.drawText(`${sumOT}`, { x: 540, y: yPosition, size: fontSize, font: thaiFont });
               page.drawText(`หมายเหตุ: โปรดตรวจสอบข้อมูลตัวเลขในเอกสารนี้ให้ละเอียด หากไม่ถูกต้องหรือสงสัยให้แจ้งฝ่ายบุคคลทันทีหรือในเวลาทํางานปกติ`, { x: 10, y: yPosition -30, size: 16, font: thaiFont });
               page.drawText(`หากพ้นกําหนด 15 วัน นับจากวันที่จ่ายให้ในนงวดนั้น ๆ แล้ว บริษัทถือว่าท่านยอมรับและไม่ติดใจเรียกร้องสิทธิประโยชน์ใด ๆ ทุกประการ`, { x: 10, y: yPosition -50, size: 16, font: thaiFont });
             }
@@ -244,9 +244,9 @@ export default {
             // const yNameStart = yStart + 20;
             page.drawText(`${result[key][i].to_name}`, { x: 240, y: yPosition, size: fontSize, font: thaiFont });
             // const yPriceStart = yNameStart + 20;
-            page.drawText(`${result[key][i].standard_ot}`, { x: 370, y: yPosition, size: fontSize, font: thaiFont });
-            page.drawText(`${result[key][i].over_ot}`, { x: 460, y: yPosition, size: fontSize, font: thaiFont });
-            page.drawText(`${result[key][i].total_ot}`, { x: 550, y: yPosition, size: fontSize, font: thaiFont });
+            page.drawText(`${result[key][i].standard_ot}`, { x: 390, y: yPosition, size: fontSize, font: thaiFont });
+            page.drawText(`${result[key][i].over_ot}`, { x: 480, y: yPosition, size: fontSize, font: thaiFont });
+            page.drawText(`${result[key][i].total_ot}`, { x: 540, y: yPosition, size: fontSize, font: thaiFont });
             yPosition -= descriptionHeight; // Adjust x-position for the next entry
             // count++
             keycount = result[key][i].ttt_employee_code
@@ -256,9 +256,9 @@ export default {
               sumOverOT = result[key].reduce((acc, obj) => acc + parseFloat(obj.over_ot), 0);
               // page.drawText(`${sum}`, { x: 530, y: yPosition, size: fontSize, font: thaiFont });
               page.drawText(`__________________________________________________________________________________`, { x: 10, y: yPosition + 20, size: 20, font: thaiFont });
-              page.drawText(`${sumStadardOt}`, { x: 370, y: yPosition, size: fontSize, font: thaiFont });
-              page.drawText(`${sumOverOT}`, { x: 460, y: yPosition, size: fontSize, font: thaiFont });
-              page.drawText(`${sumOT}`, { x: 550, y: yPosition, size: fontSize, font: thaiFont });
+              page.drawText(`${sumStadardOt}`, { x: 390, y: yPosition, size: fontSize, font: thaiFont });
+              page.drawText(`${sumOverOT}`, { x: 480, y: yPosition, size: fontSize, font: thaiFont });
+              page.drawText(`${sumOT}`, { x: 540, y: yPosition, size: fontSize, font: thaiFont });
               page.drawText(`หมายเหตุ: โปรดตรวจสอบข้อมูลตัวเลขในเอกสารนี้ให้ละเอียด หากไม่ถูกต้องหรือสงสัยให้แจ้งฝ่ายบุคคลทันทีหรือในเวลาทํางานปกติ`, { x: 10, y: yPosition -30, size: 16, font: thaiFont });
               page.drawText(`หากพ้นกําหนด 15 วัน นับจากวันที่จ่ายให้ในนงวดนั้น ๆ แล้ว บริษัทถือว่าท่านยอมรับและไม่ติดใจเรียกร้องสิทธิประโยชน์ใด ๆ ทุกประการ`, { x: 10, y: yPosition -50, size: 16, font: thaiFont });
             }

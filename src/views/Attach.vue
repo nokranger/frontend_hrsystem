@@ -174,6 +174,10 @@ export default {
       sumValue: 0
     }
   },
+  mounted () {
+    let time = new Date().toLocaleString()
+    console.log('currentTime', time)
+  },
   methods: {
     async getOneAttach7() {
       let from_to = {
