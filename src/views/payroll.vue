@@ -24,8 +24,8 @@
             </b-col>
             <b-col>
               <div style="text-align: left;">
-                <b-button style="box-shadow: 5px 5px 5px #888888;" variant="outline-primary" @click="getot">Payroll
-                  OT</b-button>
+                <b-button style="box-shadow: 5px 5px 5px #888888;margin-top: 30px;" variant="outline-primary" @click="getot">Payroll
+                  OT <b-icon-file-earmark-excel-fill variant="success"></b-icon-file-earmark-excel-fill></b-button>
               </div>
             </b-col>
           </b-row>
@@ -42,8 +42,8 @@
             </b-col>
             <b-col>
               <div style="text-align: left;">
-                <b-button style="box-shadow: 5px 5px 5px #888888;" variant="outline-success"
-                  @click="getallowance">Payroll Allowance</b-button>
+                <b-button style="box-shadow: 5px 5px 5px #888888;margin-top: 30px;" variant="outline-success"
+                  @click="getallowance">Payroll Allowance <b-icon-file-earmark-excel-fill variant="success"></b-icon-file-earmark-excel-fill></b-button>
               </div>
               <!-- {{ dateotfrom}}{{dateotto}}{{dateallowancefrom}}{{dateallowanceto }} -->
             </b-col>

@@ -12,26 +12,29 @@
       <div style="border: 2px solid gray;border-radius: 10px;height: 400px;box-shadow: 5px 5px 5px #888888;">
         <b-row style="margin: 20px;">
           <b-col>
+            <div style="font-size: 20px;text-align: left;margin-left: 10px;">ตั้งแต่วันที่ (TNOS & Instructor )</div>
             <b-form-datepicker style="width: 100%;" id="example-datepickerattach8" v-model="dateattach8from"
               class="mb-2"></b-form-datepicker>
           </b-col>
           <b-col>
+            <div style="font-size: 20px;text-align: left;margin-left: 10px;">ถึงวันที่ (TNOS & Instructor )</div>
             <b-form-datepicker style="width: 100%;" id="example-datepickerattach82" v-model="dateattach8to"
               class="mb-2"></b-form-datepicker>
           </b-col>
           <b-col>
+            <div style="font-size: 20px;text-align: left;margin-left: 10px;">วันที่จ่ายเงิน</div>
             <b-form-datepicker style="width: 100%;" id="example-datepickerattach83" v-model="dateattach8select"
               class="mb-2"></b-form-datepicker>
           </b-col>
         </b-row>
         <b-row style="margin: 20px;">
           <b-col>
-            <div style="font-size: 20px;text-align: left;margin-left: 10px;">ตั้งแต่วันที่</div>
+            <div style="font-size: 20px;text-align: left;margin-left: 10px;">ตั้งแต่วันที่ (Welfare)</div>
             <b-form-datepicker style="width: 100%;" id="example-datepickerattach8welfare"
               v-model="dateattach8welfareform" class="mb-2"></b-form-datepicker>
           </b-col>
           <b-col>
-            <div style="font-size: 20px;text-align: left;margin-left: 10px;">ถึงวันที่</div>
+            <div style="font-size: 20px;text-align: left;margin-left: 10px;">ถึงวันที่ (Welfare)</div>
             <b-form-datepicker style="width: 100%;" id="example-datepickerattach82welfare"
               v-model="dateattach8welfareto" class="mb-2"></b-form-datepicker>
           </b-col>
@@ -45,19 +48,25 @@
         <b-row style="margin: 20px;">
           <b-col>
             <div>
+              <div style="font-size: 20px;text-align: left;margin-left: 10px;">กรุณากรอกหัวข้อรายงาน</div>
               <b-input placeholder="Enter your Title Report" v-model="titleattach8"></b-input>
             </div>
           </b-col>
           <b-col>
-            <b-input v-on:keyup.enter="getOneAttach8" placeholder="Enter Employee Code"
-              v-model="dataattach8one"></b-input>
+            <!-- <b-input v-on:keyup.enter="getOneAttach8" placeholder="Enter Employee Code"
+              v-model="dataattach8one"></b-input> -->
           </b-col>
+          <b-col></b-col>
+        </b-row>
+        <b-row>
+          <b-col></b-col>
           <b-col>
             <div style="text-align: center;">
-              <b-button variant="outline-success" @click="getAttach8" style="box-shadow: 5px 5px 5px #888888;">Attached
-                8</b-button>
+              <b-button variant="outline-primary" @click="getAttach8" style="box-shadow: 5px 5px 5px #888888;">Attached
+                8 <b-icon-file-earmark-pdf-fill variant="danger"></b-icon-file-earmark-pdf-fill></b-button>
             </div>
           </b-col>
+          <b-col></b-col>
         </b-row>
         <!-- <b-row style="margin: 20px;">
           <b-col>

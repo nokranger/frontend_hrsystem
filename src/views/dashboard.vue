@@ -280,7 +280,7 @@
                 class="mb-2"></b-form-datepicker>
             </b-col>
             <b-col>
-              <div style="text-align: left;">
+              <div style="text-align: left;margin-top: 30px;">
                 <b-button @click="welfareGetdata" variant="outline-primary">Master Data</b-button>
               </div>
             </b-col>

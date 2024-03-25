@@ -12,27 +12,44 @@
       <div style="border: 2px solid gray;border-radius: 10px;height: 400px;box-shadow: 5px 5px 5px #888888;">
         <b-row style="margin: 20px;">
           <b-col>
+            <div style="font-size: 20px;text-align: left;margin-left: 10px;">ตั้งแต่วันที่</div>
             <b-form-datepicker style="width: 100%;" id="example-datepickerattach10" v-model="dateattach10from"
               class="mb-2"></b-form-datepicker>
           </b-col>
           <b-col>
+            <div style="font-size: 20px;text-align: left;margin-left: 10px;">ถึงวันที่</div>
             <b-form-datepicker style="width: 100%;" id="example-datepickerattach102" v-model="dateattach10to"
               class="mb-2"></b-form-datepicker>
           </b-col>
           <b-col>
+            <div style="font-size: 20px;text-align: left;margin-left: 10px;">วันที่จ่ายเงิน</div>
             <b-form-datepicker style="width: 100%;" id="example-datepickerattach103" v-model="dateattach10select"
               class="mb-2"></b-form-datepicker>
           </b-col>
-          <b-col>
+        </b-row>
+        <b-row style="margin: 20px;">
+          <!-- <b-col>
             <b-input v-on:keyup.enter="getOneAttach10" placeholder="Enter Employee Code"
               v-model="dataattach10one"></b-input>
-          </b-col>
+          </b-col> -->
           <b-col>
-            <div style="text-align: center;">
-              <b-button variant="outline-warning" @click="getAttach10" style="box-shadow: 5px 5px 5px #888888;">Attached
-                10</b-button>
+            <div>
+              <div style="font-size: 20px;text-align: left;margin-left: 10px;">กรุณากรอกหัวข้อรายงาน</div>
+              <b-input placeholder="Enter your Title Report" v-model="titleattach10"></b-input>
             </div>
           </b-col>
+          <b-col></b-col>
+          <b-col></b-col>
+        </b-row>
+        <b-row style="margin: 20px;">
+          <b-col></b-col>
+          <b-col>
+            <div style="text-align: center;">
+              <b-button variant="outline-primary" @click="getAttach10" style="box-shadow: 5px 5px 5px #888888;">Attached
+                10 <b-icon-file-earmark-pdf-fill variant="danger"></b-icon-file-earmark-pdf-fill></b-button>
+            </div>
+          </b-col>
+          <b-col></b-col>
         </b-row>
       </div>
     </b-container>
@@ -209,8 +226,8 @@ export default {
               page.drawText(`${sumStadardOt}`, { x: 390, y: yPosition, size: fontSize, font: thaiFont });
               page.drawText(`${sumOverOT}`, { x: 480, y: yPosition, size: fontSize, font: thaiFont });
               page.drawText(`${sumOT}`, { x: 540, y: yPosition, size: fontSize, font: thaiFont });
-              page.drawText(`หมายเหตุ: โปรดตรวจสอบข้อมูลตัวเลขในเอกสารนี้ให้ละเอียด หากไม่ถูกต้องหรือสงสัยให้แจ้งฝ่ายบุคคลทันทีหรือในเวลาทํางานปกติ`, { x: 10, y: yPosition -30, size: 16, font: thaiFont });
-              page.drawText(`หากพ้นกําหนด 15 วัน นับจากวันที่จ่ายให้ในนงวดนั้น ๆ แล้ว บริษัทถือว่าท่านยอมรับและไม่ติดใจเรียกร้องสิทธิประโยชน์ใด ๆ ทุกประการ`, { x: 10, y: yPosition -50, size: 16, font: thaiFont });
+              page.drawText(`หมายเหตุ: โปรดตรวจสอบข้อมูลตัวเลขในเอกสารนี้ให้ละเอียด หากไม่ถูกต้องหรือสงสัยให้แจ้งฝ่ายบุคคลทันทีหรือในเวลาทํางานปกติ`, { x: 10, y: yPosition - 30, size: 16, font: thaiFont });
+              page.drawText(`หากพ้นกําหนด 15 วัน นับจากวันที่จ่ายให้ในนงวดนั้น ๆ แล้ว บริษัทถือว่าท่านยอมรับและไม่ติดใจเรียกร้องสิทธิประโยชน์ใด ๆ ทุกประการ`, { x: 10, y: yPosition - 50, size: 16, font: thaiFont });
             }
           } else {
             // console.log('NotSameKeyCount', keycount)
@@ -222,21 +239,22 @@ export default {
             // page = pdfDoc.addPage();
             // page.drawText(`${result[key][i].ttt_employee_code}`, { x: 500, y: 800, size: 20, font: thaiFont });
             page.drawText(`บริษัท โตโยต้า ทรานสปอร์ต (ประเทศไทย) จํากัด`, { x: 170, y: 800, size: 20, font: thaiFont });
-            page.drawText(`สรุปยอดเงินเบี้ยเลี้ยง/ค่าขับและสวัสดิการของพนักงาน`, { x: 140, y: 780, size: 20, font: thaiFont });
+            // page.drawText(`สรุปยอดเงินเบี้ยเลี้ยง/ค่าขับและสวัสดิการของพนักงาน`, { x: 140, y: 780, size: 20, font: thaiFont });
+            page.drawText(`${this.titleattach10}`, { x: 140, y: 780, size: 20, font: thaiFont });
             page.drawText(`รายละเอียดชั่วโมงทำงานเกินเวลาตั้งแต่วันที่ ${moment(this.dateattach10from).format('L')} To ${moment(this.dateattach10to).format('L')} เข้าบัญชีพนักงานวันที่ ${moment(this.dateattach10select).format('L')}`, { x: 50, y: 760, size: 15, font: thaiFont });
             // page.drawText(`To`, { x: 250, y: 760, size: 15, font: thaiFont });
             page.drawText(`ชื่อ ${result[key][i].tlep_driver_name} รหัส ${result[key][i].ttt_employee_code}`, { x: 200, y: 740, size: 15, font: thaiFont });
             // page.drawText(`เข้าบัญชีพนักงานวันที่ ${moment(this.dateattach10select).format('L')}`, { x: 350, y: 760, size: 15, font: thaiFont });
             // page.drawText(`${result[key][i]s[0].tlep_driver_name}`, { x: 400, y: 760, size: 15, font: thaiFont });
             // page.drawText(`รหัส ${result[key][i]s[0].ttt_employee_code}`, { x: 450, y: 760, size: 15, font: thaiFont });
-            page.drawText(`__________________________________________________________________________________`, { x: 10, y: 720 , size: 20, font: thaiFont});
+            page.drawText(`__________________________________________________________________________________`, { x: 10, y: 720, size: 20, font: thaiFont });
             page.drawText(`วันที่เดินทาง`, { x: 35, y: 700, size: fontSize, font: thaiFont });
             page.drawText(`เลขที่ใบส่งสินค้า`, { x: 150, y: 700, size: fontSize, font: thaiFont });
             page.drawText(`ตัวแทนจำหน่าย`, { x: 240, y: 700, size: fontSize, font: thaiFont });
             page.drawText(`ชั่วโมงเกินเวลา`, { x: 370, y: 700, size: fontSize, font: thaiFont });
             page.drawText(`เพิ่ม/ลด`, { x: 460, y: 700, size: fontSize, font: thaiFont });
             page.drawText(`รวม`, { x: 540, y: 700, size: fontSize, font: thaiFont });
-            page.drawText(`__________________________________________________________________________________`, { x: 10, y: 700 , size: 20, font: thaiFont});
+            page.drawText(`__________________________________________________________________________________`, { x: 10, y: 700, size: 20, font: thaiFont });
             // page.drawText(`Page${countPage}`, { x: 450, y: 720 , size: fontSize});
             yPosition = height - margin;
             page.drawText(`${result[key][i].recieve_job_dateandtime}`, { x: 25, y: yPosition, size: fontSize, font: thaiFont });
@@ -259,8 +277,8 @@ export default {
               page.drawText(`${sumStadardOt}`, { x: 390, y: yPosition, size: fontSize, font: thaiFont });
               page.drawText(`${sumOverOT}`, { x: 480, y: yPosition, size: fontSize, font: thaiFont });
               page.drawText(`${sumOT}`, { x: 540, y: yPosition, size: fontSize, font: thaiFont });
-              page.drawText(`หมายเหตุ: โปรดตรวจสอบข้อมูลตัวเลขในเอกสารนี้ให้ละเอียด หากไม่ถูกต้องหรือสงสัยให้แจ้งฝ่ายบุคคลทันทีหรือในเวลาทํางานปกติ`, { x: 10, y: yPosition -30, size: 16, font: thaiFont });
-              page.drawText(`หากพ้นกําหนด 15 วัน นับจากวันที่จ่ายให้ในนงวดนั้น ๆ แล้ว บริษัทถือว่าท่านยอมรับและไม่ติดใจเรียกร้องสิทธิประโยชน์ใด ๆ ทุกประการ`, { x: 10, y: yPosition -50, size: 16, font: thaiFont });
+              page.drawText(`หมายเหตุ: โปรดตรวจสอบข้อมูลตัวเลขในเอกสารนี้ให้ละเอียด หากไม่ถูกต้องหรือสงสัยให้แจ้งฝ่ายบุคคลทันทีหรือในเวลาทํางานปกติ`, { x: 10, y: yPosition - 30, size: 16, font: thaiFont });
+              page.drawText(`หากพ้นกําหนด 15 วัน นับจากวันที่จ่ายให้ในนงวดนั้น ๆ แล้ว บริษัทถือว่าท่านยอมรับและไม่ติดใจเรียกร้องสิทธิประโยชน์ใด ๆ ทุกประการ`, { x: 10, y: yPosition - 50, size: 16, font: thaiFont });
             }
           }
         }

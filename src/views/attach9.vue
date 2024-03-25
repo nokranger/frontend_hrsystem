@@ -12,14 +12,17 @@
       <div style="border: 2px solid gray;border-radius: 10px;height: 400px;box-shadow: 5px 5px 5px #888888;">
         <b-row style="margin: 20px;">
           <b-col>
+            <div style="font-size: 20px;text-align: left;margin-left: 10px;">ตั้งแต่วันที่</div>
             <b-form-datepicker style="width: 100%;" id="datepickerattach9" v-model="dateattach9from"
               class="mb-2"></b-form-datepicker>
           </b-col>
           <b-col>
+            <div style="font-size: 20px;text-align: left;margin-left: 10px;">ถึงวันที่</div>
             <b-form-datepicker style="width: 100%;" id="datepickerattach92" v-model="dateattach9to"
               class="mb-2"></b-form-datepicker>
           </b-col>
           <b-col>
+            <div style="font-size: 20px;text-align: left;margin-left: 10px;">วันที่จ่ายเงิน</div>
             <b-form-datepicker style="width: 100%;" id="datepickerattach93" v-model="dateattach9select"
               class="mb-2"></b-form-datepicker>
           </b-col>
@@ -27,12 +30,13 @@
         <b-row style="margin: 20px;">
           <b-col>
             <div>
+              <div style="font-size: 20px;text-align: left;margin-left: 10px;">กรุณากรอกหัวข้อรายงาน</div>
               <b-input placeholder="Enter your Title Report" v-model="titleattach9"></b-input>
             </div>
           </b-col>
           <b-col>
-            <b-input v-on:keyup.enter="getOneAttach9" placeholder="Enter Employee Code"
-              v-model="dataattach7one"></b-input>
+            <!-- <b-input v-on:keyup.enter="getOneAttach9" placeholder="Enter Employee Code"
+              v-model="dataattach7one"></b-input> -->
           </b-col>
           <b-col></b-col>
         </b-row>

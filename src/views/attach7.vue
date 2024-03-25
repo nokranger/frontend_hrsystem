@@ -12,12 +12,12 @@
       <div style="border: 2px solid gray;border-radius: 10px;height: 450px;box-shadow: 5px 5px 5px #888888;">
         <b-row style="margin: 20px;">
           <b-col>
-            <div style="font-size: 20px;text-align: left;margin-left: 10px;">ตั้งแต่วันที่</div>
+            <div style="font-size: 20px;text-align: left;margin-left: 10px;">ตั้งแต่วันที่ (TNOS & Instructor )</div>
             <b-form-datepicker style="width: 100%;" id="example-datepickerattach7" v-model="dateattach7from"
               class="mb-2"></b-form-datepicker>
           </b-col>
           <b-col>
-            <div style="font-size: 20px;text-align: left;margin-left: 10px;">ถึงวันที่</div>
+            <div style="font-size: 20px;text-align: left;margin-left: 10px;">ถึงวันที่ (TNOS & Instructor )</div>
             <b-form-datepicker style="width: 100%;" id="example-datepickerattach72" v-model="dateattach7to"
               class="mb-2"></b-form-datepicker>
           </b-col>
@@ -29,12 +29,12 @@
         </b-row>
         <b-row style="margin: 20px;">
           <b-col>
-            <div style="font-size: 20px;text-align: left;margin-left: 10px;">ตั้งแต่วันที่</div>
+            <div style="font-size: 20px;text-align: left;margin-left: 10px;">ตั้งแต่วันที่ (Welfare)</div>
             <b-form-datepicker style="width: 100%;" id="example-datepickerattach7welfare"
               v-model="dateattach7welfareform" class="mb-2"></b-form-datepicker>
           </b-col>
           <b-col>
-            <div style="font-size: 20px;text-align: left;margin-left: 10px;">ถึงวันที่</div>
+            <div style="font-size: 20px;text-align: left;margin-left: 10px;">ถึงวันที่ (Welfare)</div>
             <b-form-datepicker style="width: 100%;" id="example-datepickerattach72welfare"
               v-model="dateattach7welfareto" class="mb-2"></b-form-datepicker>
           </b-col>
@@ -52,11 +52,12 @@
               <b-input placeholder="Enter your Title Report" v-model="titleattach7"></b-input>
             </div>
           </b-col>
-          <b-col>
+          <!-- <b-col>
             <div style="font-size: 20px;text-align: left;margin-left: 10px;">หมายเลขพนักงาน</div>
             <b-input v-on:keyup.enter="getOneAttach7" placeholder="Enter Employee Code"
               v-model="dataattach7one"></b-input>
-          </b-col>
+          </b-col> -->
+          <b-col></b-col>
           <b-col></b-col>
         </b-row>
         <b-row style="margin: 20px;">
@@ -608,7 +609,7 @@ export default {
         page.drawText(`${data.emp_code}`, { x: 220, y: yPosition, size: fontSize, font: thaiFont });
         // const yPriceStart = yNameStart + 20;
         page.drawText(`${data.name}`, { x: 300, y: yPosition, size: fontSize, font: thaiFont });
-        page.drawText(`${(data.total_allowance.toFixed(2)).toLocaleString()}`, { x: 500, y: yPosition, size: fontSize, font: thaiFont });
+        page.drawText(`${(data.total_allowance).toLocaleString()}`, { x: 500, y: yPosition, size: fontSize, font: thaiFont });
         yPosition -= descriptionHeight; // Adjust x-position for the next entry
         count++
         if (count > datas.length - 1) {
@@ -623,7 +624,7 @@ export default {
           // }
           console.log('countPDF ', count);
           page.drawText(`__________________________________________________________________________________`, { x: 10, y: yPosition + 20, size: 20, font: thaiFont });
-          page.drawText(`รวม ${(sumValue.toFixed(2)).toLocaleString()}`, { x: 470, y: yPosition - 20, size: 20, font: thaiFont });
+          page.drawText(`รวม ${(sumValue).toLocaleString()}`, { x: 470, y: yPosition - 20, size: 20, font: thaiFont });
         }
       }
 
