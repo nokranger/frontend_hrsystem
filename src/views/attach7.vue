@@ -559,7 +559,7 @@ export default {
       page.drawText(`เข้าบัญชีพนักงานวันที่ ${moment(this.dateattach7select).format('L')}`, { x: 190, y: 760, size: 20, font: thaiFont });
       page.drawText(`__________________________________________________________________________________`, { x: 10, y: 750, size: 20, font: thaiFont });
       page.drawText(`ลำดับ`, { x: 50, y: 720, size: fontSize, font: thaiFont });
-      page.drawText(`เลขที่บันชี`, { x: 100, y: 720, size: fontSize, font: thaiFont });
+      page.drawText(`เลขที่บัญชี`, { x: 100, y: 720, size: fontSize, font: thaiFont });
       page.drawText(`รหัส`, { x: 220, y: 720, size: fontSize, font: thaiFont });
       page.drawText(`ชื่อ - นามสกุล`, { x: 300, y: 720, size: fontSize, font: thaiFont });
       page.drawText(`จำนวนเงิน`, { x: 500, y: 720, size: fontSize, font: thaiFont });
@@ -595,7 +595,7 @@ export default {
           page.drawText(`เข้าบัญชีพนักงานวันที่ ${moment(this.dateattach7select).format('L')}`, { x: 190, y: 760, size: 20, font: thaiFont });
           page.drawText(`__________________________________________________________________________________`, { x: 10, y: 750, size: 20, font: thaiFont });
           page.drawText(`ลำดับ`, { x: 50, y: 720, size: fontSize, font: thaiFont });
-          page.drawText(`เลขที่บันชี`, { x: 100, y: 720, size: fontSize, font: thaiFont });
+          page.drawText(`เลขที่บัญชี`, { x: 100, y: 720, size: fontSize, font: thaiFont });
           page.drawText(`รหัส`, { x: 220, y: 720, size: fontSize, font: thaiFont });
           page.drawText(`ชื่อ - นามสกุล`, { x: 300, y: 720, size: fontSize, font: thaiFont });
           page.drawText(`จำนวนเงิน`, { x: 500, y: 720, size: fontSize, font: thaiFont });
@@ -859,7 +859,7 @@ export default {
       let sendData = await this.pdfdata.map(obj => {
         return { ...obj, payment_status: this.status, payment_date: this.dateattach7select };
       });
-      console.log('paymenyupdate', sendData)
+      console.log('paymenyupdate', this.pdfdata)
       await axios.post('http://localhost:4000/addpaymentstatusattach7', sendData)
         .then(response => {
           console.log('resdataUpdate', response)

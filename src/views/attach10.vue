@@ -151,6 +151,7 @@ export default {
           console.error('Error fetching data:', error.message);
         });
       await this.generatePDF10(this.pdfdata)
+      // await this.exporttoexcel(this.pdfdata)
     },
     async generatePDF10(result) {
       const pdfDoc = await PDFDocument.create()
@@ -338,7 +339,19 @@ export default {
         .catch(error => {
           console.error('Error fetching data:', error.message);
         });
-    }
+    },
+    async exporttoexcel(data) {
+      const workbook = XLSX.utils.book_new();
+
+      // // Convert the JSON data to a worksheet
+      const worksheet = XLSX.utils.json_to_sheet(data);
+
+      // // Add the worksheet to the workbook
+      XLSX.utils.book_append_sheet(workbook, worksheet, 'sheet1');
+
+      // // Save the workbook to a file
+      XLSX.writeFile(workbook, 'attached8.xlsx');
+    },
   }
 }
 </script>

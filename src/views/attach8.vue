@@ -226,7 +226,7 @@ export default {
               calling_sheet_no: this.excelarrayattach8[i].calling_sheet_no,
               total_allowance: parseFloat(this.excelarrayattach8[i].total_allowance),
               to_name: this.excelarrayattach8[i].to_name,
-              total_ot: this.excelarrayattach8[i].total_ot,
+              standard_ot: this.excelarrayattach8[i].standard_ot,
               ttt_employee_code: this.excelarrayattach8[i].ttt_employee_code,
               over_ot: this.excelarrayattach8[i].over_ot,
               tlep_driver_name: this.excelarrayattach8[i].tlep_driver_name
@@ -360,7 +360,7 @@ export default {
             page.drawText(`${result[key][i].calling_sheet_no}`, { x: 130, y: yPosition, size: fontSize, font: thaiFont });
             page.drawText(`${result[key][i].total_allowance.toLocaleString()}`, { x: 220, y: yPosition, size: fontSize, font: thaiFont });
             page.drawText(`${result[key][i].to_name}`, { x: 270, y: yPosition, size: fontSize, font: thaiFont });
-            page.drawText(`${result[key][i].total_ot}`, { x: 470, y: yPosition, size: fontSize, font: thaiFont });
+            page.drawText(`${result[key][i].standard_ot}`, { x: 470, y: yPosition, size: fontSize, font: thaiFont });
             page.drawText(`${result[key][i].over_ot}`, { x: 520, y: yPosition, size: fontSize, font: thaiFont });
             // page.drawText(`${result[key][i].ttt_employee_code}`, { x: 200, y: yPosition, size: fontSize, font: thaiFont });
             yPosition -= descriptionHeight; // Adjust x-position for the next entry
@@ -370,7 +370,7 @@ export default {
             console.log('countinPage2', result[key].length)
             // page.drawText(`__________________________________________________________________________________`, { x: 10, y: yPosition + 20, size: 20, font: thaiFont });
             if (count > result[key].length - 1) {
-              sumOT = result[key].reduce((acc, obj) => acc + parseFloat(obj.total_ot), 0);
+              sumOT = result[key].reduce((acc, obj) => acc + parseFloat(obj.standard_ot), 0);
               sumAllowance = result[key].reduce((acc, obj) => acc + parseFloat(obj.total_allowance), 0);
               sumOverOT = result[key].reduce((acc, obj) => acc + parseFloat(obj.over_ot), 0);
               // page.drawText(`${sum}`, { x: 530, y: yPosition, size: fontSize, font: thaiFont });
@@ -408,14 +408,14 @@ export default {
             page.drawText(`${result[key][i].calling_sheet_no}`, { x: 130, y: yPosition, size: fontSize, font: thaiFont });
             page.drawText(`${result[key][i].total_allowance.toLocaleString()}`, { x: 220, y: yPosition, size: fontSize, font: thaiFont });
             page.drawText(`${result[key][i].to_name}`, { x: 270, y: yPosition, size: fontSize, font: thaiFont });
-            page.drawText(`${result[key][i].total_ot}`, { x: 470, y: yPosition, size: fontSize, font: thaiFont });
+            page.drawText(`${result[key][i].standard_ot}`, { x: 470, y: yPosition, size: fontSize, font: thaiFont });
             page.drawText(`${result[key][i].over_ot}`, { x: 520, y: yPosition, size: fontSize, font: thaiFont });
             // page.drawText(`${result[key][i].ttt_employee_code}`, { x: 200, y: yPosition, size: fontSize, font: thaiFont });
             yPosition -= descriptionHeight; // Adjust x-position for the next entry
             keycount = result[key][i].ttt_employee_code
             // count++
             if (count > result[key].length - 1) {
-              sumOT = result[key].reduce((acc, obj) => acc + parseFloat(obj.total_ot), 0);
+              sumOT = result[key].reduce((acc, obj) => acc + parseFloat(obj.standard_ot), 0);
               sumAllowance = result[key].reduce((acc, obj) => acc + parseFloat(obj.total_allowance), 0);
               sumOverOT = result[key].reduce((acc, obj) => acc + parseFloat(obj.over_ot), 0);
               // page.drawText(`${sum}`, { x: 530, y: yPosition, size: fontSize, font: thaiFont });
@@ -457,6 +457,18 @@ export default {
       const blob = new Blob([pdfBytes], { type: 'application/pdf' });
       const url = URL.createObjectURL(blob);
       window.open(url, '_blank');
+    },
+    async exporttoexcel(data) {
+      const workbook = XLSX.utils.book_new();
+
+      // // Convert the JSON data to a worksheet
+      const worksheet = XLSX.utils.json_to_sheet(data);
+
+      // // Add the worksheet to the workbook
+      XLSX.utils.book_append_sheet(workbook, worksheet, 'sheet1');
+
+      // // Save the workbook to a file
+      XLSX.writeFile(workbook, 'attached8.xlsx');
     },
   }
 }
