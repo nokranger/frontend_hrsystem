@@ -29,6 +29,29 @@
           <td style="border: 1px solid;">{{ item.create_time }}</td>
         </tr>
       </b-modal>
+      <b-modal id="modal-welfare" size="xl" title="ข้อมูล Welfare ที่ซ้ำ" hide-footer>
+        <tr style="border: 1px solid;">
+          <td style="border: 1px solid;">NO.</td>
+          <td style="border: 1px solid;">TRIP_NO</td>
+          <td style="border: 1px solid;">TRIP_ALLOWANCE</td>
+          <td style="border: 1px solid;">DEPARTURE_DATETIME</td>
+          <td style="border: 1px solid;">DRIVER1</td>
+          <td style="border: 1px solid;">NAME</td>
+          <td style="border: 1px solid;">DEALER1</td>
+          <td style="border: 1px solid;">create_time</td>
+        </tr>
+        <tr v-for="(item, index) in showHoliday" :key="index" style="border: 1px solid;">
+          <td style="border: 1px solid;">{{ index + 1 }}</td>
+          <td style="border: 1px solid;">{{ item.TRIP_NO }}</td>
+          <td style="border: 1px solid;">{{ item.TRIP_ALLOWANCE.toLocaleString() }}</td>
+          <td style="border: 1px solid;">{{ new Date((item.DEPARTURE_DATETIME - 1) * 24 * 60 * 60 * 1000 + new
+          Date(1900, 0, 0).getTime()).toLocaleString() }}</td>
+          <td style="border: 1px solid;">{{ item.DRIVER1 }}</td>
+          <td style="border: 1px solid;">{{ item.NAME }}</td>
+          <td style="border: 1px solid;">{{ item.DEALER1 }}</td>
+          <td style="border: 1px solid;">{{ item.create_time }}</td>
+        </tr>
+      </b-modal>
       <b-modal id="modal-instructor" size="xl" title="ข้อมูล Instructor ที่ซ้ำ" hide-footer>
         <tr style="border: 1px solid;">
           <td style="border: 1px solid;">NO.</td>
@@ -102,18 +125,9 @@
                 Personal Data
               </div>
               <input type="file" ref="fileInput" @change="handleFileChangetest" />
-              <!-- <button @click="exportToExcel">Export to Excel</button> -->
-              <!-- <button @click="PersonalSendData">PersonalSendData</button> -->
             </div>
           </b-col>
           <b-col>
-            <!-- <br>
-            <div style="font-weight: bold;font-size: 20px;margin: 10px;">
-              เลือกช่วงเวลาสำหรับลบข้อมูล
-            </div> -->
-            <!-- <b-form-select
-              style="display: inline;width: 300px;height: 40px;font-family: 'Noto Serif', sans-serif;font-weight: bold;font-size: 20px;border-radius:10px;border:1px solid #cccccc;"
-              id="selectoption" v-model="selectOption" :options="deleteTnos" v-on:change="tnosdelete()"></b-form-select> -->
           </b-col>
         </b-row>
         <br>
@@ -186,49 +200,8 @@
             </div>
           </b-col>
           <b-col>
-            <!-- <div style="font-weight: bold;font-size: 20px;margin: 5px;">
-              เลือกช่วงเวลาสำหรับลบข้อมูล Holiday
-            </div> -->
-            <!-- <b-form-select
-              style="display: inline;width: 300px;height: 40px;font-family: 'Noto Serif', sans-serif;font-weight: bold;font-size: 20px;border-radius:10px;border:1px solid #cccccc;"
-              id="selectoption" v-model="selectOption" :options="deleteTnos" v-on:change="tnosdelete()"></b-form-select> -->
           </b-col>
         </b-row>
-        <!-- <div>
-          <br>
-          <div style="font-weight: bold;font-size: 20px;margin: 10px;">
-            Personal Data
-          </div>
-          <input type="file" ref="fileInput" @change="handleFileChangetest" />
-        </div>
-        <div>
-          <div style="font-weight: bold;font-size: 20px;margin: 10px;">
-            Instructor Data
-          </div>
-          <input type="file" ref="fileInput" @change="handleFileChangeInstructor" />
-        </div>
-        <br>
-        <br>
-        <div>
-          <div style="font-weight: bold;font-size: 20px;margin: 10px;">
-            T-nos Data
-          </div>
-          <input type="file" ref="fileInput" @change="handleFileChangeTnos" />
-        </div>
-        <br>
-        <br>
-        <div>
-          <div style="font-weight: bold;font-size: 20px;margin: 10px;">
-            Welfare Data
-          </div>
-          <input type="file" ref="fileInput" @change="handleFileChangeWelfare" />
-        </div>
-        <div>
-          <div style="font-weight: bold;font-size: 20px;margin: 10px;">
-            Holiday Data
-          </div>
-          <input type="file" ref="fileInput" @change="handleFileChangeHoliday" />
-        </div> -->
       </div>
       <div>
         <h1 style="text-shadow: 2px 2px 5px black;margin: 20px;font-size: 25px;">Export Master Data</h1>
@@ -238,36 +211,6 @@
         <div>
           <br>
           <br>
-          <!-- <b-row style="margin: 10px;">
-            <b-col>
-              <b-form-datepicker style="width: 100%;" id="example-datepickertnos" v-model="datetnosfrom"
-                class="mb-2"></b-form-datepicker>
-            </b-col>
-            <b-col>
-              <b-form-datepicker style="width: 100%;" id="example-datepickertnos2" v-model="datetnosto"
-                class="mb-2"></b-form-datepicker>
-            </b-col>
-            <b-col>
-              <div style="text-align: left;">
-                <b-button @click="MasterSendData" variant="outline-primary">TNOS</b-button>
-              </div>
-            </b-col>
-          </b-row> -->
-          <!-- <b-row style="margin: 10px;">
-            <b-col>
-              <b-form-datepicker style="width: 100%;" id="example-datepickerwelfare" v-model="datewelfarefrom"
-                class="mb-2"></b-form-datepicker>
-            </b-col>
-            <b-col>
-              <b-form-datepicker style="width: 100%;" id="example-datepickerwelfare2" v-model="datewelfareto"
-                class="mb-2"></b-form-datepicker>
-            </b-col>
-            <b-col>
-              <div style="text-align: left;">
-                <b-button @click="testPDF" variant="outline-success">INSTUCTOR</b-button>
-              </div>
-            </b-col>
-          </b-row> -->
           <b-row style="margin: 10px;">
             <b-col>
               <div style="font-size: 20px;text-align: left;margin-left: 10px;">ตั้งแต่วันที่</div>
@@ -337,15 +280,18 @@ export default {
       showDismissibleAlert: false,
       showStatus: '',
       showWelfareDup: '',
+      showHoliday: '',
       showInstructorDup: '',
       showtnosDup: '',
       deleteWelfare: [],
       deleteInstrutor: [],
       deleteTnos: [],
+      deleteHoliday: [],
       itemWelfaredup: '',
       selectOption: null,
       selectOptionwelfare: null,
-      selectOptionInstructor: null
+      selectOptionInstructor: null,
+      selectOptionHoliday: null
     };
   },
   async mounted() {
@@ -452,6 +398,23 @@ export default {
       // console.log('testSelecyt', this.selectOptionwelfare)
       let select = {
         create_time: this.selectOptionwelfare,
+      }
+      axios.post('http://localhost:4000/deletewelfare', select)
+        .then(response => {
+          // console.log('delete done', response)
+          this.alertStatus2 = 1
+          this.dismissCountDown = this.dismissSecs
+        })
+        .catch(error => {
+          console.error('Error fetching data:', error.message);
+          this.alertStatus2 = 3
+          this.dismissCountDown = this.dismissSecs
+        });
+    },
+    Holidaydelete() {
+      // console.log('testSelecyt', this.selectOptionwelfare)
+      let select = {
+        create_time: this.selectOptionHoliday,
       }
       axios.post('http://localhost:4000/deletewelfare', select)
         .then(response => {
@@ -1141,10 +1104,10 @@ export default {
       const file = event.target.files[0];
 
       if (file) {
-        this.readExcelholiday(file);
+        this.readExcelHoliday(file);
       }
     },
-    readExcelholiday(file) {
+    readExcelHoliday(file) {
       const reader = new FileReader();
 
       reader.onload = (e) => {
@@ -1162,13 +1125,8 @@ export default {
         this.jsondataHoliday = JSON.stringify(jsonData, null, 2);
         this.jsondataHoliday = JSON.parse(this.jsondataHoliday)
         this.jsondataHoliday.shift()
-        // console.log('mapdata1: ', this.jsonData)
-        // console.log('JSONLenght: ', this.jsonDataHoliday)
-        // console.log('JSONLenghtSHIFT: ',  JSON.parse(this.jsonData).shift())
-        // console.log('JSONTYPEOF: ', typeof (this.jsonDataHoliday))
-        // console.log('JSONTYPEOF2: ',  typeof(JSON.parse(this.jsonData)))
         let jsonobjectHoliday = {}
-        let jsonobject2Holiday = this.jsonDataHoliday
+        let jsonobject2Holiday = this.jsondataHoliday
         jsonobjectHoliday = jsonobject2Holiday.map(innerarray => {
           return innerarray.reduce((acc, item, index) => {
             acc[`item${index + 1}`] = item;
@@ -1200,25 +1158,102 @@ export default {
             UNITS5: data.item21,
             TAX_FLAG: data.item22,
             create_time: new Date().toLocaleString()
+
           }
         })
-        // console.log('JSONTYPEOF2Aftermap: ', typeof (jsonobjectHoliday))
-        this.jsondataHoliday = jsonMapHoliday.filter((i) => {
+        jsonMapHoliday = jsonMapHoliday.filter((i) => {
           return i.TRIP_NO !== 'SUM' && i.TRIP_NO !== undefined
         })
-        axios.post('http://localhost:4000/holiday', this.jsondataHoliday)
-          .then(response => {
-            console.log(response.data);
-            this.alertStatus = 1
-            this.dismissCountDown = this.dismissSecs
-            this.showStatus = ' Holiday Data '
-          })
-          .catch(error => {
-            console.error('Error fetching data:', error.message);
-            this.alertStatus = 3
-            this.dismissCountDown = this.dismissSecs
-            this.showStatus = ' Holiday Data '
-          });
+        this.jsondata2Holiday = jsonMapHoliday
+        // console.log('jsonobjectHoliday', this.jsondata2Holiday)
+        axios.get('http://localhost:4000/getcomparedata4',).then(response => {
+          let compare = response.data.result
+          this.excelarray = Object.values(compare)
+          // console.log('JSONTYPEOF2Aftermap23', this.jsondata2Holiday[1].TRIP_NO)
+          // console.log('LENG1', this.excelarray.length)
+          let dup = this.jsondata2Holiday.filter(a => this.excelarray.some(b => a.TRIP_NO === b.TRIP_NO))
+          console.log('IsDuplicate', dup)
+          if (dup.length > 0) {
+            this.showHolidayDup = dup
+            this.$root.$emit("bv::show::modal", "modal-Holiday");
+          }
+          if (this.excelarray.length > this.jsondata2Holiday.length) {
+            const Notdup = this.jsondata2Holiday.filter(({ TRIP_NO: id1 }) => !this.excelarray.some(({ TRIP_NO: id2 }) => id2 === id1));
+            // console.log('duplicateIF', Notdup)
+
+            if (Notdup.length > 0) {
+              // console.log('InsertNotduplIF', Notdup)
+              console.log('InsertNotduplIFHoliday', Notdup)
+              this.jsondata2Holiday = Notdup
+              axios.post('http://localhost:4000/holiday', this.jsondata2Holiday)
+                .then(response => {
+                  console.log(response.data);
+                  this.alertStatus = 1
+                  this.dismissCountDown = this.dismissSecs
+                  this.showStatus = ' Holiday Data '
+                })
+                .catch(error => {
+                  console.error('Error fetching data:', error.message);
+                  this.alertStatus = 3
+                  this.dismissCountDown = this.dismissSecs
+                  this.showStatus = ' Holiday Data '
+                });
+            } else {
+              this.alertStatus = 2
+              this.dismissCountDown = this.dismissSecs
+            }
+          } else {
+            // let Notdup = this.jsondata2Holiday.filter(a => !this.excelarray.some(b => a.TRIP_NO === b.TRIP_NO))
+            // let dup = this.jsondata2Holiday.filter(a => this.excelarray.some(b => a.TRIP_NO === b.TRIP_NO))
+            const Notdup = this.jsondata2Holiday.filter(({ TRIP_NO: id1 }) => !this.excelarray.some(({ TRIP_NO: id2 }) => id2 === id1));
+            // console.log('duplicateelse', Notdup)
+            if (Notdup.length > 0) {
+              // console.log('InsertNotduplElse', Notdup)
+              // console.log('InsertNotduplElseHoliday', this.jsondata2Holiday)
+              console.log('InsertNotdupl', Notdup)
+              this.jsondata2Holiday = Notdup
+              axios.post('http://localhost:4000/holiday', this.jsondata2Holiday)
+                .then(response => {
+                  console.log(response.data);
+                  this.alertStatus = 1
+                  this.dismissCountDown = this.dismissSecs
+                  this.showStatus = ' Holiday Data '
+                })
+                .catch(error => {
+                  console.error('Error fetching data:', error.message);
+                  this.alertStatus = 3
+                  this.dismissCountDown = this.dismissSecs
+                  this.showStatus = ' Holiday Data '
+                });
+            } else {
+              this.alertStatus = 2
+              this.dismissCountDown = this.dismissSecs
+            }
+          }
+        }).catch(error => {
+          console.error('Error fetching data:', error.message)
+        })
+        // this.jsondata2Welfare2 = jsonMapWelfare2
+        // axios.post('http://localhost:4000/welfare', this.jsondata2Welfare)
+        //   .then(response => {
+        //     console.log(response.data);
+        //     this.alertStatus = 1
+        //     this.dismissCountDown = this.dismissSecs
+        //     this.showStatus = ' Welfare Data '
+        //   })
+        //   .catch(error => {
+        //     console.error('Error fetching data:', error.message);
+        //     this.alertStatus = 3
+        //     this.dismissCountDown = this.dismissSecs
+        //     this.showStatus = ' Welfare Data '
+        //   });
+        // axios.post('http://localhost:4000/welfare2', this.jsondata2Welfare2)
+        //   .then(response => {
+        //     console.log(response.data);
+        //   })
+        //   .catch(error => {
+        //     console.error('Error fetching data:', error.message);
+        //   });
       };
 
       reader.readAsBinaryString(file);
@@ -1593,6 +1628,7 @@ export default {
 
       reader.readAsBinaryString(file);
     },
+    
   },
 };
 </script>

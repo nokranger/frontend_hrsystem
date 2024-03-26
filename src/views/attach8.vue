@@ -59,11 +59,16 @@
           <b-col></b-col>
         </b-row>
         <b-row>
-          <b-col></b-col>
           <b-col>
             <div style="text-align: center;">
               <b-button variant="outline-primary" @click="getAttach8" style="box-shadow: 5px 5px 5px #888888;">Attached
                 8 <b-icon-file-earmark-pdf-fill variant="danger"></b-icon-file-earmark-pdf-fill></b-button>
+            </div>
+          </b-col>
+          <b-col>
+            <div style="text-align: center;">
+              <b-button variant="outline-primary" @click="getAttach8Excel" style="box-shadow: 5px 5px 5px #888888;">Attached
+                8 <b-icon-file-earmark-excel-fill variant="success"></b-icon-file-earmark-excel-fill></b-button>
             </div>
           </b-col>
           <b-col></b-col>
@@ -281,6 +286,101 @@ export default {
         });
       await this.generatePDF8(this.pdfdata)
       // await this.exporttoexcel(this.pdfdata)
+    },
+    async getAttach8Excel() {
+      let from_to = {
+        from: this.dateattach8from,
+        to: this.dateattach8to
+      }
+      let from_to_welfare = {
+        from: this.dateattach8welfareform,
+        to: this.dateattach8welfareto
+      }
+      await axios.post('http://localhost:4000/getdataattach8', from_to)
+        .then(response => {
+          // console.log('resdata', response.data.result);
+          let dataexcel = response.data.result
+          this.excelarrayattach8 = Object.values(dataexcel);
+        })
+        .catch(error => {
+          console.error('Error fetching data:', error.message);
+        });
+      await axios.post('http://localhost:4000/getdataattach82', from_to_welfare)
+        .then(response => {
+          // console.log('resdata', response.data.result);
+          let dataexcel = response.data.result
+          this.excelarrayattach82 = Object.values(dataexcel);
+        })
+        .catch(error => {
+          console.error('Error fetching data:', error.message);
+        });
+      await axios.post('http://localhost:4000/getdataattach83', from_to)
+        .then(response => {
+          // console.log('resdata', response.data.result);
+          let dataexcel = response.data.result
+          this.excelarrayattach83 = Object.values(dataexcel);
+          const combinedArray = []
+          for (let i = 0; i < this.excelarrayattach8.length; i++) {
+            const combinedObject = {
+              recieve_job_dateandtime: this.excelarrayattach8[i].recieve_job_dateandtime,
+              calling_sheet_no: this.excelarrayattach8[i].calling_sheet_no,
+              total_allowance: parseFloat(this.excelarrayattach8[i].total_allowance),
+              to_name: this.excelarrayattach8[i].to_name,
+              standard_ot: this.excelarrayattach8[i].standard_ot,
+              ttt_employee_code: this.excelarrayattach8[i].ttt_employee_code,
+              over_ot: this.excelarrayattach8[i].over_ot,
+              tlep_driver_name: this.excelarrayattach8[i].tlep_driver_name
+            }
+            combinedArray.push(combinedObject);
+          }
+          // for (let i = 0; i < this.excelarrayattach82.length; i++) {
+          //   const combinedObject = {
+          //     recieve_job_dateandtime: this.excelarrayattach82[i].DEPARTURE_DATETIME,
+          //     calling_sheet_no: this.excelarrayattach82[i].TRIP_NO,
+          //     total_allowance: parseFloat(this.excelarrayattach82[i].TOTAL_ALLOWANCE),
+          //     to_name: this.excelarrayattach82[i].DEALER1,
+          //     total_ot: 0.00,
+          //     ttt_employee_code: this.excelarrayattach82[i].DRIVER1,
+          //     over_ot: 0.00,
+          //     tlep_driver_name: this.excelarrayattach82[i].NAME
+          //   }
+          //   combinedArray.push(combinedObject);
+          // }
+          // for (let i = 0; i < this.excelarrayattach83.length; i++) {
+          //   const combinedObject = {
+          //     recieve_job_dateandtime: this.excelarrayattach83[i].DEPARTURE_DATETIME,
+          //     calling_sheet_no: this.excelarrayattach83[i].TRIP_NO,
+          //     total_allowance: parseFloat(this.excelarrayattach83[i].TOTAL_ALLOWANCE),
+          //     to_name: this.excelarrayattach83[i].DEALER1,
+          //     total_ot: 0.00,
+          //     ttt_employee_code: this.excelarrayattach83[i].DRIVER1,
+          //     over_ot: 0.00,
+          //     tlep_driver_name: this.excelarrayattach83[i].NAME
+          //   }
+          //   combinedArray.push(combinedObject);
+          // }
+          // const aa = [
+          //   { emp_code: '123', aa: 'AA' },
+          //   { emp_code: '123', aa: 'AA' },
+          //   { emp_code: '234', aa: 'AA' }
+          // ];
+          this.pdfdata = combinedArray
+          // this.pdfdata = this.pdfdata.reduce((acc, obj) => {
+          //   // If the key doesn't exist, create an array for it
+          //   if (!acc[obj.ttt_employee_code]) {
+          //     acc[obj.ttt_employee_code] = [];
+          //   }
+          //   // Push the current object into the array for this emp_code
+          //   acc[obj.ttt_employee_code].push(obj);
+          //   return acc;
+          // }, {});
+
+        })
+        .catch(error => {
+          console.error('Error fetching data:', error.message);
+        });
+      // await this.generatePDF8(this.pdfdata)
+      await this.exporttoexcel(this.pdfdata)
     },
     async generatePDF8(result) {
       // console.log('count', result)

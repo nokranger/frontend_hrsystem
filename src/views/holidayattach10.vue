@@ -50,7 +50,8 @@
           </b-col>
           <b-col>
             <div style="text-align: center;">
-              <b-button variant="outline-primary" @click="getAttach10Excel" style="box-shadow: 5px 5px 5px #888888;">Attached
+              <b-button variant="outline-primary" @click="getAttach10Excel"
+                style="box-shadow: 5px 5px 5px #888888;">Attached
                 10 <b-icon-file-earmark-excel-fill variant="success"></b-icon-file-earmark-excel-fill></b-button>
             </div>
           </b-col>
