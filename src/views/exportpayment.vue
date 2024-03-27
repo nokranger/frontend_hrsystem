@@ -73,6 +73,10 @@ export default {
       dateallowancefrom: '',
       dateallowanceto: '',
       data: [],
+      data2:[],
+      data3: [],
+      data4: [],
+      data5: [],
       status: 0,
       alertStatus: 0,
       alertStatus2: 0,
@@ -91,15 +95,123 @@ export default {
         payment_status: this.status,
         payment_date: this.datepaymentselect
       }
+      await axios.post('http://localhost:4000/getdatapayment2', from_to)
+        .then(response => {
+          this.data2 = response.data.result
+          this.data2 = Object.values(this.data2)
+          console.log('updatepayment2', response.data.result);
+        })
+        .catch(error => {
+          console.error('Error fetching data:', error.message);
+          this.alertStatus = 3
+          this.dismissCountDown = this.dismissSecs
+          this.dateupdatefrom = ''
+          this.dateupdateto = ''
+          this.dateupdateselect = ''
+          this.status = 0
+        });
+        await axios.post('http://localhost:4000/getdatapayment21', from_to)
+        .then(response => {
+          this.data3 = response.data.result
+          this.data3 = Object.values(this.data3)
+          console.log('updatepayment3', response.data.result);
+        })
+        .catch(error => {
+          console.error('Error fetching data:', error.message);
+          this.alertStatus = 3
+          this.dismissCountDown = this.dismissSecs
+          this.dateupdatefrom = ''
+          this.dateupdateto = ''
+          this.dateupdateselect = ''
+          this.status = 0
+        });
+        await axios.post('http://localhost:4000/getdatapayment3', from_to)
+        .then(response => {
+          this.data4 = response.data.result
+          this.data4 = Object.values(this.data4)
+          console.log('updatepayment4', response.data.result);
+        })
+        .catch(error => {
+          console.error('Error fetching data:', error.message);
+          this.alertStatus = 3
+          this.dismissCountDown = this.dismissSecs
+          this.dateupdatefrom = ''
+          this.dateupdateto = ''
+          this.dateupdateselect = ''
+          this.status = 0
+        });
+        await axios.post('http://localhost:4000/getdatapayment31', from_to)
+        .then(response => {
+          this.data5 = response.data.result
+          this.data5 = Object.values(this.data5)
+          console.log('updatepayment', response.data.result);
+        })
+        .catch(error => {
+          console.error('Error fetching data:', error.message);
+          this.alertStatus = 3
+          this.dismissCountDown = this.dismissSecs
+          this.dateupdatefrom = ''
+          this.dateupdateto = ''
+          this.dateupdateselect = ''
+          this.status = 0
+        });
       await axios.post('http://localhost:4000/getdatapayment', from_to)
         .then(response => {
-          // console.log('updatepayment', response.data.result);
+          console.log('updatepayment', response.data.result);
           // console.log('status', from_to)
           this.data = response.data.result
           this.data = Object.values(this.data);
+          const combinedArray = []
+          for (let i = 0; i < this.data.length; i++) {
+            const combinedObject = {
+              bank_account_number: this.data[i].bank_account_number,
+              emp_code: this.data[i].emp_code,
+              name: this.data[i].name,
+              total_allowance: parseFloat(this.data[i].total_allowance),
+            }
+            combinedArray.push(combinedObject);
+          }
+          for (let i = 0; i < this.data2.length; i++) {
+            const combinedObject = {
+              bank_account_number: this.data2[i].bank_account_number,
+              emp_code: this.data2[i].emp_code,
+              name: this.data2[i].name,
+              total_allowance: parseFloat(this.data2[i].total_allowance),
+            }
+            combinedArray.push(combinedObject);
+          }
+          for (let i = 0; i < this.data3.length; i++) {
+            const combinedObject = {
+              bank_account_number: this.data3[i].bank_account_number,
+              emp_code: this.data3[i].emp_code,
+              name: this.data3[i].name,
+              total_allowance: parseFloat(this.data3[i].total_allowance),
+            }
+            combinedArray.push(combinedObject);
+          }
+          for (let i = 0; i < this.data4.length; i++) {
+            const combinedObject = {
+              bank_account_number: this.data4[i].bank_account_number,
+              emp_code: this.data4[i].emp_code,
+              name: this.data4[i].name,
+              total_allowance: parseFloat(this.data4[i].total_allowance),
+            }
+            combinedArray.push(combinedObject);
+          }
+          for (let i = 0; i < this.data4.length; i++) {
+            const combinedObject = {
+              bank_account_number: this.data4[i].bank_account_number,
+              emp_code: this.data4[i].emp_code,
+              name: this.data4[i].name,
+              total_allowance: parseFloat(this.data4[i].total_allowance),
+            }
+            combinedArray.push(combinedObject);
+          }
+          this.data = combinedArray
           let date = new Date(this.datepaymentselect);
           let formattedDate = ('0' + date.getDate()).slice(-2) + ('0' + (date.getMonth() + 1)).slice(-2) + date.getFullYear().toString().substr(-2);
           let sumValue = this.data.reduce((acc, obj) => acc + parseFloat(obj.total_allowance), 0);
+          console.log('sumvalue', sumValue)
           sumValue = sumValue.toLocaleString()
           sumValue = sumValue.replace('.', '').padStart(10, '0')
           sumValue = sumValue.replace(',', '')
@@ -118,13 +230,14 @@ export default {
           this.excelarray = header + this.excelarray
           let footer = `T000${this.data.length + 2}0023863014746000000000000000000000000${this.data.length}00000${sumValue}000000000000000000000000000000000000000000000000000000000000000000000000`
           this.excelarray += footer
-          console.log('data', this.excelarray)
-          console.log('dateselect', this.datepaymentselect)
+          // console.log('data', this.excelarray)
+          // console.log('dateselect', this.datepaymentselect)
           let blob = new Blob([this.excelarray], { type: 'text/plain' });
           let link = document.createElement('a');
           link.href = window.URL.createObjectURL(blob);
           link.download = 'output.dat';
           link.click();
+          this.excelarray = ''
           this.alertStatus = 1
           this.dismissCountDown = this.dismissSecs
           this.datepaymentfrom = ''
@@ -152,8 +265,8 @@ export default {
       console.log('updatepayment', from_to)
       await axios.post('http://localhost:4000/updatepaymentstatus2', from_to)
         .then(response => {
-          console.log('updatepayment', response.data.result);
-          console.log('status', from_to)
+          // console.log('updatepayment', response.data.result);
+          // console.log('status', from_to)
           this.alertStatus2 = 1
           this.dismissCountDown = this.dismissSecs
           this.dateupdatefrom = ''
@@ -172,8 +285,8 @@ export default {
         });
       await axios.post('http://localhost:4000/updatepaymentstatus3', from_to)
         .then(response => {
-          console.log('updatepayment', response.data.result);
-          console.log('status', from_to)
+          // console.log('updatepayment', response.data.result);
+          // console.log('status', from_to)
           this.alertStatus2 = 1
           this.dismissCountDown = this.dismissSecs
           this.dateupdatefrom = ''
@@ -192,8 +305,8 @@ export default {
         });
       await axios.post('http://localhost:4000/updatepaymentstatus4', from_to)
         .then(response => {
-          console.log('updatepayment', response.data.result);
-          console.log('status', from_to)
+          // console.log('updatepayment', response.data.result);
+          // console.log('status', from_to)
           this.alertStatus2 = 1
           this.dismissCountDown = this.dismissSecs
           this.dateupdatefrom = ''
