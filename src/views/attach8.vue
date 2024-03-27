@@ -9,7 +9,7 @@
       <!-- <div>
         <h1 style="text-shadow: 2px 2px 5px black;">Attached</h1>
       </div> -->
-      <div style="border: 2px solid gray;border-radius: 10px;height: 400px;box-shadow: 5px 5px 5px #888888;">
+      <div style="border: 2px solid gray;border-radius: 10px;height: 470px;box-shadow: 5px 5px 5px #888888;">
         <b-row style="margin: 20px;">
           <b-col>
             <div style="font-size: 20px;text-align: left;margin-left: 10px;">ตั้งแต่วันที่ (TNOS & Instructor )</div>
@@ -58,6 +58,12 @@
           </b-col>
           <b-col></b-col>
         </b-row>
+        <b-row style="margin: 20px;">
+          <b-col>
+            <div style="font-size: 20px;text-align: left;margin-left: 10px;">หมายเหตุ</div>
+            <b-textarea name="" id="" v-model="titlefooter" placeholder="หมายเหตุ"></b-textarea>
+          </b-col>
+        </b-row>
         <b-row>
           <b-col>
             <div style="text-align: center;">
@@ -67,61 +73,13 @@
           </b-col>
           <b-col>
             <div style="text-align: center;">
-              <b-button variant="outline-primary" @click="getAttach8Excel" style="box-shadow: 5px 5px 5px #888888;">Attached
+              <b-button variant="outline-primary" @click="getAttach8Excel"
+                style="box-shadow: 5px 5px 5px #888888;">Attached
                 8 <b-icon-file-earmark-excel-fill variant="success"></b-icon-file-earmark-excel-fill></b-button>
             </div>
           </b-col>
           <b-col></b-col>
         </b-row>
-        <!-- <b-row style="margin: 20px;">
-          <b-col>
-            <b-form-datepicker style="width: 100%;" id="example-datepickerattach9" v-model="dateattach9from"
-              class="mb-2"></b-form-datepicker>
-          </b-col>
-          <b-col>
-            <b-form-datepicker style="width: 100%;" id="example-datepickerattach92" v-model="dateattach9to"
-              class="mb-2"></b-form-datepicker>
-          </b-col>
-          <b-col>
-            <b-form-datepicker style="width: 100%;" id="example-datepickerattach93" v-model="dateattach9select"
-              class="mb-2"></b-form-datepicker>
-          </b-col>
-          <b-col>
-            <b-input v-on:keyup.enter="getOneAttach9" placeholder="Enter Employee Code"
-              v-model="dataattach9one"></b-input>
-          </b-col>
-          <b-col>
-            <div style="text-align: center;">
-              <b-button variant="outline-danger" @click="getAttach9all"
-                style="box-shadow: 5px 5px 5px #888888;">Attached
-                9</b-button>
-            </div>
-          </b-col>
-        </b-row> -->
-        <!-- <b-row style="margin: 20px;">
-          <b-col>
-            <b-form-datepicker style="width: 100%;" id="example-datepickerattach10" v-model="dateattach10from"
-              class="mb-2"></b-form-datepicker>
-          </b-col>
-          <b-col>
-            <b-form-datepicker style="width: 100%;" id="example-datepickerattach102" v-model="dateattach10to"
-              class="mb-2"></b-form-datepicker>
-          </b-col>
-          <b-col>
-            <b-form-datepicker style="width: 100%;" id="example-datepickerattach103" v-model="dateattach10select"
-              class="mb-2"></b-form-datepicker>
-          </b-col>
-          <b-col>
-            <b-input v-on:keyup.enter="getOneAttach10" placeholder="Enter Employee Code"
-              v-model="dataattach10one"></b-input>
-          </b-col>
-          <b-col>
-            <div style="text-align: center;">
-              <b-button variant="outline-warning" @click="getAttach10" style="box-shadow: 5px 5px 5px #888888;">Attached
-                10</b-button>
-            </div>
-          </b-col>
-        </b-row> -->
       </div>
     </b-container>
   </div>
@@ -169,7 +127,8 @@ export default {
         { value: 2, text: 'จ่ายแล้ว' },
         { value: 3, text: 'ยังไม่จ่าย' }
       ],
-      sumValue: 0
+      sumValue: 0,
+      titlefooter: '',
     }
   },
   methods: {
@@ -478,7 +437,11 @@ export default {
               page.drawText(`${(sumAllowance).toLocaleString()}`, { x: 220, y: yPosition, size: fontSize, font: thaiFont });
               page.drawText(`${sumOT}`, { x: 470, y: yPosition, size: fontSize, font: thaiFont });
               page.drawText(`${sumOverOT}`, { x: 520, y: yPosition, size: fontSize, font: thaiFont });
-              page.drawText(`** หมายเหตุ: ช่องเบี้ยเลี้ยง ประกอบไปด้วย 1.เบี้ยเลี้ยงต่อเที่ยว 2.เงินจูงใจ เบี้ยเลี้ยง หมายถึง สวัสดิการที่เป็นเงินจูงใจในการทํางาน`, { x: 10, y: yPosition - 30, size: 16, font: thaiFont });
+              if (this.titlefooter.length > 0) {
+                page.drawText(`** หมายเหตุ: ${this.titlefooter}`, { x: 10, y: yPosition - 30, size: 16, font: thaiFont });
+              } else {
+                page.drawText(`** หมายเหตุ: ช่องเบี้ยเลี้ยง ประกอบไปด้วย 1.เบี้ยเลี้ยงต่อเที่ยว 2.เงินจูงใจ เบี้ยเลี้ยง หมายถึง สวัสดิการที่เป็นเงินจูงใจในการทํางาน`, { x: 10, y: yPosition - 30, size: 16, font: thaiFont });
+              }
             }
           } else {
             count = 0;
@@ -523,7 +486,11 @@ export default {
               page.drawText(`${sumAllowance.toLocaleString()}`, { x: 220, y: yPosition, size: fontSize, font: thaiFont });
               page.drawText(`${sumOT}`, { x: 470, y: yPosition, size: fontSize, font: thaiFont });
               page.drawText(`${sumOverOT}`, { x: 520, y: yPosition, size: fontSize, font: thaiFont });
-              page.drawText(`** หมายเหตุ: ช่องเบี้ยเลี้ยง ประกอบไปด้วย 1.เบี้ยเลี้ยงต่อเที่ยว 2.เงินจูงใจ เบี้ยเลี้ยง หมายถึง สวัสดิการที่เป็นเงินจูงใจในการทํางาน`, { x: 10, y: yPosition - 30, size: 16, font: thaiFont });
+              if (this.titlefooter.length > 0) {
+                page.drawText(`** หมายเหตุ: ${this.titlefooter}`, { x: 10, y: yPosition - 30, size: 16, font: thaiFont });
+              } else {
+                page.drawText(`** หมายเหตุ: ช่องเบี้ยเลี้ยง ประกอบไปด้วย 1.เบี้ยเลี้ยงต่อเที่ยว 2.เงินจูงใจ เบี้ยเลี้ยง หมายถึง สวัสดิการที่เป็นเงินจูงใจในการทํางาน`, { x: 10, y: yPosition - 30, size: 16, font: thaiFont });
+              }
             }
           }
           //   // console.log('Not same key', result[key][i].ttt_employee_code)

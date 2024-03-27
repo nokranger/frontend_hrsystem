@@ -1,36 +1,52 @@
 <template>
   <div>
-    <nav>
+    <!-- <nav>
       <router-link to="/dashboard" style="font-size: 20px;">Import & Export</router-link> ||
       <router-link to="/Attached" style="font-size: 20px;">Attached</router-link> ||
       <router-link to="/payroll" style="font-size: 20px;">Payroll</router-link>
-    </nav>
-    <b-input v-on:keyup.enter="findtrip" placeholder="Enter TRIP" v-model="findtrips"></b-input>
-    <div>
-      <div>Show trip</div>
-      <p>
-        <tr style="border: 1px solid;">
-          <td style="border: 1px solid;">NO.</td>
-          <td style="border: 1px solid;">Calling Sheet No</td>
-          <td style="border: 1px solid;">TRIP_ALLOWANCE</td>
-          <td style="border: 1px solid;">DEPARTURE_DATETIME</td>
-          <td style="border: 1px solid;">Employee code</td>
-          <td style="border: 1px solid;">NAME</td>
-          <td style="border: 1px solid;">To Name</td>
-          <td style="border: 1px solid;">create_time</td>
-        </tr>
-        <tr v-for="(item, index) in showdatafind" :key="index" style="border: 1px solid;">
-          <td style="border: 1px solid;margin: 5px;">{{ index + 1 }}</td>
-          <td style="border: 1px solid;margin: 5px;">{{ item.calling_sheet_no }}</td>
-          <td style="border: 1px solid;margin: 5px;">{{ item.total_allowance.toLocaleString() }}</td>
-          <td style="border: 1px solid;margin: 5px;">{{ (item.recieve_job_dateandtime) }}</td>
-          <td style="border: 1px solid;margin: 5px;">{{ item.ttt_employee_code }}</td>
-          <td style="border: 1px solid;margin: 5px;">{{ item.tlep_driver_name }}</td>
-          <td style="border: 1px solid;margin: 5px;">{{ item.to_name }}</td>
-          <td style="border: 1px solid;margin: 5px;">{{ item.create_time }}</td>
-        </tr>
-      </p>
-    </div>
+    </nav> -->
+    <b-container>
+      <b-row>
+        <div style="font-weight: bold;font-size: 20px;margin: 5px;">
+          กรุณากรอกหมายเลข TRIP
+        </div>
+        <b-input v-on:keyup.enter="findtrip" placeholder="Enter TRIP" v-model="findtrips"></b-input>
+        <div>
+          <br>
+          <br>
+          <p style="text-align: center;">
+            <tr style="border: 1px solid;">
+              <td style="border: 1px solid;">NO.</td>
+              <td style="border: 1px solid;">Calling Sheet No</td>
+              <td style="border: 1px solid;">TRIP_ALLOWANCE</td>
+              <td style="border: 1px solid;">OT</td>
+              <td style="border: 1px solid;">DEPARTURE_DATETIME</td>
+              <td style="border: 1px solid;">Employee code</td>
+              <td style="border: 1px solid;">NAME</td>
+              <td style="border: 1px solid;">To Name</td>
+              <td style="border: 1px solid;">Payment Status</td>
+              <td style="border: 1px solid;">Payment Date</td>
+              <td style="border: 1px solid;">create_time</td>
+            </tr>
+            <tr v-for="(item, index) in showdatafind" :key="index" style="border: 1px solid;">
+              <td style="border: 1px solid;margin: 5px;">{{ index + 1 }}</td>
+              <td style="border: 1px solid;margin: 5px;">{{ item.calling_sheet_no }}</td>
+              <td style="border: 1px solid;margin: 5px;">{{ item.total_allowance.toLocaleString() }}</td>
+              <td style="border: 1px solid;margin: 5px;">{{ item.total_ot }}</td>
+              <td style="border: 1px solid;margin: 5px;">{{ (item.Working_date) }}</td>
+              <td style="border: 1px solid;margin: 5px;">{{ item.ttt_employee_code }}</td>
+              <td style="border: 1px solid;margin: 5px;">{{ item.tlep_driver_name }}</td>
+              <td style="border: 1px solid;margin: 5px;">{{ item.to_name }}</td>
+              <td v-if="item.payment_status_2 === '1' || item.payment_status_2 === 1" style="border: 1px solid;margin: 5px;">จ่ายแล้ว</td>
+              <td v-if="item.payment_status_2 === 0 || item.payment_status_2 === '0' || item.payment_status_2 === null || item.payment_status_2 === undefined" style="border: 1px solid;margin: 5px;">ยังไม่จ่าย</td>
+              <td style="border: 1px solid;margin: 5px;">{{ item.payment_date_st }}</td>
+              <td style="border: 1px solid;margin: 5px;">{{ item.create_time }}</td>
+            </tr>
+          </p>
+        </div>
+      </b-row>
+
+    </b-container>
   </div>
 </template>
 
@@ -50,6 +66,8 @@ export default {
     }
   },
   mounted() {
+    let data = '123'
+    console.log('leng', data.length)
   },
   methods: {
     async findtrip() {
@@ -203,7 +221,7 @@ export default {
           }
           this.showdatafind = combinedArray
           this.showdatafind = this.showdatafind.filter((i) => {
-            return i.calling_sheet_no === this.findtrips
+            return i.calling_sheet_no === this.findtrips.toUpperCase()
           })
           console.log('combinedObject', this.showdatafind)
         })

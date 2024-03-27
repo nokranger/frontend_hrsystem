@@ -1,10 +1,10 @@
 <template>
   <div>
-    <nav>
+    <!-- <nav>
       <router-link to="/dashboard" style="font-size: 20px;">Import & Export</router-link> ||
       <router-link to="/Attached" style="font-size: 20px;">Attached</router-link> ||
       <router-link to="/payroll" style="font-size: 20px;">Payroll</router-link>
-    </nav>
+    </nav> -->
     <b-container>
       <div>
         <h1 style="text-shadow: 2px 2px 5px black;font-size: 25px;">Payroll</h1>

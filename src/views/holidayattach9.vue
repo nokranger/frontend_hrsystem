@@ -1,14 +1,6 @@
 <template>
   <div>
-    <!-- <nav>
-      <router-link to="/dashboard">Import & Export</router-link> ||
-      <router-link to="/Attached">Attached</router-link> ||
-      <router-link to="/payroll">Payroll</router-link>
-    </nav> -->
     <b-container>
-      <!-- <div>
-        <h1 style="text-shadow: 2px 2px 5px black;">Attached</h1>
-      </div> -->
       <div style="border: 2px solid gray;border-radius: 10px;height: 400px;box-shadow: 5px 5px 5px #888888;">
         <b-row style="margin: 20px;">
           <b-col>
@@ -35,8 +27,6 @@
             </div>
           </b-col>
           <b-col>
-            <!-- <b-input v-on:keyup.enter="getOneAttach9" placeholder="Enter Employee Code"
-              v-model="dataattach7one"></b-input> -->
           </b-col>
           <b-col></b-col>
         </b-row>
@@ -56,77 +46,13 @@
             </div>
           </b-col>
           <b-col>
-            <!-- <div>
-              <b-button variant="outline-primary" @click="updatepayment9">Update payment status</b-button>
-            </div> -->
           </b-col>
         </b-row>
         <b-row>
           <b-col>
-            <!-- <div>
-              <b-form-checkbox
-                id="checkbox-1"
-                v-model="status"
-                name="checkbox-1"
-                value="1"
-                unchecked-value="not_accepted"
-              >
-                <div style="margin: 10px;font-size: 20px;">ยืนยันการจ่ายเงิน</div>
-              </b-form-checkbox>
-            </div> -->
           </b-col>
         </b-row>
-        <!-- <div>
-          <h1 style="text-shadow: 2px 2px 5px black;">Preview</h1>
-        </div>
-        <b-row style="margin: 20px;">
-          <b-col>
-            <div>
-              <b-form-select id="selectattach9" v-model="selectedattach9" :options="optionsattach9"></b-form-select>
-            </div>
-          </b-col>
-          <b-col>
-            <div style="text-align: center;">
-              <b-button variant="outline-primary" @click="getAttach9allPdf"
-                style="box-shadow: 5px 5px 5px #888888;">Preview PDF <b-icon-file-earmark-pdf-fill variant="danger"></b-icon-file-earmark-pdf-fill></b-button>
-            </div>
-          </b-col>
-          <b-col>
-            <div style="text-align: center;">
-              <b-button variant="outline-primary" @click="getAttach9excelP"
-                style="box-shadow: 5px 5px 5px #888888;">Preview Excel <b-icon-file-earmark-excel-fill variant="success"></b-icon-file-earmark-excel-fill></b-button>
-            </div>
-          </b-col>
-        </b-row> -->
       </div>
-
-      <!-- <div style="border: 2px solid gray;border-radius: 10px;height: 400px;box-shadow: 5px 5px 5px #888888;">
-        <b-row style="margin: 20px;">
-          <b-col>
-            <b-form-datepicker style="width: 100%;" id="example-datepickerattach9" v-model="dateattach9from"
-              class="mb-2"></b-form-datepicker>
-          </b-col>
-          <b-col>
-            <b-form-datepicker style="width: 100%;" id="example-datepickerattach92" v-model="dateattach9to"
-              class="mb-2"></b-form-datepicker>
-          </b-col>
-          <b-col>
-            <b-form-datepicker style="width: 100%;" id="example-datepickerattach93" v-model="dateattach9select"
-              class="mb-2"></b-form-datepicker>
-          </b-col>
-          <b-col>
-            <b-input v-on:keyup.enter="getOneAttach9" placeholder="Enter Employee Code"
-              v-model="dataattach9one"></b-input>
-          </b-col>
-          <b-col>
-            <div style="text-align: center;">
-              <b-button variant="outline-danger" @click="getAttach9all"
-                style="box-shadow: 5px 5px 5px #888888;">Attached
-                9</b-button>
-            </div>
-          </b-col>
-        </b-row>
-      </div> -->
     </b-container>
   </div>
 </template>
@@ -227,16 +153,17 @@ export default {
         from: this.dateattach9from,
         to: this.dateattach9to
       }
-      await axios.post('http://localhost:4000/getdataattach9', from_to)
+      await axios.post('http://localhost:4000/getdataattachholiday', from_to)
         .then(response => {
           console.log('resdata', response.data.result);
           let dataexcel = response.data.result
           this.excelarrayattach9 = Object.values(dataexcel);
+          // this.pdfdata = this.excelarrayattach9
         })
         .catch(error => {
           console.error('Error fetching data:', error.message);
         });
-      await axios.post('http://localhost:4000/getdataattach92', from_to)
+      await axios.post('http://localhost:4000/getdataattachholiday12', from_to)
         .then(response => {
           console.log('resdata', response.data.result);
           let dataexcel = response.data.result
@@ -244,17 +171,17 @@ export default {
           const combinedArray = []
           for (let i = 0; i < this.excelarrayattach9.length; i++) {
             const combinedObject = {
-              emp_code: this.excelarrayattach9[i].ttt_employee_code || '',
-              driver_name: this.excelarrayattach9[i].tlep_driver_name || '',
-              total_ot: this.excelarrayattach9[i].total_ot || '',
+              emp_code: this.excelarrayattach9[i].emp_code,
+              driver_name: this.excelarrayattach9[i].NAME,
+              total_ot: this.excelarrayattach9[i].total_ot,
             }
             combinedArray.push(combinedObject);
           }
           for (let i = 0; i < this.excelarrayattach92.length; i++) {
             const combinedObject = {
-              emp_code: this.excelarrayattach92[i].DRIVER1 || '',
-              driver_name: this.excelarrayattach92[i].NAME || '',
-              total_ot: this.excelarrayattach92[i].OT_HOURS || '',
+              emp_code: this.excelarrayattach92[i].emp_code,
+              driver_name: this.excelarrayattach92[i].NAME,
+              total_ot: this.excelarrayattach92[i].total_ot,
             }
             combinedArray.push(combinedObject);
           }
@@ -274,46 +201,6 @@ export default {
         .catch(error => {
           console.error('Error fetching data:', error.message);
         });
-      // await axios.post('http://localhost:4000/getdataattach93', from_to)
-      //   .then(response => {
-      //     console.log('resdata', response.data.result);
-      //     let dataexcel = response.data.result
-      //     this.excelarrayattach93 = Object.values(dataexcel);
-
-      //     const combinedArray = []
-      //     for (let i = 0; i < this.excelarrayattach9.length; i++) {
-      //       const combinedObject = {
-      //         emp_code: this.excelarrayattach9[i].ttt_employee_code || '',
-      //         driver_name: this.excelarrayattach9[i].tlep_driver_name || '',
-      //         total_ot: this.excelarrayattach9[i].total_ot || '',
-      //       }
-      //       combinedArray.push(combinedObject);
-      //     }
-      //     for (let i = 0; i < this.excelarrayattach92.length; i++) {
-      //       const combinedObject = {
-      //         emp_code: this.excelarrayattach92[i].DRIVER1 || '',
-      //         driver_name: this.excelarrayattach92[i].NAME || '',
-      //         total_ot: this.excelarrayattach92[i].OT_HOURS || '',
-      //       }
-      //       combinedArray.push(combinedObject);
-      //     }
-      //     for (let i = 0; i < this.excelarrayattach93.length; i++) {
-      //       const combinedObject = {
-      //         emp_code: this.excelarrayattach93[i].DRIVER1 || '',
-      //         driver_name: this.excelarrayattach93[i].NAME || '',
-      //         total_ot: this.excelarrayattach93[i].OT_HOURS || '',
-      //       }
-      //       combinedArray.push(combinedObject);
-      //     }
-      //     this.pdfdata = combinedArray
-      //     this.pdfdata  = this.pdfdata.filter((i) => {
-      //     return i.total_ot !== '0' && i.total_ot !== ''
-      //   })
-      //   console.log('Error fetching data:', this.pdfdata);
-      //   })
-      //   .catch(error => {
-      //     console.error('Error fetching data:', error.message);
-      //   });
       await this.generatePDF9(this.pdfdata)
     },
     async getAttach9excel() {
@@ -321,7 +208,7 @@ export default {
         from: this.dateattach9from,
         to: this.dateattach9to
       }
-      await axios.post('http://localhost:4000/getdataattach9', from_to)
+      await axios.post('http://localhost:4000/getdataattachholiday', from_to)
         .then(response => {
           console.log('resdata', response.data.result);
           let dataexcel = response.data.result
@@ -331,7 +218,7 @@ export default {
         .catch(error => {
           console.error('Error fetching data:', error.message);
         });
-      await axios.post('http://localhost:4000/getdataattach92', from_to)
+      await axios.post('http://localhost:4000/getdataattachholiday12', from_to)
         .then(response => {
           console.log('resdata', response.data.result);
           let dataexcel = response.data.result
@@ -340,17 +227,17 @@ export default {
           const combinedArray = []
           for (let i = 0; i < this.excelarrayattach9.length; i++) {
             const combinedObject = {
-              emp_code: this.excelarrayattach9[i].ttt_employee_code,
-              driver_name: this.excelarrayattach9[i].tlep_driver_name,
+              emp_code: this.excelarrayattach9[i].emp_code,
+              driver_name: this.excelarrayattach9[i].NAME,
               total_ot: this.excelarrayattach9[i].total_ot,
             }
             combinedArray.push(combinedObject);
           }
           for (let i = 0; i < this.excelarrayattach92.length; i++) {
             const combinedObject = {
-              emp_code: this.excelarrayattach92[i].DRIVER1,
+              emp_code: this.excelarrayattach92[i].emp_code,
               driver_name: this.excelarrayattach92[i].NAME,
-              total_ot: this.excelarrayattach92[i].OT_HOURS,
+              total_ot: this.excelarrayattach92[i].total_ot,
             }
             combinedArray.push(combinedObject);
           }
@@ -371,46 +258,6 @@ export default {
         .catch(error => {
           console.error('Error fetching data:', error.message);
         });
-      // await axios.post('http://localhost:4000/getdataattach93', from_to)
-      //   .then(response => {
-      //     console.log('resdata', response.data.result);
-      //     let dataexcel = response.data.result
-      //     this.excelarrayattach93 = Object.values(dataexcel);
-      //     // console.log('filterEX', this.excelarrayattach93)
-      //   //   const combinedArray = []
-      //   //   for (let i = 0; i < this.excelarrayattach9.length; i++) {
-      //   //     const combinedObject = {
-      //   //       emp_code: this.excelarrayattach9[i].ttt_employee_code,
-      //   //       driver_name: this.excelarrayattach9[i].tlep_driver_name,
-      //   //       total_ot: this.excelarrayattach9[i].total_ot,
-      //   //     }
-      //   //     combinedArray.push(combinedObject);
-      //   //   }
-      //   //   for (let i = 0; i < this.excelarrayattach92.length; i++) {
-      //   //     const combinedObject = {
-      //   //       emp_code: this.excelarrayattach92[i].DRIVER1,
-      //   //       driver_name: this.excelarrayattach92[i].NAME,
-      //   //       total_ot: this.excelarrayattach92[i].OT_HOURS,
-      //   //     }
-      //   //     combinedArray.push(combinedObject);
-      //   //   }
-      //   //   for (let i = 0; i < this.excelarrayattach93.length; i++) {
-      //   //     const combinedObject = {
-      //   //       emp_code: this.excelarrayattach93[i].DRIVER1,
-      //   //       driver_name: this.excelarrayattach93[i].NAME,
-      //   //       total_ot: ''
-      //   //     }
-      //   //     combinedArray.push(combinedObject);
-      //   //   }
-      //   //   this.pdfdata = combinedArray
-      //   //   this.pdfdata = combinedArray
-      //   //   this.pdfdata  = this.pdfdata.filter((i) => {
-      //   //   return i.total_ot !== '0' && i.total_ot !== null
-      //   // })
-      //   })
-      //   .catch(error => {
-      //     console.error('Error fetching data:', error.message);
-      //   });
       await this.exporttoexcel(this.pdfdata)
     },
     async exporttoexcel(data) {

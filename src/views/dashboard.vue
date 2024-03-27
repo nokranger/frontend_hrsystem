@@ -1,10 +1,10 @@
 <template>
   <div>
-    <nav>
+    <!-- <nav>
       <router-link to="/dashboard" style="font-size: 20px;">Import & Export</router-link> ||
       <router-link to="/Attached" style="font-size: 20px;">Attached</router-link> ||
       <router-link to="/payroll" style="font-size: 20px;">Payroll</router-link>
-    </nav>
+    </nav> -->
     <b-container>
       <b-modal id="modal-welfare" size="xl" title="ข้อมูล Welfare ที่ซ้ำ" hide-footer>
         <tr style="border: 1px solid;">
@@ -29,7 +29,7 @@
           <td style="border: 1px solid;">{{ item.create_time }}</td>
         </tr>
       </b-modal>
-      <b-modal id="modal-welfare" size="xl" title="ข้อมูล Welfare ที่ซ้ำ" hide-footer>
+      <b-modal id="modal-Holiday" size="xl" title="ข้อมูล Holiday ที่ซ้ำ" hide-footer>
         <tr style="border: 1px solid;">
           <td style="border: 1px solid;">NO.</td>
           <td style="border: 1px solid;">TRIP_NO</td>
@@ -146,7 +146,7 @@
             </div>
             <b-form-select
               style="display: inline;width: 300px;height: 40px;font-family: 'Noto Serif', sans-serif;font-weight: bold;font-size: 20px;border-radius:10px;border:1px solid #cccccc;"
-              id="selectoption" v-model="selectOptionInstructor" :options="deleteInstrutor"
+              id="selectoption1" v-model="selectOptionInstructor" :options="deleteInstrutor"
               v-on:change="Instructordelete()"></b-form-select>
           </b-col>
         </b-row>
@@ -166,7 +166,7 @@
             </div>
             <b-form-select
               style="display: inline;width: 300px;height: 40px;font-family: 'Noto Serif', sans-serif;font-weight: bold;font-size: 20px;border-radius:10px;border:1px solid #cccccc;"
-              id="selectoption" v-model="selectOption" :options="deleteTnos" v-on:change="tnosdelete()"></b-form-select>
+              id="selectoption2" v-model="selectOption" :options="deleteTnos" v-on:change="tnosdelete()"></b-form-select>
           </b-col>
         </b-row>
         <br>
@@ -185,7 +185,7 @@
             </div>
             <b-form-select
               style="display: inline;width: 300px;height: 40px;font-family: 'Noto Serif', sans-serif;font-weight: bold;font-size: 20px;border-radius:10px;border:1px solid #cccccc;"
-              id="selectoption" v-model="selectOptionwelfare" :options="deleteWelfare"
+              id="selectoption3" v-model="selectOptionwelfare" :options="deleteWelfare"
               v-on:change="Welfaredelete()"></b-form-select>
           </b-col>
         </b-row>
@@ -200,6 +200,13 @@
             </div>
           </b-col>
           <b-col>
+            <div style="font-weight: bold;font-size: 20px;margin: 5px;">
+              เลือกช่วงเวลาสำหรับลบข้อมูล Holiday
+            </div>
+            <b-form-select
+              style="display: inline;width: 300px;height: 40px;font-family: 'Noto Serif', sans-serif;font-weight: bold;font-size: 20px;border-radius:10px;border:1px solid #cccccc;"
+              id="selectoption4" v-model="selectOptionHoliday" :options="deleteHoliday"
+              v-on:change="Holidaydelete()"></b-form-select>
           </b-col>
         </b-row>
       </div>
@@ -358,6 +365,26 @@ export default {
       .catch(error => {
         console.error('Error fetching data:', error.message);
       });
+      await axios.get('http://localhost:4000/selectdeleteholiday')
+      .then(response => {
+        this.deleteHoliday = Object.values(response.data.result)
+        // console.log('dadas', this.deleteHoliday)
+        this.deleteHoliday = this.deleteHoliday.map((data, i) => {
+          return {
+            value: data.create_time,
+            text: data.create_time
+          }
+        })
+        let nulls = {
+          value: null,
+          text: 'กรุณาเลือกช่วงเวลา'
+        }
+        this.deleteHoliday.push(nulls)
+        // console.log('dadas22', this.deleteInstrutor)
+      })
+      .catch(error => {
+        console.error('Error fetching data:', error.message);
+      });
   },
   methods: {
     tnosdelete() {
@@ -416,7 +443,7 @@ export default {
       let select = {
         create_time: this.selectOptionHoliday,
       }
-      axios.post('http://localhost:4000/deletewelfare', select)
+      axios.post('http://localhost:4000/deleteholiday', select)
         .then(response => {
           // console.log('delete done', response)
           this.alertStatus2 = 1
@@ -690,7 +717,17 @@ export default {
         .catch(error => {
           console.error('Error fetching data:', error.message);
         });
-      await axios.post('http://localhost:4000/instructorgetdata', from_to)
+      await axios.post('http://localhost:4000/holidaygetdata', from_to)
+        .then(response => {
+          // console.log('resdatainstructor', response.data.result);
+          let dataexcel = response.data.result
+          this.excelarrayHoliday = Object.values(dataexcel)
+          console.log('JOT', this.excelarrayHoliday)
+        })
+        .catch(error => {
+          console.error('Error fetching data:', error.message);
+        });
+        await axios.post('http://localhost:4000/instructorgetdata', from_to)
         .then(response => {
           // console.log('resdatainstructor', response.data.result);
           let dataexcel = response.data.result
@@ -758,7 +795,8 @@ export default {
               allowance_payment_date: this.excelarray[i].allowance_payment_date,
               payment_status_2: this.excelarray[i].payment_status_2,
               payment_date_st: this.excelarray[i].payment_date_st,
-              TAX_FLAG: this.excelarray[i].TAX_FLAG
+              TAX_FLAG: this.excelarray[i].TAX_FLAG,
+              create_time: this.excelarray[i].create_time
             };
 
             combinedArray.push(combinedObject);
@@ -776,8 +814,8 @@ export default {
               ttt_employee_code: this.excelarrayinstructor[j].DRIVER1,
               trip_no: this.excelarrayinstructor[j].TRIP_NO,
               payment_status_2: this.excelarrayinstructor[j].payment_status_2,
-              payment_date_st: this.excelarrayinstructor[j].payment_date_st
-
+              payment_date_st: this.excelarrayinstructor[j].payment_date_st,
+              create_time: this.excelarrayinstructor[j].create_time
               // BB: object1[i].BB,
               // CC: object2[i].AC || object1[i].CC
             };
@@ -797,7 +835,27 @@ export default {
               trip_no: this.excelarraywelfare[j].TRIP_NO,
               payment_status_2: this.excelarraywelfare[j].payment_status_2,
               payment_date_st: this.excelarraywelfare[j].payment_date_st,
-
+              create_time: this.excelarraywelfare[j].create_time
+              // BB: object1[i].BB || '',
+              // CC: object2[i].AC || object1[i].CC || ''
+            };
+            combinedArray.push(combinedObject);
+          }
+          for (let j = 0; j < this.excelarrayHoliday.length; j++) {
+            const combinedObject = {
+              // AA: this.excelarrayHoliday[j].DEALER1,
+              to_name: this.excelarrayHoliday[j].DEALER1,
+              tlep_driver_name: this.excelarrayHoliday[j].NAME,
+              TAX_FLAG: this.excelarrayHoliday[j].TAX_FLAG,
+              Working_date: this.excelarrayHoliday[j].DEPARTURE_DATETIME,
+              yard_out_dateandtime: this.excelarrayHoliday[j].YARDOUTDATE,
+              total_allowance: parseFloat(this.excelarrayHoliday[j].TOTAL_ALLOWANCE),
+              total_ot: this.excelarrayHoliday[j].OT_HOURS,
+              ttt_employee_code: this.excelarrayHoliday[j].DRIVER1,
+              trip_no: this.excelarrayHoliday[j].TRIP_NO,
+              payment_status_2: this.excelarrayHoliday[j].payment_status_2,
+              payment_date_st: this.excelarrayHoliday[j].payment_date_st,
+              create_time: this.excelarrayHoliday[j].create_time
               // BB: object1[i].BB || '',
               // CC: object2[i].AC || object1[i].CC || ''
             };
@@ -814,7 +872,7 @@ export default {
           XLSX.utils.book_append_sheet(workbook, worksheet, 'MasterData');
 
           // Save the workbook to a file
-          XLSX.writeFile(workbook, 'exported_data.xlsx');
+          XLSX.writeFile(workbook, 'exported_Master_data.xlsx');
         })
         .catch(error => {
           console.error('Error fetching data:', error.message);
@@ -1133,6 +1191,7 @@ export default {
             return acc
           }, {})
         })
+        console.log('item', jsonobjectHoliday)
         let jsonMapHoliday = jsonobjectHoliday.map((data, i) => {
           return {
             TRIP_NO: data.item1,
@@ -1143,10 +1202,10 @@ export default {
             DEPARTURE_DATETIME: data.item6,
             YARDOUTDATE: data.item7,
             DRIVER1: data.item8,
-            NAME: data.item9,
-            DRIVER2: data.item10,
+            NAME: null,
+            DRIVER2: null,
             NULLS: data.item11,
-            DEALER1: data.item12,
+            DEALER1: data.item10,
             DEALER2: data.item13,
             DEALER3: data.item14,
             DEALER4: data.item15,
@@ -1156,11 +1215,12 @@ export default {
             UNITS3: data.item19,
             UNITS4: data.item20,
             UNITS5: data.item21,
-            TAX_FLAG: data.item22,
+            TAX_FLAG: data.item20,
             create_time: new Date().toLocaleString()
 
           }
         })
+        // console.log('item', jsonMapHoliday)
         jsonMapHoliday = jsonMapHoliday.filter((i) => {
           return i.TRIP_NO !== 'SUM' && i.TRIP_NO !== undefined
         })
@@ -1174,7 +1234,7 @@ export default {
           let dup = this.jsondata2Holiday.filter(a => this.excelarray.some(b => a.TRIP_NO === b.TRIP_NO))
           console.log('IsDuplicate', dup)
           if (dup.length > 0) {
-            this.showHolidayDup = dup
+            this.showHoliday = dup
             this.$root.$emit("bv::show::modal", "modal-Holiday");
           }
           if (this.excelarray.length > this.jsondata2Holiday.length) {

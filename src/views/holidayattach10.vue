@@ -43,6 +43,12 @@
         </b-row>
         <b-row style="margin: 20px;">
           <b-col>
+            <div style="font-size: 20px;text-align: left;margin-left: 10px;">หมายเหตุ</div>
+            <b-textarea name="" id="" v-model="titlefooter" placeholder="หมายเหตุ"></b-textarea>
+          </b-col>
+        </b-row>
+        <b-row style="margin: 20px;">
+          <b-col>
             <div style="text-align: center;">
               <b-button variant="outline-primary" @click="getAttach10" style="box-shadow: 5px 5px 5px #888888;">Attached
                 10 <b-icon-file-earmark-pdf-fill variant="danger"></b-icon-file-earmark-pdf-fill></b-button>
@@ -106,7 +112,8 @@ export default {
         { value: 2, text: 'จ่ายแล้ว' },
         { value: 3, text: 'ยังไม่จ่าย' }
       ],
-      sumValue: 0
+      sumValue: 0,
+      titlefooter: ''
     }
   },
   methods: {
@@ -136,12 +143,45 @@ export default {
         emp_code: this.dataattach10one
       }
       console.log('resdataFromTo', from_to);
-      await axios.post('http://localhost:4000/getdataattach10', from_to)
+      await axios.post('http://localhost:4000/getdataattachholiday2', from_to)
         .then(response => {
-          console.log('resdata', response.data.result);
+          console.log('resdata1', response.data.result);
           let dataexcel = response.data.result
-          this.excelarrayattach8 = Object.values(dataexcel);
-          this.pdfdata = this.excelarrayattach8
+          this.excelarrayattach10 = Object.values(dataexcel);
+          // this.pdfdata = this.excelarrayattach10
+        })
+        .catch(error => {
+          console.error('Error fetching data:', error.message);
+        });
+      await axios.post('http://localhost:4000/getdataattachholiday22', from_to)
+        .then(response => {
+          console.log('resdata2', response.data.result);
+          let dataexcel = response.data.result
+          this.excelarrayattach102 = Object.values(dataexcel);
+          const combinedArray = []
+          for (let i = 0; i < this.excelarrayattach10.length; i++) {
+            const combinedObject = {
+              ttt_employee_code: this.excelarrayattach10[i].emp_code,
+              total_ot: this.excelarrayattach10[i].total_ot,
+              recieve_job_dateandtime: this.excelarrayattach10[i].recieve_job_dateandtime,
+              tlep_driver_name: this.excelarrayattach10[i].NAME,
+              calling_sheet_no: this.excelarrayattach10[i].TRIP_NO,
+              to_name: this.excelarrayattach10[i].DEALER1
+            }
+            combinedArray.push(combinedObject);
+          }
+          for (let i = 0; i < this.excelarrayattach102.length; i++) {
+            const combinedObject = {
+              ttt_employee_code: this.excelarrayattach102[i].emp_code,
+              total_ot: this.excelarrayattach102[i].total_ot,
+              recieve_job_dateandtime: this.excelarrayattach102[i].recieve_job_dateandtime,
+              tlep_driver_name: this.excelarrayattach102[i].NAME,
+              calling_sheet_no: this.excelarrayattach102[i].TRIP_NO,
+              to_name: this.excelarrayattach102[i].DEALER1
+            }
+            combinedArray.push(combinedObject);
+          }
+          this.pdfdata = combinedArray
           this.pdfdata = this.pdfdata.reduce((acc, obj) => {
             // If the key doesn't exist, create an array for it
             if (!acc[obj.ttt_employee_code]) {
@@ -166,12 +206,45 @@ export default {
         emp_code: this.dataattach10one
       }
       console.log('resdataFromTo', from_to);
-      await axios.post('http://localhost:4000/getdataattach10', from_to)
+      await axios.post('http://localhost:4000/getdataattachholiday2', from_to)
         .then(response => {
           console.log('resdata', response.data.result);
           let dataexcel = response.data.result
-          this.excelarrayattach8 = Object.values(dataexcel);
-          this.pdfdata = this.excelarrayattach8
+          this.excelarrayattach10 = Object.values(dataexcel);
+          // this.pdfdata = this.excelarrayattach10
+        })
+        .catch(error => {
+          console.error('Error fetching data:', error.message);
+        });
+      await axios.post('http://localhost:4000/getdataattachholiday22', from_to)
+        .then(response => {
+          console.log('resdata', response.data.result);
+          let dataexcel = response.data.result
+          this.excelarrayattach102 = Object.values(dataexcel);
+          const combinedArray = []
+          for (let i = 0; i < this.excelarrayattach10.length; i++) {
+            const combinedObject = {
+              ttt_employee_code: this.excelarrayattach10[i].emp_code,
+              total_ot: this.excelarrayattach10[i].total_ot,
+              recieve_job_dateandtime: this.excelarrayattach10[i].DEPARTURE_DATETIME,
+              tlep_driver_name: this.excelarrayattach10[i].NAME,
+              calling_sheet_no: this.excelarrayattach10[i].TRIP_NO,
+              to_name: this.excelarrayattach10[i].DEALER1
+            }
+            combinedArray.push(combinedObject);
+          }
+          for (let i = 0; i < this.excelarrayattach102.length; i++) {
+            const combinedObject = {
+              ttt_employee_code: this.excelarrayattach102[i].emp_code,
+              total_ot: this.excelarrayattach102[i].total_ot,
+              recieve_job_dateandtime: this.excelarrayattach102[i].DEPARTURE_DATETIME,
+              tlep_driver_name: this.excelarrayattach102[i].NAME,
+              calling_sheet_no: this.excelarrayattach102[i].TRIP_NO,
+              to_name: this.excelarrayattach102[i].DEALER1
+            }
+            combinedArray.push(combinedObject);
+          }
+          this.pdfdata = combinedArray
           console.log('resdatareduce', this.pdfdata);
         })
         .catch(error => {
@@ -223,8 +296,8 @@ export default {
             // const yNameStart = yStart + 20;
             page.drawText(`${result[key][i].to_name}`, { x: 240, y: yPosition, size: fontSize, font: thaiFont });
             // const yPriceStart = yNameStart + 20;
-            page.drawText(`${result[key][i].standard_ot}`, { x: 390, y: yPosition, size: fontSize, font: thaiFont });
-            page.drawText(`${result[key][i].over_ot}`, { x: 480, y: yPosition, size: fontSize, font: thaiFont });
+            // page.drawText(`${result[key][i].standard_ot}`, { x: 390, y: yPosition, size: fontSize, font: thaiFont });
+            // page.drawText(`${result[key][i].over_ot}`, { x: 480, y: yPosition, size: fontSize, font: thaiFont });
             page.drawText(`${result[key][i].total_ot}`, { x: 540, y: yPosition, size: fontSize, font: thaiFont });
             yPosition -= descriptionHeight; // Adjust x-position for the next entry
             keycount = result[key][i].ttt_employee_code
@@ -235,11 +308,15 @@ export default {
               sumOverOT = result[key].reduce((acc, obj) => acc + parseFloat(obj.over_ot), 0);
               // page.drawText(`${sum}`, { x: 530, y: yPosition, size: fontSize, font: thaiFont });
               page.drawText(`__________________________________________________________________________________`, { x: 10, y: yPosition + 20, size: 20, font: thaiFont });
-              page.drawText(`${sumStadardOt}`, { x: 390, y: yPosition, size: fontSize, font: thaiFont });
-              page.drawText(`${sumOverOT}`, { x: 480, y: yPosition, size: fontSize, font: thaiFont });
+              // page.drawText(`${sumStadardOt}`, { x: 390, y: yPosition, size: fontSize, font: thaiFont });
+              // page.drawText(`${sumOverOT}`, { x: 480, y: yPosition, size: fontSize, font: thaiFont });
               page.drawText(`${sumOT}`, { x: 540, y: yPosition, size: fontSize, font: thaiFont });
-              page.drawText(`หมายเหตุ: โปรดตรวจสอบข้อมูลตัวเลขในเอกสารนี้ให้ละเอียด หากไม่ถูกต้องหรือสงสัยให้แจ้งฝ่ายบุคคลทันทีหรือในเวลาทํางานปกติ`, { x: 10, y: yPosition - 30, size: 16, font: thaiFont });
-              page.drawText(`หากพ้นกําหนด 15 วัน นับจากวันที่จ่ายให้ในนงวดนั้น ๆ แล้ว บริษัทถือว่าท่านยอมรับและไม่ติดใจเรียกร้องสิทธิประโยชน์ใด ๆ ทุกประการ`, { x: 10, y: yPosition - 50, size: 16, font: thaiFont });
+              if (this.titlefooter.length > 0) {
+                page.drawText(`** หมายเหตุ: ${this.titlefooter}`, { x: 10, y: yPosition - 30, size: 16, font: thaiFont });
+              } else {
+                page.drawText(`หมายเหตุ: โปรดตรวจสอบข้อมูลตัวเลขในเอกสารนี้ให้ละเอียด หากไม่ถูกต้องหรือสงสัยให้แจ้งฝ่ายบุคคลทันทีหรือในเวลาทํางานปกติ`, { x: 10, y: yPosition - 30, size: 16, font: thaiFont });
+                page.drawText(`หากพ้นกําหนด 15 วัน นับจากวันที่จ่ายให้ในนงวดนั้น ๆ แล้ว บริษัทถือว่าท่านยอมรับและไม่ติดใจเรียกร้องสิทธิประโยชน์ใด ๆ ทุกประการ`, { x: 10, y: yPosition - 50, size: 16, font: thaiFont });
+              }
             }
           } else {
             // console.log('NotSameKeyCount', keycount)
@@ -263,9 +340,9 @@ export default {
             page.drawText(`วันที่เดินทาง`, { x: 35, y: 700, size: fontSize, font: thaiFont });
             page.drawText(`เลขที่ใบส่งสินค้า`, { x: 150, y: 700, size: fontSize, font: thaiFont });
             page.drawText(`ตัวแทนจำหน่าย`, { x: 240, y: 700, size: fontSize, font: thaiFont });
-            page.drawText(`ชั่วโมงเกินเวลา`, { x: 370, y: 700, size: fontSize, font: thaiFont });
-            page.drawText(`เพิ่ม/ลด`, { x: 460, y: 700, size: fontSize, font: thaiFont });
-            page.drawText(`รวม`, { x: 540, y: 700, size: fontSize, font: thaiFont });
+            // page.drawText(`ชั่วโมงเกินเวลา`, { x: 370, y: 700, size: fontSize, font: thaiFont });
+            // page.drawText(`เพิ่ม/ลด`, { x: 460, y: 700, size: fontSize, font: thaiFont });
+            page.drawText(`จำนวน OT`, { x: 510, y: 700, size: fontSize, font: thaiFont });
             page.drawText(`__________________________________________________________________________________`, { x: 10, y: 700, size: 20, font: thaiFont });
             // page.drawText(`Page${countPage}`, { x: 450, y: 720 , size: fontSize});
             yPosition = height - margin;
@@ -274,8 +351,8 @@ export default {
             // const yNameStart = yStart + 20;
             page.drawText(`${result[key][i].to_name}`, { x: 240, y: yPosition, size: fontSize, font: thaiFont });
             // const yPriceStart = yNameStart + 20;
-            page.drawText(`${result[key][i].standard_ot}`, { x: 390, y: yPosition, size: fontSize, font: thaiFont });
-            page.drawText(`${result[key][i].over_ot}`, { x: 480, y: yPosition, size: fontSize, font: thaiFont });
+            // page.drawText(`${result[key][i].standard_ot}`, { x: 390, y: yPosition, size: fontSize, font: thaiFont });
+            // page.drawText(`${result[key][i].over_ot}`, { x: 480, y: yPosition, size: fontSize, font: thaiFont });
             page.drawText(`${result[key][i].total_ot}`, { x: 540, y: yPosition, size: fontSize, font: thaiFont });
             yPosition -= descriptionHeight; // Adjust x-position for the next entry
             // count++
@@ -286,11 +363,15 @@ export default {
               sumOverOT = result[key].reduce((acc, obj) => acc + parseFloat(obj.over_ot), 0);
               // page.drawText(`${sum}`, { x: 530, y: yPosition, size: fontSize, font: thaiFont });
               page.drawText(`__________________________________________________________________________________`, { x: 10, y: yPosition + 20, size: 20, font: thaiFont });
-              page.drawText(`${sumStadardOt}`, { x: 390, y: yPosition, size: fontSize, font: thaiFont });
-              page.drawText(`${sumOverOT}`, { x: 480, y: yPosition, size: fontSize, font: thaiFont });
+              // page.drawText(`${sumStadardOt}`, { x: 390, y: yPosition, size: fontSize, font: thaiFont });
+              // page.drawText(`${sumOverOT}`, { x: 480, y: yPosition, size: fontSize, font: thaiFont });
               page.drawText(`${sumOT}`, { x: 540, y: yPosition, size: fontSize, font: thaiFont });
-              page.drawText(`หมายเหตุ: โปรดตรวจสอบข้อมูลตัวเลขในเอกสารนี้ให้ละเอียด หากไม่ถูกต้องหรือสงสัยให้แจ้งฝ่ายบุคคลทันทีหรือในเวลาทํางานปกติ`, { x: 10, y: yPosition - 30, size: 16, font: thaiFont });
-              page.drawText(`หากพ้นกําหนด 15 วัน นับจากวันที่จ่ายให้ในนงวดนั้น ๆ แล้ว บริษัทถือว่าท่านยอมรับและไม่ติดใจเรียกร้องสิทธิประโยชน์ใด ๆ ทุกประการ`, { x: 10, y: yPosition - 50, size: 16, font: thaiFont });
+              if (this.titlefooter.length > 0) {
+                page.drawText(`** หมายเหตุ: ${this.titlefooter}`, { x: 10, y: yPosition - 30, size: 16, font: thaiFont });
+              } else {
+                page.drawText(`หมายเหตุ: โปรดตรวจสอบข้อมูลตัวเลขในเอกสารนี้ให้ละเอียด หากไม่ถูกต้องหรือสงสัยให้แจ้งฝ่ายบุคคลทันทีหรือในเวลาทํางานปกติ`, { x: 10, y: yPosition - 30, size: 16, font: thaiFont });
+                page.drawText(`หากพ้นกําหนด 15 วัน นับจากวันที่จ่ายให้ในนงวดนั้น ๆ แล้ว บริษัทถือว่าท่านยอมรับและไม่ติดใจเรียกร้องสิทธิประโยชน์ใด ๆ ทุกประการ`, { x: 10, y: yPosition - 50, size: 16, font: thaiFont });
+              }
             }
           }
         }

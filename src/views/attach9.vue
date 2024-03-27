@@ -244,17 +244,17 @@ export default {
           const combinedArray = []
           for (let i = 0; i < this.excelarrayattach9.length; i++) {
             const combinedObject = {
-              emp_code: this.excelarrayattach9[i].ttt_employee_code || '',
-              driver_name: this.excelarrayattach9[i].tlep_driver_name || '',
-              total_ot: this.excelarrayattach9[i].total_ot || '',
+              emp_code: this.excelarrayattach9[i].ttt_employee_code,
+              driver_name: this.excelarrayattach9[i].tlep_driver_name,
+              total_ot: this.excelarrayattach9[i].total_ot,
             }
             combinedArray.push(combinedObject);
           }
           for (let i = 0; i < this.excelarrayattach92.length; i++) {
             const combinedObject = {
-              emp_code: this.excelarrayattach92[i].DRIVER1 || '',
-              driver_name: this.excelarrayattach92[i].NAME || '',
-              total_ot: this.excelarrayattach92[i].OT_HOURS || '',
+              emp_code: this.excelarrayattach92[i].DRIVER1,
+              driver_name: this.excelarrayattach92[i].NAME,
+              total_ot: this.excelarrayattach92[i].OT_HOURS,
             }
             combinedArray.push(combinedObject);
           }

@@ -1,10 +1,10 @@
 <template>
   <div>
-    <nav>
+    <!-- <nav>
       <router-link to="/dashboard" style="font-size: 20px;">Import & Export</router-link> ||
       <router-link to="/Attached" style="font-size: 20px;">Attached</router-link> ||
       <router-link to="/payroll" style="font-size: 20px;">Payroll</router-link>
-    </nav>
+    </nav> -->
     <!-- <b-container>
       <div>Show format bank account</div>
       <div  v-for="(item, index) in excelarray" :key="index">{{item.d}}</div>
