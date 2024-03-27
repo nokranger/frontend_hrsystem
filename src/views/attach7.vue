@@ -76,19 +76,19 @@
             </div>
           </b-col>
           <b-col>
-            <div>
+            <!-- <div>
               <b-button variant="outline-primary" @click="updatepayment7">Update payment status</b-button>
-            </div>
+            </div> -->
           </b-col>
         </b-row>
         <b-row>
           <b-col>
-            <div>
+            <!-- <div>
               <b-form-checkbox id="checkbox-1" v-model="status" name="checkbox-1" value="1"
                 unchecked-value="not_accepted">
                 <div style="margin: 10px;font-size: 20px;">ยืนยันการจ่ายเงิน</div>
               </b-form-checkbox>
-            </div>
+            </div> -->
           </b-col>
         </b-row>
         <!-- <div>

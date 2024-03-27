@@ -146,8 +146,9 @@
             </div>
             <b-form-select
               style="display: inline;width: 300px;height: 40px;font-family: 'Noto Serif', sans-serif;font-weight: bold;font-size: 20px;border-radius:10px;border:1px solid #cccccc;"
-              id="selectoption1" v-model="selectOptionInstructor" :options="deleteInstrutor"
-              v-on:change="Instructordelete()"></b-form-select>
+              id="selectoption1" v-model="selectOptionInstructor" :options="deleteInstrutor"></b-form-select>
+            <b-button style="margin: 10px;" v-on:click="Instructordelete()"
+              variant="outline-danger">ยืนยันการลบ</b-button>
           </b-col>
         </b-row>
         <br>
@@ -166,7 +167,8 @@
             </div>
             <b-form-select
               style="display: inline;width: 300px;height: 40px;font-family: 'Noto Serif', sans-serif;font-weight: bold;font-size: 20px;border-radius:10px;border:1px solid #cccccc;"
-              id="selectoption2" v-model="selectOption" :options="deleteTnos" v-on:change="tnosdelete()"></b-form-select>
+              id="selectoption2" v-model="selectOption" :options="deleteTnos"></b-form-select>
+            <b-button style="margin: 10px;" v-on:click="tnosdelete()" variant="outline-danger">ยืนยันการลบ</b-button>
           </b-col>
         </b-row>
         <br>
@@ -185,8 +187,8 @@
             </div>
             <b-form-select
               style="display: inline;width: 300px;height: 40px;font-family: 'Noto Serif', sans-serif;font-weight: bold;font-size: 20px;border-radius:10px;border:1px solid #cccccc;"
-              id="selectoption3" v-model="selectOptionwelfare" :options="deleteWelfare"
-              v-on:change="Welfaredelete()"></b-form-select>
+              id="selectoption3" v-model="selectOptionwelfare" :options="deleteWelfare"></b-form-select>
+            <b-button style="margin: 10px;" v-on:click="Welfaredelete()" variant="outline-danger">ยืนยันการลบ</b-button>
           </b-col>
         </b-row>
         <br>
@@ -205,8 +207,8 @@
             </div>
             <b-form-select
               style="display: inline;width: 300px;height: 40px;font-family: 'Noto Serif', sans-serif;font-weight: bold;font-size: 20px;border-radius:10px;border:1px solid #cccccc;"
-              id="selectoption4" v-model="selectOptionHoliday" :options="deleteHoliday"
-              v-on:change="Holidaydelete()"></b-form-select>
+              id="selectoption4" v-model="selectOptionHoliday" :options="deleteHoliday"></b-form-select>
+            <b-button style="margin: 10px;" v-on:click="Holidaydelete()" variant="outline-danger">ยืนยันการลบ</b-button>
           </b-col>
         </b-row>
       </div>
@@ -365,7 +367,7 @@ export default {
       .catch(error => {
         console.error('Error fetching data:', error.message);
       });
-      await axios.get('http://localhost:4000/selectdeleteholiday')
+    await axios.get('http://localhost:4000/selectdeleteholiday')
       .then(response => {
         this.deleteHoliday = Object.values(response.data.result)
         // console.log('dadas', this.deleteHoliday)
@@ -727,7 +729,7 @@ export default {
         .catch(error => {
           console.error('Error fetching data:', error.message);
         });
-        await axios.post('http://localhost:4000/instructorgetdata', from_to)
+      await axios.post('http://localhost:4000/instructorgetdata', from_to)
         .then(response => {
           // console.log('resdatainstructor', response.data.result);
           let dataexcel = response.data.result
@@ -1213,7 +1215,7 @@ export default {
             UNITS1: data.item17,
             UNITS2: data.item18,
             UNITS3: data.item19,
-            UNITS4: data.item20,
+            UNITS4: null,
             UNITS5: data.item21,
             TAX_FLAG: data.item20,
             create_time: new Date().toLocaleString()
@@ -1688,7 +1690,7 @@ export default {
 
       reader.readAsBinaryString(file);
     },
-    
+
   },
 };
 </script>
