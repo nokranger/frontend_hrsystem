@@ -797,6 +797,8 @@ export default {
               allowance_payment_date: this.excelarray[i].allowance_payment_date,
               payment_status_2: this.excelarray[i].payment_status_2,
               payment_date_st: this.excelarray[i].payment_date_st,
+              payment_status_3: this.excelarray[i].payment_status_3,
+              payment_date_st_2: this.excelarray[i].payment_date_st_2,
               TAX_FLAG: this.excelarray[i].TAX_FLAG,
               create_time: this.excelarray[i].create_time
             };
@@ -817,6 +819,8 @@ export default {
               trip_no: this.excelarrayinstructor[j].TRIP_NO,
               payment_status_2: this.excelarrayinstructor[j].payment_status_2,
               payment_date_st: this.excelarrayinstructor[j].payment_date_st,
+              payment_status_3: this.excelarrayinstructor[j].payment_status_3,
+              payment_date_st_2: this.excelarrayinstructor[j].payment_date_st_2,
               create_time: this.excelarrayinstructor[j].create_time
               // BB: object1[i].BB,
               // CC: object2[i].AC || object1[i].CC
@@ -837,6 +841,8 @@ export default {
               trip_no: this.excelarraywelfare[j].TRIP_NO,
               payment_status_2: this.excelarraywelfare[j].payment_status_2,
               payment_date_st: this.excelarraywelfare[j].payment_date_st,
+              payment_status_3: this.excelarraywelfare[j].payment_status_3,
+              payment_date_st_2: this.excelarraywelfare[j].payment_date_st_2,
               create_time: this.excelarraywelfare[j].create_time
               // BB: object1[i].BB || '',
               // CC: object2[i].AC || object1[i].CC || ''
@@ -857,6 +863,8 @@ export default {
               trip_no: this.excelarrayHoliday[j].TRIP_NO,
               payment_status_2: this.excelarrayHoliday[j].payment_status_2,
               payment_date_st: this.excelarrayHoliday[j].payment_date_st,
+              payment_status_3: this.excelarrayHoliday[j].payment_status_3,
+              payment_date_st_2: this.excelarrayHoliday[j].payment_date_st_2,
               create_time: this.excelarrayHoliday[j].create_time
               // BB: object1[i].BB || '',
               // CC: object2[i].AC || object1[i].CC || ''

@@ -37,9 +37,9 @@
               <td style="border: 1px solid;margin: 5px;">{{ item.ttt_employee_code }}</td>
               <td style="border: 1px solid;margin: 5px;">{{ item.tlep_driver_name }}</td>
               <td style="border: 1px solid;margin: 5px;">{{ item.to_name }}</td>
-              <td v-if="item.payment_status_2 === '1' || item.payment_status_2 === 1" style="border: 1px solid;margin: 5px;">จ่ายแล้ว</td>
-              <td v-if="item.payment_status_2 === 0 || item.payment_status_2 === '0' || item.payment_status_2 === null || item.payment_status_2 === undefined" style="border: 1px solid;margin: 5px;">ยังไม่จ่าย</td>
-              <td style="border: 1px solid;margin: 5px;">{{ item.payment_date_st }}</td>
+              <td v-if="item.payment_status_3 === '1' || item.payment_status_3 === 1" style="border: 1px solid;margin: 5px;">จ่ายแล้ว</td>
+              <td v-if="item.payment_status_3 === 0 || item.payment_status_3 === '0' || item.payment_status_3 === null || item.payment_status_3 === undefined" style="border: 1px solid;margin: 5px;">ยังไม่จ่าย</td>
+              <td style="border: 1px solid;margin: 5px;">{{ item.payment_date_st_2 }}</td>
               <td style="border: 1px solid;margin: 5px;">{{ item.create_time }}</td>
             </tr>
           </p>
@@ -156,6 +156,9 @@ export default {
               allowance_payment_date: this.excelarray[i].allowance_payment_date,
               payment_status_2: this.excelarray[i].payment_status_2,
               payment_date_st: this.excelarray[i].payment_date_st,
+              payment_status_3: this.excelarray[i].payment_status_3,
+              payment_date_st_2: this.excelarray[i].payment_date_st_2,
+              TAX_FLAG: this.excelarray[i].TAX_FLAG,
               TAX_FLAG: this.excelarray[i].TAX_FLAG,
               create_time: this.excelarray[i].create_time
             };
@@ -176,6 +179,8 @@ export default {
               calling_sheet_no: this.excelarrayinstructor[j].TRIP_NO,
               payment_status_2: this.excelarrayinstructor[j].payment_status_2,
               payment_date_st: this.excelarrayinstructor[j].payment_date_st,
+              payment_status_3: this.excelarrayinstructor[j].payment_status_3,
+              payment_date_st_2: this.excelarrayinstructor[j].payment_date_st_2,
               create_time: this.excelarrayinstructor[j].create_time
 
               // BB: object1[i].BB,
@@ -197,6 +202,8 @@ export default {
               calling_sheet_no: this.excelarraywelfare[j].TRIP_NO,
               payment_status_2: this.excelarraywelfare[j].payment_status_2,
               payment_date_st: this.excelarraywelfare[j].payment_date_st,
+              payment_status_3: this.excelarraywelfare[j].payment_status_3,
+              payment_date_st_2: this.excelarraywelfare[j].payment_date_st_2,
               create_time: this.excelarraywelfare[j].create_time
             };
             combinedArray.push(combinedObject);
@@ -215,6 +222,8 @@ export default {
               calling_sheet_no: this.excelarrayHoliday[j].TRIP_NO,
               payment_status_2: this.excelarrayHoliday[j].payment_status_2,
               payment_date_st: this.excelarrayHoliday[j].payment_date_st,
+              payment_status_3: this.excelarrayHoliday[j].payment_status_3,
+              payment_date_st_2: this.excelarrayHoliday[j].payment_date_st_2,
               create_time: this.excelarrayHoliday[j].create_time
             };
             combinedArray.push(combinedObject);
