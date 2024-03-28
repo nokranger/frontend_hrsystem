@@ -39,10 +39,6 @@
               v-model="dateattach7welfareto" class="mb-2"></b-form-datepicker>
           </b-col>
           <b-col>
-            <!-- <div style="text-align: center;">
-              <b-button variant="outline-primary" @click="getAttach7all"
-                style="box-shadow: 5px 5px 5px #888888;">ดึงข้อมูล</b-button>
-            </div> -->
           </b-col>
         </b-row>
         <b-row style="margin: 20px;">
@@ -64,15 +60,15 @@
           <b-col>
             <div style="text-align: center;">
               <b-button variant="outline-primary" @click="getAttach7all"
-                style="box-shadow: 5px 5px 5px #888888;">Attached
-                7 PDF <b-icon-file-earmark-pdf-fill variant="danger"></b-icon-file-earmark-pdf-fill></b-button>
+                style="box-shadow: 5px 5px 5px #888888;">Preview <b-icon-file-earmark-pdf-fill
+                  variant="danger"></b-icon-file-earmark-pdf-fill></b-button>
             </div>
           </b-col>
           <b-col>
             <div style="text-align: center;">
               <b-button variant="outline-primary" @click="getAttach7excel"
-                style="box-shadow: 5px 5px 5px #888888;">Attached
-                7 Excel <b-icon-file-earmark-excel-fill variant="success"></b-icon-file-earmark-excel-fill></b-button>
+                style="box-shadow: 5px 5px 5px #888888;">Export <b-icon-file-earmark-excel-fill
+                  variant="success"></b-icon-file-earmark-excel-fill></b-button>
             </div>
           </b-col>
           <b-col>
@@ -289,11 +285,13 @@ export default {
     async getAttach7all() {
       let from_to = {
         from: this.dateattach7from,
-        to: this.dateattach7to
+        to: this.dateattach7to,
+        payment_date: this.dateattach7select
       }
       let from_to_welfare = {
         from: this.dateattach7welfareform,
-        to: this.dateattach7welfareto
+        to: this.dateattach7welfareto,
+        payment_date: this.dateattach7select
       }
       await axios.post('http://localhost:4000/getdataattach7', from_to)
         .then(response => {
@@ -398,6 +396,30 @@ export default {
           this.pdfdata = Object.values(this.pdfdata);
           console.log(this.pdfdata);
           this.pdfdata.sort((a, b) => a.updated_at - b.updated_at);
+          axios.post('http://localhost:4000/updatepaymentstatus2', from_to_welfare)
+            .then(response => {
+              // console.log('updatepayment', response.data.result);
+              console.log('status', from_to)
+            })
+            .catch(error => {
+              console.error('Error fetching data:', error.message);
+            });
+          axios.post('http://localhost:4000/updatepaymentstatus3', from_to)
+            .then(response => {
+              // console.log('updatepayment', response.data.result);
+              console.log('status', from_to)
+            })
+            .catch(error => {
+              console.error('Error fetching data:', error.message);
+            });
+          axios.post('http://localhost:4000/updatepaymentstatus4', from_to)
+            .then(response => {
+              // console.log('updatepayment', response.data.result);
+              console.log('status', from_to)
+            })
+            .catch(error => {
+              console.error('Error fetching data:', error.message);
+            });
         })
         .catch(error => {
           console.error('Error fetching data:', error.message);
@@ -407,11 +429,13 @@ export default {
     async getAttach7excel() {
       let from_to = {
         from: this.dateattach7from,
-        to: this.dateattach7to
+        to: this.dateattach7to,
+        payment_date: this.dateattach7select
       }
       let from_to_welfare = {
         from: this.dateattach7welfareform,
-        to: this.dateattach7welfareto
+        to: this.dateattach7welfareto,
+        payment_date: this.dateattach7select
       }
       await axios.post('http://localhost:4000/getdataattach7', from_to)
         .then(response => {
@@ -639,10 +663,12 @@ export default {
       let from_to = {
         from: this.dateattach7from,
         to: this.dateattach7to,
+        payment_date: this.dateattach7select
       }
       let from_to_welfare = {
         from: this.dateattach7welfareform,
-        to: this.dateattach7welfareto
+        to: this.dateattach7welfareto,
+        payment_date: this.dateattach7select
       }
       await axios.post('http://localhost:4000/getdataattach7', from_to)
         .then(response => {

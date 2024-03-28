@@ -17,29 +17,37 @@
           <p style="text-align: center;">
             <tr style="border: 1px solid;">
               <td style="border: 1px solid;">NO.</td>
-              <td style="border: 1px solid;">Calling Sheet No</td>
-              <td style="border: 1px solid;">TRIP_ALLOWANCE</td>
-              <td style="border: 1px solid;">OT</td>
               <td style="border: 1px solid;">DEPARTURE_DATETIME</td>
+              <td style="border: 1px solid;">Calling Sheet No</td>
               <td style="border: 1px solid;">Employee code</td>
               <td style="border: 1px solid;">NAME</td>
               <td style="border: 1px solid;">To Name</td>
+              <td style="border: 1px solid;">TRIP_ALLOWANCE</td>
               <td style="border: 1px solid;">Payment Status</td>
               <td style="border: 1px solid;">Payment Date</td>
+              <td style="border: 1px solid;">Standard OT</td>
+              <td style="border: 1px solid;">Over OT</td>
+              <td style="border: 1px solid;">Payment Status OT</td>
+              <td style="border: 1px solid;">Payment Date OT</td>
               <td style="border: 1px solid;">create_time</td>
             </tr>
             <tr v-for="(item, index) in showdatafind" :key="index" style="border: 1px solid;">
               <td style="border: 1px solid;margin: 5px;">{{ index + 1 }}</td>
-              <td style="border: 1px solid;margin: 5px;">{{ item.calling_sheet_no }}</td>
-              <td style="border: 1px solid;margin: 5px;">{{ item.total_allowance.toLocaleString() }}</td>
-              <td style="border: 1px solid;margin: 5px;">{{ item.total_ot }}</td>
               <td style="border: 1px solid;margin: 5px;">{{ (item.Working_date) }}</td>
+              <td style="border: 1px solid;margin: 5px;">{{ item.calling_sheet_no }}</td>
+              <!-- <td style="border: 1px solid;margin: 5px;">{{ item.total_ot }}</td> -->
               <td style="border: 1px solid;margin: 5px;">{{ item.ttt_employee_code }}</td>
               <td style="border: 1px solid;margin: 5px;">{{ item.tlep_driver_name }}</td>
               <td style="border: 1px solid;margin: 5px;">{{ item.to_name }}</td>
+              <td style="border: 1px solid;margin: 5px;">{{ item.total_allowance.toLocaleString() }}</td>
               <td v-if="item.payment_status_3 === '1' || item.payment_status_3 === 1" style="border: 1px solid;margin: 5px;">จ่ายแล้ว</td>
               <td v-if="item.payment_status_3 === 0 || item.payment_status_3 === '0' || item.payment_status_3 === null || item.payment_status_3 === undefined" style="border: 1px solid;margin: 5px;">ยังไม่จ่าย</td>
               <td style="border: 1px solid;margin: 5px;">{{ item.payment_date_st_2 }}</td>
+              <td style="border: 1px solid;margin: 5px;">{{ item.standard_ot }}</td>
+              <td style="border: 1px solid;margin: 5px;">{{ item.over_ot }}</td>
+              <td v-if="item.payment_status_ot === '1' || item.payment_status_ot === 1" style="border: 1px solid;margin: 5px;">จ่ายแล้ว</td>
+              <td v-if="item.payment_status_ot === 0 || item.payment_status_ot === '0' || item.payment_status_ot === null || item.payment_status_ot === undefined" style="border: 1px solid;margin: 5px;">ยังไม่จ่าย</td>
+              <td style="border: 1px solid;margin: 5px;">{{ item.payment_date_st_ot }}</td>
               <td style="border: 1px solid;margin: 5px;">{{ item.create_time }}</td>
             </tr>
           </p>
@@ -158,7 +166,8 @@ export default {
               payment_date_st: this.excelarray[i].payment_date_st,
               payment_status_3: this.excelarray[i].payment_status_3,
               payment_date_st_2: this.excelarray[i].payment_date_st_2,
-              TAX_FLAG: this.excelarray[i].TAX_FLAG,
+              payment_status_ot: this.excelarray[i].payment_status_ot,
+              payment_date_st_ot: this.excelarray[i].payment_date_st_ot,
               TAX_FLAG: this.excelarray[i].TAX_FLAG,
               create_time: this.excelarray[i].create_time
             };
@@ -181,6 +190,8 @@ export default {
               payment_date_st: this.excelarrayinstructor[j].payment_date_st,
               payment_status_3: this.excelarrayinstructor[j].payment_status_3,
               payment_date_st_2: this.excelarrayinstructor[j].payment_date_st_2,
+              payment_status_ot: this.excelarrayinstructor[j].payment_status_ot,
+              payment_date_st_ot: this.excelarrayinstructor[j].payment_date_st_ot,
               create_time: this.excelarrayinstructor[j].create_time
 
               // BB: object1[i].BB,
@@ -204,6 +215,8 @@ export default {
               payment_date_st: this.excelarraywelfare[j].payment_date_st,
               payment_status_3: this.excelarraywelfare[j].payment_status_3,
               payment_date_st_2: this.excelarraywelfare[j].payment_date_st_2,
+              payment_status_ot: this.excelarraywelfare[j].payment_status_ot,
+              payment_date_st_ot: this.excelarraywelfare[j].payment_date_st_ot,
               create_time: this.excelarraywelfare[j].create_time
             };
             combinedArray.push(combinedObject);
@@ -224,6 +237,8 @@ export default {
               payment_date_st: this.excelarrayHoliday[j].payment_date_st,
               payment_status_3: this.excelarrayHoliday[j].payment_status_3,
               payment_date_st_2: this.excelarrayHoliday[j].payment_date_st_2,
+              payment_status_ot: this.excelarrayHoliday[j].payment_status_ot,
+              payment_date_st_ot: this.excelarrayHoliday[j].payment_date_st_ot,
               create_time: this.excelarrayHoliday[j].create_time
             };
             combinedArray.push(combinedObject);

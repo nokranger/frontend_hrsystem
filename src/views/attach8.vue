@@ -67,15 +67,13 @@
         <b-row>
           <b-col>
             <div style="text-align: center;">
-              <b-button variant="outline-primary" @click="getAttach8" style="box-shadow: 5px 5px 5px #888888;">Attached
-                8 <b-icon-file-earmark-pdf-fill variant="danger"></b-icon-file-earmark-pdf-fill></b-button>
+              <b-button variant="outline-primary" @click="getAttach8" style="box-shadow: 5px 5px 5px #888888;">Preview <b-icon-file-earmark-pdf-fill variant="danger"></b-icon-file-earmark-pdf-fill></b-button>
             </div>
           </b-col>
           <b-col>
             <div style="text-align: center;">
               <b-button variant="outline-primary" @click="getAttach8Excel"
-                style="box-shadow: 5px 5px 5px #888888;">Attached
-                8 <b-icon-file-earmark-excel-fill variant="success"></b-icon-file-earmark-excel-fill></b-button>
+                style="box-shadow: 5px 5px 5px #888888;">Export <b-icon-file-earmark-excel-fill variant="success"></b-icon-file-earmark-excel-fill></b-button>
             </div>
           </b-col>
           <b-col></b-col>

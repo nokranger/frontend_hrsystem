@@ -1457,7 +1457,7 @@ export default {
           }
           if (this.excelarray.length > this.jsondata2Tnos5.length) {
             const Notdup = this.jsondata2Tnos5.filter(({ ttt_employee_code: ids1, calling_sheet_no: id1 }) => !this.excelarray.some(({ ttt_employee_code: ids2, calling_sheet_no: id2 }) => id2 === id1 && ids2 === ids1));
-            // console.log('NotduplicateIF', Notdup)
+            console.log('NotduplicateIF', Notdup)
 
             if (Notdup.length > 0) {
               console.log('NotduplicateIF', Notdup)
@@ -1484,8 +1484,8 @@ export default {
           } else {
             // let Notdup = this.jsondata2Tnos5.filter(a => !this.excelarray.some(b => a.TRIP_NO === b.TRIP_NO))
             // let dup = this.jsondata2Tnos5.filter(a => this.excelarray.some(b => a.TRIP_NO === b.TRIP_NO))
-            const Notdup = this.jsondata2Tnos5.filter(({ TRIP_NO: id1 }) => !this.excelarray.some(({ TRIP_NO: id2 }) => id2 === id1));
-            // console.log('duplicateelse', Notdup)
+            const Notdup = this.jsondata2Tnos5.filter(({ ttt_employee_code: ids1, calling_sheet_no: id1 }) => !this.excelarray.some(({ ttt_employee_code: ids2, calling_sheet_no: id2 }) => id2 === id1 && ids2 === ids1));
+            console.log('Notduplicateelse', Notdup)
             if (Notdup.length > 0) {
               // console.log('InsertNotduplElse', Notdup)
               // console.log('InsertNotduplElseTnos', this.jsondata2Tnos5)

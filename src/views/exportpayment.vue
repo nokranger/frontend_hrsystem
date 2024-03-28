@@ -207,6 +207,7 @@ export default {
             }
             combinedArray.push(combinedObject);
           }
+          console.log('sumvalu1', combinedArray)
           this.data = combinedArray
           let date = new Date(this.datepaymentselect);
           let formattedDate = ('0' + date.getDate()).slice(-2) + ('0' + (date.getMonth() + 1)).slice(-2) + date.getFullYear().toString().substr(-2);
@@ -263,7 +264,7 @@ export default {
         payment_date: this.datepaymentselect
       }
       console.log('updatepayment', from_to)
-      await axios.post('http://localhost:4000/updatepaymentstatus2', from_to)
+      await axios.post('http://localhost:4000/addpaymentstatus22', from_to)
         .then(response => {
           // console.log('updatepayment', response.data.result);
           // console.log('status', from_to)
@@ -283,7 +284,7 @@ export default {
           this.dateupdateselect = ''
           this.status = 0
         });
-      await axios.post('http://localhost:4000/updatepaymentstatus3', from_to)
+      await axios.post('http://localhost:4000/addpaymentstatus32', from_to)
         .then(response => {
           // console.log('updatepayment', response.data.result);
           // console.log('status', from_to)
@@ -303,7 +304,7 @@ export default {
           this.dateupdateselect = ''
           this.status = 0
         });
-      await axios.post('http://localhost:4000/updatepaymentstatus4', from_to)
+      await axios.post('http://localhost:4000/addpaymentstatus42', from_to)
         .then(response => {
           // console.log('updatepayment', response.data.result);
           // console.log('status', from_to)

@@ -34,15 +34,13 @@
           <b-col>
             <div style="text-align: center;">
               <b-button variant="outline-primary" @click="getAttach9all"
-                style="box-shadow: 5px 5px 5px #888888;">Attached
-                9 PDF <b-icon-file-earmark-pdf-fill variant="danger"></b-icon-file-earmark-pdf-fill></b-button>
+                style="box-shadow: 5px 5px 5px #888888;">Preview <b-icon-file-earmark-pdf-fill variant="danger"></b-icon-file-earmark-pdf-fill></b-button>
             </div>
           </b-col>
           <b-col>
             <div style="text-align: center;">
               <b-button variant="outline-primary" @click="getAttach9excel"
-                style="box-shadow: 5px 5px 5px #888888;">Attached
-                9 Excel <b-icon-file-earmark-excel-fill variant="success"></b-icon-file-earmark-excel-fill></b-button>
+                style="box-shadow: 5px 5px 5px #888888;">Excel <b-icon-file-earmark-excel-fill variant="success"></b-icon-file-earmark-excel-fill></b-button>
             </div>
           </b-col>
           <b-col>
