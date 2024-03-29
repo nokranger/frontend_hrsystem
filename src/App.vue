@@ -10,7 +10,7 @@
       <router-link to="/Attached" style="font-size: 20px;">Report</router-link> ||
       <router-link to="/payroll" style="font-size: 20px;">Payroll</router-link> ||
       <router-link to="/searchtrip" style="font-size: 20px;">Search Trip</router-link> ||
-      <router-link to="/updatepayment" style="font-size: 20px;">Update Payment</router-link> ||
+      <router-link to="/updatepayment" style="font-size: 20px;">Update Status Allowance & OT</router-link> ||
       <router-link to="/exportpayment" style="font-size: 20px;">Export Payment</router-link>
     </nav>
     <router-view/>

@@ -7,25 +7,25 @@
       <b-alert v-if="alertStatus === 3" show variant="danger" :show="dismissCountDown" fade
         @dismiss-count-down="countDownChanged"><a href="#" style="text-decoration:none"
           class="alert-link">อัพเดตข้อมูลล้มเหลว</a></b-alert>
-      <!-- <h1 style="text-shadow: 2px 2px 5px black;display: inline;font-size: 25px;">Update Allowance</h1>
-      <br>
-      <br> -->
-      <div style="display: inline;">
-        <h1 style="text-shadow: 2px 2px 5px black;display: inline;font-size: 25px;">Update</h1>
-        <b-form-select
-          style="display: inline; margin: 10px;width: 300px;height: 40px;font-family: 'Noto Serif', sans-serif;font-weight: bold;font-size: 20px;border-radius:10px;border:1px solid #cccccc;"
-          id="selectoption" v-model="selectOption" :options="optionss"></b-form-select>
-      </div>
-      <div>
-        <div v-if="selectOption == 1">
-          <allowanceStatusComponent></allowanceStatusComponent>
-        </div>
-        <div v-if="selectOption == 2">
-          <otStatusComponent></otStatusComponent>
-        </div>
-        <div v-if="selectOption == 3">
-          <holidayStatusComponent></holidayStatusComponent>
-        </div>
+      <div style="border: 2px solid gray;border-radius: 10px;height: 250px;box-shadow: 5px 5px 5px #888888;">
+        <b-row style="margin: 20px;">
+          <b-col></b-col>
+          <b-col>
+            <div style="font-size: 20px;text-align: left;margin-left: 10px;">เลือกวันจ่ายเงิน</div>
+            <b-form-datepicker style="width: 100%;" id="otexample-datepickerupdateselect" v-model="otdateupdateselect"
+              class="mb-2"></b-form-datepicker>
+          </b-col>
+          <b-col></b-col>
+          <div>
+            <br>
+            <b-button variant="outline-primary" @click="updatepaymentHoliday">Update OT Holiday</b-button>
+          </div>
+          <div>
+            <b-form-checkbox id="checkbox-13" v-model="otstatus" name="checkbox-1" value="1" unchecked-value="0">
+              <div style="margin: 10px;font-size: 20px;">ยืนยันการอัพเดท</div>
+            </b-form-checkbox>
+          </div>
+        </b-row>
       </div>
     </b-container>
   </div>
@@ -33,15 +33,10 @@
 <script>
 import * as XLSX from 'xlsx';
 import axios from 'axios';
-import otStatusComponent from '../views/otstatus.vue'
-import allowanceStatusComponent from '../views/allowancestatus.vue';
-import holidayStatusComponent from '../views/holidaystatus.vue';
+import attached7 from '../views/attach7.vue'
+import attached8 from '../views/attach8.vue';
+import attached9 from '../views/attach9.vue';
 export default {
-  components: {
-    otStatusComponent,
-    allowanceStatusComponent,
-    holidayStatusComponent
-  },
   data() {
     return {
       alertStatus: 0,
