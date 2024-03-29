@@ -18,7 +18,7 @@
       <br>
       <div style="border: 2px solid gray;border-radius: 10px;height: 250px;box-shadow: 5px 5px 5px #888888;">
         <b-row style="margin: 20px;">
-          <b-col>
+          <!-- <b-col>
             <div style="font-size: 20px;text-align: left;margin-left: 10px;">ตั้งแต่วันที่</div>
             <b-form-datepicker style="width: 100%;" id="example-datepickerpaymentfrom" v-model="datepaymentfrom"
               class="mb-2"></b-form-datepicker>
@@ -27,12 +27,14 @@
             <div style="font-size: 20px;text-align: left;margin-left: 10px;">ถึงวันที่</div>
             <b-form-datepicker style="width: 100%;" id="example-datepickerpaymentto" v-model="datepaymentto"
               class="mb-2"></b-form-datepicker>
-          </b-col>
+          </b-col> -->
+          <b-col></b-col>
           <b-col>
             <div style="font-size: 20px;text-align: left;margin-left: 10px;">เลือกวันจ่ายเงิน</div>
             <b-form-datepicker style="width: 100%;" id="example-datepickerpaymentselect" v-model="datepaymentselect"
               class="mb-2"></b-form-datepicker>
           </b-col>
+          <b-col></b-col>
         </b-row>
         <b-row>
           <b-col></b-col>
@@ -198,12 +200,12 @@ export default {
             }
             combinedArray.push(combinedObject);
           }
-          for (let i = 0; i < this.data4.length; i++) {
+          for (let i = 0; i < this.data5.length; i++) {
             const combinedObject = {
-              bank_account_number: this.data4[i].bank_account_number,
-              emp_code: this.data4[i].emp_code,
-              name: this.data4[i].name,
-              total_allowance: parseFloat(this.data4[i].total_allowance),
+              bank_account_number: this.data5[i].bank_account_number,
+              emp_code: this.data5[i].emp_code,
+              name: this.data5[i].name,
+              total_allowance: parseFloat(this.data5[i].total_allowance),
             }
             combinedArray.push(combinedObject);
           }

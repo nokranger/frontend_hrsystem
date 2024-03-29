@@ -611,7 +611,7 @@ export default {
         .catch(error => {
           console.error('Error fetching data:', error.message);
         });
-      axios.post('http://localhost:4000/updatepaymentstatus3', from_to)
+      await axios.post('http://localhost:4000/updatepaymentstatus3', from_to)
         .then(response => {
           // console.log('updatepayment', response.data.result);
           // console.log('status', from_to)
@@ -619,7 +619,7 @@ export default {
         .catch(error => {
           console.error('Error fetching data:', error.message);
         });
-      axios.post('http://localhost:4000/updatepaymentstatus4', from_to)
+      await axios.post('http://localhost:4000/updatepaymentstatus4', from_to)
         .then(response => {
           // console.log('updatepayment', response.data.result);
           // console.log('status', from_to)

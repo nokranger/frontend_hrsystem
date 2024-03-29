@@ -183,18 +183,11 @@ export default {
             }
             combinedArray.push(combinedObject);
           }
-          // for (let i = 0; i < this.excelarrayattach93.length; i++) {
-          //   const combinedObject = {
-          //     emp_code: this.excelarrayattach93[i].DRIVER1 || '',
-          //     driver_name: this.excelarrayattach93[i].NAME || '',
-          //     total_ot: this.excelarrayattach93[i].OT_HOURS || '',
-          //   }
-          //   combinedArray.push(combinedObject);
-          // }
           this.pdfdata = combinedArray
           this.pdfdata = this.pdfdata.filter((i) => {
             return i.total_ot !== '0' && i.total_ot !== ''
           })
+          this.updatepayment9()
         })
         .catch(error => {
           console.error('Error fetching data:', error.message);
@@ -239,19 +232,12 @@ export default {
             }
             combinedArray.push(combinedObject);
           }
-          // for (let i = 0; i < this.excelarrayattach93.length; i++) {
-          //   const combinedObject = {
-          //     emp_code: this.excelarrayattach93[i].DRIVER1,
-          //     driver_name: this.excelarrayattach93[i].NAME,
-          //     total_ot: ''
-          //   }
-          //   combinedArray.push(combinedObject);
-          // }
           this.pdfdata = combinedArray
           // this.pdfdata = combinedArray
           this.pdfdata = this.pdfdata.filter((i) => {
             return i.total_ot !== '0' && i.total_ot !== null
           })
+          this.updatepayment9()
         })
         .catch(error => {
           console.error('Error fetching data:', error.message);
@@ -427,39 +413,23 @@ export default {
       window.open(url, '_blank');
     },
     async updatepayment9() {
-      let e = document.getElementById("selectattach7")
-      let updatepayment = [
-        {
-          payment_status: '0',
-          emp_code: '641610'
-        },
-        {
-          payment_status: '1',
-          emp_code: '651604'
-        }
-      ]
-      // let sendData = this.pdfdata
-      let sendData = await this.pdfdata.map(obj => {
-        return { ...obj, payment_status: this.status, payment_date: this.dateattach7select };
-      });
-      console.log('paymenyupdate', sendData)
-      await axios.post('http://localhost:4000/addpaymentstatusattach9', sendData)
+      let from_to = {
+        from: this.dateattach9from,
+        to: this.dateattach9to,
+        payment_date: this.dateattach9select
+      }
+      await axios.post('http://localhost:4000/updatepaymentstatus3ot', from_to)
         .then(response => {
-          console.log('resdataUpdate', response)
+          // console.log('updatepayment', response.data.result);
+          // console.log('status', from_to)
         })
         .catch(error => {
           console.error('Error fetching data:', error.message);
         });
-      await axios.post('http://localhost:4000/addpaymentstatusattach92', sendData)
+      await axios.post('http://localhost:4000/updatepaymentstatus4ot', from_to)
         .then(response => {
-          console.log('resdataUpdate', response)
-        })
-        .catch(error => {
-          console.error('Error fetching data:', error.message);
-        });
-      await axios.post('http://localhost:4000/addpaymentstatusattach93', sendData)
-        .then(response => {
-          console.log('resdataUpdate', response)
+          // console.log('updatepayment', response.data.result);
+          // console.log('status', from_to)
         })
         .catch(error => {
           console.error('Error fetching data:', error.message);
