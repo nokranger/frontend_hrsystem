@@ -157,6 +157,7 @@ export default {
             return acc;
           }, {});
           console.log('resdatareduce', this.pdfdata);
+          this.updatepayment10()
         })
         .catch(error => {
           console.error('Error fetching data:', error.message);
@@ -178,6 +179,7 @@ export default {
           this.excelarrayattach8 = Object.values(dataexcel);
           this.pdfdata = this.excelarrayattach8
           console.log('resdatareduce', this.pdfdata);
+          this.updatepayment10()
         })
         .catch(error => {
           console.error('Error fetching data:', error.message);
@@ -329,6 +331,29 @@ export default {
 
       // // Save the workbook to a file
       XLSX.writeFile(workbook, 'attached10.xlsx');
+    },
+    async updatepayment10() {
+      let from_to = {
+        from: this.dateattach10from,
+        to: this.dateattach10to,
+        payment_date: this.dateattach10select
+      }
+      await axios.post('http://localhost:4000/updatepaymentstatus3ot', from_to)
+        .then(response => {
+          // console.log('updatepayment', response.data.result);
+          // console.log('status', from_to)
+        })
+        .catch(error => {
+          console.error('Error fetching data:', error.message);
+        });
+      await axios.post('http://localhost:4000/updatepaymentstatus4ot', from_to)
+        .then(response => {
+          // console.log('updatepayment', response.data.result);
+          // console.log('status', from_to)
+        })
+        .catch(error => {
+          console.error('Error fetching data:', error.message);
+        });
     },
   }
 }

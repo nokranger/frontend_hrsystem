@@ -13,14 +13,14 @@
       <div style="border: 2px solid gray;border-radius: 10px;height: 250px;box-shadow: 5px 5px 5px #888888;">
         <b-row style="margin: 20px;">
           <b-col>
-            <div style="font-size: 20px;text-align: left;margin-left: 10px;">ตั้งแต่วันที่</div>
+            <!-- <div style="font-size: 20px;text-align: left;margin-left: 10px;">ตั้งแต่วันที่</div>
             <b-form-datepicker style="width: 100%;" id="example-datepickerupdatefrom" v-model="dateupdatefrom"
-              class="mb-2"></b-form-datepicker>
+              class="mb-2"></b-form-datepicker> -->
           </b-col>
           <b-col>
-            <div style="font-size: 20px;text-align: left;margin-left: 10px;">ถึงวันที่</div>
+            <!-- <div style="font-size: 20px;text-align: left;margin-left: 10px;">ถึงวันที่</div>
             <b-form-datepicker style="width: 100%;" id="example-datepickerupdateto" v-model="dateupdateto"
-              class="mb-2"></b-form-datepicker>
+              class="mb-2"></b-form-datepicker> -->
           </b-col>
           <b-col>
             <div style="font-size: 20px;text-align: left;margin-left: 10px;">เลือกวันจ่ายเงิน</div>
@@ -207,26 +207,6 @@ export default {
         payment_status: this.statusOT,
         payment_date: this.dateupdateselectot
       }
-      // await axios.post('http://localhost:4000/addpaymentstatus', from_to)
-      //   .then(response => {
-      //     console.log('updatepayment', response.data.result);
-      //     console.log('status', from_to)
-      //     this.alertStatus = 1
-      //     this.dismissCountDown = this.dismissSecs
-      //     this.dateupdatefrom = ''
-      //     this.dateupdateto = ''
-      //     this.dateupdateselect = ''
-      //     this.status = 0
-      //   })
-      //   .catch(error => {
-      //     console.error('Error fetching data:', error.message);
-      //     this.alertStatus = 3
-      //     this.dismissCountDown = this.dismissSecs
-      //     this.dateupdatefrom = ''
-      //     this.dateupdateto = ''
-      //     this.dateupdateselect = ''
-      //     this.status = 0
-      //   });
       await axios.post('http://localhost:4000/updatepaymentstatusot2', from_to)
         .then(response => {
           console.log('updatepayment', response.data.result);

@@ -195,37 +195,6 @@ export default {
             }
             combinedArray.push(combinedObject);
           }
-          // for (let i = 0; i < this.excelarrayattach82.length; i++) {
-          //   const combinedObject = {
-          //     recieve_job_dateandtime: this.excelarrayattach82[i].DEPARTURE_DATETIME,
-          //     calling_sheet_no: this.excelarrayattach82[i].TRIP_NO,
-          //     total_allowance: parseFloat(this.excelarrayattach82[i].TOTAL_ALLOWANCE),
-          //     to_name: this.excelarrayattach82[i].DEALER1,
-          //     total_ot: 0.00,
-          //     ttt_employee_code: this.excelarrayattach82[i].DRIVER1,
-          //     over_ot: 0.00,
-          //     tlep_driver_name: this.excelarrayattach82[i].NAME
-          //   }
-          //   combinedArray.push(combinedObject);
-          // }
-          // for (let i = 0; i < this.excelarrayattach83.length; i++) {
-          //   const combinedObject = {
-          //     recieve_job_dateandtime: this.excelarrayattach83[i].DEPARTURE_DATETIME,
-          //     calling_sheet_no: this.excelarrayattach83[i].TRIP_NO,
-          //     total_allowance: parseFloat(this.excelarrayattach83[i].TOTAL_ALLOWANCE),
-          //     to_name: this.excelarrayattach83[i].DEALER1,
-          //     total_ot: 0.00,
-          //     ttt_employee_code: this.excelarrayattach83[i].DRIVER1,
-          //     over_ot: 0.00,
-          //     tlep_driver_name: this.excelarrayattach83[i].NAME
-          //   }
-          //   combinedArray.push(combinedObject);
-          // }
-          // const aa = [
-          //   { emp_code: '123', aa: 'AA' },
-          //   { emp_code: '123', aa: 'AA' },
-          //   { emp_code: '234', aa: 'AA' }
-          // ];
           this.pdfdata = combinedArray
           this.pdfdata = this.pdfdata.reduce((acc, obj) => {
             // If the key doesn't exist, create an array for it
@@ -236,6 +205,7 @@ export default {
             acc[obj.ttt_employee_code].push(obj);
             return acc;
           }, {});
+          this.updatepayment8()
 
         })
         .catch(error => {
@@ -290,48 +260,8 @@ export default {
             }
             combinedArray.push(combinedObject);
           }
-          // for (let i = 0; i < this.excelarrayattach82.length; i++) {
-          //   const combinedObject = {
-          //     recieve_job_dateandtime: this.excelarrayattach82[i].DEPARTURE_DATETIME,
-          //     calling_sheet_no: this.excelarrayattach82[i].TRIP_NO,
-          //     total_allowance: parseFloat(this.excelarrayattach82[i].TOTAL_ALLOWANCE),
-          //     to_name: this.excelarrayattach82[i].DEALER1,
-          //     total_ot: 0.00,
-          //     ttt_employee_code: this.excelarrayattach82[i].DRIVER1,
-          //     over_ot: 0.00,
-          //     tlep_driver_name: this.excelarrayattach82[i].NAME
-          //   }
-          //   combinedArray.push(combinedObject);
-          // }
-          // for (let i = 0; i < this.excelarrayattach83.length; i++) {
-          //   const combinedObject = {
-          //     recieve_job_dateandtime: this.excelarrayattach83[i].DEPARTURE_DATETIME,
-          //     calling_sheet_no: this.excelarrayattach83[i].TRIP_NO,
-          //     total_allowance: parseFloat(this.excelarrayattach83[i].TOTAL_ALLOWANCE),
-          //     to_name: this.excelarrayattach83[i].DEALER1,
-          //     total_ot: 0.00,
-          //     ttt_employee_code: this.excelarrayattach83[i].DRIVER1,
-          //     over_ot: 0.00,
-          //     tlep_driver_name: this.excelarrayattach83[i].NAME
-          //   }
-          //   combinedArray.push(combinedObject);
-          // }
-          // const aa = [
-          //   { emp_code: '123', aa: 'AA' },
-          //   { emp_code: '123', aa: 'AA' },
-          //   { emp_code: '234', aa: 'AA' }
-          // ];
           this.pdfdata = combinedArray
-          // this.pdfdata = this.pdfdata.reduce((acc, obj) => {
-          //   // If the key doesn't exist, create an array for it
-          //   if (!acc[obj.ttt_employee_code]) {
-          //     acc[obj.ttt_employee_code] = [];
-          //   }
-          //   // Push the current object into the array for this emp_code
-          //   acc[obj.ttt_employee_code].push(obj);
-          //   return acc;
-          // }, {});
-
+          this.updatepayment8()
         })
         .catch(error => {
           console.error('Error fetching data:', error.message);
@@ -340,19 +270,6 @@ export default {
       await this.exporttoexcel(this.pdfdata)
     },
     async generatePDF8(result) {
-      // console.log('count', result)
-      // const result = await datas.reduce((acc, obj) => {
-      //   // If the key doesn't exist, create an array for it
-      //   if (!acc[obj.ttt_employee_code]) {
-      //     acc[obj.ttt_employee_code] = [];
-      //   }
-      //   // Push the current object into the array for this ttt_employee_code
-      //   acc[obj.ttt_employee_code].push(obj);
-      //   return acc;
-      // }, {});
-      // let aa = result.forEach({})
-      // console.log('count', datas)
-      // console.log('count', datas.length)
       const pdfDoc = await PDFDocument.create()
       pdfDoc.registerFontkit(fontkit)
       let urls = 'https://script-app.github.io/font/THSarabunNew.ttf'
@@ -369,22 +286,6 @@ export default {
       let yPosition = height - margin;
 
       const fontSize = 14; //
-
-      // page.drawText(`บริษัท โตโยต้า ทรานสปอร์ต (ประเทศไทย) จํากัด`, { x: 170, y: 800, size: 20, font: thaiFont });
-      // page.drawText(`สรุปยอดเงินเบี้ยเลี้ยง/ค่าขับและสวัสดิการของพนักงาน`, { x: 140, y: 780, size: 20, font: thaiFont });
-      // // page.drawText(`${this.titleattach7}`, { x: 140, y: 780, size: 20, font: thaiFont });
-      // // page.drawText(`เข้าบัญชีพนักงานวันที่ ${moment(this.dateattach8select).format('L')}`, { x: 50, y: 760, size: 20, font: thaiFont });
-      // // page.drawText(`${datas.tlep_driver_name}`, { x: 250, y: 760, size: 20, font: thaiFont });
-      // // page.drawText(`รหัส ${datas.ttt_employee_code}`, { x: 370, y: 760, size: 20, font: thaiFont });
-      // page.drawText(`__________________________________________________________________________________`, { x: 10, y: 750, size: 20, font: thaiFont });
-      // page.drawText(`วันที่`, { x: 35, y: 720, size: fontSize, font: thaiFont });
-      // page.drawText(`เลขอ้างอิง`, { x: 150, y: 720, size: fontSize, font: thaiFont });
-      // page.drawText(`เบี้ยเลี้ยง`, { x: 240, y: 720, size: fontSize, font: thaiFont });
-      // page.drawText(`รายละเอียด`, { x: 300, y: 720, size: fontSize, font: thaiFont });
-      // page.drawText(`ค่าตอบแทน (ชม.)`, { x: 400, y: 720, size: fontSize, font: thaiFont });
-      // page.drawText(`เพิ่ม/ลด`, { x: 500, y: 720, size: fontSize, font: thaiFont });
-      // page.drawText(`__________________________________________________________________________________`, { x: 10, y: 710, size: 20, font: thaiFont });
-      // page.drawText(`เพิ่ม/ลด${result}`, { x: 20, y: 720, size: fontSize, font: thaiFont });
       let count = 0
       let countPage = 1
       // let sumValue = datas.reduce((acc, obj) => acc + parseInt(obj.total_allowance), 0);
@@ -491,30 +392,7 @@ export default {
               }
             }
           }
-          //   // console.log('Not same key', result[key][i].ttt_employee_code)
-          //   page = pdfDoc.addPage();
-          // }
-          // if (yPosition - descriptionHeight < margin) {
-          //   yPosition -= descriptionHeight; // Adjust x-position for the next entry
-          // }
         }
-        //show data
-        // page.drawText(`${data.recieve_job_dateandtime}`, { x: 25, y: yPosition, size: fontSize, font: thaiFont });
-        // page.drawText(`${data.calling_sheet_no}`, { x: 150, y: yPosition, size: fontSize, font: thaiFont });
-        // // const yNameStart = yStart + 20;
-        // page.drawText(`${data.total_allowance}`, { x: 240, y: yPosition, size: fontSize, font: thaiFont });
-        // // const yPriceStart = yNameStart + 20;
-        // page.drawText(`${data.to_name}`, { x: 300, y: yPosition, size: fontSize, font: thaiFont });
-        // page.drawText(`${data.total_ot}`, { x: 420, y: yPosition, size: fontSize, font: thaiFont });
-        // page.drawText(`${data.over_ot}`, { x: 500, y: yPosition, size: fontSize, font: thaiFont });
-        // yPosition -= descriptionHeight; // Adjust x-position for the next entry
-        // count++
-        // if (count > datas.length - 1) {
-        //   console.log('countPDF ', count);
-        //   page.drawText(`__________________________________________________________________________________`, { x: 10, y: yPosition + 20, size: 20, font: thaiFont });
-        //   // page.drawText(`รวม ${sumValue}`, { x: 470, y: yPosition - 20 , size: 20, font: thaiFont});
-        // }
-
       }
 
       // Save the PDF to a file or display it in a new tab
@@ -522,6 +400,42 @@ export default {
       const blob = new Blob([pdfBytes], { type: 'application/pdf' });
       const url = URL.createObjectURL(blob);
       window.open(url, '_blank');
+    },
+    async updatepayment8() {
+      let from_to = {
+        from: this.dateattach8from,
+        to: this.dateattach8to,
+        payment_date: this.dateattach7select
+      }
+      let from_to_welfare = {
+        from: this.dateattach8welfareform,
+        to: this.dateattach8welfareto,
+        payment_date: this.dateattach7select
+      }
+      await axios.post('http://localhost:4000/updatepaymentstatus2', from_to_welfare)
+        .then(response => {
+          // console.log('updatepayment', response.data.result);
+          // console.log('status', from_to)
+        })
+        .catch(error => {
+          console.error('Error fetching data:', error.message);
+        });
+      await axios.post('http://localhost:4000/updatepaymentstatus3', from_to)
+        .then(response => {
+          // console.log('updatepayment', response.data.result);
+          // console.log('status', from_to)
+        })
+        .catch(error => {
+          console.error('Error fetching data:', error.message);
+        });
+      await axios.post('http://localhost:4000/updatepaymentstatus4', from_to)
+        .then(response => {
+          // console.log('updatepayment', response.data.result);
+          // console.log('status', from_to)
+        })
+        .catch(error => {
+          console.error('Error fetching data:', error.message);
+        });
     },
     async exporttoexcel(data) {
       const workbook = XLSX.utils.book_new();
