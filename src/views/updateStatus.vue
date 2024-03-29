@@ -65,7 +65,7 @@ export default {
       optionss: [
         { value: null, text: 'กรุณาเลือก' },
         { value: 1, text: 'Allowance Status' },
-        { value: 2, text: 'OTStatus' },
+        { value: 2, text: 'OT Status' },
         { value: 3, text: 'OT Holiday Status' },
       ],
     };
