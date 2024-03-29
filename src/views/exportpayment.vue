@@ -75,7 +75,7 @@ export default {
       dateallowancefrom: '',
       dateallowanceto: '',
       data: [],
-      data2:[],
+      data2: [],
       data3: [],
       data4: [],
       data5: [],
@@ -112,7 +112,7 @@ export default {
           this.dateupdateselect = ''
           this.status = 0
         });
-        await axios.post('http://localhost:4000/getdatapayment21', from_to)
+      await axios.post('http://localhost:4000/getdatapayment21', from_to)
         .then(response => {
           this.data3 = response.data.result
           this.data3 = Object.values(this.data3)
@@ -127,7 +127,7 @@ export default {
           this.dateupdateselect = ''
           this.status = 0
         });
-        await axios.post('http://localhost:4000/getdatapayment3', from_to)
+      await axios.post('http://localhost:4000/getdatapayment3', from_to)
         .then(response => {
           this.data4 = response.data.result
           this.data4 = Object.values(this.data4)
@@ -142,7 +142,7 @@ export default {
           this.dateupdateselect = ''
           this.status = 0
         });
-        await axios.post('http://localhost:4000/getdatapayment31', from_to)
+      await axios.post('http://localhost:4000/getdatapayment31', from_to)
         .then(response => {
           this.data5 = response.data.result
           this.data5 = Object.values(this.data5)
@@ -220,7 +220,11 @@ export default {
           sumValue = sumValue.replace(',', '')
           // console.log('sumvalue', sumValue)
           let header = `H0000010023863014746TOYOTA TRANSPORT (THAILAN${formattedDate}00000000000000000000000000000000000000000000000000000000000000000000000000000\n`
+          console.log('HEADER', header.length)
           let count = 0
+          let headerString = 128
+          let contentString = 128
+          let footerString = 128
           for (let i = 0; i < this.data.length; i++) {
             let sumValue2 = this.data[i].total_allowance.toLocaleString()
             sumValue2 = sumValue2.replace('.', '').padStart(10, '0')
@@ -231,10 +235,26 @@ export default {
             count++
           }
           this.excelarray = header + this.excelarray
-          let footer = `T000${this.data.length + 2}0023863014746000000000000000000000000${this.data.length}00000${sumValue}000000000000000000000000000000000000000000000000000000000000000000000000`
-          this.excelarray += footer
-          // console.log('data', this.excelarray)
-          // console.log('dateselect', this.datepaymentselect)
+          if (this.data.length + 2 >= 100) {
+            if (this.data.length >= 100) {
+              let footer = `T000${this.data.length + 2}002386301474600000000000000000000000${this.data.length}00000${sumValue}000000000000000000000000000000000000000000000000000000000000000000000`
+              this.excelarray += footer
+            } else if (this.data.length >= 10 && this.data.length < 100) {
+              let footer = `T000${this.data.length + 2}0023863014746000000000000000000000000${this.data.length}00000${sumValue}000000000000000000000000000000000000000000000000000000000000000000000`
+              this.excelarray += footer
+            }
+            // console.log('footer', footer.length)
+          } else if (this.data.length + 2 >= 10 && this.data.length + 2 < 100) {
+            let footer = `T0000${this.data.length + 2}002386301474600000000000000000000000${this.data.length}00000${sumValue}000000000000000000000000000000000000000000000000000000000000000000000`
+            this.excelarray += footer
+            // console.log('footer', footer.length)
+          } else if (this.data.length + 2 >= 0 && this.data.length + 2 < 10 && this.data.length + 2 < 100) {
+            let footer = `T00000${this.data.length + 2}002386301474600000000000000000000000${this.data.length}00000${sumValue}000000000000000000000000000000000000000000000000000000000000000000000`
+            this.excelarray += footer
+          }
+          // let footer = `T000${this.data.length + 2}0023863014746000000000000000000000000${this.data.length}00000${sumValue}000000000000000000000000000000000000000000000000000000000000000000000000`
+          // console.log('HEADER', footer.length)
+          // this.excelarray += footer
           let blob = new Blob([this.excelarray], { type: 'text/plain' });
           let link = document.createElement('a');
           link.href = window.URL.createObjectURL(blob);

@@ -799,6 +799,8 @@ export default {
               payment_date_st: this.excelarray[i].payment_date_st,
               payment_status_3: this.excelarray[i].payment_status_3,
               payment_date_st_2: this.excelarray[i].payment_date_st_2,
+              payment_status_ot: this.excelarray[i].payment_status_ot,
+              payment_date_st_ot: this.excelarray[i].payment_date_st_ot,
               TAX_FLAG: this.excelarray[i].TAX_FLAG,
               create_time: this.excelarray[i].create_time
             };
@@ -821,6 +823,8 @@ export default {
               payment_date_st: this.excelarrayinstructor[j].payment_date_st,
               payment_status_3: this.excelarrayinstructor[j].payment_status_3,
               payment_date_st_2: this.excelarrayinstructor[j].payment_date_st_2,
+              payment_status_ot: this.excelarrayinstructor[j].payment_status_ot,
+              payment_date_st_ot: this.excelarrayinstructor[j].payment_date_st_ot,
               create_time: this.excelarrayinstructor[j].create_time
               // BB: object1[i].BB,
               // CC: object2[i].AC || object1[i].CC
@@ -843,6 +847,8 @@ export default {
               payment_date_st: this.excelarraywelfare[j].payment_date_st,
               payment_status_3: this.excelarraywelfare[j].payment_status_3,
               payment_date_st_2: this.excelarraywelfare[j].payment_date_st_2,
+              payment_status_ot: this.excelarraywelfare[j].payment_status_ot,
+              payment_date_st_ot: this.excelarraywelfare[j].payment_date_st_ot,
               create_time: this.excelarraywelfare[j].create_time
               // BB: object1[i].BB || '',
               // CC: object2[i].AC || object1[i].CC || ''
@@ -865,6 +871,8 @@ export default {
               payment_date_st: this.excelarrayHoliday[j].payment_date_st,
               payment_status_3: this.excelarrayHoliday[j].payment_status_3,
               payment_date_st_2: this.excelarrayHoliday[j].payment_date_st_2,
+              payment_status_ot: this.excelarrayHoliday[j].payment_status_ot,
+              payment_date_st_ot: this.excelarrayHoliday[j].payment_date_st_ot,
               create_time: this.excelarrayHoliday[j].create_time
               // BB: object1[i].BB || '',
               // CC: object2[i].AC || object1[i].CC || ''
@@ -1384,9 +1392,18 @@ export default {
             return acc
           }, {})
         })
+        jsonobjectTnos = jsonobjectTnos.filter((i) => {
+          return i.item1 !== null && i.item1 !== undefined
+        })
+        console.log('JSONTYPEOF2: ',  jsonobjectTnos)
+        const convertDate = (date) => {
+          console.log('splitdata', data)
+          let parts = date.split("/");
+          return `${parts[2]}-${parts[1]}-${parts[0]}`;
+        }
         let jsonMapTnos5 = jsonobjectTnos.map((data, i) => {
           return {
-            Working_date: data.item1,
+            Working_date: convertDate(data.item1),
             job_code: data.item2,
             shift: data.item3,
             trip_no: data.item4,
@@ -1569,6 +1586,11 @@ export default {
             return acc
           }, {})
         })
+        let days = 45344;
+        let epoch = new Date('1900-01-01');
+        epoch.setDate(epoch.getDate() + days);
+        let formattedDate = epoch.toISOString().slice(0, 10);
+        console.log(formattedDate);
         let jsonMapInstructor = jsonobjectInstructor.map((data, i) => {
           return {
             number: data.item1,
@@ -1600,7 +1622,7 @@ export default {
         jsonMapInstructor = jsonMapInstructor.filter((i) => {
           return i.number !== null && i.number !== undefined
         })
-        // console.log('jsonobjectInstructor', jsonobjectInstructor)
+        console.log('jsonobjectInstructor', jsonMapInstructor)
         // console.log('Aftermap2jsonMapInstructor', jsonMapInstructor)
         // console.log('Aftermap22', jsonMapInstructor2)
         // console.log('JSONTYPEOF2Aftermap: ', typeof (jsonobjectInstructor))
@@ -1609,7 +1631,7 @@ export default {
           let compare = response.data.result
           this.excelarray = Object.values(compare)
           // console.log('JSONTYPEOF2Aftermap23', this.jsondata2Welfare[1].TRIP_NO)
-          // console.log('LENG1', this.excelarray)
+          console.log('LENG1', this.excelarray)
           // console.log('LENG2', this.jsondata2Instructor)
           let dup = this.jsondata2Instructor.filter(a => this.excelarray.some(b => a.TRIP_NO === b.TRIP_NO))
           // console.log('IsDuplicate', dup)
