@@ -15,7 +15,7 @@
           <br>
           <br>
           <p style="text-align: center;">
-            <tr style="border: 1px solid;">
+            <tr style="border: 1px solid;font-size: 15px;font-weight: bold;">
               <td style="border: 1px solid;">NO.</td>
               <td style="border: 1px solid;">DEPARTURE_DATETIME</td>
               <td style="border: 1px solid;">Calling Sheet No</td>
@@ -31,14 +31,14 @@
               <td style="border: 1px solid;">Payment Date OT</td>
               <td style="border: 1px solid;">create_time</td>
             </tr>
-            <tr v-for="(item, index) in showdatafind" :key="index" style="border: 1px solid;">
+            <tr v-for="(item, index) in showdatafind" :key="index" style="border: 1px solid;font-size: 15px;">
               <td style="border: 1px solid;margin: 5px;">{{ index + 1 }}</td>
               <td style="border: 1px solid;margin: 5px;">{{ (item.Working_date) }}</td>
               <td style="border: 1px solid;margin: 5px;">{{ item.calling_sheet_no }}</td>
               <!-- <td style="border: 1px solid;margin: 5px;">{{ item.total_ot }}</td> -->
               <td style="border: 1px solid;margin: 5px;">{{ item.ttt_employee_code }}</td>
-              <td style="border: 1px solid;margin: 5px;">{{ item.tlep_driver_name }}</td>
-              <td style="border: 1px solid;margin: 5px;">{{ item.to_name }}</td>
+              <td style="border: 1px solid;margin: 5px;width: 200px;">{{ item.tlep_driver_name }}</td>
+              <td style="border: 1px solid;margin: 5px;width: 200px">{{ item.to_name }}</td>
               <td style="border: 1px solid;margin: 5px;">{{ item.total_allowance.toLocaleString() }}</td>
               <td v-if="item.payment_status_3 === '1' || item.payment_status_3 === 1" style="border: 1px solid;margin: 5px;">จ่ายแล้ว</td>
               <td v-if="item.payment_status_3 === 0 || item.payment_status_3 === '0' || item.payment_status_3 === null || item.payment_status_3 === undefined" style="border: 1px solid;margin: 5px;">ยังไม่จ่าย</td>

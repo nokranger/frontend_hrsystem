@@ -418,15 +418,7 @@ export default {
         to: this.dateattach9to,
         payment_date: this.dateattach9select
       }
-      await axios.post('http://localhost:4000/updatepaymentstatus3ot', from_to)
-        .then(response => {
-          // console.log('updatepayment', response.data.result);
-          // console.log('status', from_to)
-        })
-        .catch(error => {
-          console.error('Error fetching data:', error.message);
-        });
-      await axios.post('http://localhost:4000/updatepaymentstatus4ot', from_to)
+      await axios.post('http://localhost:4000/updatepaymentstatusholiday', from_to)
         .then(response => {
           // console.log('updatepayment', response.data.result);
           // console.log('status', from_to)
