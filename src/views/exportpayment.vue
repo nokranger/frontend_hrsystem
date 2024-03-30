@@ -88,6 +88,12 @@ export default {
     }
   },
   mounted() {
+    let sumValue = 55190375
+    let sumI = 1
+    let formattedSumValues = ('000000' + sumI).slice(-6);
+    let formattedSumValue = ('0000000000000' + sumValue).slice(-13);
+    console.log('formattedSumValue', formattedSumValue);
+    console.log('formattedSumValueI', formattedSumValues);
   },
   methods: {
     async exportPayment() {
@@ -215,10 +221,10 @@ export default {
           let formattedDate = ('0' + date.getDate()).slice(-2) + ('0' + (date.getMonth() + 1)).slice(-2) + date.getFullYear().toString().substr(-2);
           let sumValue = this.data.reduce((acc, obj) => acc + parseFloat(obj.total_allowance), 0);
           console.log('sumvalue', sumValue)
-          sumValue = sumValue.toLocaleString()
-          sumValue = sumValue.replace('.', '').padStart(10, '0')
-          sumValue = sumValue.replace(',', '')
-          // console.log('sumvalue', sumValue)
+          sumValue = sumValue * 100
+          // sumValue = sumValue.replace('.', '').padStart(10, '')
+          // sumValue = sumValue.replace(',', '')
+          console.log('sumvalue', sumValue)
           let header = `H0000010023863014746TOYOTA TRANSPORT (THAILAN${formattedDate}00000000000000000000000000000000000000000000000000000000000000000000000000000\n`
           console.log('HEADER', header.length)
           let count = 0
@@ -226,35 +232,19 @@ export default {
           let contentString = 128
           let footerString = 128
           for (let i = 0; i < this.data.length; i++) {
-            let sumValue2 = this.data[i].total_allowance.toLocaleString()
-            sumValue2 = sumValue2.replace('.', '').padStart(10, '0')
-            sumValue2 = sumValue2.replace(',', '')
+            let sumValue2 = this.data[i].total_allowance
+            sumValue2 = sumValue2 * 100
+            // sumValue2 = sumValue2.replace(',', '')
             let bank_account_number_split = this.data[i].bank_account_number.replace(/-/g, '')
-            let concatstring = 'D0000' + `${i + 2}` + '200' + (bank_account_number_split) + `${sumValue2}` + '0029' + '                                ' + '00000000000000' + '' + '             ' + this.data[i].name + '\n'
+            let concatstring = 'D' + `${('000000' + (i + 2)).slice(-6)}` + '200' + (bank_account_number_split) + `${('0000000000' + sumValue2).slice(-10)}` + '0029' + '                                ' + '00000000000000' + '' + '             ' + this.data[i].name.padEnd(35, ' ') + '\n'
             this.excelarray += concatstring
+            console.log('CONTENT', concatstring.length)
             count++
           }
           this.excelarray = header + this.excelarray
-          if (this.data.length + 2 >= 100) {
-            if (this.data.length >= 100) {
-              let footer = `T000${this.data.length + 2}002386301474600000000000000000000000${this.data.length}00000${sumValue}000000000000000000000000000000000000000000000000000000000000000000000`
-              this.excelarray += footer
-            } else if (this.data.length >= 10 && this.data.length < 100) {
-              let footer = `T000${this.data.length + 2}0023863014746000000000000000000000000${this.data.length}00000${sumValue}000000000000000000000000000000000000000000000000000000000000000000000`
-              this.excelarray += footer
-            }
-            // console.log('footer', footer.length)
-          } else if (this.data.length + 2 >= 10 && this.data.length + 2 < 100) {
-            let footer = `T0000${this.data.length + 2}002386301474600000000000000000000000${this.data.length}00000${sumValue}000000000000000000000000000000000000000000000000000000000000000000000`
-            this.excelarray += footer
-            // console.log('footer', footer.length)
-          } else if (this.data.length + 2 >= 0 && this.data.length + 2 < 10 && this.data.length + 2 < 100) {
-            let footer = `T00000${this.data.length + 2}002386301474600000000000000000000000${this.data.length}00000${sumValue}000000000000000000000000000000000000000000000000000000000000000000000`
-            this.excelarray += footer
-          }
-          // let footer = `T000${this.data.length + 2}0023863014746000000000000000000000000${this.data.length}00000${sumValue}000000000000000000000000000000000000000000000000000000000000000000000000`
-          // console.log('HEADER', footer.length)
-          // this.excelarray += footer
+          let footer = `T${('000000' + (this.data.length + 2)).slice(-6)}002386301474600000000000000000000${('0000000' + this.data.length).slice(-7)}${('0000000000000' + sumValue).slice(-13)}00000000000000000000000000000000000000000000000000000000000000000000`
+          console.log('HEADER', footer.length)
+          this.excelarray += footer
           let blob = new Blob([this.excelarray], { type: 'text/plain' });
           let link = document.createElement('a');
           link.href = window.URL.createObjectURL(blob);
