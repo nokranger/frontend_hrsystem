@@ -1,12 +1,12 @@
 <template>
   <div>
     <b-container>
-      <b-alert v-if="alertStatus === 1" show variant="success" :show="dismissCountDown" fade
+      <!-- <b-alert v-if="alertStatus === 1" show variant="success" :show="dismissCountDown" fade
         @dismiss-count-down="countDownChanged"><a href="#" style="text-decoration:none" class="alert-link">Export
           Payment Success</a></b-alert>
       <b-alert v-if="alertStatus === 3" show variant="danger" :show="dismissCountDown" fade
         @dismiss-count-down="countDownChanged"><a href="#" style="text-decoration:none" class="alert-link">Export
-          Payment Fail</a></b-alert>
+          Payment Fail</a></b-alert> -->
       <b-alert v-if="alertStatus2 === 1" show variant="success" :show="dismissCountDown" fade
         @dismiss-count-down="countDownChanged"><a href="#" style="text-decoration:none" class="alert-link">Update
           Payment Success</a></b-alert>
@@ -217,7 +217,16 @@ export default {
           }
           console.log('sumvalu1', combinedArray)
           this.data = combinedArray
+          this.data = this.data.reduce((acc, { total_allowance, emp_code, bank_account_number, name }) => {
+            if (!acc[emp_code]) {
+              acc[emp_code] = { emp_code, total_allowance: 0, bank_account_number, name };
+            }
+            acc[emp_code].total_allowance += total_allowance;
+            return acc;
+          }, {});
           let date = new Date(this.datepaymentselect);
+          this.data = Object.values(this.data);
+          this.data.sort((a, b) => a.updated_at - b.updated_at);
           let formattedDate = ('0' + date.getDate()).slice(-2) + ('0' + (date.getMonth() + 1)).slice(-2) + date.getFullYear().toString().substr(-2);
           let sumValue = this.data.reduce((acc, obj) => acc + parseFloat(obj.total_allowance), 0);
           console.log('sumvalue', sumValue)

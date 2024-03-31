@@ -13,14 +13,14 @@
         <span style="display: inline;">
           <b-row style="margin: 10px;">
             <b-col>
-              <div style="font-size: 20px;text-align: left;margin-left: 10px;">ตั้งแต่วันที่</div>
-              <b-form-datepicker style="width: 100%;" id="example-datepicker1" v-model="dateotfrom"
+              <div style="font-size: 20px;text-align: left;margin-left: 10px;">เลือกวันจ่ายเงิน</div>
+              <b-form-datepicker style="width: 100%;" id="example-datepickerpaymentselect1" v-model="dateotselect"
                 class="mb-2"></b-form-datepicker>
             </b-col>
             <b-col>
-              <div style="font-size: 20px;text-align: left;margin-left: 10px;">ถึงวันที่</div>
+              <!-- <div style="font-size: 20px;text-align: left;margin-left: 10px;">ถึงวันที่</div>
               <b-form-datepicker style="width: 100%;" id="example-datepicker2" v-model="dateotto"
-                class="mb-2"></b-form-datepicker>
+                class="mb-2"></b-form-datepicker> -->
             </b-col>
             <b-col>
               <div style="text-align: left;">
@@ -31,14 +31,14 @@
           </b-row>
           <b-row style="margin: 10px;">
             <b-col>
-              <div style="font-size: 20px;text-align: left;margin-left: 10px;">ตั้งแต่วันที่</div>
-              <b-form-datepicker style="width: 100%;" id="example-datepicker3" v-model="dateallowancefrom"
+              <div style="font-size: 20px;text-align: left;margin-left: 10px;">เลือกวันจ่ายเงิน</div>
+              <b-form-datepicker style="width: 100%;" id="example-datepickerpaymentselect2" v-model="dateallowanceselect"
                 class="mb-2"></b-form-datepicker>
             </b-col>
             <b-col>
-              <div style="font-size: 20px;text-align: left;margin-left: 10px;">ถึงวันที่</div>
+              <!-- <div style="font-size: 20px;text-align: left;margin-left: 10px;">ถึงวันที่</div>
               <b-form-datepicker style="width: 100%;" id="example-datepicker4" v-model="dateallowanceto"
-                class="mb-2"></b-form-datepicker>
+                class="mb-2"></b-form-datepicker> -->
             </b-col>
             <b-col>
               <div style="text-align: left;">
@@ -71,14 +71,17 @@ export default {
       dateotfrom: '',
       dateotto: '',
       dateallowancefrom: '',
-      dateallowanceto: ''
+      dateallowanceto: '',
+      dateotselect: '',
+      dateallowanceselect: ''
     }
   },
   methods: {
     async getot() {
       let from_to = {
         from: this.dateotfrom,
-        to: this.dateotto
+        to: this.dateotto,
+        payment_date: this.dateotselect
       }
       await axios.post('http://localhost:4000/getdatapayrollot', from_to)
         .then(response => {
@@ -132,55 +135,12 @@ export default {
         .catch(error => {
           console.error('Error fetching data:', error.message);
         });
-      // await axios.post('http://localhost:4000/getdatapayrollot3', from_to)
-      //   .then(response => {
-      //     console.log('resdata', response.data.result);
-      //     let dataexcel = response.data.result
-      //     this.excelarrayot3 = Object.values(dataexcel);
-
-      //     // const combinedArray = []
-      //     // for (let i = 0; i < this.excelarrayot.length; i++) {
-      //     //   const combinedObject = {
-      //     //     EMP_CODE: this.excelarrayot[i].EMP_CODE,
-      //     //     OT: this.excelarrayot[i].OT,
-      //     //   }
-      //     //   combinedArray.push(combinedObject);
-      //     // }
-      //     // for (let i = 0; i < this.excelarrayot2.length; i++) {
-      //     //   const combinedObject = {
-      //     //     EMP_CODE: this.excelarrayot2[i].EMP_CODE,
-      //     //     OT: this.excelarrayot2[i].OT,
-      //     //   }
-      //     //   combinedArray.push(combinedObject);
-      //     // }
-      //     // // for (let i = 0; i < this.excelarrayot3.length; i++) {
-      //     // //   const combinedObject = {
-      //     // //     EMP_CODE: this.excelarrayot3[i].EMP_CODE,
-      //     // //     OT: this.excelarrayot3[i].OT,
-      //     // //   }
-      //     // //   combinedArray.push(combinedObject);
-      //     // // }
-      //     // console.log('dateTime', combinedArray)
-      //     // //export to excell
-      //     // const workbook = XLSX.utils.book_new();
-
-      //     // // Convert the JSON data to a worksheet
-      //     // const worksheet = XLSX.utils.json_to_sheet(combinedArray);
-
-      //     // // Add the worksheet to the workbook
-      //     // XLSX.utils.book_append_sheet(workbook, worksheet, 'payrollOT');
-
-      //     // // Save the workbook to a file
-      //     // XLSX.writeFile(workbook, 'payrollOT.xlsx');
-      //   })
-      //   .catch(error => {
-      //     console.error('Error fetching data:', error.message);
-      //   });
     },
     async getallowance() {
       let from_to = {
         from: this.dateallowancefrom,
-        to: this.dateallowanceto
+        to: this.dateallowanceto,
+        payment_date: this.dateallowanceselect
       }
       await axios.post('http://localhost:4000/getdatapayrollallowance', from_to)
         .then(response => {
@@ -228,11 +188,20 @@ export default {
             }
             combinedArray.push(combinedObject);
           }
+          this.data = combinedArray
+          this.data = this.data.reduce((acc, { ALLOWANCE, EMP_CODE }) => {
+            if (!acc[EMP_CODE]) {
+              acc[EMP_CODE] = { EMP_CODE, ALLOWANCE: 0 };
+            }
+            acc[EMP_CODE].ALLOWANCE += ALLOWANCE;
+            return acc;
+          }, {});
+          this.data = Object.values(this.data);
           //export to excell
           const workbook = XLSX.utils.book_new();
 
           // Convert the JSON data to a worksheet
-          const worksheet = XLSX.utils.json_to_sheet(combinedArray);
+          const worksheet = XLSX.utils.json_to_sheet(this.data);
 
           // Add the worksheet to the workbook
           XLSX.utils.book_append_sheet(workbook, worksheet, 'payrollAllowance');
