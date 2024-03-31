@@ -67,13 +67,15 @@
         <b-row>
           <b-col>
             <div style="text-align: center;">
-              <b-button variant="outline-primary" @click="getAttach8" style="box-shadow: 5px 5px 5px #888888;">Preview <b-icon-file-earmark-pdf-fill variant="danger"></b-icon-file-earmark-pdf-fill></b-button>
+              <b-button variant="outline-primary" @click="getAttach8" style="box-shadow: 5px 5px 5px #888888;">Preview
+                <b-icon-file-earmark-pdf-fill variant="danger"></b-icon-file-earmark-pdf-fill></b-button>
             </div>
           </b-col>
           <b-col>
             <div style="text-align: center;">
               <b-button variant="outline-primary" @click="getAttach8Excel"
-                style="box-shadow: 5px 5px 5px #888888;">Export <b-icon-file-earmark-excel-fill variant="success"></b-icon-file-earmark-excel-fill></b-button>
+                style="box-shadow: 5px 5px 5px #888888;">Export <b-icon-file-earmark-excel-fill
+                  variant="success"></b-icon-file-earmark-excel-fill></b-button>
             </div>
           </b-col>
           <b-col></b-col>
@@ -160,7 +162,7 @@ export default {
       }
       await axios.post('http://localhost:4000/getdataattach8', from_to)
         .then(response => {
-          // console.log('resdata', response.data.result);
+          console.log('resdata8', response.data.result);
           let dataexcel = response.data.result
           this.excelarrayattach8 = Object.values(dataexcel);
         })
@@ -169,16 +171,31 @@ export default {
         });
       await axios.post('http://localhost:4000/getdataattach82', from_to_welfare)
         .then(response => {
-          // console.log('resdata', response.data.result);
+          console.log('resdata82', response.data.result);
           let dataexcel = response.data.result
           this.excelarrayattach82 = Object.values(dataexcel);
+        })
+      await axios.post('http://localhost:4000/getdataattach821', from_to_welfare)
+        .then(response => {
+          console.log('resdata821', response.data.result);
+          let dataexcel = response.data.result
+          this.excelarrayattach821 = Object.values(dataexcel);
+        })
+        .catch(error => {
+          console.error('Error fetching data:', error.message);
+        });
+      await axios.post('http://localhost:4000/getdataattach831', from_to)
+        .then(response => {
+          console.log('resdata831', response.data.result);
+          let dataexcel = response.data.result
+          this.excelarrayattach831 = Object.values(dataexcel);
         })
         .catch(error => {
           console.error('Error fetching data:', error.message);
         });
       await axios.post('http://localhost:4000/getdataattach83', from_to)
         .then(response => {
-          // console.log('resdata', response.data.result);
+          console.log('resdata83', response.data.result);
           let dataexcel = response.data.result
           this.excelarrayattach83 = Object.values(dataexcel);
           const combinedArray = []
@@ -195,6 +212,58 @@ export default {
             }
             combinedArray.push(combinedObject);
           }
+          for (let i = 0; i < this.excelarrayattach82.length; i++) {
+            const combinedObject = {
+              recieve_job_dateandtime: this.excelarrayattach82[i].DEPARTURE_DATETIME,
+              calling_sheet_no: this.excelarrayattach82[i].TRIP_NO,
+              total_allowance: parseFloat(this.excelarrayattach82[i].TOTAL_ALLOWANCE),
+              to_name: this.excelarrayattach82[i].DEALER1,
+              standard_ot: 0,
+              ttt_employee_code: this.excelarrayattach82[i].DRIVER1,
+              over_ot: 0,
+              tlep_driver_name: this.excelarrayattach82[i].NAME
+            }
+            combinedArray.push(combinedObject);
+          }
+          for (let i = 0; i < this.excelarrayattach821.length; i++) {
+            const combinedObject = {
+              recieve_job_dateandtime: this.excelarrayattach821[i].DEPARTURE_DATETIME,
+              calling_sheet_no: this.excelarrayattach821[i].TRIP_NO,
+              total_allowance: parseFloat(this.excelarrayattach821[i].TOTAL_ALLOWANCE),
+              to_name: this.excelarrayattach821[i].DEALER1,
+              standard_ot: 0,
+              ttt_employee_code: this.excelarrayattach821[i].DRIVER1,
+              over_ot: 0,
+              tlep_driver_name: this.excelarrayattach821[i].NAME
+            }
+            combinedArray.push(combinedObject);
+          }
+          for (let i = 0; i < this.excelarrayattach83.length; i++) {
+            const combinedObject = {
+              recieve_job_dateandtime: this.excelarrayattach83[i].DEPARTURE_DATETIME,
+              calling_sheet_no: this.excelarrayattach83[i].TRIP_NO,
+              total_allowance: parseFloat(this.excelarrayattach83[i].TOTAL_ALLOWANCE),
+              to_name: this.excelarrayattach83[i].DEALER1,
+              standard_ot: 0,
+              ttt_employee_code: this.excelarrayattach83[i].DRIVER1,
+              over_ot: 0,
+              tlep_driver_name: this.excelarrayattach83[i].NAME
+            }
+            combinedArray.push(combinedObject);
+          }
+          for (let i = 0; i < this.excelarrayattach831.length; i++) {
+            const combinedObject = {
+              recieve_job_dateandtime: this.excelarrayattach831[i].DEPARTURE_DATETIME,
+              calling_sheet_no: this.excelarrayattach831[i].TRIP_NO,
+              total_allowance: parseFloat(this.excelarrayattach831[i].TOTAL_ALLOWANCE),
+              to_name: this.excelarrayattach831[i].DEALER1,
+              standard_ot: 0,
+              ttt_employee_code: this.excelarrayattach831[i].DRIVER1,
+              over_ot: 0,
+              tlep_driver_name: this.excelarrayattach831[i].NAME
+            }
+            combinedArray.push(combinedObject);
+          }
           this.pdfdata = combinedArray
           this.pdfdata = this.pdfdata.reduce((acc, obj) => {
             // If the key doesn't exist, create an array for it
@@ -205,6 +274,14 @@ export default {
             acc[obj.ttt_employee_code].push(obj);
             return acc;
           }, {});
+          // this.pdfdata = this.pdfdata.reduce((acc, { recieve_job_dateandtime, calling_sheet_no, total_allowance, to_name, standard_ot, ttt_employee_code, over_ot, tlep_driver_name }) => {
+          //   if (!acc[ttt_employee_code]) {
+          //     acc[ttt_employee_code] = { recieve_job_dateandtime, calling_sheet_no, total_allowance, to_name, standard_ot, ttt_employee_code, over_ot, tlep_driver_name };
+          //   }
+          //   acc[ttt_employee_code].total_allowance += total_allowance;
+          //   return acc;
+          // }, {});
+          this.pdfdata = Object.values(this.pdfdata);
           this.updatepayment8()
 
         })
@@ -225,7 +302,7 @@ export default {
       }
       await axios.post('http://localhost:4000/getdataattach8', from_to)
         .then(response => {
-          // console.log('resdata', response.data.result);
+          console.log('resdata8', response.data.result);
           let dataexcel = response.data.result
           this.excelarrayattach8 = Object.values(dataexcel);
         })
@@ -234,16 +311,31 @@ export default {
         });
       await axios.post('http://localhost:4000/getdataattach82', from_to_welfare)
         .then(response => {
-          // console.log('resdata', response.data.result);
+          console.log('resdata82', response.data.result);
           let dataexcel = response.data.result
           this.excelarrayattach82 = Object.values(dataexcel);
+        })
+      await axios.post('http://localhost:4000/getdataattach821', from_to_welfare)
+        .then(response => {
+          console.log('resdata821', response.data.result);
+          let dataexcel = response.data.result
+          this.excelarrayattach821 = Object.values(dataexcel);
+        })
+        .catch(error => {
+          console.error('Error fetching data:', error.message);
+        });
+      await axios.post('http://localhost:4000/getdataattach831', from_to)
+        .then(response => {
+          console.log('resdata831', response.data.result);
+          let dataexcel = response.data.result
+          this.excelarrayattach831 = Object.values(dataexcel);
         })
         .catch(error => {
           console.error('Error fetching data:', error.message);
         });
       await axios.post('http://localhost:4000/getdataattach83', from_to)
         .then(response => {
-          // console.log('resdata', response.data.result);
+          console.log('resdata83', response.data.result);
           let dataexcel = response.data.result
           this.excelarrayattach83 = Object.values(dataexcel);
           const combinedArray = []
@@ -257,6 +349,58 @@ export default {
               ttt_employee_code: this.excelarrayattach8[i].ttt_employee_code,
               over_ot: this.excelarrayattach8[i].over_ot,
               tlep_driver_name: this.excelarrayattach8[i].tlep_driver_name
+            }
+            combinedArray.push(combinedObject);
+          }
+          for (let i = 0; i < this.excelarrayattach82.length; i++) {
+            const combinedObject = {
+              recieve_job_dateandtime: this.excelarrayattach82[i].DEPARTURE_DATETIME,
+              calling_sheet_no: this.excelarrayattach82[i].TRIP_NO,
+              total_allowance: parseFloat(this.excelarrayattach82[i].TOTAL_ALLOWANCE),
+              to_name: this.excelarrayattach82[i].DEALER1,
+              standard_ot: 0,
+              ttt_employee_code: this.excelarrayattach82[i].DRIVER1,
+              over_ot: 0,
+              tlep_driver_name: this.excelarrayattach82[i].NAME
+            }
+            combinedArray.push(combinedObject);
+          }
+          for (let i = 0; i < this.excelarrayattach821.length; i++) {
+            const combinedObject = {
+              recieve_job_dateandtime: this.excelarrayattach821[i].DEPARTURE_DATETIME,
+              calling_sheet_no: this.excelarrayattach821[i].TRIP_NO,
+              total_allowance: parseFloat(this.excelarrayattach821[i].TOTAL_ALLOWANCE),
+              to_name: this.excelarrayattach821[i].DEALER1,
+              standard_ot: 0,
+              ttt_employee_code: this.excelarrayattach821[i].DRIVER1,
+              over_ot: 0,
+              tlep_driver_name: this.excelarrayattach821[i].NAME
+            }
+            combinedArray.push(combinedObject);
+          }
+          for (let i = 0; i < this.excelarrayattach83.length; i++) {
+            const combinedObject = {
+              recieve_job_dateandtime: this.excelarrayattach83[i].DEPARTURE_DATETIME,
+              calling_sheet_no: this.excelarrayattach83[i].TRIP_NO,
+              total_allowance: parseFloat(this.excelarrayattach83[i].TOTAL_ALLOWANCE),
+              to_name: this.excelarrayattach83[i].DEALER1,
+              standard_ot: 0,
+              ttt_employee_code: this.excelarrayattach83[i].DRIVER1,
+              over_ot: 0,
+              tlep_driver_name: this.excelarrayattach83[i].NAME
+            }
+            combinedArray.push(combinedObject);
+          }
+          for (let i = 0; i < this.excelarrayattach831.length; i++) {
+            const combinedObject = {
+              recieve_job_dateandtime: this.excelarrayattach831[i].DEPARTURE_DATETIME,
+              calling_sheet_no: this.excelarrayattach831[i].TRIP_NO,
+              total_allowance: parseFloat(this.excelarrayattach831[i].TOTAL_ALLOWANCE),
+              to_name: this.excelarrayattach831[i].DEALER1,
+              standard_ot: 0,
+              ttt_employee_code: this.excelarrayattach831[i].DRIVER1,
+              over_ot: 0,
+              tlep_driver_name: this.excelarrayattach831[i].NAME
             }
             combinedArray.push(combinedObject);
           }
@@ -363,8 +507,8 @@ export default {
             page.drawText(`เลขอ้างอิง`, { x: 150, y: 720, size: fontSize, font: thaiFont });
             page.drawText(`เบี้ยเลี้ยง`, { x: 220, y: 720, size: fontSize, font: thaiFont });
             page.drawText(`รายละเอียด`, { x: 300, y: 720, size: fontSize, font: thaiFont });
-            page.drawText(`ค่าตอบแทน (ชม.)`, { x: 420, y: 720, size: fontSize, font: thaiFont });
-            page.drawText(`เพิ่ม/ลด`, { x: 500, y: 720, size: fontSize, font: thaiFont });
+            page.drawText(`ค่าตอบแทน (ชม.)`, { x: 440, y: 720, size: fontSize, font: thaiFont });
+            page.drawText(`เพิ่ม/ลด`, { x: 510, y: 720, size: fontSize, font: thaiFont });
             page.drawText(`__________________________________________________________________________________`, { x: 10, y: 710, size: 20, font: thaiFont });
             page.drawText(`${result[key][i].recieve_job_dateandtime}`, { x: 25, y: yPosition, size: fontSize, font: thaiFont });
             page.drawText(`${result[key][i].calling_sheet_no}`, { x: 130, y: yPosition, size: fontSize, font: thaiFont });
