@@ -1403,7 +1403,7 @@ export default {
         }
         let jsonMapTnos5 = jsonobjectTnos.map((data, i) => {
           return {
-            Working_date: convertDate(data.item1),
+            Working_date: new Date((data.item1 - 1) * 24 * 60 * 60 * 1000 + new Date(1900, 0, 0).getTime()),
             job_code: data.item2,
             shift: data.item3,
             trip_no: data.item4,

@@ -234,7 +234,7 @@ export default {
           // sumValue = sumValue.replace('.', '').padStart(10, '')
           // sumValue = sumValue.replace(',', '')
           console.log('sumvalue', sumValue)
-          let header = `H0000010023863014746TOYOTA TRANSPORT (THAILAN${formattedDate}00000000000000000000000000000000000000000000000000000000000000000000000000000\n`
+          let header = `H0000010023863014746TOYOTA TRANSPORT (THAILAN${formattedDate}00000000000000000000000000000000000000000000000000000000000000000000000000000\r`
           console.log('HEADER', header.length)
           let count = 0
           let headerString = 128
@@ -245,16 +245,16 @@ export default {
             sumValue2 = sumValue2 * 100
             // sumValue2 = sumValue2.replace(',', '')
             let bank_account_number_split = this.data[i].bank_account_number.replace(/-/g, '')
-            let concatstring = 'D' + `${('000000' + (i + 2)).slice(-6)}` + '200' + (bank_account_number_split) + `${('0000000000' + sumValue2).slice(-10)}` + '0029' + '                                ' + '00000000000000' + '' + '             ' + this.data[i].name.padEnd(35, ' ') + '\n'
+            let concatstring = 'D' + `${('000000' + (i + 2)).slice(-6)}` + '002' + (bank_account_number_split) + 'C' + `${('0000000000' + sumValue2).slice(-10)}` + '029' + '                                ' + '00000000000000' + '             ' + this.data[i].name.padEnd(35, ' ') + '\r'
             this.excelarray += concatstring
             console.log('CONTENT', concatstring.length)
             count++
           }
           this.excelarray = header + this.excelarray
-          let footer = `T${('000000' + (this.data.length + 2)).slice(-6)}002386301474600000000000000000000${('0000000' + this.data.length).slice(-7)}${('0000000000000' + sumValue).slice(-13)}00000000000000000000000000000000000000000000000000000000000000000000`
+          let footer = `T${('000000' + (this.data.length + 2)).slice(-6)}002386301474600000000000000000000${('0000000' + this.data.length).slice(-7)}${('0000000000000' + sumValue).slice(-13)}00000000000000000000000000000000000000000000000000000000000000000000\r`
           console.log('HEADER', footer.length)
           this.excelarray += footer
-          let blob = new Blob([this.excelarray], { type: 'text/plain' });
+          let blob = new Blob([this.excelarray], { type: 'text/plain;charset=utf8;' });
           let link = document.createElement('a');
           link.href = window.URL.createObjectURL(blob);
           link.download = 'output.dat';

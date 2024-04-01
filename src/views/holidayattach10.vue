@@ -161,7 +161,7 @@ export default {
             const combinedObject = {
               ttt_employee_code: this.excelarrayattach10[i].emp_code,
               total_ot: this.excelarrayattach10[i].total_ot,
-              recieve_job_dateandtime: this.excelarrayattach10[i].recieve_job_dateandtime,
+              recieve_job_dateandtime: this.excelarrayattach10[i].DEPARTURE_DATETIME,
               tlep_driver_name: this.excelarrayattach10[i].NAME,
               calling_sheet_no: this.excelarrayattach10[i].TRIP_NO,
               to_name: this.excelarrayattach10[i].DEALER1
@@ -172,7 +172,7 @@ export default {
             const combinedObject = {
               ttt_employee_code: this.excelarrayattach102[i].emp_code,
               total_ot: this.excelarrayattach102[i].total_ot,
-              recieve_job_dateandtime: this.excelarrayattach102[i].recieve_job_dateandtime,
+              recieve_job_dateandtime: this.excelarrayattach102[i].DEPARTURE_DATETIME,
               tlep_driver_name: this.excelarrayattach102[i].NAME,
               calling_sheet_no: this.excelarrayattach102[i].TRIP_NO,
               to_name: this.excelarrayattach102[i].DEALER1

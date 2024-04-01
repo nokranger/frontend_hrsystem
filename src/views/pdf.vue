@@ -23,12 +23,20 @@ export default {
     handleFileChangeInstructor (event) {
       const file = event.target.files[0];
       let reader = new FileReader()
-      reader.readAsText(file,'CP1251')
+      reader.readAsText(file,'UTF-8')
       reader.onload = readerEvent => {
-      let content = readerEvent.target.result;
-      let data = content.substring(1, 131)
-      console.log('readFormFile', content)
-      console.log('readFormFileLeng', data)
+      let content = 'H0000010023863014746TOYOTA TRANSPORT (THAILAN15032400000000000000000000000000000000000000000000000000000000000000000000000000000\r';
+      let concc = readerEvent.target.result
+      let content2 = 'D0000020022400609240C0000200900029                                00000000000000             น.ส.ณทิตา  นิลาโพธิ์\r'
+      let content3 = `D0000020022400609240C0000200900029\t\t\t\t00000000000000\tน.ส.ณทิตา  นิลาโพธิ์               \r`
+      let data = content.substring(1, 128)
+      console.log('readFormFile', data)
+      console.log('readFormFileLeng', content.length)
+      console.log('readFormFileLeng', concc.length)
+      console.log('readFormFileLeng', content2.length)
+      console.log('readFormFileLeng', content3.length)
+      console.log('readFormFileLeng3', content3)
+      console.log('readFormFileLeng2', content2)
    }
     }
   },
