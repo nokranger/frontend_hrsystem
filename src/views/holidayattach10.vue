@@ -252,6 +252,11 @@ export default {
       await this.exporttoexcel(this.pdfdata)
     },
     async generatePDF10(result) {
+      let formatter = new Intl.NumberFormat('en-US', {
+        style: 'decimal',
+        minimumFractionDigits: 2,
+        maximumFractionDigits: 2
+      });
       const pdfDoc = await PDFDocument.create()
       pdfDoc.registerFontkit(fontkit)
       let urls = 'https://script-app.github.io/font/THSarabunNew.ttf'
@@ -268,7 +273,8 @@ export default {
       let yPosition = height - margin;
 
       const fontSize = 17; //
-
+      const textWidth = thaiFont.widthOfTextAtSize(this.titleattach10, fontSize);
+      const textHeight = thaiFont.heightAtSize(fontSize);
       let count = 0
       let countPage = 1
       // let sumValue = datas.reduce((acc, obj) => acc + parseInt(obj.total_allowance), 0);
@@ -296,7 +302,7 @@ export default {
             // const yPriceStart = yNameStart + 20;
             // page.drawText(`${result[key][i].standard_ot}`, { x: 390, y: yPosition, size: fontSize, font: thaiFont });
             // page.drawText(`${result[key][i].over_ot}`, { x: 480, y: yPosition, size: fontSize, font: thaiFont });
-            page.drawText(`${result[key][i].total_ot}`, { x: 540, y: yPosition, size: fontSize, font: thaiFont });
+            page.drawText(`${formatter.format(result[key][i].total_ot)}`, { x: 540, y: yPosition, size: fontSize, font: thaiFont });
             yPosition -= descriptionHeight; // Adjust x-position for the next entry
             keycount = result[key][i].ttt_employee_code
             count++
@@ -308,7 +314,7 @@ export default {
               page.drawText(`__________________________________________________________________________________`, { x: 10, y: yPosition + 20, size: 20, font: thaiFont });
               // page.drawText(`${sumStadardOt}`, { x: 390, y: yPosition, size: fontSize, font: thaiFont });
               // page.drawText(`${sumOverOT}`, { x: 480, y: yPosition, size: fontSize, font: thaiFont });
-              page.drawText(`${sumOT}`, { x: 540, y: yPosition, size: fontSize, font: thaiFont });
+              page.drawText(`${formatter.format(sumOT)}`, { x: 540, y: yPosition, size: fontSize, font: thaiFont });
               if (this.titlefooter.length > 0) {
                 page.drawText(`** หมายเหตุ: ${this.titlefooter}`, { x: 10, y: yPosition - 30, size: 16, font: thaiFont });
               } else {
@@ -327,7 +333,7 @@ export default {
             // page.drawText(`${result[key][i].ttt_employee_code}`, { x: 500, y: 800, size: 20, font: thaiFont });
             page.drawText(`บริษัท โตโยต้า ทรานสปอร์ต (ประเทศไทย) จํากัด`, { x: 170, y: 800, size: 20, font: thaiFont });
             // page.drawText(`สรุปยอดเงินเบี้ยเลี้ยง/ค่าขับและสวัสดิการของพนักงาน`, { x: 140, y: 780, size: 20, font: thaiFont });
-            page.drawText(`${this.titleattach10}`, { x: 140, y: 780, size: 20, font: thaiFont });
+            page.drawText(`${this.titleattach10}`, { x: page.getWidth() / 2.2 - textWidth / 2.2, y: 780, size: 20, font: thaiFont });
             page.drawText(`รายละเอียดชั่วโมงทำงานเกินเวลาตั้งแต่วันที่ ${moment(this.dateattach10from).format('L')} To ${moment(this.dateattach10to).format('L')} เข้าบัญชีพนักงานวันที่ ${moment(this.dateattach10select).format('L')}`, { x: 50, y: 760, size: 15, font: thaiFont });
             // page.drawText(`To`, { x: 250, y: 760, size: 15, font: thaiFont });
             page.drawText(`ชื่อ ${result[key][i].tlep_driver_name} รหัส ${result[key][i].ttt_employee_code}`, { x: 200, y: 740, size: 15, font: thaiFont });
@@ -351,7 +357,7 @@ export default {
             // const yPriceStart = yNameStart + 20;
             // page.drawText(`${result[key][i].standard_ot}`, { x: 390, y: yPosition, size: fontSize, font: thaiFont });
             // page.drawText(`${result[key][i].over_ot}`, { x: 480, y: yPosition, size: fontSize, font: thaiFont });
-            page.drawText(`${result[key][i].total_ot}`, { x: 540, y: yPosition, size: fontSize, font: thaiFont });
+            page.drawText(`${formatter.format(result[key][i].total_ot)}`, { x: 540, y: yPosition, size: fontSize, font: thaiFont });
             yPosition -= descriptionHeight; // Adjust x-position for the next entry
             // count++
             keycount = result[key][i].ttt_employee_code
@@ -363,7 +369,7 @@ export default {
               page.drawText(`__________________________________________________________________________________`, { x: 10, y: yPosition + 20, size: 20, font: thaiFont });
               // page.drawText(`${sumStadardOt}`, { x: 390, y: yPosition, size: fontSize, font: thaiFont });
               // page.drawText(`${sumOverOT}`, { x: 480, y: yPosition, size: fontSize, font: thaiFont });
-              page.drawText(`${sumOT}`, { x: 540, y: yPosition, size: fontSize, font: thaiFont });
+              page.drawText(`${formatter.format(sumOT)}`, { x: 540, y: yPosition, size: fontSize, font: thaiFont });
               if (this.titlefooter.length > 0) {
                 page.drawText(`** หมายเหตุ: ${this.titlefooter}`, { x: 10, y: yPosition - 30, size: 16, font: thaiFont });
               } else {

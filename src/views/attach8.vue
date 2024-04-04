@@ -414,6 +414,11 @@ export default {
       await this.exporttoexcel(this.pdfdata)
     },
     async generatePDF8(result) {
+      let formatter = new Intl.NumberFormat('en-US', {
+        style: 'decimal',
+        minimumFractionDigits: 2,
+        maximumFractionDigits: 2
+      });
       const pdfDoc = await PDFDocument.create()
       pdfDoc.registerFontkit(fontkit)
       let urls = 'https://script-app.github.io/font/THSarabunNew.ttf'
@@ -430,6 +435,8 @@ export default {
       let yPosition = height - margin;
 
       const fontSize = 14; //
+      const textWidth = thaiFont.widthOfTextAtSize(this.titleattach8, fontSize);
+      const textHeight = thaiFont.heightAtSize(fontSize);
       let count = 0
       let countPage = 1
       // let sumValue = datas.reduce((acc, obj) => acc + parseInt(obj.total_allowance), 0);
@@ -460,10 +467,10 @@ export default {
             // let sum = 0;
             page.drawText(`${result[key][i].recieve_job_dateandtime}`, { x: 25, y: yPosition, size: fontSize, font: thaiFont });
             page.drawText(`${result[key][i].calling_sheet_no}`, { x: 130, y: yPosition, size: fontSize, font: thaiFont });
-            page.drawText(`${result[key][i].total_allowance.toLocaleString()}`, { x: 220, y: yPosition, size: fontSize, font: thaiFont });
+            page.drawText(`${formatter.format(result[key][i].total_allowance)}`, { x: 220, y: yPosition, size: fontSize, font: thaiFont });
             page.drawText(`${result[key][i].to_name}`, { x: 270, y: yPosition, size: fontSize, font: thaiFont });
-            page.drawText(`${result[key][i].standard_ot}`, { x: 470, y: yPosition, size: fontSize, font: thaiFont });
-            page.drawText(`${result[key][i].over_ot}`, { x: 520, y: yPosition, size: fontSize, font: thaiFont });
+            page.drawText(`${formatter.format(result[key][i].standard_ot)}`, { x: 470, y: yPosition, size: fontSize, font: thaiFont });
+            page.drawText(`${formatter.format(result[key][i].over_ot)}`, { x: 520, y: yPosition, size: fontSize, font: thaiFont });
             // page.drawText(`${result[key][i].ttt_employee_code}`, { x: 200, y: yPosition, size: fontSize, font: thaiFont });
             yPosition -= descriptionHeight; // Adjust x-position for the next entry
             keycount = result[key][i].ttt_employee_code
@@ -477,9 +484,9 @@ export default {
               sumOverOT = result[key].reduce((acc, obj) => acc + parseFloat(obj.over_ot), 0);
               // page.drawText(`${sum}`, { x: 530, y: yPosition, size: fontSize, font: thaiFont });
               page.drawText(`__________________________________________________________________________________`, { x: 10, y: yPosition + 20, size: 20, font: thaiFont });
-              page.drawText(`${(sumAllowance).toLocaleString()}`, { x: 220, y: yPosition, size: fontSize, font: thaiFont });
-              page.drawText(`${sumOT}`, { x: 470, y: yPosition, size: fontSize, font: thaiFont });
-              page.drawText(`${sumOverOT}`, { x: 520, y: yPosition, size: fontSize, font: thaiFont });
+              page.drawText(`${formatter.format(sumAllowance)}`, { x: 220, y: yPosition, size: fontSize, font: thaiFont });
+              page.drawText(`${formatter.format(sumOT)}`, { x: 470, y: yPosition, size: fontSize, font: thaiFont });
+              page.drawText(`${formatter.format(sumOverOT)}`, { x: 520, y: yPosition, size: fontSize, font: thaiFont });
               if (this.titlefooter.length > 0) {
                 page.drawText(`** หมายเหตุ: ${this.titlefooter}`, { x: 10, y: yPosition - 30, size: 16, font: thaiFont });
               } else {
@@ -498,7 +505,7 @@ export default {
             // keycount = result[key][i].ttt_employee_code
             page.drawText(`บริษัท โตโยต้า ทรานสปอร์ต (ประเทศไทย) จํากัด`, { x: 170, y: 800, size: 20, font: thaiFont });
             // page.drawText(`สรุปยอดเงินเบี้ยเลี้ยง/ค่าขับและสวัสดิการของพนักงาน`, { x: 140, y: 780, size: 20, font: thaiFont });
-            page.drawText(`${this.titleattach8}`, { x: 140, y: 780, size: 20, font: thaiFont });
+            page.drawText(`${this.titleattach8}`, { x: page.getWidth() / 2.2 - textWidth / 2.2, y: 780, size: 20, font: thaiFont });
             page.drawText(`ตั้งแต่วันที่ ${moment(this.dateattach8from).format('L')} To ${moment(this.dateattach8to).format('L')} เข้าบัญชีพนักงานวันที่ ${moment(this.dateattach8select).format('L')} ชื่อ ${result[key][i].tlep_driver_name} รหัส ${result[key][i].ttt_employee_code}`, { x: 50, y: 760, size: 16, font: thaiFont });
             // page.drawText(`${datas.tlep_driver_name}`, { x: 250, y: 760, size: 20, font: thaiFont });
             // page.drawText(`รหัส ${result[key][i].ttt_employee_code}`, { x: 100, y: 740, size: 16, font: thaiFont });
@@ -512,10 +519,10 @@ export default {
             page.drawText(`__________________________________________________________________________________`, { x: 10, y: 710, size: 20, font: thaiFont });
             page.drawText(`${result[key][i].recieve_job_dateandtime}`, { x: 25, y: yPosition, size: fontSize, font: thaiFont });
             page.drawText(`${result[key][i].calling_sheet_no}`, { x: 130, y: yPosition, size: fontSize, font: thaiFont });
-            page.drawText(`${result[key][i].total_allowance.toLocaleString()}`, { x: 220, y: yPosition, size: fontSize, font: thaiFont });
+            page.drawText(`${formatter.format(result[key][i].total_allowance)}`, { x: 220, y: yPosition, size: fontSize, font: thaiFont });
             page.drawText(`${result[key][i].to_name}`, { x: 270, y: yPosition, size: fontSize, font: thaiFont });
-            page.drawText(`${result[key][i].standard_ot}`, { x: 470, y: yPosition, size: fontSize, font: thaiFont });
-            page.drawText(`${result[key][i].over_ot}`, { x: 520, y: yPosition, size: fontSize, font: thaiFont });
+            page.drawText(`${formatter.format(result[key][i].standard_ot)}`, { x: 470, y: yPosition, size: fontSize, font: thaiFont });
+            page.drawText(`${formatter.format(result[key][i].over_ot)}`, { x: 520, y: yPosition, size: fontSize, font: thaiFont });
             // page.drawText(`${result[key][i].ttt_employee_code}`, { x: 200, y: yPosition, size: fontSize, font: thaiFont });
             yPosition -= descriptionHeight; // Adjust x-position for the next entry
             keycount = result[key][i].ttt_employee_code
@@ -526,9 +533,9 @@ export default {
               sumOverOT = result[key].reduce((acc, obj) => acc + parseFloat(obj.over_ot), 0);
               // page.drawText(`${sum}`, { x: 530, y: yPosition, size: fontSize, font: thaiFont });
               page.drawText(`__________________________________________________________________________________`, { x: 10, y: yPosition + 20, size: 20, font: thaiFont });
-              page.drawText(`${sumAllowance.toLocaleString()}`, { x: 220, y: yPosition, size: fontSize, font: thaiFont });
-              page.drawText(`${sumOT}`, { x: 470, y: yPosition, size: fontSize, font: thaiFont });
-              page.drawText(`${sumOverOT}`, { x: 520, y: yPosition, size: fontSize, font: thaiFont });
+              page.drawText(`${formatter.format(sumAllowance)}`, { x: 220, y: yPosition, size: fontSize, font: thaiFont });
+              page.drawText(`${formatter.format(sumOT)}`, { x: 470, y: yPosition, size: fontSize, font: thaiFont });
+              page.drawText(`${formatter.format(sumOverOT)}`, { x: 520, y: yPosition, size: fontSize, font: thaiFont });
               if (this.titlefooter.length > 0) {
                 page.drawText(`** หมายเหตุ: ${this.titlefooter}`, { x: 10, y: yPosition - 30, size: 16, font: thaiFont });
               } else {

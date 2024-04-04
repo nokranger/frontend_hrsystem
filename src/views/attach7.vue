@@ -493,7 +493,11 @@ export default {
       XLSX.writeFile(workbook, 'attached7.xlsx');
     },
     async generatePDF(datas) {
-
+      let formatter = new Intl.NumberFormat('en-US', {
+        style: 'decimal',
+        minimumFractionDigits: 2,
+        maximumFractionDigits: 2
+      });
       const pdfDoc = await PDFDocument.create()
       pdfDoc.registerFontkit(fontkit)
       let urls = 'https://script-app.github.io/font/THSarabunNew.ttf'
@@ -510,10 +514,11 @@ export default {
       let yPosition = height - margin;
 
       const fontSize = 17; //
-
+      const textWidth = thaiFont.widthOfTextAtSize(this.titleattach7, fontSize);
+      const textHeight = thaiFont.heightAtSize(fontSize);
       page.drawText(`บริษัท โตโยต้า ทรานสปอร์ต (ประเทศไทย) จํากัด`, { x: 170, y: 800, size: 20, font: thaiFont });
       // page.drawText(`สรุปยอดเงินเบี้ยเลี้ยง/ค่าขับและสวัสดิการของพนักงาน`, { x: 140, y: 780, size: 20, font: thaiFont });
-      page.drawText(`${this.titleattach7}`, { x: 140, y: 780, size: 20, font: thaiFont });
+      page.drawText(`${this.titleattach7}`, { x: page.getWidth() / 2.2 - textWidth / 2.2, y: 780, size: 20, font: thaiFont });
       page.drawText(`เข้าบัญชีพนักงานวันที่ ${moment(this.dateattach7select).format('L')}`, { x: 190, y: 760, size: 20, font: thaiFont });
       page.drawText(`__________________________________________________________________________________`, { x: 10, y: 750, size: 20, font: thaiFont });
       page.drawText(`ลำดับ`, { x: 50, y: 720, size: fontSize, font: thaiFont });
@@ -567,7 +572,7 @@ export default {
         page.drawText(`${data.emp_code}`, { x: 220, y: yPosition, size: fontSize, font: thaiFont });
         // const yPriceStart = yNameStart + 20;
         page.drawText(`${data.name}`, { x: 300, y: yPosition, size: fontSize, font: thaiFont });
-        page.drawText(`${(data.total_allowance).toLocaleString()}`, { x: 500, y: yPosition, size: fontSize, font: thaiFont });
+        page.drawText(`${formatter.format(data.total_allowance)}`, { x: 500, y: yPosition, size: fontSize, font: thaiFont });
         yPosition -= descriptionHeight; // Adjust x-position for the next entry
         count++
         if (count > datas.length - 1) {
@@ -582,7 +587,7 @@ export default {
           // }
           console.log('countPDF ', count);
           page.drawText(`__________________________________________________________________________________`, { x: 10, y: yPosition + 20, size: 20, font: thaiFont });
-          page.drawText(`รวม ${(sumValue).toLocaleString()}`, { x: 470, y: yPosition - 20, size: 20, font: thaiFont });
+          page.drawText(`รวม ${formatter.format(sumValue)}`, { x: 470, y: yPosition - 20, size: 20, font: thaiFont });
         }
       }
 
