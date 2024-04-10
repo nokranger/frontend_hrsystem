@@ -211,13 +211,13 @@ export default {
           }
           console.log('sumvalu1', combinedArray)
           this.data = combinedArray
-          // this.data = this.data.reduce((acc, { total_allowance, emp_code, bank_account_number, name }) => {
-          //   if (!acc[emp_code]) {
-          //     acc[emp_code] = { emp_code, total_allowance: 0, bank_account_number, name };
-          //   }
-          //   acc[emp_code].total_allowance += total_allowance;
-          //   return acc;
-          // }, {});
+          this.data = this.data.reduce((acc, { total_allowance, emp_code, bank_account_number, name }) => {
+            if (!acc[emp_code]) {
+              acc[emp_code] = { emp_code, total_allowance: 0, bank_account_number, name };
+            }
+            acc[emp_code].total_allowance += total_allowance;
+            return acc;
+          }, {});
           let date = new Date(this.datepaymentselect);
           this.data = Object.values(this.data);
           this.data.sort((a, b) => a.updated_at - b.updated_at);
