@@ -52,7 +52,7 @@
             </b-form-checkbox>
           </b-col>
           <b-col>
-            <b-button v-on:click="updatePayment" variant="outline-primary">Update payment</b-button>
+            <b-button v-if="status == 1" v-on:click="updatePayment" variant="outline-primary">Update payment</b-button>
           </b-col>
         </b-row>
       </div>
@@ -88,12 +88,6 @@ export default {
     }
   },
   mounted() {
-    let sumValue = 55190375
-    let sumI = 1
-    let formattedSumValues = ('000000' + sumI).slice(-6);
-    let formattedSumValue = ('0000000000000' + sumValue).slice(-13);
-    console.log('formattedSumValue', formattedSumValue);
-    console.log('formattedSumValueI', formattedSumValues);
   },
   methods: {
     async exportPayment() {
@@ -217,13 +211,13 @@ export default {
           }
           console.log('sumvalu1', combinedArray)
           this.data = combinedArray
-          this.data = this.data.reduce((acc, { total_allowance, emp_code, bank_account_number, name }) => {
-            if (!acc[emp_code]) {
-              acc[emp_code] = { emp_code, total_allowance: 0, bank_account_number, name };
-            }
-            acc[emp_code].total_allowance += total_allowance;
-            return acc;
-          }, {});
+          // this.data = this.data.reduce((acc, { total_allowance, emp_code, bank_account_number, name }) => {
+          //   if (!acc[emp_code]) {
+          //     acc[emp_code] = { emp_code, total_allowance: 0, bank_account_number, name };
+          //   }
+          //   acc[emp_code].total_allowance += total_allowance;
+          //   return acc;
+          // }, {});
           let date = new Date(this.datepaymentselect);
           this.data = Object.values(this.data);
           this.data.sort((a, b) => a.updated_at - b.updated_at);
@@ -240,15 +234,24 @@ export default {
           let headerString = 128
           let contentString = 128
           let footerString = 128
+          let sum = 0
           for (let i = 0; i < this.data.length; i++) {
-            let sumValue2 = this.data[i].total_allowance
-            sumValue2 = sumValue2 * 100
+            // console.log('Total--------', this.data[i].total_allowance, this.data[i].name)
+            let sumValue2 = Math.round(this.data[i].total_allowance * 10000) / 100
+            // console.log('Total--------', Math.round(this.data[i].total_allowance) * 100, this.data[i].name)
+            // sumValue2 = sumValue2 * 100
             // sumValue2 = sumValue2.replace(',', '')
             let bank_account_number_split = this.data[i].bank_account_number.replace(/-/g, '')
             let concatstring = 'D' + `${('000000' + (i + 2)).slice(-6)}` + '002' + (bank_account_number_split) + 'C' + `${('0000000000' + sumValue2).slice(-10)}` + '029' + '                                ' + '00000000000000' + '             ' + this.data[i].name.padEnd(35, ' ') + '\r'
             this.excelarray += concatstring
-            console.log('CONTENT', concatstring.length)
+            // console.log('CONTENT', concatstring)
+            // console.log('CONTENT------------------', ('0000000000' + sumValue2).slice(-10), this.data[i].name)
+            // console.log('CONTENT------------------', (sumValue2), this.data[i].name)
             count++
+            sumValue2 = 0
+            sum += this.data[i].total_allowance
+            console.log('SUM==========================', sum)
+            console.log('SUMVAl==========================', sumValue)
           }
           this.excelarray = header + this.excelarray
           let footer = `T${('000000' + (this.data.length + 2)).slice(-6)}002386301474600000000000000000000${('0000000' + this.data.length).slice(-7)}${('0000000000000' + sumValue).slice(-13)}00000000000000000000000000000000000000000000000000000000000000000000\r`

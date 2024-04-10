@@ -17,13 +17,13 @@
           </b-col>
           <b-col></b-col>
           <div>
-            <br>
-            <b-button variant="outline-primary" @click="updatepaymentHoliday">Update OT Holiday</b-button>
-          </div>
-          <div>
             <b-form-checkbox id="checkbox-13" v-model="otstatus" name="checkbox-1" value="1" unchecked-value="0">
               <div style="margin: 10px;font-size: 20px;">ยืนยันการอัพเดท</div>
             </b-form-checkbox>
+          </div>
+          <div>
+            <br>
+            <b-button v-if="otstatus == 1" variant="outline-primary" @click="updatepaymentHoliday">Update OT Holiday</b-button>
           </div>
         </b-row>
       </div>

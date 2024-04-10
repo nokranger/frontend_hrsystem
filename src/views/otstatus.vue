@@ -17,13 +17,13 @@
           </b-col>
           <b-col></b-col>
           <div>
-            <br>
-            <b-button variant="outline-primary" @click="updatepaymentOT">Update OT status</b-button>
-          </div>
-          <div>
             <b-form-checkbox id="checkbox-12" v-model="statusOT" name="checkbox-1" value="1" unchecked-value="0">
               <div style="margin: 10px;font-size: 20px;">ยืนยันการอัพเดท</div>
             </b-form-checkbox>
+          </div>
+          <div>
+            <br>
+            <b-button v-if="statusOT == 1" variant="outline-primary" @click="updatepaymentOT">Update OT status</b-button>
           </div>
         </b-row>
       </div>

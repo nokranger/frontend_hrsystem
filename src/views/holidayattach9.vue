@@ -218,6 +218,7 @@ export default {
           this.pdfdata = this.pdfdata.filter((i) => {
             return i.total_ot !== '0' && i.total_ot !== null
           })
+          this.pdfdata.sort((a, b) => parseInt(a.emp_code) - parseInt(b.emp_code));
           this.updatepayment9()
         })
         .catch(error => {

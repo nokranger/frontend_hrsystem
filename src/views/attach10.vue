@@ -50,13 +50,16 @@
         <b-row style="margin: 20px;">
           <b-col>
             <div style="text-align: center;">
-              <b-button variant="outline-primary" @click="getAttach10" style="box-shadow: 5px 5px 5px #888888;">Preview<b-icon-file-earmark-pdf-fill variant="danger"></b-icon-file-earmark-pdf-fill></b-button>
+              <b-button variant="outline-primary" @click="getAttach10"
+                style="box-shadow: 5px 5px 5px #888888;">Preview<b-icon-file-earmark-pdf-fill
+                  variant="danger"></b-icon-file-earmark-pdf-fill></b-button>
             </div>
           </b-col>
           <b-col>
             <div style="text-align: center;">
               <b-button variant="outline-primary" @click="getAttach10Excel"
-                style="box-shadow: 5px 5px 5px #888888;">Export<b-icon-file-earmark-excel-fill variant="success"></b-icon-file-earmark-excel-fill></b-button>
+                style="box-shadow: 5px 5px 5px #888888;">Export<b-icon-file-earmark-excel-fill
+                  variant="success"></b-icon-file-earmark-excel-fill></b-button>
             </div>
           </b-col>
           <b-col></b-col>
@@ -156,7 +159,12 @@ export default {
             acc[obj.ttt_employee_code].push(obj);
             return acc;
           }, {});
-          console.log('resdatareduce', this.pdfdata);
+          // Sort the keys
+          let sortedKeys = Object.keys(this.pdfdata).sort();
+
+          // Map the sorted keys back to the grouped objects
+          let sortedData = sortedKeys.map(key => this.pdfdata[key]);
+          this.pdfdata = Object.values(sortedData);
           this.updatepayment10()
         })
         .catch(error => {
@@ -198,6 +206,9 @@ export default {
       let urls = 'https://script-app.github.io/font/THSarabunNew.ttf'
       let thaiFontBytes = await fetch(urls).then(res => res.arrayBuffer());
       let thaiFont = await pdfDoc.embedFont(thaiFontBytes)
+      let urls2 = 'http://themes.googleusercontent.com/static/fonts/notoserif/v1/eCpfeMZI7q4jLksXVRWPQy3USBnSvpkopQaUR-2r7iU.ttf'
+      let thaiFontBytes2 = await fetch(urls2).then(res => res.arrayBuffer());
+      let thaiFont2 = await pdfDoc.embedFont(thaiFontBytes2)
       let page = pdfDoc.addPage();
       // Customize the PDF content based on your requirements
       let xPosition = 50; // Initial x-position for text
@@ -248,9 +259,48 @@ export default {
               sumOverOT = result[key].reduce((acc, obj) => acc + parseFloat(obj.over_ot), 0);
               // page.drawText(`${sum}`, { x: 530, y: yPosition, size: fontSize, font: thaiFont });
               page.drawText(`__________________________________________________________________________________`, { x: 10, y: yPosition + 20, size: 20, font: thaiFont });
-              page.drawText(`${formatter.format(sumStadardOt)}`, { x: 390, y: yPosition, size: fontSize, font: thaiFont });
-              page.drawText(`${formatter.format(sumOverOT)}`, { x: 480, y: yPosition, size: fontSize, font: thaiFont });
-              page.drawText(`${formatter.format(sumOT)}`, { x: 540, y: yPosition, size: fontSize, font: thaiFont });
+              let text1 = `${formatter.format(sumStadardOt)}`;
+              let text2 = `${formatter.format(sumOverOT)}`;
+              let text3 = `${formatter.format(sumOT)}`;
+              let options1 = { x: 390, y: yPosition, size: 12, font: thaiFont2 };
+              let options2 = { x: 480, y: yPosition, size: 12, font: thaiFont2 };
+              let options3 = { x: 540, y: yPosition, size: 12, font: thaiFont2 };
+              // Draw the text
+              page.drawText(text1, options1);
+
+              // Calculate the width of the text
+              let textWidth1 = thaiFont2.widthOfTextAtSize(text1, 12);
+              // Draw a line under the text
+              page.drawLine({
+                start: { x: options1.x, y: options1.y },
+                end: { x: options1.x + textWidth1, y: options1.y },
+                thickness: 1
+              });
+              // Draw the text
+              page.drawText(text2, options2);
+
+              // Calculate the width of the text
+              let textWidth2 = thaiFont2.widthOfTextAtSize(text2, 12);
+              // Draw a line under the text
+              page.drawLine({
+                start: { x: options2.x, y: options2.y },
+                end: { x: options2.x + textWidth2, y: options2.y },
+                thickness: 1
+              });
+              // Draw the text
+              page.drawText(text3, options3);
+
+              // Calculate the width of the text
+              let textWidth3 = thaiFont2.widthOfTextAtSize(text3, 12);
+              // Draw a line under the text
+              page.drawLine({
+                start: { x: options3.x, y: options3.y },
+                end: { x: options3.x + textWidth3, y: options3.y },
+                thickness: 1
+              });
+              // page.drawText(`${formatter.format(sumStadardOt)}`, { x: 390, y: yPosition, size: fontSize, font: thaiFont });
+              // page.drawText(`${formatter.format(sumOverOT)}`, { x: 480, y: yPosition, size: fontSize, font: thaiFont });
+              // page.drawText(`${formatter.format(sumOT)}`, { x: 540, y: yPosition, size: fontSize, font: thaiFont });
               // page.drawText(`หมายเหตุ: โปรดตรวจสอบข้อมูลตัวเลขในเอกสารนี้ให้ละเอียด หากไม่ถูกต้องหรือสงสัยให้แจ้งฝ่ายบุคคลทันทีหรือในเวลาทํางานปกติ`, { x: 10, y: yPosition - 30, size: 16, font: thaiFont });
               // page.drawText(`หากพ้นกําหนด 15 วัน นับจากวันที่จ่ายให้ในนงวดนั้น ๆ แล้ว บริษัทถือว่าท่านยอมรับและไม่ติดใจเรียกร้องสิทธิประโยชน์ใด ๆ ทุกประการ`, { x: 10, y: yPosition - 50, size: 16, font: thaiFont });
               if (this.titlefooter.length > 0) {
@@ -305,9 +355,48 @@ export default {
               sumOverOT = result[key].reduce((acc, obj) => acc + parseFloat(obj.over_ot), 0);
               // page.drawText(`${sum}`, { x: 530, y: yPosition, size: fontSize, font: thaiFont });
               page.drawText(`__________________________________________________________________________________`, { x: 10, y: yPosition + 20, size: 20, font: thaiFont });
-              page.drawText(`${formatter.format(sumStadardOt)}`, { x: 390, y: yPosition, size: fontSize, font: thaiFont });
-              page.drawText(`${formatter.format(sumOverOT)}`, { x: 480, y: yPosition, size: fontSize, font: thaiFont });
-              page.drawText(`${formatter.format(sumOT)}`, { x: 540, y: yPosition, size: fontSize, font: thaiFont });
+              let text1 = `${formatter.format(sumStadardOt)}`;
+              let text2 = `${formatter.format(sumOverOT)}`;
+              let text3 = `${formatter.format(sumOT)}`;
+              let options1 = { x: 390, y: yPosition, size: 12, font: thaiFont2 };
+              let options2 = { x: 480, y: yPosition, size: 12, font: thaiFont2 };
+              let options3 = { x: 540, y: yPosition, size: 12, font: thaiFont2 };
+              // Draw the text
+              page.drawText(text1, options1);
+
+              // Calculate the width of the text
+              let textWidth1 = thaiFont2.widthOfTextAtSize(text1, 12);
+              // Draw a line under the text
+              page.drawLine({
+                start: { x: options1.x, y: options1.y },
+                end: { x: options1.x + textWidth1, y: options1.y },
+                thickness: 1
+              });
+              // Draw the text
+              page.drawText(text2, options2);
+
+              // Calculate the width of the text
+              let textWidth2 = thaiFont2.widthOfTextAtSize(text2, 12);
+              // Draw a line under the text
+              page.drawLine({
+                start: { x: options2.x, y: options2.y },
+                end: { x: options2.x + textWidth2, y: options2.y },
+                thickness: 1
+              });
+              // Draw the text
+              page.drawText(text3, options3);
+
+              // Calculate the width of the text
+              let textWidth3 = thaiFont2.widthOfTextAtSize(text3, 12);
+              // Draw a line under the text
+              page.drawLine({
+                start: { x: options3.x, y: options3.y },
+                end: { x: options3.x + textWidth3, y: options3.y },
+                thickness: 1
+              });
+              // page.drawText(`${formatter.format(sumStadardOt)}`, { x: 390, y: yPosition, size: fontSize, font: thaiFont });
+              // page.drawText(`${formatter.format(sumOverOT)}`, { x: 480, y: yPosition, size: fontSize, font: thaiFont });
+              // page.drawText(`${formatter.format(sumOT)}`, { x: 540, y: yPosition, size: fontSize, font: thaiFont });
               if (this.titlefooter.length > 0) {
                 page.drawText(`** หมายเหตุ: ${this.titlefooter}`, { x: 10, y: yPosition - 30, size: 16, font: thaiFont });
               } else {

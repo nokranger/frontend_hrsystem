@@ -350,8 +350,9 @@ export default {
             return acc;
           }, {});
           this.pdfdata = Object.values(this.pdfdata);
-          console.log(this.pdfdata);
-          this.pdfdata.sort((a, b) => a.updated_at - b.updated_at);
+          // console.log(this.pdfdata);
+          this.pdfdata.sort((a, b) => parseInt(a.emp_code) - parseInt(b.emp_code));
+          console.log('sort==========', this.pdfdata)
           this.updatepayment7()
         })
         .catch(error => {
@@ -472,7 +473,8 @@ export default {
           }, {});
           this.pdfdata = Object.values(this.pdfdata);
           console.log(this.pdfdata);
-          this.pdfdata.sort((a, b) => a.updated_at - b.updated_at);
+          // this.pdfdata.sort((a, b) => parseInt(a.emp_code) - parseInt(b.emp_code));
+          // console.log('sort==========', this.pdfdata)
           this.updatepayment7()
         })
         .catch(error => {

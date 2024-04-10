@@ -265,6 +265,10 @@ export default {
             combinedArray.push(combinedObject);
           }
           this.pdfdata = combinedArray
+          // this.pdfdata = Object.values(this.pdfdata);
+          // console.log('pdfdata===========', this.pdfdata)
+          // this.pdfdata.sort((a, b) => parseInt(a.ttt_employee_code) - parseInt(b.ttt_employee_code));
+          // console.log('pdfdata===========', this.pdfdata)
           this.pdfdata = this.pdfdata.reduce((acc, obj) => {
             // If the key doesn't exist, create an array for it
             if (!acc[obj.ttt_employee_code]) {
@@ -274,6 +278,13 @@ export default {
             acc[obj.ttt_employee_code].push(obj);
             return acc;
           }, {});
+          // Sort the keys
+          let sortedKeys = Object.keys(this.pdfdata).sort();
+
+          // Map the sorted keys back to the grouped objects
+          let sortedData = sortedKeys.map(key => this.pdfdata[key]);
+
+          // console.log(sortedData);
           // this.pdfdata = this.pdfdata.reduce((acc, { recieve_job_dateandtime, calling_sheet_no, total_allowance, to_name, standard_ot, ttt_employee_code, over_ot, tlep_driver_name }) => {
           //   if (!acc[ttt_employee_code]) {
           //     acc[ttt_employee_code] = { recieve_job_dateandtime, calling_sheet_no, total_allowance, to_name, standard_ot, ttt_employee_code, over_ot, tlep_driver_name };
@@ -281,7 +292,9 @@ export default {
           //   acc[ttt_employee_code].total_allowance += total_allowance;
           //   return acc;
           // }, {});
-          this.pdfdata = Object.values(this.pdfdata);
+          this.pdfdata = Object.values(sortedData);
+          // console.log('pdfdata===========2222222222', this.pdfdata)
+          // this.pdfdata.sort((a, b) => parseInt(a.ttt_employee_code) - parseInt(b.ttt_employee_code));
           this.updatepayment8()
 
         })
@@ -419,11 +432,15 @@ export default {
         minimumFractionDigits: 2,
         maximumFractionDigits: 2
       });
+      console.log('result===================', result)
       const pdfDoc = await PDFDocument.create()
       pdfDoc.registerFontkit(fontkit)
       let urls = 'https://script-app.github.io/font/THSarabunNew.ttf'
       let thaiFontBytes = await fetch(urls).then(res => res.arrayBuffer());
       let thaiFont = await pdfDoc.embedFont(thaiFontBytes)
+      let urls2 = 'http://themes.googleusercontent.com/static/fonts/notoserif/v1/eCpfeMZI7q4jLksXVRWPQy3USBnSvpkopQaUR-2r7iU.ttf'
+      let thaiFontBytes2 = await fetch(urls2).then(res => res.arrayBuffer());
+      let thaiFont2 = await pdfDoc.embedFont(thaiFontBytes2)
       let page = pdfDoc.addPage();
       // Customize the PDF content based on your requirements
       let xPosition = 50; // Initial x-position for text
@@ -475,8 +492,8 @@ export default {
             yPosition -= descriptionHeight; // Adjust x-position for the next entry
             keycount = result[key][i].ttt_employee_code
             count++
-            console.log('countinPage1', count)
-            console.log('countinPage2', result[key].length)
+            // console.log('countinPage1', count)
+            // console.log('countinPage2', result[key].length)
             // page.drawText(`__________________________________________________________________________________`, { x: 10, y: yPosition + 20, size: 20, font: thaiFont });
             if (count > result[key].length - 1) {
               sumOT = result[key].reduce((acc, obj) => acc + parseFloat(obj.standard_ot), 0);
@@ -484,9 +501,48 @@ export default {
               sumOverOT = result[key].reduce((acc, obj) => acc + parseFloat(obj.over_ot), 0);
               // page.drawText(`${sum}`, { x: 530, y: yPosition, size: fontSize, font: thaiFont });
               page.drawText(`__________________________________________________________________________________`, { x: 10, y: yPosition + 20, size: 20, font: thaiFont });
-              page.drawText(`${formatter.format(sumAllowance)}`, { x: 220, y: yPosition, size: fontSize, font: thaiFont });
-              page.drawText(`${formatter.format(sumOT)}`, { x: 470, y: yPosition, size: fontSize, font: thaiFont });
-              page.drawText(`${formatter.format(sumOverOT)}`, { x: 520, y: yPosition, size: fontSize, font: thaiFont });
+              // page.drawText(`${formatter.format(sumAllowance)}`, { x: 220, y: yPosition, size: 12, font: thaiFont2 });
+              // page.drawText(`${formatter.format(sumOT)}`, { x: 470, y: yPosition, size: 12, font: thaiFont2 });
+              // page.drawText(`${formatter.format(sumOverOT)}`, { x: 520, y: yPosition, size: 12, font: thaiFont2 });
+              let text1 = `${formatter.format(sumAllowance)}`;
+              let text2 = `${formatter.format(sumOT)}`;
+              let text3 = `${formatter.format(sumOverOT)}`;
+              let options1 = { x: 220, y: yPosition, size: 12, font: thaiFont2 };
+              let options2 = { x: 470, y: yPosition, size: 12, font: thaiFont2 };
+              let options3 = { x: 520, y: yPosition, size: 12, font: thaiFont2 };
+              // Draw the text
+              page.drawText(text1, options1);
+
+              // Calculate the width of the text
+              let textWidth1 = thaiFont2.widthOfTextAtSize(text1, 12);
+              // Draw a line under the text
+              page.drawLine({
+                start: { x: options1.x, y: options1.y },
+                end: { x: options1.x + textWidth1, y: options1.y },
+                thickness: 1
+              });
+              // Draw the text
+              page.drawText(text2, options2);
+
+              // Calculate the width of the text
+              let textWidth2 = thaiFont2.widthOfTextAtSize(text2, 12);
+              // Draw a line under the text
+              page.drawLine({
+                start: { x: options2.x, y: options2.y },
+                end: { x: options2.x + textWidth2, y: options2.y },
+                thickness: 1
+              });
+              // Draw the text
+              page.drawText(text3, options3);
+
+              // Calculate the width of the text
+              let textWidth3 = thaiFont2.widthOfTextAtSize(text3, 12);
+              // Draw a line under the text
+              page.drawLine({
+                start: { x: options3.x, y: options3.y },
+                end: { x: options3.x + textWidth3, y: options3.y },
+                thickness: 1
+              });
               if (this.titlefooter.length > 0) {
                 page.drawText(`** หมายเหตุ: ${this.titlefooter}`, { x: 10, y: yPosition - 30, size: 16, font: thaiFont });
               } else {
@@ -533,9 +589,48 @@ export default {
               sumOverOT = result[key].reduce((acc, obj) => acc + parseFloat(obj.over_ot), 0);
               // page.drawText(`${sum}`, { x: 530, y: yPosition, size: fontSize, font: thaiFont });
               page.drawText(`__________________________________________________________________________________`, { x: 10, y: yPosition + 20, size: 20, font: thaiFont });
-              page.drawText(`${formatter.format(sumAllowance)}`, { x: 220, y: yPosition, size: fontSize, font: thaiFont });
-              page.drawText(`${formatter.format(sumOT)}`, { x: 470, y: yPosition, size: fontSize, font: thaiFont });
-              page.drawText(`${formatter.format(sumOverOT)}`, { x: 520, y: yPosition, size: fontSize, font: thaiFont });
+              let text1 = `${formatter.format(sumAllowance)}`;
+              let text2 = `${formatter.format(sumOT)}`;
+              let text3 = `${formatter.format(sumOverOT)}`;
+              let options1 = { x: 220, y: yPosition, size: 12, font: thaiFont2 };
+              let options2 = { x: 470, y: yPosition, size: 12, font: thaiFont2 };
+              let options3 = { x: 520, y: yPosition, size: 12, font: thaiFont2 };
+              // Draw the text
+              page.drawText(text1, options1);
+
+              // Calculate the width of the text
+              let textWidth1 = thaiFont2.widthOfTextAtSize(text1, 12);
+              // Draw a line under the text
+              page.drawLine({
+                start: { x: options1.x, y: options1.y },
+                end: { x: options1.x + textWidth1, y: options1.y },
+                thickness: 1
+              });
+              // Draw the text
+              page.drawText(text2, options2);
+
+              // Calculate the width of the text
+              let textWidth2 = thaiFont2.widthOfTextAtSize(text2, 12);
+              // Draw a line under the text
+              page.drawLine({
+                start: { x: options2.x, y: options2.y },
+                end: { x: options2.x + textWidth2, y: options2.y },
+                thickness: 1
+              });
+              // Draw the text
+              page.drawText(text3, options3);
+
+              // Calculate the width of the text
+              let textWidth3 = thaiFont2.widthOfTextAtSize(text3, 12);
+              // Draw a line under the text
+              page.drawLine({
+                start: { x: options3.x, y: options3.y },
+                end: { x: options3.x + textWidth3, y: options3.y },
+                thickness: 1
+              });
+              // page.drawText(`${formatter.format(sumAllowance)}`, { x: 220, y: yPosition, size: 12, font: thaiFont2 });
+              // page.drawText(`${formatter.format(sumOT)}`, { x: 470, y: yPosition, size: 12, font: thaiFont2 });
+              // page.drawText(`${formatter.format(sumOverOT)}`, { x: 520, y: yPosition, size: 12, font: thaiFont2 });
               if (this.titlefooter.length > 0) {
                 page.drawText(`** หมายเหตุ: ${this.titlefooter}`, { x: 10, y: yPosition - 30, size: 16, font: thaiFont });
               } else {
