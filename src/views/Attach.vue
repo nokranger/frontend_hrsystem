@@ -110,25 +110,6 @@ export default {
     console.log('currentTime', time)
   },
   methods: {
-    async getOneAttach7() {
-      let from_to = {
-        from: this.dateattach7from,
-        to: this.dateattach7to,
-        emp_code: this.dataattach7one
-      }
-      console.log('resdataFromTo', from_to);
-      await axios.post('http://localhost:4000/getdataattach7one', from_to)
-        .then(response => {
-          console.log('resdata', response.data.result);
-          let dataexcel = response.data.result
-          this.excelarrayattach7 = Object.values(dataexcel);
-          this.pdfdata = this.excelarrayattach7
-        })
-        .catch(error => {
-          console.error('Error fetching data:', error.message);
-        });
-      await this.generatePDF(this.pdfdata)
-    },
     getAttach7() {
       axios.get('http://localhost:4000/getdataattach7')
         .then(response => {
@@ -642,25 +623,6 @@ export default {
       const url = URL.createObjectURL(blob);
       window.open(url, '_blank');
     },
-    async getOneAttach9() {
-      let from_to = {
-        from: this.dateattach9from,
-        to: this.dateattach9to,
-        emp_code: this.dataattach9one
-      }
-      console.log('resdataFromTo', from_to);
-      await axios.post('http://localhost:4000/getdataattach9one', from_to)
-        .then(response => {
-          console.log('resdata', response.data.result);
-          let dataexcel = response.data.result
-          this.excelarrayattach9 = Object.values(dataexcel);
-          this.pdfdata = this.excelarrayattach9
-        })
-        .catch(error => {
-          console.error('Error fetching data:', error.message);
-        });
-      await this.generatePDF91(this.pdfdata)
-    },
     async getAttach9all() {
       let from_to = {
         from: this.dateattach9from,
@@ -875,25 +837,6 @@ export default {
       window.open(url, '_blank');
     },
 
-    async getOneAttach10() {
-      let from_to = {
-        from: this.dateattach10from,
-        to: this.dateattach10to,
-        emp_code: this.dataattach10one
-      }
-      console.log('resdataFromTo', from_to);
-      await axios.post('http://localhost:4000/getdataattach10one', from_to)
-        .then(response => {
-          console.log('resdata', response.data.result);
-          let dataexcel = response.data.result
-          this.excelarrayattach10 = Object.values(dataexcel);
-          this.pdfdata = this.excelarrayattach10
-        })
-        .catch(error => {
-          console.error('Error fetching data:', error.message);
-        });
-      await this.generatePDF10(this.pdfdata)
-    },
     async getAttach10() {
       let from_to = {
         from: this.dateattach8from,

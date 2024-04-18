@@ -117,25 +117,6 @@ export default {
     }
   },
   methods: {
-    async getOneAttach10() {
-      let from_to = {
-        from: this.dateattach10from,
-        to: this.dateattach10to,
-        emp_code: this.dataattach10one
-      }
-      console.log('resdataFromTo', from_to);
-      await axios.post('http://localhost:4000/getdataattach10one', from_to)
-        .then(response => {
-          console.log('resdata', response.data.result);
-          let dataexcel = response.data.result
-          this.excelarrayattach10 = Object.values(dataexcel);
-          this.pdfdata = this.excelarrayattach10
-        })
-        .catch(error => {
-          console.error('Error fetching data:', error.message);
-        });
-      await this.generatePDF10(this.pdfdata)
-    },
     async getAttach10() {
       let from_to = {
         from: this.dateattach10from,
