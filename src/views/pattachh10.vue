@@ -1,14 +1,14 @@
 <template>
   <div>
     <!-- <nav>
-      <router-link to="/dashboard">Import & Export</router-link> ||
-      <router-link to="/Attached">Attached</router-link> ||
-      <router-link to="/payroll">Payroll</router-link>
-    </nav> -->
+        <router-link to="/dashboard">Import & Export</router-link> ||
+        <router-link to="/Attached">Attached</router-link> ||
+        <router-link to="/payroll">Payroll</router-link>
+      </nav> -->
     <b-container>
       <!-- <div>
-        <h1 style="text-shadow: 2px 2px 5px black;">Attached</h1>
-      </div> -->
+          <h1 style="text-shadow: 2px 2px 5px black;">Attached</h1>
+        </div> -->
       <div style="border: 2px solid gray;border-radius: 10px;height: 400px;box-shadow: 5px 5px 5px #888888;">
         <b-row style="margin: 20px;">
           <b-col>
@@ -29,9 +29,9 @@
         </b-row>
         <b-row style="margin: 20px;">
           <!-- <b-col>
-            <b-input v-on:keyup.enter="getOneAttach10" placeholder="Enter Employee Code"
-              v-model="dataattach10one"></b-input>
-          </b-col> -->
+              <b-input v-on:keyup.enter="getOneAttach10" placeholder="Enter Employee Code"
+                v-model="dataattach10one"></b-input>
+            </b-col> -->
           <b-col>
             <div>
               <div style="font-size: 20px;text-align: left;margin-left: 10px;">กรุณากรอกหัวข้อรายงาน</div>
@@ -121,10 +121,11 @@ export default {
       let from_to = {
         from: this.dateattach10from,
         to: this.dateattach10to,
-        emp_code: this.dataattach10one
+        emp_code: this.dataattach10one,
+        payment_date: this.dateattach10select
       }
       console.log('resdataFromTo', from_to);
-      await axios.post('http://localhost:4000/getdataattachholiday2', from_to)
+      await axios.post('http://localhost:4000/pgetdataattachholiday2', from_to)
         .then(response => {
           console.log('resdata1', response.data.result);
           let dataexcel = response.data.result
@@ -134,7 +135,7 @@ export default {
         .catch(error => {
           console.error('Error fetching data:', error.message);
         });
-      await axios.post('http://localhost:4000/getdataattachholiday22', from_to)
+      await axios.post('http://localhost:4000/pgetdataattachholiday22', from_to)
         .then(response => {
           console.log('resdata2', response.data.result);
           let dataexcel = response.data.result
@@ -179,7 +180,6 @@ export default {
           let sortedData = sortedKeys.map(key => this.pdfdata[key]);
           this.pdfdata = Object.values(sortedData);
           console.log('resdatareduce', this.pdfdata);
-          this.updatepayment10()
         })
         .catch(error => {
           console.error('Error fetching data:', error.message);
@@ -191,10 +191,11 @@ export default {
       let from_to = {
         from: this.dateattach10from,
         to: this.dateattach10to,
-        emp_code: this.dataattach10one
+        emp_code: this.dataattach10one,
+        payment_date: this.dateattach10select
       }
       console.log('resdataFromTo', from_to);
-      await axios.post('http://localhost:4000/getdataattachholiday2', from_to)
+      await axios.post('http://localhost:4000/pgetdataattachholiday2', from_to)
         .then(response => {
           console.log('resdata', response.data.result);
           let dataexcel = response.data.result
@@ -204,7 +205,7 @@ export default {
         .catch(error => {
           console.error('Error fetching data:', error.message);
         });
-      await axios.post('http://localhost:4000/getdataattachholiday22', from_to)
+      await axios.post('http://localhost:4000/pgetdataattachholiday22', from_to)
         .then(response => {
           console.log('resdata', response.data.result);
           let dataexcel = response.data.result
@@ -234,7 +235,6 @@ export default {
           }
           this.pdfdata = combinedArray
           console.log('resdatareduce', this.pdfdata);
-          this.updatepayment10()
         })
         .catch(error => {
           console.error('Error fetching data:', error.message);

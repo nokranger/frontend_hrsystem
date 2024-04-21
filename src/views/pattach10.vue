@@ -1,15 +1,15 @@
 <template>
   <div>
     <!-- <nav>
-      <router-link to="/dashboard">Import & Export</router-link> ||
-      <router-link to="/Attached">Attached</router-link> ||
-      <router-link to="/payroll">Payroll</router-link>
-    </nav> -->
+        <router-link to="/dashboard">Import & Export</router-link> ||
+        <router-link to="/Attached">Attached</router-link> ||
+        <router-link to="/payroll">Payroll</router-link>
+      </nav> -->
     <b-container>
       <!-- <div>
-        <h1 style="text-shadow: 2px 2px 5px black;">Attached</h1>
-      </div> -->
-      <div style="border: 2px solid gray;border-radius: 10px;height: 400px;box-shadow: 5px 5px 5px #888888;">
+          <h1 style="text-shadow: 2px 2px 5px black;">Attached</h1>
+        </div> -->
+      <div style="border: 2px solid gray;border-radius: 10px;height: 470px;box-shadow: 5px 5px 5px #888888;">
         <b-row style="margin: 20px;">
           <b-col>
             <div style="font-size: 20px;text-align: left;margin-left: 10px;">ตั้งแต่วันที่</div>
@@ -29,9 +29,9 @@
         </b-row>
         <b-row style="margin: 20px;">
           <!-- <b-col>
-            <b-input v-on:keyup.enter="getOneAttach10" placeholder="Enter Employee Code"
-              v-model="dataattach10one"></b-input>
-          </b-col> -->
+              <b-input v-on:keyup.enter="getOneAttach10" placeholder="Enter Employee Code"
+                v-model="dataattach10one"></b-input>
+            </b-col> -->
           <b-col>
             <div>
               <div style="font-size: 20px;text-align: left;margin-left: 10px;">กรุณากรอกหัวข้อรายงาน</div>
@@ -50,14 +50,15 @@
         <b-row style="margin: 20px;">
           <b-col>
             <div style="text-align: center;">
-              <b-button variant="outline-primary" @click="getAttach10" style="box-shadow: 5px 5px 5px #888888;">Preview
-                <b-icon-file-earmark-pdf-fill variant="danger"></b-icon-file-earmark-pdf-fill></b-button>
+              <b-button variant="outline-primary" @click="getAttach10"
+                style="box-shadow: 5px 5px 5px #888888;">Preview<b-icon-file-earmark-pdf-fill
+                  variant="danger"></b-icon-file-earmark-pdf-fill></b-button>
             </div>
           </b-col>
           <b-col>
             <div style="text-align: center;">
               <b-button variant="outline-primary" @click="getAttach10Excel"
-                style="box-shadow: 5px 5px 5px #888888;">Export <b-icon-file-earmark-excel-fill
+                style="box-shadow: 5px 5px 5px #888888;">Export<b-icon-file-earmark-excel-fill
                   variant="success"></b-icon-file-earmark-excel-fill></b-button>
             </div>
           </b-col>
@@ -113,7 +114,7 @@ export default {
         { value: 3, text: 'ยังไม่จ่าย' }
       ],
       sumValue: 0,
-      titlefooter: ''
+      titlefooter: '',
     }
   },
   methods: {
@@ -121,48 +122,16 @@ export default {
       let from_to = {
         from: this.dateattach10from,
         to: this.dateattach10to,
-        emp_code: this.dataattach10one
+        emp_code: this.dataattach10one,
+        payment_date: this.dateattach10select
       }
       console.log('resdataFromTo', from_to);
-      await axios.post('http://localhost:4000/getdataattachholiday2', from_to)
+      await axios.post('http://localhost:4000/pgetdataattach10', from_to)
         .then(response => {
-          console.log('resdata1', response.data.result);
+          console.log('resdata', response.data.result);
           let dataexcel = response.data.result
-          this.excelarrayattach10 = Object.values(dataexcel);
-          // this.pdfdata = this.excelarrayattach10
-        })
-        .catch(error => {
-          console.error('Error fetching data:', error.message);
-        });
-      await axios.post('http://localhost:4000/getdataattachholiday22', from_to)
-        .then(response => {
-          console.log('resdata2', response.data.result);
-          let dataexcel = response.data.result
-          this.excelarrayattach102 = Object.values(dataexcel);
-          const combinedArray = []
-          for (let i = 0; i < this.excelarrayattach10.length; i++) {
-            const combinedObject = {
-              ttt_employee_code: this.excelarrayattach10[i].emp_code,
-              total_ot: this.excelarrayattach10[i].total_ot,
-              recieve_job_dateandtime: this.excelarrayattach10[i].DEPARTURE_DATETIME,
-              tlep_driver_name: this.excelarrayattach10[i].NAME,
-              calling_sheet_no: this.excelarrayattach10[i].TRIP_NO,
-              to_name: this.excelarrayattach10[i].DEALER1
-            }
-            combinedArray.push(combinedObject);
-          }
-          for (let i = 0; i < this.excelarrayattach102.length; i++) {
-            const combinedObject = {
-              ttt_employee_code: this.excelarrayattach102[i].emp_code,
-              total_ot: this.excelarrayattach102[i].total_ot,
-              recieve_job_dateandtime: this.excelarrayattach102[i].DEPARTURE_DATETIME,
-              tlep_driver_name: this.excelarrayattach102[i].NAME,
-              calling_sheet_no: this.excelarrayattach102[i].TRIP_NO,
-              to_name: this.excelarrayattach102[i].DEALER1
-            }
-            combinedArray.push(combinedObject);
-          }
-          this.pdfdata = combinedArray
+          this.excelarrayattach8 = Object.values(dataexcel);
+          this.pdfdata = this.excelarrayattach8
           this.pdfdata = this.pdfdata.reduce((acc, obj) => {
             // If the key doesn't exist, create an array for it
             if (!acc[obj.ttt_employee_code]) {
@@ -178,8 +147,7 @@ export default {
           // Map the sorted keys back to the grouped objects
           let sortedData = sortedKeys.map(key => this.pdfdata[key]);
           this.pdfdata = Object.values(sortedData);
-          console.log('resdatareduce', this.pdfdata);
-          this.updatepayment10()
+          // this.updatepayment10()
         })
         .catch(error => {
           console.error('Error fetching data:', error.message);
@@ -191,50 +159,18 @@ export default {
       let from_to = {
         from: this.dateattach10from,
         to: this.dateattach10to,
-        emp_code: this.dataattach10one
+        emp_code: this.dataattach10one,
+        payment_date: this.dateattach10select
       }
       console.log('resdataFromTo', from_to);
-      await axios.post('http://localhost:4000/getdataattachholiday2', from_to)
+      await axios.post('http://localhost:4000/pgetdataattach10', from_to)
         .then(response => {
           console.log('resdata', response.data.result);
           let dataexcel = response.data.result
-          this.excelarrayattach10 = Object.values(dataexcel);
-          // this.pdfdata = this.excelarrayattach10
-        })
-        .catch(error => {
-          console.error('Error fetching data:', error.message);
-        });
-      await axios.post('http://localhost:4000/getdataattachholiday22', from_to)
-        .then(response => {
-          console.log('resdata', response.data.result);
-          let dataexcel = response.data.result
-          this.excelarrayattach102 = Object.values(dataexcel);
-          const combinedArray = []
-          for (let i = 0; i < this.excelarrayattach10.length; i++) {
-            const combinedObject = {
-              ttt_employee_code: this.excelarrayattach10[i].emp_code,
-              total_ot: this.excelarrayattach10[i].total_ot,
-              recieve_job_dateandtime: this.excelarrayattach10[i].DEPARTURE_DATETIME,
-              tlep_driver_name: this.excelarrayattach10[i].NAME,
-              calling_sheet_no: this.excelarrayattach10[i].TRIP_NO,
-              to_name: this.excelarrayattach10[i].DEALER1
-            }
-            combinedArray.push(combinedObject);
-          }
-          for (let i = 0; i < this.excelarrayattach102.length; i++) {
-            const combinedObject = {
-              ttt_employee_code: this.excelarrayattach102[i].emp_code,
-              total_ot: this.excelarrayattach102[i].total_ot,
-              recieve_job_dateandtime: this.excelarrayattach102[i].DEPARTURE_DATETIME,
-              tlep_driver_name: this.excelarrayattach102[i].NAME,
-              calling_sheet_no: this.excelarrayattach102[i].TRIP_NO,
-              to_name: this.excelarrayattach102[i].DEALER1
-            }
-            combinedArray.push(combinedObject);
-          }
-          this.pdfdata = combinedArray
+          this.excelarrayattach8 = Object.values(dataexcel);
+          this.pdfdata = this.excelarrayattach8
           console.log('resdatareduce', this.pdfdata);
-          this.updatepayment10()
+          // this.updatepayment10()
         })
         .catch(error => {
           console.error('Error fetching data:', error.message);
@@ -294,8 +230,8 @@ export default {
             // const yNameStart = yStart + 20;
             page.drawText(`${result[key][i].to_name}`, { x: 240, y: yPosition, size: fontSize, font: thaiFont });
             // const yPriceStart = yNameStart + 20;
-            // page.drawText(`${result[key][i].standard_ot}`, { x: 390, y: yPosition, size: fontSize, font: thaiFont });
-            // page.drawText(`${result[key][i].over_ot}`, { x: 480, y: yPosition, size: fontSize, font: thaiFont });
+            page.drawText(`${formatter.format(result[key][i].standard_ot)}`, { x: 390, y: yPosition, size: fontSize, font: thaiFont });
+            page.drawText(`${formatter.format(result[key][i].over_ot)}`, { x: 480, y: yPosition, size: fontSize, font: thaiFont });
             page.drawText(`${formatter.format(result[key][i].total_ot)}`, { x: 540, y: yPosition, size: fontSize, font: thaiFont });
             yPosition -= descriptionHeight; // Adjust x-position for the next entry
             keycount = result[key][i].ttt_employee_code
@@ -306,8 +242,35 @@ export default {
               sumOverOT = result[key].reduce((acc, obj) => acc + parseFloat(obj.over_ot), 0);
               // page.drawText(`${sum}`, { x: 530, y: yPosition, size: fontSize, font: thaiFont });
               page.drawText(`__________________________________________________________________________________`, { x: 10, y: yPosition + 20, size: 20, font: thaiFont });
+              let text1 = `${formatter.format(sumStadardOt)}`;
+              let text2 = `${formatter.format(sumOverOT)}`;
               let text3 = `${formatter.format(sumOT)}`;
+              let options1 = { x: 390, y: yPosition, size: 12, font: thaiFont2 };
+              let options2 = { x: 480, y: yPosition, size: 12, font: thaiFont2 };
               let options3 = { x: 540, y: yPosition, size: 12, font: thaiFont2 };
+              // Draw the text
+              page.drawText(text1, options1);
+
+              // Calculate the width of the text
+              let textWidth1 = thaiFont2.widthOfTextAtSize(text1, 12);
+              // Draw a line under the text
+              page.drawLine({
+                start: { x: options1.x, y: options1.y },
+                end: { x: options1.x + textWidth1, y: options1.y },
+                thickness: 1
+              });
+              // Draw the text
+              page.drawText(text2, options2);
+
+              // Calculate the width of the text
+              let textWidth2 = thaiFont2.widthOfTextAtSize(text2, 12);
+              // Draw a line under the text
+              page.drawLine({
+                start: { x: options2.x, y: options2.y },
+                end: { x: options2.x + textWidth2, y: options2.y },
+                thickness: 1
+              });
+              // Draw the text
               page.drawText(text3, options3);
 
               // Calculate the width of the text
@@ -318,7 +281,11 @@ export default {
                 end: { x: options3.x + textWidth3, y: options3.y },
                 thickness: 1
               });
+              // page.drawText(`${formatter.format(sumStadardOt)}`, { x: 390, y: yPosition, size: fontSize, font: thaiFont });
+              // page.drawText(`${formatter.format(sumOverOT)}`, { x: 480, y: yPosition, size: fontSize, font: thaiFont });
               // page.drawText(`${formatter.format(sumOT)}`, { x: 540, y: yPosition, size: fontSize, font: thaiFont });
+              // page.drawText(`หมายเหตุ: โปรดตรวจสอบข้อมูลตัวเลขในเอกสารนี้ให้ละเอียด หากไม่ถูกต้องหรือสงสัยให้แจ้งฝ่ายบุคคลทันทีหรือในเวลาทํางานปกติ`, { x: 10, y: yPosition - 30, size: 16, font: thaiFont });
+              // page.drawText(`หากพ้นกําหนด 15 วัน นับจากวันที่จ่ายให้ในนงวดนั้น ๆ แล้ว บริษัทถือว่าท่านยอมรับและไม่ติดใจเรียกร้องสิทธิประโยชน์ใด ๆ ทุกประการ`, { x: 10, y: yPosition - 50, size: 16, font: thaiFont });
               if (this.titlefooter.length > 0) {
                 page.drawText(`** หมายเหตุ: ${this.titlefooter}`, { x: 10, y: yPosition - 30, size: 16, font: thaiFont });
               } else {
@@ -348,9 +315,9 @@ export default {
             page.drawText(`วันที่เดินทาง`, { x: 35, y: 700, size: fontSize, font: thaiFont });
             page.drawText(`เลขที่ใบส่งสินค้า`, { x: 150, y: 700, size: fontSize, font: thaiFont });
             page.drawText(`ตัวแทนจำหน่าย`, { x: 240, y: 700, size: fontSize, font: thaiFont });
-            // page.drawText(`ชั่วโมงเกินเวลา`, { x: 370, y: 700, size: fontSize, font: thaiFont });
-            // page.drawText(`เพิ่ม/ลด`, { x: 460, y: 700, size: fontSize, font: thaiFont });
-            page.drawText(`จำนวน OT`, { x: 510, y: 700, size: fontSize, font: thaiFont });
+            page.drawText(`ชั่วโมงเกินเวลา`, { x: 370, y: 700, size: fontSize, font: thaiFont });
+            page.drawText(`เพิ่ม/ลด`, { x: 470, y: 700, size: fontSize, font: thaiFont });
+            page.drawText(`รวม`, { x: 540, y: 700, size: fontSize, font: thaiFont });
             page.drawText(`__________________________________________________________________________________`, { x: 10, y: 700, size: 20, font: thaiFont });
             // page.drawText(`Page${countPage}`, { x: 450, y: 720 , size: fontSize});
             yPosition = height - margin;
@@ -359,8 +326,8 @@ export default {
             // const yNameStart = yStart + 20;
             page.drawText(`${result[key][i].to_name}`, { x: 240, y: yPosition, size: fontSize, font: thaiFont });
             // const yPriceStart = yNameStart + 20;
-            // page.drawText(`${result[key][i].standard_ot}`, { x: 390, y: yPosition, size: fontSize, font: thaiFont });
-            // page.drawText(`${result[key][i].over_ot}`, { x: 480, y: yPosition, size: fontSize, font: thaiFont });
+            page.drawText(`${formatter.format(result[key][i].standard_ot)}`, { x: 390, y: yPosition, size: fontSize, font: thaiFont });
+            page.drawText(`${formatter.format(result[key][i].over_ot)}`, { x: 480, y: yPosition, size: fontSize, font: thaiFont });
             page.drawText(`${formatter.format(result[key][i].total_ot)}`, { x: 540, y: yPosition, size: fontSize, font: thaiFont });
             yPosition -= descriptionHeight; // Adjust x-position for the next entry
             // count++
@@ -371,10 +338,35 @@ export default {
               sumOverOT = result[key].reduce((acc, obj) => acc + parseFloat(obj.over_ot), 0);
               // page.drawText(`${sum}`, { x: 530, y: yPosition, size: fontSize, font: thaiFont });
               page.drawText(`__________________________________________________________________________________`, { x: 10, y: yPosition + 20, size: 20, font: thaiFont });
-              // page.drawText(`${sumStadardOt}`, { x: 390, y: yPosition, size: fontSize, font: thaiFont });
-              // page.drawText(`${sumOverOT}`, { x: 480, y: yPosition, size: fontSize, font: thaiFont });
+              let text1 = `${formatter.format(sumStadardOt)}`;
+              let text2 = `${formatter.format(sumOverOT)}`;
               let text3 = `${formatter.format(sumOT)}`;
+              let options1 = { x: 390, y: yPosition, size: 12, font: thaiFont2 };
+              let options2 = { x: 480, y: yPosition, size: 12, font: thaiFont2 };
               let options3 = { x: 540, y: yPosition, size: 12, font: thaiFont2 };
+              // Draw the text
+              page.drawText(text1, options1);
+
+              // Calculate the width of the text
+              let textWidth1 = thaiFont2.widthOfTextAtSize(text1, 12);
+              // Draw a line under the text
+              page.drawLine({
+                start: { x: options1.x, y: options1.y },
+                end: { x: options1.x + textWidth1, y: options1.y },
+                thickness: 1
+              });
+              // Draw the text
+              page.drawText(text2, options2);
+
+              // Calculate the width of the text
+              let textWidth2 = thaiFont2.widthOfTextAtSize(text2, 12);
+              // Draw a line under the text
+              page.drawLine({
+                start: { x: options2.x, y: options2.y },
+                end: { x: options2.x + textWidth2, y: options2.y },
+                thickness: 1
+              });
+              // Draw the text
               page.drawText(text3, options3);
 
               // Calculate the width of the text
@@ -385,6 +377,8 @@ export default {
                 end: { x: options3.x + textWidth3, y: options3.y },
                 thickness: 1
               });
+              // page.drawText(`${formatter.format(sumStadardOt)}`, { x: 390, y: yPosition, size: fontSize, font: thaiFont });
+              // page.drawText(`${formatter.format(sumOverOT)}`, { x: 480, y: yPosition, size: fontSize, font: thaiFont });
               // page.drawText(`${formatter.format(sumOT)}`, { x: 540, y: yPosition, size: fontSize, font: thaiFont });
               if (this.titlefooter.length > 0) {
                 page.drawText(`** หมายเหตุ: ${this.titlefooter}`, { x: 10, y: yPosition - 30, size: 16, font: thaiFont });
@@ -422,7 +416,15 @@ export default {
         to: this.dateattach10to,
         payment_date: this.dateattach10select
       }
-      await axios.post('http://localhost:4000/updatepaymentstatusholiday', from_to)
+      await axios.post('http://localhost:4000/updatepaymentstatus3ot', from_to)
+        .then(response => {
+          // console.log('updatepayment', response.data.result);
+          // console.log('status', from_to)
+        })
+        .catch(error => {
+          console.error('Error fetching data:', error.message);
+        });
+      await axios.post('http://localhost:4000/updatepaymentstatus4ot', from_to)
         .then(response => {
           // console.log('updatepayment', response.data.result);
           // console.log('status', from_to)

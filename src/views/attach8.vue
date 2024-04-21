@@ -651,12 +651,12 @@ export default {
       let from_to = {
         from: this.dateattach8from,
         to: this.dateattach8to,
-        payment_date: this.dateattach7select
+        payment_date: this.dateattach8select
       }
       let from_to_welfare = {
         from: this.dateattach8welfareform,
         to: this.dateattach8welfareto,
-        payment_date: this.dateattach7select
+        payment_date: this.dateattach8select
       }
       await axios.post('http://localhost:4000/updatepaymentstatus2', from_to_welfare)
         .then(response => {

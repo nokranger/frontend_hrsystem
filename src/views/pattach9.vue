@@ -182,9 +182,10 @@ export default {
     async getAttach9all() {
       let from_to = {
         from: this.dateattach9from,
-        to: this.dateattach9to
+        to: this.dateattach9to,
+        payment_date: this.dateattach9select
       }
-      await axios.post('http://localhost:4000/getdataattach9', from_to)
+      await axios.post('http://localhost:4000/pgetdataattach9', from_to)
         .then(response => {
           console.log('resdata', response.data.result);
           let dataexcel = response.data.result
@@ -193,7 +194,7 @@ export default {
         .catch(error => {
           console.error('Error fetching data:', error.message);
         });
-      await axios.post('http://localhost:4000/getdataattach92', from_to)
+      await axios.post('http://localhost:4000/pgetdataattach92', from_to)
         .then(response => {
           console.log('resdata', response.data.result);
           let dataexcel = response.data.result
@@ -220,7 +221,7 @@ export default {
             return i.total_ot !== '0' && i.total_ot !== ''
           })
           this.pdfdata.sort((a, b) => parseInt(a.emp_code) - parseInt(b.emp_code));
-          this.updatepayment9()
+          // this.updatepayment9()
         })
         .catch(error => {
           console.error('Error fetching data:', error.message);
@@ -230,9 +231,10 @@ export default {
     async getAttach9excel() {
       let from_to = {
         from: this.dateattach9from,
-        to: this.dateattach9to
+        to: this.dateattach9to,
+        payment_date: this.dateattach9select
       }
-      await axios.post('http://localhost:4000/getdataattach9', from_to)
+      await axios.post('http://localhost:4000/pgetdataattach9', from_to)
         .then(response => {
           console.log('resdata', response.data.result);
           let dataexcel = response.data.result
@@ -242,7 +244,7 @@ export default {
         .catch(error => {
           console.error('Error fetching data:', error.message);
         });
-      await axios.post('http://localhost:4000/getdataattach92', from_to)
+      await axios.post('http://localhost:4000/pgetdataattach92', from_to)
         .then(response => {
           console.log('resdata', response.data.result);
           let dataexcel = response.data.result
@@ -270,7 +272,7 @@ export default {
           this.pdfdata = this.pdfdata.filter((i) => {
             return i.total_ot !== '0' && i.total_ot !== null
           })
-          this.updatepayment9()
+          // this.updatepayment9()
         })
         .catch(error => {
           console.error('Error fetching data:', error.message);

@@ -8,6 +8,7 @@
     <nav>
       <router-link to="/dashboard" style="font-size: 20px;">Import & Export</router-link> ||
       <router-link to="/Attached" style="font-size: 20px;">Report</router-link> ||
+      <router-link to="/pattached" style="font-size: 20px;">Previous Report</router-link> ||
       <router-link to="/payroll" style="font-size: 20px;">Payroll</router-link> ||
       <router-link to="/searchtrip" style="font-size: 20px;">Search Trip</router-link> ||
       <router-link to="/updatepayment" style="font-size: 20px;">Update Status Allowance & OT</router-link> ||
