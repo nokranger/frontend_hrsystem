@@ -492,40 +492,40 @@
                 let text1 = `${formatter.format(sumAllowance)}`;
                 let text2 = `${formatter.format(sumOT)}`;
                 let text3 = `${formatter.format(sumOverOT)}`;
-                let options1 = { x: 220, y: yPosition, size: 12, font: thaiFont2 };
-                let options2 = { x: 470, y: yPosition, size: 12, font: thaiFont2 };
-                let options3 = { x: 520, y: yPosition, size: 12, font: thaiFont2 };
+                let options1 = { x: 220, y: yPosition, size: 9, font: thaiFont2 };
+                let options2 = { x: 470, y: yPosition, size: 9, font: thaiFont2 };
+                let options3 = { x: 520, y: yPosition, size: 9, font: thaiFont2 };
                 // Draw the text
                 page.drawText(text1, options1);
   
-                // Calculate the width of the text
-                let textWidth1 = thaiFont2.widthOfTextAtSize(text1, 12);
+                // Calculate the width of the text 
+                let textWidth1 = thaiFont2.widthOfTextAtSize(text1, 9);
                 // Draw a line under the text
                 page.drawLine({
-                  start: { x: options1.x, y: options1.y },
-                  end: { x: options1.x + textWidth1, y: options1.y },
+                  start: { x: options1.x, y: options1.y - 2 },
+                  end: { x: options1.x + textWidth1, y: options1.y - 2 },
                   thickness: 1
                 });
                 // Draw the text
                 page.drawText(text2, options2);
   
                 // Calculate the width of the text
-                let textWidth2 = thaiFont2.widthOfTextAtSize(text2, 12);
+                let textWidth2 = thaiFont2.widthOfTextAtSize(text2, 9);
                 // Draw a line under the text
                 page.drawLine({
-                  start: { x: options2.x, y: options2.y },
-                  end: { x: options2.x + textWidth2, y: options2.y },
+                  start: { x: options2.x, y: options2.y - 2  },
+                  end: { x: options2.x + textWidth2, y: options2.y - 2  },
                   thickness: 1
                 });
                 // Draw the text
                 page.drawText(text3, options3);
   
                 // Calculate the width of the text
-                let textWidth3 = thaiFont2.widthOfTextAtSize(text3, 12);
+                let textWidth3 = thaiFont2.widthOfTextAtSize(text3, 9);
                 // Draw a line under the text
                 page.drawLine({
-                  start: { x: options3.x, y: options3.y },
-                  end: { x: options3.x + textWidth3, y: options3.y },
+                  start: { x: options3.x, y: options3.y - 2  },
+                  end: { x: options3.x + textWidth3, y: options3.y - 2  },
                   thickness: 1
                 });
                 if (this.titlefooter.length > 0) {

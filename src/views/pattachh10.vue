@@ -314,8 +314,8 @@ export default {
               let textWidth3 = thaiFont2.widthOfTextAtSize(text3, 12);
               // Draw a line under the text
               page.drawLine({
-                start: { x: options3.x, y: options3.y },
-                end: { x: options3.x + textWidth3, y: options3.y },
+                start: { x: options3.x, y: options3.y - 2 },
+                end: { x: options3.x + textWidth3, y: options3.y - 2 },
                 thickness: 1
               });
               // page.drawText(`${formatter.format(sumOT)}`, { x: 540, y: yPosition, size: fontSize, font: thaiFont });
@@ -381,8 +381,8 @@ export default {
               let textWidth3 = thaiFont2.widthOfTextAtSize(text3, 12);
               // Draw a line under the text
               page.drawLine({
-                start: { x: options3.x, y: options3.y },
-                end: { x: options3.x + textWidth3, y: options3.y },
+                start: { x: options3.x, y: options3.y - 2 },
+                end: { x: options3.x + textWidth3, y: options3.y - 2 },
                 thickness: 1
               });
               // page.drawText(`${formatter.format(sumOT)}`, { x: 540, y: yPosition, size: fontSize, font: thaiFont });
