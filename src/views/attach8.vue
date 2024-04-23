@@ -469,6 +469,7 @@ export default {
         const descriptionHeight = 30; // Adjust as needed
         // empCheck = data.ttt_employee_code
         // console.log('Show 1 result', result[key])
+        result[key].sort((a, b) => new Date(a.recieve_job_dateandtime) - new Date(b.recieve_job_dateandtime));
         for (let i = 0; i < result[key].length; i++) {
           // console.log(`Key: ${key}`);
           // console.log('Show 1 result', result[key][i])

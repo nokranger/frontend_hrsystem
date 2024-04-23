@@ -214,6 +214,7 @@ export default {
         // const sumValue = data.reduce((acc, obj) => acc + parseInt(obj.total_allowance), 0);
         // const titleHeight = 20; // Adjust as needed
         const descriptionHeight = 30; // Adjust as needed
+        result[key].sort((a, b) => new Date(a.recieve_job_dateandtime) - new Date(b.recieve_job_dateandtime));
         for (let i = 0; i < result[key].length; i++) {
           // Check if there is enough space on the current page
           let sumOT = 0;

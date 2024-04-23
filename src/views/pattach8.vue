@@ -279,6 +279,7 @@
             // console.log('pdfdata===========2222222222', this.pdfdata)
             // this.pdfdata.sort((a, b) => parseInt(a.ttt_employee_code) - parseInt(b.ttt_employee_code));
             // this.updatepayment8()
+            console.log('PDF=======', this.pdfdata)
   
           })
           .catch(error => {
@@ -452,6 +453,7 @@
           // const sumValue = data.reduce((acc, obj) => acc + parseInt(obj.total_allowance), 0);
           // const titleHeight = 20; // Adjust as needed
           const descriptionHeight = 30; // Adjust as needed
+          result[key].sort((a, b) => new Date(a.recieve_job_dateandtime) - new Date(b.recieve_job_dateandtime));
           // empCheck = data.ttt_employee_code
           // console.log('Show 1 result', result[key])
           for (let i = 0; i < result[key].length; i++) {
@@ -587,8 +589,8 @@
                 let textWidth1 = thaiFont2.widthOfTextAtSize(text1, 12);
                 // Draw a line under the text
                 page.drawLine({
-                  start: { x: options1.x, y: options1.y },
-                  end: { x: options1.x + textWidth1, y: options1.y },
+                  start: { x: options1.x, y: options1.y - 2 },
+                  end: { x: options1.x + textWidth1, y: options1.y - 2 },
                   thickness: 1
                 });
                 // Draw the text
@@ -598,8 +600,8 @@
                 let textWidth2 = thaiFont2.widthOfTextAtSize(text2, 12);
                 // Draw a line under the text
                 page.drawLine({
-                  start: { x: options2.x, y: options2.y },
-                  end: { x: options2.x + textWidth2, y: options2.y },
+                  start: { x: options2.x, y: options2.y - 2 },
+                  end: { x: options2.x + textWidth2, y: options2.y - 2 },
                   thickness: 1
                 });
                 // Draw the text
@@ -609,8 +611,8 @@
                 let textWidth3 = thaiFont2.widthOfTextAtSize(text3, 12);
                 // Draw a line under the text
                 page.drawLine({
-                  start: { x: options3.x, y: options3.y },
-                  end: { x: options3.x + textWidth3, y: options3.y },
+                  start: { x: options3.x, y: options3.y - 2 },
+                  end: { x: options3.x + textWidth3, y: options3.y - 2 },
                   thickness: 1
                 });
                 // page.drawText(`${formatter.format(sumAllowance)}`, { x: 220, y: yPosition, size: 12, font: thaiFont2 });
