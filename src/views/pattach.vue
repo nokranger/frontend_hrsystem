@@ -30,6 +30,9 @@
       <div v-if="selectOption == 12">
         <holiday10></holiday10>
       </div>
+      <div v-if="selectOption == 81">
+        <attached81></attached81>
+      </div>
     </b-container>
   </div>
 </template>
@@ -46,6 +49,7 @@ import attached9 from '../views/pattach9.vue';
 import attached10 from '../views/pattach10.vue';
 import holiday9 from '../views/pattachh9.vue';
 import holiday10 from '../views/pattachh10.vue';
+import attached81 from '../views/pattach8_taxflag.vue';
 export default {
   components: {
     attached7,
@@ -53,7 +57,8 @@ export default {
     attached8,
     attached10,
     holiday9,
-    holiday10
+    holiday10,
+    attached81
   },
   data() {
     return {
@@ -88,12 +93,13 @@ export default {
       selectOption: null,
       optionss: [
         { value: null, text: 'เลือก' },
-        { value: 7, text: 'สรุปยอดเงินเบี้ยเลี้ยง/ค่าขับและสวัสดิการของพนักงาน' },
-        { value: 8, text: 'สรุปยอดเงินเบี้ยเลี้ยง/ค่าขับของพนักงาน' },
-        { value: 9, text: 'สรุปยอดชม.ล่วงเวลาของพนักงานประจําเดือน' },
-        { value: 10, text: 'สรุปยอดเงินเบี้ยเลี้ยงของพนักงานขับรถ' },
-        { value: 11, text: 'สรุปยอดชม.ล่วงเวลา Holiday' },
-        { value: 12, text: 'สรุปยอดเงินเบี้ยเลี้ยงของพนักงานขับรถ Holiday' },
+        { value: 7, text: 'สรุปยอดเงินเบี้ยเลี้ยง / ค่าขับและสวัสดิการของพนักงาน' },
+        { value: 8, text: 'สรุปยอดเงินเบี้ยเลี้ยง / ค่าขับของพนักงานรายบุคคล' },
+        { value: 81, text: 'สรุปยอดเงินเบี้ยเลี้ยง / ค่าขับของพนักงานรายบุคคล (T1&T4)' },
+        { value: 9, text: 'สรุปยอดชม.ล่วงเวลาของพนักงาน' },
+        { value: 10, text: 'สรุปยอดชม.ล่วงเวลาของพนักงานรายบุคคล' },
+        { value: 11, text: 'สรุปยอดชม.ล่วงเวลาวันหยุดของพนักงาน' },
+        { value: 12, text: 'สรุปยอดชม.ล่วงเวลาวันหยุดของพนักงานรายบุคคล' },
       ],
       selectedattach7: null,
       optionsattach7: [
