@@ -297,11 +297,11 @@ export default {
       // const yPosition = 700; // Fixed y-position for horizontal alignment
       let yStart = 700; // Fixed y-position for horizontal titles
       let { width, height } = page.getSize();
-      const margin = 50;
+      const margin = 40;
       height = 730
       let yPosition = height - margin;
 
-      const fontSize = 17; //
+      const fontSize = 14; //
 
       page.drawText(`บริษัท โตโยต้า ทรานสปอร์ต (ประเทศไทย) จํากัด`, { x: 170, y: 800, size: 20, font: thaiFont });
       // page.drawText(`สรุปยอดเงินเบี้ยเลี้ยง/ค่าขับและสวัสดิการของพนักงาน`, { x: 140, y: 780, size: 20, font: thaiFont });
@@ -332,7 +332,7 @@ export default {
         console.log('countValue', count2)
         // const sumValue = data.reduce((acc, obj) => acc + parseInt(obj.total_allowance), 0);
         // const titleHeight = 20; // Adjust as needed
-        const descriptionHeight = 30; // Adjust as needed
+        const descriptionHeight = 15; // Adjust as needed
 
         // Check if there is enough space on the current page
         if (yPosition - descriptionHeight < margin) {
@@ -373,7 +373,7 @@ export default {
             console.log('CountSum', await datas.reduce((acc, obj) => acc += parseInt(obj.total_allowance), 0))
           }
           console.log('countPDF ', count);
-          page.drawText(`__________________________________________________________________________________`, { x: 10, y: yPosition + 20, size: 20, font: thaiFont });
+          page.drawText(`__________________________________________________________________________________`, { x: 10, y: yPosition + 10, size: 20, font: thaiFont });
           page.drawText(`รวม ${this.sumValue}`, { x: 470, y: yPosition - 20, size: 20, font: thaiFont });
         }
       }
@@ -478,11 +478,11 @@ export default {
       // const yPosition = 700; // Fixed y-position for horizontal alignment
       let yStart = 700; // Fixed y-position for horizontal titles
       let { width, height } = page.getSize();
-      const margin = 50;
+      const margin = 40;
       height = 730
       let yPosition = height - margin;
 
-      const fontSize = 17; //
+      const fontSize = 14; //
 
       page.drawText(`บริษัท โตโยต้า ทรานสปอร์ต (ประเทศไทย) จํากัด`, { x: 170, y: 800, size: 20, font: thaiFont });
       page.drawText(`สรุปยอดเงินเบี้ยเลี้ยง/ค่าขับและสวัสดิการของพนักงาน`, { x: 140, y: 780, size: 20, font: thaiFont });
@@ -507,7 +507,7 @@ export default {
         // console.log('count', datas.length)
         // const sumValue = data.reduce((acc, obj) => acc + parseInt(obj.total_allowance), 0);
         // const titleHeight = 20; // Adjust as needed
-        const descriptionHeight = 30; // Adjust as needed
+        const descriptionHeight = 15; // Adjust as needed
         // empCheck = data.ttt_employee_code
 
         if (yPosition - descriptionHeight < margin) {
@@ -565,7 +565,7 @@ export default {
             count++
             if (count > datas.length - 1) {
               console.log('countPDF ', count);
-              page.drawText(`__________________________________________________________________________________`, { x: 10, y: yPosition + 20, size: 20, font: thaiFont });
+              page.drawText(`__________________________________________________________________________________`, { x: 10, y: yPosition + 10, size: 20, font: thaiFont });
               // page.drawText(`รวม ${sumValue}`, { x: 470, y: yPosition - 20 , size: 20, font: thaiFont});
             }
           }
@@ -581,7 +581,7 @@ export default {
           count++
           if (count > datas.length - 1) {
             console.log('countPDF ', count);
-            page.drawText(`__________________________________________________________________________________`, { x: 10, y: yPosition + 20, size: 20, font: thaiFont });
+            page.drawText(`__________________________________________________________________________________`, { x: 10, y: yPosition + 10, size: 20, font: thaiFont });
             // page.drawText(`รวม ${sumValue}`, { x: 470, y: yPosition - 20 , size: 20, font: thaiFont});
           }
           // countPage++;
@@ -617,7 +617,7 @@ export default {
         count++
         if (count > datas.length - 1) {
           console.log('countPDF ', count);
-          page.drawText(`__________________________________________________________________________________`, { x: 10, y: yPosition + 20, size: 20, font: thaiFont });
+          page.drawText(`__________________________________________________________________________________`, { x: 10, y: yPosition + 10, size: 20, font: thaiFont });
           // page.drawText(`รวม ${sumValue}`, { x: 470, y: yPosition - 20 , size: 20, font: thaiFont});
         }
 
@@ -702,11 +702,11 @@ export default {
       // const yPosition = 700; // Fixed y-position for horizontal alignment
       let yStart = 700; // Fixed y-position for horizontal titles
       let { width, height } = page.getSize();
-      const margin = 50;
+      const margin = 40;
       height = 730
       let yPosition = height - margin;
 
-      const fontSize = 17; //
+      const fontSize = 14; //
 
       page.drawText(`บริษัท โตโยต้า ทรานสปอร์ต (ประเทศไทย) จํากัด`, { x: 170, y: 800, size: 20, font: thaiFont });
       page.drawText(`สรุปยอดชม.ล่วงเวลาของพนักงานประจำเดือนเมษายนจ่ายเดือนพฤษภาคม`, { x: 140, y: 780, size: 20, font: thaiFont });
@@ -725,7 +725,7 @@ export default {
         console.log('count', datas.length)
         // const sumValue = data.reduce((acc, obj) => acc + parseInt(obj.total_allowance), 0);
         // const titleHeight = 20; // Adjust as needed
-        const descriptionHeight = 30; // Adjust as needed
+        const descriptionHeight = 15; // Adjust as needed
 
         // Check if there is enough space on the current page
         if (yPosition - descriptionHeight < margin) {
@@ -755,7 +755,7 @@ export default {
         count++
         if (count > datas.length - 1) {
           console.log('countPDF ', count);
-          page.drawText(`__________________________________________________________________________________`, { x: 10, y: yPosition + 20, size: 20, font: thaiFont });
+          page.drawText(`__________________________________________________________________________________`, { x: 10, y: yPosition + 10, size: 20, font: thaiFont });
           page.drawText(`รวม ${sumValue}`, { x: 400, y: yPosition - 20, size: 20, font: thaiFont });
         }
       }
@@ -778,11 +778,11 @@ export default {
       // const yPosition = 700; // Fixed y-position for horizontal alignment
       let yStart = 700; // Fixed y-position for horizontal titles
       let { width, height } = page.getSize();
-      const margin = 50;
+      const margin = 40;
       height = 730
       let yPosition = height - margin;
 
-      const fontSize = 17; //
+      const fontSize = 14; //
 
       page.drawText(`บริษัท โตโยต้า ทรานสปอร์ต (ประเทศไทย) จํากัด`, { x: 170, y: 800, size: 20, font: thaiFont });
       page.drawText(`สรุปยอดชม.ล่วงเวลาของพนักงานประจำเดือนเมษายนจ่ายเดือนพฤษภาคม`, { x: 140, y: 780, size: 20, font: thaiFont });
@@ -801,7 +801,7 @@ export default {
         console.log('count', datas.length)
         // const sumValue = data.reduce((acc, obj) => acc + parseInt(obj.total_allowance), 0);
         // const titleHeight = 20; // Adjust as needed
-        const descriptionHeight = 30; // Adjust as needed
+        const descriptionHeight = 15; // Adjust as needed
 
         // Check if there is enough space on the current page
         if (yPosition - descriptionHeight < margin) {
@@ -831,7 +831,7 @@ export default {
         count++
         if (count > datas.length - 1) {
           console.log('countPDF ', count);
-          page.drawText(`__________________________________________________________________________________`, { x: 10, y: yPosition + 20, size: 20, font: thaiFont });
+          page.drawText(`__________________________________________________________________________________`, { x: 10, y: yPosition + 10, size: 20, font: thaiFont });
           page.drawText(`รวม ${sumValue}`, { x: 400, y: yPosition - 20, size: 20, font: thaiFont });
         }
       }
@@ -874,11 +874,11 @@ export default {
       // const yPosition = 700; // Fixed y-position for horizontal alignment
       let yStart = 700; // Fixed y-position for horizontal titles
       let { width, height } = page.getSize();
-      const margin = 50;
+      const margin = 40;
       height = 730
       let yPosition = height - margin;
 
-      const fontSize = 17; //
+      const fontSize = 14; //
 
       page.drawText(`บริษัท โตโยต้า ทรานสปอร์ต (ประเทศไทย) จํากัด`, { x: 170, y: 800, size: 20, font: thaiFont });
       page.drawText(`สรุปยอดเงินเบี้ยเลี้ยง/ค่าขับและสวัสดิการของพนักงาน`, { x: 140, y: 780, size: 20, font: thaiFont });
@@ -904,7 +904,7 @@ export default {
         console.log('count', datas.length)
         // const sumValue = data.reduce((acc, obj) => acc + parseInt(obj.total_allowance), 0);
         // const titleHeight = 20; // Adjust as needed
-        const descriptionHeight = 30; // Adjust as needed
+        const descriptionHeight = 15; // Adjust as needed
 
         // Check if there is enough space on the current page
         if (yPosition - descriptionHeight < margin) {
@@ -942,7 +942,7 @@ export default {
         count++
         if (count > datas.length - 1) {
           console.log('countPDF ', count);
-          page.drawText(`__________________________________________________________________________________`, { x: 10, y: yPosition + 20, size: 20, font: thaiFont });
+          page.drawText(`__________________________________________________________________________________`, { x: 10, y: yPosition + 10, size: 20, font: thaiFont });
           // page.drawText(`รวม ${sumValue}`, { x: 470, y: yPosition - 20 , size: 20, font: thaiFont});
         }
       }

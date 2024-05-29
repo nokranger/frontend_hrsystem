@@ -262,11 +262,11 @@ export default {
       // const yPosition = 700; // Fixed y-position for horizontal alignment
       let yStart = 700; // Fixed y-position for horizontal titles
       let { width, height } = page.getSize();
-      const margin = 50;
+      const margin = 40;
       height = 730
       let yPosition = height - margin;
 
-      const fontSize = 17; //
+      const fontSize = 14; //
       const textWidth = thaiFont.widthOfTextAtSize(this.titleattach10, fontSize);
       const textHeight = thaiFont.heightAtSize(fontSize);
       let count = 0
@@ -280,7 +280,7 @@ export default {
         // const sumValue = data.reduce((acc, obj) => acc + parseInt(obj.total_allowance), 0);
         // const titleHeight = 20; // Adjust as needed
         result[key].sort((a, b) => new Date(a.recieve_job_dateandtime) - new Date(b.recieve_job_dateandtime));
-        const descriptionHeight = 30; // Adjust as needed
+        const descriptionHeight = 15; // Adjust as needed
         for (let i = 0; i < result[key].length; i++) {
           // Check if there is enough space on the current page
           let sumOT = 0;
@@ -306,9 +306,9 @@ export default {
               sumStadardOt = result[key].reduce((acc, obj) => acc + parseFloat(obj.standard_ot), 0);
               sumOverOT = result[key].reduce((acc, obj) => acc + parseFloat(obj.over_ot), 0);
               // page.drawText(`${sum}`, { x: 530, y: yPosition, size: fontSize, font: thaiFont });
-              page.drawText(`__________________________________________________________________________________`, { x: 10, y: yPosition + 20, size: 20, font: thaiFont });
+              page.drawText(`__________________________________________________________________________________`, { x: 10, y: yPosition + 10, size: 20, font: thaiFont });
               let text3 = `${formatter.format(sumOT)}`;
-              let options3 = { x: 540, y: yPosition, size: 12, font: thaiFont2 };
+              let options3 = { x: 540, y: yPosition - 5, size: 12, font: thaiFont2 };
               page.drawText(text3, options3);
 
               // Calculate the width of the text
@@ -321,9 +321,9 @@ export default {
               });
               // page.drawText(`${formatter.format(sumOT)}`, { x: 540, y: yPosition, size: fontSize, font: thaiFont });
               if (this.titlefooter.length > 0) {
-                page.drawText(`** หมายเหตุ: ${this.titlefooter}`, { x: 10, y: yPosition - 30, size: 16, font: thaiFont });
+                page.drawText(`** หมายเหตุ: ${this.titlefooter}`, { x: 10, y: yPosition - 30, size: 14, font: thaiFont });
               } else {
-                page.drawText(`หมายเหตุ: โปรดตรวจสอบข้อมูลตัวเลขในเอกสารนี้ให้ละเอียด หากไม่ถูกต้องหรือสงสัยให้แจ้งฝ่ายบุคคลทันทีหรือในเวลาทํางานปกติ`, { x: 10, y: yPosition - 30, size: 16, font: thaiFont });
+                page.drawText(`หมายเหตุ: โปรดตรวจสอบข้อมูลตัวเลขในเอกสารนี้ให้ละเอียด หากไม่ถูกต้องหรือสงสัยให้แจ้งฝ่ายบุคคลทันทีหรือในเวลาทํางานปกติ`, { x: 10, y: yPosition - 30, size: 14, font: thaiFont });
                 page.drawText(`หากพ้นกําหนด 15 วัน นับจากวันที่จ่ายให้ในนงวดนั้น ๆ แล้ว บริษัทถือว่าท่านยอมรับและไม่ติดใจเรียกร้องสิทธิประโยชน์ใด ๆ ทุกประการ`, { x: 10, y: yPosition - 50, size: 16, font: thaiFont });
               }
             }
@@ -371,11 +371,11 @@ export default {
               sumStadardOt = result[key].reduce((acc, obj) => acc + parseFloat(obj.standard_ot), 0);
               sumOverOT = result[key].reduce((acc, obj) => acc + parseFloat(obj.over_ot), 0);
               // page.drawText(`${sum}`, { x: 530, y: yPosition, size: fontSize, font: thaiFont });
-              page.drawText(`__________________________________________________________________________________`, { x: 10, y: yPosition + 20, size: 20, font: thaiFont });
+              page.drawText(`__________________________________________________________________________________`, { x: 10, y: yPosition + 10, size: 20, font: thaiFont });
               // page.drawText(`${sumStadardOt}`, { x: 390, y: yPosition, size: fontSize, font: thaiFont });
               // page.drawText(`${sumOverOT}`, { x: 480, y: yPosition, size: fontSize, font: thaiFont });
               let text3 = `${formatter.format(sumOT)}`;
-              let options3 = { x: 540, y: yPosition, size: 12, font: thaiFont2 };
+              let options3 = { x: 540, y: yPosition - 5, size: 12, font: thaiFont2 };
               page.drawText(text3, options3);
 
               // Calculate the width of the text
@@ -388,9 +388,9 @@ export default {
               });
               // page.drawText(`${formatter.format(sumOT)}`, { x: 540, y: yPosition, size: fontSize, font: thaiFont });
               if (this.titlefooter.length > 0) {
-                page.drawText(`** หมายเหตุ: ${this.titlefooter}`, { x: 10, y: yPosition - 30, size: 16, font: thaiFont });
+                page.drawText(`** หมายเหตุ: ${this.titlefooter}`, { x: 10, y: yPosition - 30, size: 14, font: thaiFont });
               } else {
-                page.drawText(`หมายเหตุ: โปรดตรวจสอบข้อมูลตัวเลขในเอกสารนี้ให้ละเอียด หากไม่ถูกต้องหรือสงสัยให้แจ้งฝ่ายบุคคลทันทีหรือในเวลาทํางานปกติ`, { x: 10, y: yPosition - 30, size: 16, font: thaiFont });
+                page.drawText(`หมายเหตุ: โปรดตรวจสอบข้อมูลตัวเลขในเอกสารนี้ให้ละเอียด หากไม่ถูกต้องหรือสงสัยให้แจ้งฝ่ายบุคคลทันทีหรือในเวลาทํางานปกติ`, { x: 10, y: yPosition - 30, size: 14, font: thaiFont });
                 page.drawText(`หากพ้นกําหนด 15 วัน นับจากวันที่จ่ายให้ในนงวดนั้น ๆ แล้ว บริษัทถือว่าท่านยอมรับและไม่ติดใจเรียกร้องสิทธิประโยชน์ใด ๆ ทุกประการ`, { x: 10, y: yPosition - 50, size: 16, font: thaiFont });
               }
             }

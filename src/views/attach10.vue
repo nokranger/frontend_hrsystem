@@ -200,7 +200,7 @@ export default {
       height = 730
       let yPosition = height - margin;
 
-      const fontSize = 17; //
+      const fontSize = 14; //
       const textWidth = thaiFont.widthOfTextAtSize(this.titleattach10, fontSize);
       const textHeight = thaiFont.heightAtSize(fontSize);
       let count = 0
@@ -213,7 +213,7 @@ export default {
         console.log('count', result[key])
         // const sumValue = data.reduce((acc, obj) => acc + parseInt(obj.total_allowance), 0);
         // const titleHeight = 20; // Adjust as needed
-        const descriptionHeight = 30; // Adjust as needed
+        const descriptionHeight = 15; // Adjust as needed
         result[key].sort((a, b) => new Date(a.recieve_job_dateandtime) - new Date(b.recieve_job_dateandtime));
         for (let i = 0; i < result[key].length; i++) {
           // Check if there is enough space on the current page
@@ -240,13 +240,13 @@ export default {
               sumStadardOt = result[key].reduce((acc, obj) => acc + parseFloat(obj.standard_ot), 0);
               sumOverOT = result[key].reduce((acc, obj) => acc + parseFloat(obj.over_ot), 0);
               // page.drawText(`${sum}`, { x: 530, y: yPosition, size: fontSize, font: thaiFont });
-              page.drawText(`__________________________________________________________________________________`, { x: 10, y: yPosition + 20, size: 20, font: thaiFont });
+              page.drawText(`__________________________________________________________________________________`, { x: 10, y: yPosition + 0, size: 20, font: thaiFont });
               let text1 = `${formatter.format(sumStadardOt)}`;
               let text2 = `${formatter.format(sumOverOT)}`;
               let text3 = `${formatter.format(sumOT)}`;
-              let options1 = { x: 390, y: yPosition, size: 12, font: thaiFont2 };
-              let options2 = { x: 480, y: yPosition, size: 12, font: thaiFont2 };
-              let options3 = { x: 540, y: yPosition, size: 12, font: thaiFont2 };
+              let options1 = { x: 390, y: yPosition - 15, size: 12, font: thaiFont2 };
+              let options2 = { x: 480, y: yPosition - 15, size: 12, font: thaiFont2 };
+              let options3 = { x: 540, y: yPosition - 15, size: 12, font: thaiFont2 };
               // Draw the text
               page.drawText(text1, options1);
 
@@ -283,14 +283,53 @@ export default {
               // page.drawText(`${formatter.format(sumStadardOt)}`, { x: 390, y: yPosition, size: fontSize, font: thaiFont });
               // page.drawText(`${formatter.format(sumOverOT)}`, { x: 480, y: yPosition, size: fontSize, font: thaiFont });
               // page.drawText(`${formatter.format(sumOT)}`, { x: 540, y: yPosition, size: fontSize, font: thaiFont });
-              // page.drawText(`หมายเหตุ: โปรดตรวจสอบข้อมูลตัวเลขในเอกสารนี้ให้ละเอียด หากไม่ถูกต้องหรือสงสัยให้แจ้งฝ่ายบุคคลทันทีหรือในเวลาทํางานปกติ`, { x: 10, y: yPosition - 30, size: 16, font: thaiFont });
+              // page.drawText(`หมายเหตุ: โปรดตรวจสอบข้อมูลตัวเลขในเอกสารนี้ให้ละเอียด หากไม่ถูกต้องหรือสงสัยให้แจ้งฝ่ายบุคคลทันทีหรือในเวลาทํางานปกติ`, { x: 10, y: yPosition - 30, size: 14, font: thaiFont });
               // page.drawText(`หากพ้นกําหนด 15 วัน นับจากวันที่จ่ายให้ในนงวดนั้น ๆ แล้ว บริษัทถือว่าท่านยอมรับและไม่ติดใจเรียกร้องสิทธิประโยชน์ใด ๆ ทุกประการ`, { x: 10, y: yPosition - 50, size: 16, font: thaiFont });
               if (this.titlefooter.length > 0) {
-                page.drawText(`** หมายเหตุ: ${this.titlefooter}`, { x: 10, y: yPosition - 30, size: 16, font: thaiFont });
+                page.drawText(`** หมายเหตุ: ${this.titlefooter}`, { x: 10, y: yPosition - 30, size: 14, font: thaiFont });
               } else {
-                page.drawText(`หมายเหตุ: โปรดตรวจสอบข้อมูลตัวเลขในเอกสารนี้ให้ละเอียด หากไม่ถูกต้องหรือสงสัยให้แจ้งฝ่ายบุคคลทันทีหรือในเวลาทํางานปกติ`, { x: 10, y: yPosition - 30, size: 16, font: thaiFont });
-                page.drawText(`หากพ้นกําหนด 15 วัน นับจากวันที่จ่ายให้ในนงวดนั้น ๆ แล้ว บริษัทถือว่าท่านยอมรับและไม่ติดใจเรียกร้องสิทธิประโยชน์ใด ๆ ทุกประการ`, { x: 10, y: yPosition - 50, size: 16, font: thaiFont });
+                page.drawText(`หมายเหตุ: โปรดตรวจสอบข้อมูลตัวเลขในเอกสารนี้ให้ละเอียด หากไม่ถูกต้องหรือสงสัยให้แจ้งฝ่ายบุคคลทันทีหรือในเวลาทํางานปกติ`, { x: 10, y: yPosition - 30, size: 14, font: thaiFont });
+                page.drawText(`หากพ้นกําหนด 15 วัน นับจากวันที่จ่ายให้ในนงวดนั้น ๆ แล้ว บริษัทถือว่าท่านยอมรับและไม่ติดใจเรียกร้องสิทธิประโยชน์ใด ๆ ทุกประการ`, { x: 10, y: yPosition - 50, size: 14, font: thaiFont });
               }
+              count = 0
+            }
+            if (yPosition - descriptionHeight < margin) {
+              page = pdfDoc.addPage();
+              // console.log('SameKeyCount', keycount)
+              // page.drawText(`${result[key][i].ttt_employee_code}`, { x: 500, y: 800, size: 20, font: thaiFont });
+              // Create a new page if the content doesn't fit
+              // page = pdfDoc.addPage();
+              // page.drawText(`${result[key][i].ttt_employee_code}`, { x: 500, y: 800, size: 20, font: thaiFont });
+              page.drawText(`บริษัท โตโยต้า ทรานสปอร์ต (ประเทศไทย) จํากัด`, { x: 170, y: 800, size: 20, font: thaiFont });
+              // page.drawText(`สรุปยอดเงินเบี้ยเลี้ยง/ค่าขับและสวัสดิการของพนักงาน`, { x: 140, y: 780, size: 20, font: thaiFont });
+              page.drawText(`${this.titleattach10}`, { x: page.getWidth() / 2.2 - textWidth / 2.2, y: 780, size: 20, font: thaiFont });
+              page.drawText(`รายละเอียดชั่วโมงทำงานเกินเวลาตั้งแต่วันที่ ${moment(this.dateattach10from).format('L')} To ${moment(this.dateattach10to).format('L')} เข้าบัญชีพนักงานวันที่ ${moment(this.dateattach10select).format('L')}`, { x: 50, y: 760, size: 15, font: thaiFont });
+              // page.drawText(`To`, { x: 250, y: 760, size: 15, font: thaiFont });
+              page.drawText(`ชื่อ ${result[key][i].tlep_driver_name} รหัส ${result[key][i].ttt_employee_code}`, { x: 200, y: 740, size: 15, font: thaiFont });
+              // page.drawText(`เข้าบัญชีพนักงานวันที่ ${moment(this.dateattach10select).format('L')}`, { x: 350, y: 760, size: 15, font: thaiFont });
+              // page.drawText(`${result[key][i]s[0].tlep_driver_name}`, { x: 400, y: 760, size: 15, font: thaiFont });
+              // page.drawText(`รหัส ${result[key][i]s[0].ttt_employee_code}`, { x: 450, y: 760, size: 15, font: thaiFont });
+              page.drawText(`__________________________________________________________________________________`, { x: 10, y: 720, size: 20, font: thaiFont });
+              page.drawText(`วันที่เดินทาง`, { x: 35, y: 700, size: fontSize, font: thaiFont });
+              page.drawText(`เลขที่ใบส่งสินค้า`, { x: 150, y: 700, size: fontSize, font: thaiFont });
+              page.drawText(`ตัวแทนจำหน่าย`, { x: 240, y: 700, size: fontSize, font: thaiFont });
+              page.drawText(`ชั่วโมงเกินเวลา`, { x: 370, y: 700, size: fontSize, font: thaiFont });
+              page.drawText(`เพิ่ม/ลด`, { x: 470, y: 700, size: fontSize, font: thaiFont });
+              page.drawText(`รวม`, { x: 540, y: 700, size: fontSize, font: thaiFont });
+              page.drawText(`__________________________________________________________________________________`, { x: 10, y: 700, size: 20, font: thaiFont });
+              // page.drawText(`Page${countPage}`, { x: 450, y: 720 , size: fontSize});
+              yPosition = height - margin;
+              page.drawText(`${result[key][i].recieve_job_dateandtime}`, { x: 25, y: yPosition, size: fontSize, font: thaiFont });
+              page.drawText(`${result[key][i].calling_sheet_no}`, { x: 150, y: yPosition, size: fontSize, font: thaiFont });
+              // const yNameStart = yStart + 20;
+              page.drawText(`${result[key][i].to_name}`, { x: 240, y: yPosition, size: fontSize, font: thaiFont });
+              // const yPriceStart = yNameStart + 20;
+              page.drawText(`${formatter.format(result[key][i].standard_ot)}`, { x: 390, y: yPosition, size: fontSize, font: thaiFont });
+              page.drawText(`${formatter.format(result[key][i].over_ot)}`, { x: 480, y: yPosition, size: fontSize, font: thaiFont });
+              page.drawText(`${formatter.format(result[key][i].total_ot)}`, { x: 540, y: yPosition, size: fontSize, font: thaiFont });
+              yPosition -= descriptionHeight; // Adjust x-position for the next entry
+              keycount = result[key][i].ttt_employee_code
+              count++
             }
           } else {
             // console.log('NotSameKeyCount', keycount)
@@ -336,13 +375,13 @@ export default {
               sumStadardOt = result[key].reduce((acc, obj) => acc + parseFloat(obj.standard_ot), 0);
               sumOverOT = result[key].reduce((acc, obj) => acc + parseFloat(obj.over_ot), 0);
               // page.drawText(`${sum}`, { x: 530, y: yPosition, size: fontSize, font: thaiFont });
-              page.drawText(`__________________________________________________________________________________`, { x: 10, y: yPosition + 20, size: 20, font: thaiFont });
+              page.drawText(`__________________________________________________________________________________`, { x: 10, y: yPosition + 0, size: 20, font: thaiFont });
               let text1 = `${formatter.format(sumStadardOt)}`;
               let text2 = `${formatter.format(sumOverOT)}`;
               let text3 = `${formatter.format(sumOT)}`;
-              let options1 = { x: 390, y: yPosition, size: 12, font: thaiFont2 };
-              let options2 = { x: 480, y: yPosition, size: 12, font: thaiFont2 };
-              let options3 = { x: 540, y: yPosition, size: 12, font: thaiFont2 };
+              let options1 = { x: 390, y: yPosition - 15, size: 12, font: thaiFont2 };
+              let options2 = { x: 480, y: yPosition - 15, size: 12, font: thaiFont2 };
+              let options3 = { x: 540, y: yPosition - 15, size: 12, font: thaiFont2 };
               // Draw the text
               page.drawText(text1, options1);
 
@@ -350,8 +389,8 @@ export default {
               let textWidth1 = thaiFont2.widthOfTextAtSize(text1, 12);
               // Draw a line under the text
               page.drawLine({
-                start: { x: options1.x, y: options1.y - 2  },
-                end: { x: options1.x + textWidth1, y: options1.y - 2  },
+                start: { x: options1.x, y: options1.y - 2 },
+                end: { x: options1.x + textWidth1, y: options1.y - 2 },
                 thickness: 1
               });
               // Draw the text
@@ -361,8 +400,8 @@ export default {
               let textWidth2 = thaiFont2.widthOfTextAtSize(text2, 12);
               // Draw a line under the text
               page.drawLine({
-                start: { x: options2.x, y: options2.y - 2  },
-                end: { x: options2.x + textWidth2, y: options2.y - 2  },
+                start: { x: options2.x, y: options2.y - 2 },
+                end: { x: options2.x + textWidth2, y: options2.y - 2 },
                 thickness: 1
               });
               // Draw the text
@@ -372,18 +411,18 @@ export default {
               let textWidth3 = thaiFont2.widthOfTextAtSize(text3, 12);
               // Draw a line under the text
               page.drawLine({
-                start: { x: options3.x, y: options3.y - 2  },
-                end: { x: options3.x + textWidth3, y: options3.y - 2  },
+                start: { x: options3.x, y: options3.y - 2 },
+                end: { x: options3.x + textWidth3, y: options3.y - 2 },
                 thickness: 1
               });
               // page.drawText(`${formatter.format(sumStadardOt)}`, { x: 390, y: yPosition, size: fontSize, font: thaiFont });
               // page.drawText(`${formatter.format(sumOverOT)}`, { x: 480, y: yPosition, size: fontSize, font: thaiFont });
               // page.drawText(`${formatter.format(sumOT)}`, { x: 540, y: yPosition, size: fontSize, font: thaiFont });
               if (this.titlefooter.length > 0) {
-                page.drawText(`** หมายเหตุ: ${this.titlefooter}`, { x: 10, y: yPosition - 30, size: 16, font: thaiFont });
+                page.drawText(`** หมายเหตุ: ${this.titlefooter}`, { x: 10, y: yPosition - 30, size: 14, font: thaiFont });
               } else {
-                page.drawText(`หมายเหตุ: โปรดตรวจสอบข้อมูลตัวเลขในเอกสารนี้ให้ละเอียด หากไม่ถูกต้องหรือสงสัยให้แจ้งฝ่ายบุคคลทันทีหรือในเวลาทํางานปกติ`, { x: 10, y: yPosition - 30, size: 16, font: thaiFont });
-                page.drawText(`หากพ้นกําหนด 15 วัน นับจากวันที่จ่ายให้ในนงวดนั้น ๆ แล้ว บริษัทถือว่าท่านยอมรับและไม่ติดใจเรียกร้องสิทธิประโยชน์ใด ๆ ทุกประการ`, { x: 10, y: yPosition - 50, size: 16, font: thaiFont });
+                page.drawText(`หมายเหตุ: โปรดตรวจสอบข้อมูลตัวเลขในเอกสารนี้ให้ละเอียด หากไม่ถูกต้องหรือสงสัยให้แจ้งฝ่ายบุคคลทันทีหรือในเวลาทํางานปกติ`, { x: 10, y: yPosition - 30, size: 14, font: thaiFont });
+                page.drawText(`หากพ้นกําหนด 15 วัน นับจากวันที่จ่ายให้ในนงวดนั้น ๆ แล้ว บริษัทถือว่าท่านยอมรับและไม่ติดใจเรียกร้องสิทธิประโยชน์ใด ๆ ทุกประการ`, { x: 10, y: yPosition - 50, size: 14, font: thaiFont });
               }
             }
           }
