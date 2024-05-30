@@ -11,6 +11,12 @@
           กรุณากรอกหมายเลข TRIP
         </div>
         <b-input v-on:keyup.enter="findtrip" placeholder="Enter TRIP" v-model="findtrips"></b-input>
+        <div style="margin-top: 20px;">
+          <b-alert v-if="alertStatus === 1" show variant="success" :show="dismissCountDown" fade
+          @dismiss-count-down="countDownChanged"><a href="#" style="text-decoration:none"
+            class="alert-link">อัพเดตชั่วโมง OT แล้ว</a></b-alert>
+        </div>
+
         <div>
           <br>
           <br>
@@ -53,6 +59,28 @@
           </p>
         </div>
       </b-row>
+      <div v-for="(itemz, index) in showdatafind" :key="index">
+        <div v-if="itemz.payment_status_ot === 0 || itemz.payment_status_ot === '0'">
+          <b-row style="margin: 5px">
+            <b-col style="text-align: right;">
+              <div style="margin-top: 10px;">
+                {{index+1}}
+              </div>
+            </b-col>
+            <b-col>
+              <div>
+                <b-input placeholder="Enter Ot" v-model="editotp"></b-input>
+              </div>
+            </b-col>
+            <b-col>
+              <div style="text-align: left;">
+                <b-button variant="outline-primary" @click="editOT(itemz.calling_sheet_no, itemz.ttt_employee_code, editotp)">EDIT</b-button>
+              </div>
+            </b-col>
+          </b-row>
+
+        </div>
+      </div>
 
     </b-container>
   </div>
@@ -64,12 +92,18 @@ import axios from 'axios';
 export default {
   data() {
     return {
+      alertStatus: 0,
+      dismissSecs: 5,
+      dismissCountDown: 0,
+      showDismissibleAlert: false,
       excelarray: [],
       excelarraywelfare: [],
       excelarrayinstructor: [],
       excelarrayHoliday: [],
       findtrips: '',
-      showdatafind: []
+      showdatafind: [],
+      editotp: '',
+      status: ''
 
     }
   },
@@ -78,6 +112,28 @@ export default {
     console.log('leng', data.length)
   },
   methods: {
+    countDownChanged(dismissCountDown) {
+      this.dismissCountDown = dismissCountDown
+    },
+    editOT (calling_sheet_no, employee_code, editotps) {
+      console.log('editot', editotps, calling_sheet_no, employee_code)
+      let edit_ot = {
+        over_ot: editotps,
+        calling_sheet_no: calling_sheet_no,
+        employee_code: employee_code
+      }
+      axios.post('http://localhost:4000/editottnos', edit_ot)
+        .then(response => {
+          console.log('resdataTnos', response.data.result);
+          this.alertStatus = 1
+          this.dismissCountDown = this.dismissSecs
+          this.editotp = ''
+          this.status = 0
+        })
+        .catch(error => {
+          console.error('Error fetching data:', error.message);
+        });
+    },
     async findtrip() {
       await axios.get('http://localhost:4000/searchtrip1')
         .then(response => {
@@ -208,7 +264,7 @@ export default {
               Working_date: this.excelarraywelfare[j].DEPARTURE_DATETIME,
               yard_out_dateandtime: this.excelarraywelfare[j].YARDOUTDATE,
               total_allowance: parseFloat(this.excelarraywelfare[j].TOTAL_ALLOWANCE),
-              total_ot: this.excelarraywelfare[j].OT_HOURS,
+              standard_ot: this.excelarraywelfare[j].OT_HOURS,
               ttt_employee_code: this.excelarraywelfare[j].DRIVER1,
               calling_sheet_no: this.excelarraywelfare[j].TRIP_NO,
               payment_status_2: this.excelarraywelfare[j].payment_status_2,
@@ -230,7 +286,7 @@ export default {
               Working_date: this.excelarrayHoliday[j].DEPARTURE_DATETIME,
               yard_out_dateandtime: this.excelarrayHoliday[j].YARDOUTDATE,
               total_allowance: parseFloat(this.excelarrayHoliday[j].TOTAL_ALLOWANCE),
-              total_ot: this.excelarrayHoliday[j].OT_HOURS,
+              standard_ot: this.excelarrayHoliday[j].OT_HOURS,
               ttt_employee_code: this.excelarrayHoliday[j].DRIVER1,
               calling_sheet_no: this.excelarrayHoliday[j].TRIP_NO,
               payment_status_2: this.excelarrayHoliday[j].payment_status_2,
