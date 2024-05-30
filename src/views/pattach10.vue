@@ -203,8 +203,8 @@ export default {
       let yPosition = height - margin;
 
       const fontSize = 14; //
-      const textWidth = thaiFont.widthOfTextAtSize(this.titleattach10, fontSize);
-      const textHeight = thaiFont.heightAtSize(fontSize);
+      const textWidth = thaiFont.widthOfTextAtSize(this.titleattach10, 17);
+      const textHeight = thaiFont.heightAtSize(17);
       let count = 0
       let countPage = 1
       // let sumValue = datas.reduce((acc, obj) => acc + parseInt(obj.total_allowance), 0);

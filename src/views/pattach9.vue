@@ -313,8 +313,8 @@ export default {
       let yPosition = height - margin;
 
       const fontSize = 14; //
-      const textWidth = thaiFont.widthOfTextAtSize(this.titleattach9, fontSize);
-      const textHeight = thaiFont.heightAtSize(fontSize);
+      const textWidth = thaiFont.widthOfTextAtSize(this.titleattach9, 17);
+      const textHeight = thaiFont.heightAtSize(17);
       page.drawText(`บริษัท โตโยต้า ทรานสปอร์ต (ประเทศไทย) จํากัด`, { x: 170, y: 800, size: 20, font: thaiFont });
       // page.drawText(`สรุปยอดชม.ล่วงเวลาของพนักงานประจำเดือนเมษายนจ่ายเดือนพฤษภาคม`, { x: 140, y: 780, size: 20, font: thaiFont });
       page.drawText(`${this.titleattach9}`, { x: page.getWidth() / 2.2 - textWidth / 2.2, y: 780, size: 20, font: thaiFont });
