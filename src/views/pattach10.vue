@@ -38,7 +38,11 @@
               <b-input placeholder="Enter your Title Report" v-model="titleattach10"></b-input>
             </div>
           </b-col>
-          <b-col></b-col>
+          <b-col>
+            <div style="font-size: 20px;text-align: left;margin-left: 10px;">กรุณากรอกหมายเลขพนักงาน</div>
+            <b-input v-on:keyup.enter="getAttach10_byemp" placeholder="Enter Employee Code"
+                v-model="findOneEmp"></b-input>
+          </b-col>
           <b-col></b-col>
         </b-row>
         <b-row style="margin: 20px;">
@@ -115,6 +119,7 @@ export default {
       ],
       sumValue: 0,
       titlefooter: '',
+      findOneEmp: ''
     }
   },
   methods: {
@@ -132,6 +137,50 @@ export default {
           let dataexcel = response.data.result
           this.excelarrayattach8 = Object.values(dataexcel);
           this.pdfdata = this.excelarrayattach8
+          this.pdfdata = this.pdfdata.reduce((acc, obj) => {
+            // If the key doesn't exist, create an array for it
+            if (!acc[obj.ttt_employee_code]) {
+              acc[obj.ttt_employee_code] = [];
+            }
+            // Push the current object into the array for this emp_code
+            acc[obj.ttt_employee_code].push(obj);
+            return acc;
+          }, {});
+          // Sort the keys
+          let sortedKeys = Object.keys(this.pdfdata).sort();
+
+          // Map the sorted keys back to the grouped objects
+          let sortedData = sortedKeys.map(key => this.pdfdata[key]);
+          this.pdfdata = Object.values(sortedData);
+          // this.updatepayment10()
+        })
+        .catch(error => {
+          console.error('Error fetching data:', error.message);
+        });
+      await this.generatePDF10(this.pdfdata)
+      // await this.exporttoexcel(this.pdfdata)
+    },
+    async getAttach10_byemp() {
+      let from_to = {
+        from: this.dateattach10from,
+        to: this.dateattach10to,
+        emp_code: this.dataattach10one,
+        payment_date: this.dateattach10select
+      }
+      console.log('resdataFromTo', from_to);
+      await axios.post('http://localhost:4000/pgetdataattach10', from_to)
+        .then(response => {
+          console.log('resdata', response.data.result);
+          let dataexcel = response.data.result
+          this.excelarrayattach8 = Object.values(dataexcel);
+          this.pdfdata = this.excelarrayattach8
+          let findOne = this.pdfdata.filter(emp => emp.ttt_employee_code === this.findOneEmp)
+          if (findOne) {
+            console.log(findOne)
+          } else {
+            console.log('Employee not found')
+          }
+          this.pdfdata = findOne
           this.pdfdata = this.pdfdata.reduce((acc, obj) => {
             // If the key doesn't exist, create an array for it
             if (!acc[obj.ttt_employee_code]) {
