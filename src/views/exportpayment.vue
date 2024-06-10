@@ -224,7 +224,7 @@ export default {
           let formattedDate = ('0' + date.getDate()).slice(-2) + ('0' + (date.getMonth() + 1)).slice(-2) + date.getFullYear().toString().substr(-2);
           let sumValue = this.data.reduce((acc, obj) => acc + parseFloat(obj.total_allowance), 0);
           console.log('sumvalue', sumValue)
-          sumValue = (sumValue * 10000) / 100
+          sumValue = Math.round(sumValue * 10000) / 100
           // sumValue = sumValue.replace('.', '').padStart(10, '')
           // sumValue = sumValue.replace(',', '')
           console.log('sumvalue', sumValue)
