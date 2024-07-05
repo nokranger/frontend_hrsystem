@@ -1416,7 +1416,7 @@ export default {
             trailer_type_code: data.item11,
             trailer_type: data.item12,
             ttt_payment_status: data.item13,
-            calling_sheet_no: data.item14,
+            calling_sheet_no: data.item14.toString(),
             trip_type: data.item15,
             recieve_job_dateandtime: data.item16,
             from_code: data.item17,

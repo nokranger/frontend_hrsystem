@@ -290,14 +290,14 @@ export default {
           if (result[key][i].ttt_employee_code === keycount) {
             // console.log('SameKeyCount', keycount)
             // page.drawText(`${result[key][i].ttt_employee_code}`, { x: 500, y: 800, size: 20, font: thaiFont });
-            page.drawText(`${result[key][i].recieve_job_dateandtime}`, { x: 25, y: yPosition, size: fontSize, font: thaiFont });
-            page.drawText(`${result[key][i].calling_sheet_no}`, { x: 150, y: yPosition, size: fontSize, font: thaiFont });
+            page.drawText(`${result[key][i].recieve_job_dateandtime}`, { x: 25, y: yPosition - 10, size: fontSize, font: thaiFont });
+            page.drawText(`${result[key][i].calling_sheet_no}`, { x: 150, y: yPosition - 10, size: fontSize, font: thaiFont });
             // const yNameStart = yStart + 20;
-            page.drawText(`${result[key][i].to_name}`, { x: 240, y: yPosition, size: fontSize, font: thaiFont });
+            page.drawText(`${result[key][i].to_name}`, { x: 240, y: yPosition - 10, size: fontSize, font: thaiFont });
             // const yPriceStart = yNameStart + 20;
             // page.drawText(`${result[key][i].standard_ot}`, { x: 390, y: yPosition, size: fontSize, font: thaiFont });
             // page.drawText(`${result[key][i].over_ot}`, { x: 480, y: yPosition, size: fontSize, font: thaiFont });
-            page.drawText(`${formatter.format(result[key][i].total_ot)}`, { x: 540, y: yPosition, size: fontSize, font: thaiFont });
+            page.drawText(`${formatter.format(result[key][i].total_ot)}`, { x: 540, y: yPosition - 10, size: fontSize, font: thaiFont });
             yPosition -= descriptionHeight; // Adjust x-position for the next entry
             keycount = result[key][i].ttt_employee_code
             count++
@@ -348,14 +348,14 @@ export default {
               page.drawText(`จำนวน OT`, { x: 510, y: 700, size: fontSize, font: thaiFont });
               page.drawText(`__________________________________________________________________________________`, { x: 10, y: 700, size: 20, font: thaiFont });
               yPosition = height - margin;
-              page.drawText(`${result[key][i].recieve_job_dateandtime}`, { x: 25, y: yPosition, size: fontSize, font: thaiFont });
-              page.drawText(`${result[key][i].calling_sheet_no}`, { x: 150, y: yPosition, size: fontSize, font: thaiFont });
+              page.drawText(`${result[key][i].recieve_job_dateandtime}`, { x: 25, y: yPosition - 10, size: fontSize, font: thaiFont });
+              page.drawText(`${result[key][i].calling_sheet_no}`, { x: 150, y: yPosition - 10, size: fontSize, font: thaiFont });
               // const yNameStart = yStart + 20;
-              page.drawText(`${result[key][i].to_name}`, { x: 240, y: yPosition, size: fontSize, font: thaiFont });
+              page.drawText(`${result[key][i].to_name}`, { x: 240, y: yPosition - 10, size: fontSize, font: thaiFont });
               // const yPriceStart = yNameStart + 20;
               // page.drawText(`${result[key][i].standard_ot}`, { x: 390, y: yPosition, size: fontSize, font: thaiFont });
               // page.drawText(`${result[key][i].over_ot}`, { x: 480, y: yPosition, size: fontSize, font: thaiFont });
-              page.drawText(`${formatter.format(result[key][i].total_ot)}`, { x: 540, y: yPosition, size: fontSize, font: thaiFont });
+              page.drawText(`${formatter.format(result[key][i].total_ot)}`, { x: 540, y: yPosition - 10, size: fontSize, font: thaiFont });
               yPosition -= descriptionHeight; // Adjust x-position for the next entry
               keycount = result[key][i].ttt_employee_code
               count++

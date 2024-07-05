@@ -290,14 +290,14 @@ export default {
           if (result[key][i].ttt_employee_code === keycount) {
             // console.log('SameKeyCount', keycount)
             // page.drawText(`${result[key][i].ttt_employee_code}`, { x: 500, y: 800, size: 20, font: thaiFont });
-            page.drawText(`${result[key][i].recieve_job_dateandtime}`, { x: 25, y: yPosition, size: fontSize, font: thaiFont });
-            page.drawText(`${result[key][i].calling_sheet_no}`, { x: 150, y: yPosition, size: fontSize, font: thaiFont });
+            page.drawText(`${result[key][i].recieve_job_dateandtime}`, { x: 25, y: yPosition - 10, size: fontSize, font: thaiFont });
+            page.drawText(`${result[key][i].calling_sheet_no}`, { x: 150, y: yPosition - 10, size: fontSize, font: thaiFont });
             // const yNameStart = yStart + 20;
-            page.drawText(`${result[key][i].to_name}`, { x: 240, y: yPosition, size: fontSize, font: thaiFont });
+            page.drawText(`${result[key][i].to_name}`, { x: 240, y: yPosition - 10, size: fontSize, font: thaiFont });
             // const yPriceStart = yNameStart + 20;
             // page.drawText(`${result[key][i].standard_ot}`, { x: 390, y: yPosition, size: fontSize, font: thaiFont });
             // page.drawText(`${result[key][i].over_ot}`, { x: 480, y: yPosition, size: fontSize, font: thaiFont });
-            page.drawText(`${formatter.format(result[key][i].total_ot)}`, { x: 540, y: yPosition, size: fontSize, font: thaiFont });
+            page.drawText(`${formatter.format(result[key][i].total_ot)}`, { x: 540, y: yPosition - 10, size: fontSize, font: thaiFont });
             yPosition -= descriptionHeight; // Adjust x-position for the next entry
             keycount = result[key][i].ttt_employee_code
             count++
@@ -306,9 +306,9 @@ export default {
               sumStadardOt = result[key].reduce((acc, obj) => acc + parseFloat(obj.standard_ot), 0);
               sumOverOT = result[key].reduce((acc, obj) => acc + parseFloat(obj.over_ot), 0);
               // page.drawText(`${sum}`, { x: 530, y: yPosition, size: fontSize, font: thaiFont });
-              page.drawText(`__________________________________________________________________________________`, { x: 10, y: yPosition + 10, size: 20, font: thaiFont });
+              page.drawText(`__________________________________________________________________________________`, { x: 10, y: yPosition, size: 20, font: thaiFont });
               let text3 = `${formatter.format(sumOT)}`;
-              let options3 = { x: 540, y: yPosition - 5, size: 12, font: thaiFont2 };
+              let options3 = { x: 540, y: yPosition - 15, size: 12, font: thaiFont2 };
               page.drawText(text3, options3);
 
               // Calculate the width of the text
@@ -355,14 +355,14 @@ export default {
             page.drawText(`__________________________________________________________________________________`, { x: 10, y: 700, size: 20, font: thaiFont });
             // page.drawText(`Page${countPage}`, { x: 450, y: 720 , size: fontSize});
             yPosition = height - margin;
-            page.drawText(`${result[key][i].recieve_job_dateandtime}`, { x: 25, y: yPosition, size: fontSize, font: thaiFont });
-            page.drawText(`${result[key][i].calling_sheet_no}`, { x: 150, y: yPosition, size: fontSize, font: thaiFont });
+            page.drawText(`${result[key][i].recieve_job_dateandtime}`, { x: 25, y: yPosition - 10, size: fontSize, font: thaiFont });
+            page.drawText(`${result[key][i].calling_sheet_no}`, { x: 150, y: yPosition - 10, size: fontSize, font: thaiFont });
             // const yNameStart = yStart + 20;
-            page.drawText(`${result[key][i].to_name}`, { x: 240, y: yPosition, size: fontSize, font: thaiFont });
+            page.drawText(`${result[key][i].to_name}`, { x: 240, y: yPosition - 10, size: fontSize, font: thaiFont });
             // const yPriceStart = yNameStart + 20;
             // page.drawText(`${result[key][i].standard_ot}`, { x: 390, y: yPosition, size: fontSize, font: thaiFont });
             // page.drawText(`${result[key][i].over_ot}`, { x: 480, y: yPosition, size: fontSize, font: thaiFont });
-            page.drawText(`${formatter.format(result[key][i].total_ot)}`, { x: 540, y: yPosition, size: fontSize, font: thaiFont });
+            page.drawText(`${formatter.format(result[key][i].total_ot)}`, { x: 540, y: yPosition - 10, size: fontSize, font: thaiFont });
             yPosition -= descriptionHeight; // Adjust x-position for the next entry
             // count++
             keycount = result[key][i].ttt_employee_code
@@ -371,11 +371,11 @@ export default {
               sumStadardOt = result[key].reduce((acc, obj) => acc + parseFloat(obj.standard_ot), 0);
               sumOverOT = result[key].reduce((acc, obj) => acc + parseFloat(obj.over_ot), 0);
               // page.drawText(`${sum}`, { x: 530, y: yPosition, size: fontSize, font: thaiFont });
-              page.drawText(`__________________________________________________________________________________`, { x: 10, y: yPosition + 10, size: 20, font: thaiFont });
+              page.drawText(`__________________________________________________________________________________`, { x: 10, y: yPosition, size: 20, font: thaiFont });
               // page.drawText(`${sumStadardOt}`, { x: 390, y: yPosition, size: fontSize, font: thaiFont });
               // page.drawText(`${sumOverOT}`, { x: 480, y: yPosition, size: fontSize, font: thaiFont });
               let text3 = `${formatter.format(sumOT)}`;
-              let options3 = { x: 540, y: yPosition - 5, size: 12, font: thaiFont2 };
+              let options3 = { x: 540, y: yPosition - 15, size: 12, font: thaiFont2 };
               page.drawText(text3, options3);
 
               // Calculate the width of the text
