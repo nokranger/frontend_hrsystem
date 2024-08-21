@@ -313,8 +313,8 @@ export default {
         // console.log('dadas', this.deleteTnos)
         this.deleteTnos = this.deleteTnos.map((data, i) => {
           return {
-            value: data.create_time,
-            text: data.create_time
+            value: this.convertTime(data.create_time),
+            text: this.convertTime(data.create_time)
           }
         })
         let nulls = {
@@ -333,8 +333,8 @@ export default {
         // console.log('dadas', this.deleteWelfare)
         this.deleteWelfare = this.deleteWelfare.map((data, i) => {
           return {
-            value: data.create_time,
-            text: data.create_time
+            value: this.convertTime(data.create_time),
+            text: this.convertTime(data.create_time)
           }
         })
         let nulls = {
@@ -353,8 +353,8 @@ export default {
         // console.log('dadas', this.deleteInstrutor)
         this.deleteInstrutor = this.deleteInstrutor.map((data, i) => {
           return {
-            value: data.create_time,
-            text: data.create_time
+            value: this.convertTime(data.create_time),
+            text: this.convertTime(data.create_time)
           }
         })
         let nulls = {
@@ -373,8 +373,8 @@ export default {
         // console.log('dadas', this.deleteHoliday)
         this.deleteHoliday = this.deleteHoliday.map((data, i) => {
           return {
-            value: data.create_time,
-            text: data.create_time
+            value: this.convertTime(data.create_time),
+            text: this.convertTime(data.create_time)
           }
         })
         let nulls = {
@@ -389,6 +389,11 @@ export default {
       });
   },
   methods: {
+    convertTime (time) {
+      const date = new Date(time);
+      const formattedTimestamp = `${date.getFullYear()}-${String(date.getMonth() + 1).padStart(2, '0')}-${String(date.getDate()).padStart(2, '0')} ${String(date.getHours()).padStart(2, '0')}:${String(date.getMinutes()).padStart(2, '0')}:${String(date.getSeconds()).padStart(2, '0')}`;
+      return formattedTimestamp
+    },
     tnosdelete() {
       // console.log('testSelecyt', this.selectOption)
       let select = {
@@ -408,6 +413,9 @@ export default {
     },
     Instructordelete() {
       // console.log('testSelecyt', this.selectOptionInstructor)
+      // let select = {
+      //   create_time: new Date(this.selectOptionInstructor),
+      // }
       let select = {
         create_time: this.selectOptionInstructor,
       }
@@ -802,7 +810,7 @@ export default {
               payment_status_ot: this.excelarray[i].payment_status_ot,
               payment_date_st_ot: this.excelarray[i].payment_date_st_ot,
               TAX_FLAG: this.excelarray[i].TAX_FLAG,
-              create_time: this.excelarray[i].create_time
+              create_time: this.convertTime(this.excelarray[i].create_time)
             };
 
             combinedArray.push(combinedObject);
@@ -825,7 +833,7 @@ export default {
               payment_date_st_2: this.excelarrayinstructor[j].payment_date_st_2,
               payment_status_ot: this.excelarrayinstructor[j].payment_status_ot,
               payment_date_st_ot: this.excelarrayinstructor[j].payment_date_st_ot,
-              create_time: this.excelarrayinstructor[j].create_time
+              create_time: this.convertTime(this.excelarrayinstructor[j].create_time)
               // BB: object1[i].BB,
               // CC: object2[i].AC || object1[i].CC
             };
@@ -849,7 +857,7 @@ export default {
               payment_date_st_2: this.excelarraywelfare[j].payment_date_st_2,
               payment_status_ot: this.excelarraywelfare[j].payment_status_ot,
               payment_date_st_ot: this.excelarraywelfare[j].payment_date_st_ot,
-              create_time: this.excelarraywelfare[j].create_time
+              create_time: this.convertTime(this.excelarraywelfare[j].create_time)
               // BB: object1[i].BB || '',
               // CC: object2[i].AC || object1[i].CC || ''
             };
@@ -873,7 +881,7 @@ export default {
               payment_date_st_2: this.excelarrayHoliday[j].payment_date_st_2,
               payment_status_ot: this.excelarrayHoliday[j].payment_status_ot,
               payment_date_st_ot: this.excelarrayHoliday[j].payment_date_st_ot,
-              create_time: this.excelarrayHoliday[j].create_time
+              create_time: this.convertTime(this.excelarrayHoliday[j].create_time)
               // BB: object1[i].BB || '',
               // CC: object2[i].AC || object1[i].CC || ''
             };
