@@ -22,7 +22,7 @@
           <td style="border: 1px solid;">{{ item.TRIP_NO }}</td>
           <td style="border: 1px solid;">{{ item.TRIP_ALLOWANCE.toLocaleString() }}</td>
           <td style="border: 1px solid;">{{ new Date((item.DEPARTURE_DATETIME - 1) * 24 * 60 * 60 * 1000 + new
-          Date(1900, 0, 0).getTime()).toLocaleString() }}</td>
+            Date(1900, 0, 0).getTime()).toLocaleString() }}</td>
           <td style="border: 1px solid;">{{ item.DRIVER1 }}</td>
           <td style="border: 1px solid;">{{ item.NAME }}</td>
           <td style="border: 1px solid;">{{ item.DEALER1 }}</td>
@@ -45,7 +45,7 @@
           <td style="border: 1px solid;">{{ item.TRIP_NO }}</td>
           <td style="border: 1px solid;">{{ item.TRIP_ALLOWANCE.toLocaleString() }}</td>
           <td style="border: 1px solid;">{{ new Date((item.DEPARTURE_DATETIME - 1) * 24 * 60 * 60 * 1000 + new
-          Date(1900, 0, 0).getTime()).toLocaleString() }}</td>
+            Date(1900, 0, 0).getTime()).toLocaleString() }}</td>
           <td style="border: 1px solid;">{{ item.DRIVER1 }}</td>
           <td style="border: 1px solid;">{{ item.NAME }}</td>
           <td style="border: 1px solid;">{{ item.DEALER1 }}</td>
@@ -68,7 +68,7 @@
           <td style="border: 1px solid;">{{ item.TRIP_NO }}</td>
           <td style="border: 1px solid;">{{ item.TRIP_ALLOWANCE.toLocaleString() }}</td>
           <td style="border: 1px solid;">{{ new Date((item.DEPARTURE_DATETIME - 1) * 24 * 60 * 60 * 1000 + new
-          Date(1900, 0, 0).getTime()).toLocaleString() }}</td>
+            Date(1900, 0, 0).getTime()).toLocaleString() }}</td>
           <td style="border: 1px solid;">{{ item.DRIVER1 }}</td>
           <td style="border: 1px solid;">{{ item.NAME }}</td>
           <td style="border: 1px solid;">{{ item.DEALER1 }}</td>
@@ -91,7 +91,7 @@
           <td style="border: 1px solid;">{{ item.calling_sheet_no }}</td>
           <td style="border: 1px solid;">{{ item.total_allowance.toLocaleString() }}</td>
           <td style="border: 1px solid;">{{ new Date((item.recieve_job_dateandtime - 1) * 24 * 60 * 60 * 1000 + new
-          Date(1900, 0, 0).getTime()).toLocaleString() }}</td>
+            Date(1900, 0, 0).getTime()).toLocaleString() }}</td>
           <td style="border: 1px solid;">{{ item.ttt_employee_code }}</td>
           <td style="border: 1px solid;">{{ item.tlep_driver_name }}</td>
           <td style="border: 1px solid;">{{ item.to_name }}</td>
@@ -389,7 +389,7 @@ export default {
       });
   },
   methods: {
-    convertTime (time) {
+    convertTime(time) {
       const date = new Date(time);
       const formattedTimestamp = `${date.getFullYear()}-${String(date.getMonth() + 1).padStart(2, '0')}-${String(date.getDate()).padStart(2, '0')} ${String(date.getHours()).padStart(2, '0')}:${String(date.getMinutes()).padStart(2, '0')}:${String(date.getSeconds()).padStart(2, '0')}`;
       return formattedTimestamp
@@ -477,11 +477,11 @@ export default {
       }
     },
     async readExceltest(file) {
-      // console.log('KUY')
+
       const reader = new FileReader();
 
       reader.onload = (e) => {
-        // console.log('KUY2')
+
         const data = e.target.result;
         const workbook = XLSX.read(data, { type: 'binary' });
 
@@ -496,11 +496,7 @@ export default {
         this.jsonData = JSON.stringify(jsonData, null, 2);
         this.jsonData = JSON.parse(this.jsonData)
         this.jsonData.shift()
-        // console.log('mapdata1: ', this.jsonData)
-        // console.log('JSONLenght: ', this.jsonData)
-        // console.log('JSONLenghtSHIFT: ',  JSON.parse(this.jsonData).shift())
-        // console.log('JSONTYPEOF: ', typeof (this.jsonData))
-        // console.log('JSONTYPEOF2: ',  typeof(JSON.parse(this.jsonData)))
+
         let jsonobject = {}
         let jsonobject2 = this.jsonData
         jsonobject = jsonobject2.map(innerarray => {
@@ -517,77 +513,22 @@ export default {
           }
         })
         this.jsondata2 = jsonMap
-        // console.log('resdataExcel', this.jsondata2);
-        // console.log('Aftermap', this.jsondata2)
-        axios.get('http://localhost:4000/personals')
+        axios.post('http://localhost:4000/personal', this.jsondata2)
           .then(response => {
-            // console.log('resdata', response.data.result);
-            let dataexcel = response.data.result
-            let jsonMaps = dataexcel.map((data, i) => {
-              return {
-                empCode: data.emp_code,
-                name: data.name,
-                bankaccount: data.bank_account_number
-              }
-            })
-            // console.log('resdataaxios', jsonMaps);
-            this.excelarray = Object.values(jsonMaps);
-            const comparedataPersonal = this.jsondata2.filter(obj1 =>
-              !this.excelarray.some(obj2 => obj1.empCode === obj2.empCode)
-            );
-            // console.log('comparedata1', this.excelarray);
-            // console.log('comparedata2', this.jsondata2);
-            // let comparedataPersonal = Array.from(uniqueData.values());
-            // const mergedArray = [...this.jsondata2, ...this.excelarray];
-            // comparedataPersonal = Array.from(uniqueData.values());
-            // console.log('comparedataPersonal', comparedataPersonal);
-            if (comparedataPersonal.length === 0) {
-              // console.log('comparedataNull', comparedataPersonal);
-              this.alertStatus = 2
-              this.dismissCountDown = this.dismissSecs
-              this.showStatus = ' Personal Data '
-              // axios.post('http://localhost:4000/personal', this.jsondata2)
-              //   .then(response => {
-              //     console.log(response.data);
-              //   })
-              //   .catch(error => {
-              //     console.error('Error fetching data:', error.message);
-              //   });
-            } else if (comparedataPersonal.length !== 0) {
-              // console.log('comparedataNotNull');
-              axios.post('http://localhost:4000/personal', comparedataPersonal)
-                .then(response => {
-                  console.log(response.data);
-                  this.alertStatus = 1
-                  this.dismissCountDown = this.dismissSecs
-                  this.showStatus = ' Personal Data '
-                })
-                .catch(error => {
-                  console.error('Error fetching data:', error.message);
-                  this.alertStatus = 3
-                  this.dismissCountDown = this.dismissSecs
-                  this.showStatus = ' Personal Data '
-                });
-            }
+            console.log(response.data);
+            this.alertStatus = 1
+            this.dismissCountDown = this.dismissSecs
+            this.showStatus = ' Personal Data | Insert: ' + response.data.inserted + ' | Update: ' + response.data.updated + ' ';
           })
           .catch(error => {
             console.error('Error fetching data:', error.message);
+            this.alertStatus = 3
+            this.dismissCountDown = this.dismissSecs
+            this.showStatus = ' Personal Data '
           });
       };
-      // var data1 = [{ data: '1', data2: '1' }, { data: '2', data2: '3' }, { data: '3', data2: '4' }];
-      // var data2 = [{ data: '1', data2: '1' }, { data: '2', data2: '3' }, { data: '3', data2: '3' }, { data: '4', data2: '5' }];
 
       reader.readAsBinaryString(file);
-      // var uniqueData = new Map();
-      // function addUnique(dataArray) {
-      //   dataArray.forEach(obj => {
-      //     var key = `${obj.data}-${obj.data2}`;
-      //     if (!uniqueData.has(key)) {
-      //       uniqueData.set(key, obj);
-      //     }
-      //   });
-
-      // }
 
     },
     async addUnique(dataArray) {
@@ -1403,7 +1344,7 @@ export default {
         jsonobjectTnos = jsonobjectTnos.filter((i) => {
           return i.item1 !== null && i.item1 !== undefined
         })
-        console.log('JSONTYPEOF2: ',  jsonobjectTnos)
+        console.log('JSONTYPEOF2: ', jsonobjectTnos)
         const convertDate = (date) => {
           console.log('splitdata', data)
           let parts = date.split("/");
